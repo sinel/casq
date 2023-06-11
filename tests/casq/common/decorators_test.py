@@ -20,27 +20,29 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  ********************************************************************************
+from pytest import LogCaptureFixture
+
 from casq.common.decorators import timer, trace
 
 
-def test_trace_timer_suppressed(loguru_caplog) -> None:
+def test_trace_timer_suppressed(loguru_caplog: LogCaptureFixture) -> None:
     """Unit test for trace and timer decorators when suppressed due to log level."""
 
     @trace()
     @timer()
-    def dummy_function():
+    def dummy_function() -> None:
         pass
 
     dummy_function()
     assert len(loguru_caplog.records) == 0
 
 
-def test_trace_timer(loguru_caplog) -> None:
+def test_trace_timer(loguru_caplog: LogCaptureFixture) -> None:
     """Unit test for trace and timer decorators."""
 
     @trace(level="DEBUG")
     @timer(level="DEBUG")
-    def dummy_function():
+    def dummy_function() -> None:
         pass
 
     dummy_function()

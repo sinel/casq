@@ -21,15 +21,31 @@
 #  limitations under the License.
 #  ********************************************************************************
 import logging
+from typing import Generator
 
 from loguru import logger
-import pytest
+from pytest import LogCaptureFixture, fixture
 
 
-@pytest.fixture
-def loguru_caplog(caplog):
+@fixture
+def loguru_caplog(
+    caplog: LogCaptureFixture,
+) -> Generator[LogCaptureFixture, None, None]:
+    """Fixture for capturing loguru logging output via ptest.
+
+    Since pytest links to the standard library’s logging module,
+    it is necessary to add a sink that propagates Loguru to the caplog handler.
+    This is done by overriding the caplog fixture to capture its handler.
+    See:
+    https://loguru.readthedocs.io/en/stable/resources/migration.html#replacing-caplog-fixture-from-pytest-library
+
+    Args:
+        caplog: The pytest caplog fixture
+        which captures logging output so that it can be tested against.
+    """
+
     class PropagateHandler(logging.Handler):
-        def emit(self, record):
+        def emit(self, record: logging.LogRecord) -> None:
             logging.getLogger(record.name).handle(record)
 
     handler_id = logger.add(PropagateHandler(), format="{message}")
