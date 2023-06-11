@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "casq"
+version = "0.1.0"
+description = ""
+authors = ["Sinan Inel <sinan.inel@aalto.fi>"]
+license = "Apache 2.0 License"
+readme = "README.md"
+homepage = "https://github.com/sinel/casq"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+loguru = "0.7.0"
+
+[tool.poetry.dev-dependencies]
+loguru-caplog = "0.2.0"
+pytest-cov = "^4.1.0"
+pytest-mock = "^3.7.0"
+xdoctest = "^1.1.1"
+
+[tool.pytest.ini_options]
+pythonpath = "src/"
+python_files = "*_test.py"
+python_functions = "test_*"
+addopts = "--capture=tee-sys --cov=src --xdoctest tests"
+filterwarnings = "ignore::DeprecationWarning"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
