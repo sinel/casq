@@ -1,10 +1,10 @@
 
-```                 
+```  
   _________ __________ _
  / ___/ __ `/ ___/ __ `/    Python toolkit
 / /__/ /_/ (__  ) /_/ /     for control, analysis and simulation
 \___/\__,_/____/\__, /      of superconducting quantum circuits
-                  /_/   
+                  /_/  
 ```
 
 [![License](https://badgen.net/badge/license/Apache/blue)](https://opensource.org/licenses/Apache-2.0)
