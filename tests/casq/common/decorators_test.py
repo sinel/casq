@@ -23,7 +23,7 @@
 from casq.common.decorators import timer, trace
 
 
-def test_trace_timer_suppressed(caplog) -> None:
+def test_trace_timer_suppressed(loguru_caplog) -> None:
     """Unit test for trace and timer decorators when suppressed due to log level."""
 
     @trace()
@@ -32,10 +32,10 @@ def test_trace_timer_suppressed(caplog) -> None:
         pass
 
     dummy_function()
-    assert len(caplog.records) == 0
+    assert len(loguru_caplog.records) == 0
 
 
-def test_trace_timer(caplog) -> None:
+def test_trace_timer(loguru_caplog) -> None:
     """Unit test for trace and timer decorators."""
 
     @trace(level="DEBUG")
@@ -44,6 +44,10 @@ def test_trace_timer(caplog) -> None:
         pass
 
     dummy_function()
-    assert caplog.records[0].msg == "Entering [dummy_function(args=[], kwargs=[])]."
-    assert "Executed [dummy_function] in" in caplog.records[1].msg
-    assert caplog.records[2].msg == "Exiting [dummy_function] with result [None]."
+    assert (
+        loguru_caplog.records[0].msg == "Entering [dummy_function(args=[], kwargs=[])]."
+    )
+    assert "Executed [dummy_function] in" in loguru_caplog.records[1].msg
+    assert (
+        loguru_caplog.records[2].msg == "Exiting [dummy_function] with result [None]."
+    )

@@ -29,7 +29,9 @@ from typing import Any, Callable
 from loguru import logger
 
 
-def trace(*, log_entry: bool = True, log_exit: bool = True, level: str = "TRACE") -> Any:
+def trace(
+    *, log_entry: bool = True, log_exit: bool = True, level: str = "TRACE"
+) -> Any:
     """Decorator for tracing entry to and exit from a function.
 
     Args:
@@ -49,7 +51,13 @@ def trace(*, log_entry: bool = True, log_exit: bool = True, level: str = "TRACE"
             args_repr = [repr(a) for a in args]
             kwargs_repr = [f"{k}={v!r}" for k, v in kwargs.items()]
             if log_entry:
-                logger_.log(level, "Entering [{}(args={}, kwargs={})].", name, args_repr, kwargs_repr)
+                logger_.log(
+                    level,
+                    "Entering [{}(args={}, kwargs={})].",
+                    name,
+                    args_repr,
+                    kwargs_repr,
+                )
             result = func(*args, **kwargs)
             if log_exit:
                 logger_.log(level, "Exiting [{}] with result [{}].", name, repr(result))
@@ -82,7 +90,12 @@ def timer(*, level: str = "TRACE", unit: str = "msec") -> Any:
             if unit.lower() == "sec":
                 logger_.log(level, "Executed [{}] in {:f} seconds.", name, end - start)
             else:
-                logger_.log(level, "Executed [{}] in {:f} milliseconds.", name, 1e6*(end - start))
+                logger_.log(
+                    level,
+                    "Executed [{}] in {:f} milliseconds.",
+                    name,
+                    1e6 * (end - start),
+                )
             return result
 
         return wrapped

@@ -21,17 +21,17 @@
 #  limitations under the License.
 #  ********************************************************************************
 import logging
-import pytest
-from _pytest.logging import caplog as _caplog
+
 from loguru import logger
+import pytest
 
 
 @pytest.fixture
-def caplog(_caplog):
+def loguru_caplog(caplog):
     class PropagateHandler(logging.Handler):
         def emit(self, record):
             logging.getLogger(record.name).handle(record)
 
     handler_id = logger.add(PropagateHandler(), format="{message}")
-    yield _caplog
+    yield caplog
     logger.remove(handler_id)

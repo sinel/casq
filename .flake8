@@ -1,0 +1,10 @@
+[flake8]
+max-line-length = 88
+docstring-convention = google
+ignore = D100, D107, D205,D212,D415
+extend-ignore = E203
+exclude =
+    .mypy_cache,
+    .pytest_cache,
+    __init__.py,
+    docs/*
