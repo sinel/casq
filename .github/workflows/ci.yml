@@ -1,0 +1,107 @@
+name: ci
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    steps:
+      #--------------------------------------------------
+      # check-out repo and set-up python
+      #--------------------------------------------------
+      - name: Check out repository
+        uses: actions/checkout@v3
+      - name: Set up python
+        id: setup-python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      #--------------------------------------------------
+      # install & configure poetry
+      #--------------------------------------------------
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+      #--------------------------------------------------
+      # load cached venv if cache exists
+      #--------------------------------------------------
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
+      #--------------------------------------------------
+      # install dependencies if cache does not exist
+      #--------------------------------------------------
+      - name: Install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: poetry install --no-interaction --no-root
+      #--------------------------------------------------
+      # install your root project, if required
+      #--------------------------------------------------
+      - name: Install project
+        run: poetry install --no-interaction
+      #--------------------------------------------------
+      # run test suite
+      #--------------------------------------------------
+      - name: Run tests
+        run: |
+          source .venv/bin/activate
+          pytest tests/
+          coverage report
+      #--------------------------------------------------
+      # run black
+      #--------------------------------------------------
+      - name: black
+        run: |
+          poetry run black src --diff --check
+      #--------------------------------------------------
+      # run flake8
+      #--------------------------------------------------
+      - name: flake8
+        run: |
+          # stop the build if there are Python syntax errors or undefined names
+          poetry run flake8 src --count --statistics --show-source --select=E9,F63,F7,F82
+          # exit-zero treats all errors as warnings
+          poetry run flake8 src --count --statistics --show-source --exit-zero --max-line-length=88 --ignore=D100,D205,D212,D415 --docstring-convention=google
+      #--------------------------------------------------
+      # run isort
+      #--------------------------------------------------
+      - name: isort
+        run: |
+          poetry run isort src --check-only
+      #--------------------------------------------------
+      # run mypy
+      #--------------------------------------------------
+      - name: mypy
+        run: |
+          poetry run mypy src
+      #--------------------------------------------------
+      # run tox
+      #--------------------------------------------------
+      - name: tox
+        run: |
+          poetry run tox
+      #--------------------------------------------------
+      # build docs
+      #--------------------------------------------------
+      - name: build docs
+        run: |
+          rm -rf gh-pages
+          mkdir gh-pages
+          touch gh-pages/.nojekyll
+          poetry run sphinx-build -b html docs/source docs/build
+          cp -r docs/build/* gh-pages/
+      #--------------------------------------------------
+      # deploy docs
+      #--------------------------------------------------
+      - name: deploy docs
+        if: ${{ github.event_name == 'push' }}
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: gh-pages
