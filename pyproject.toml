@@ -8,15 +8,26 @@ readme = "README.md"
 homepage = "https://github.com/sinel/casq"
 
 [tool.poetry.dependencies]
+jupyter = "^1.0.0"
 loguru = "^0.7.0"
+matplotlib = "^3.7.0"
+opt-einsum = "^3.3.0"
 pydata-sphinx-theme = "^0.13.3"
+pyscf = "^2.2.1"
 python = "^3.11"
+qiskit = {extras = ["visualization"], version = "^0.43.0"}
+qiskit-aer = "^0.12.0"
+qiskit-dynamics = "^0.4.1"
+qiskit-experiments = "^0.5.2"
+qiskit-nature = "^0.6.0"
+qiskit-ibm-runtime = "0.10.0"
+rustworkx = "0.13.0"
+sparse = "^0.14.0"
 sphinx = "^7.0.1"
 sphinx-autoapi = "^2.1.1"
 sphinx-favicon = "^1.0.1"
-sphinxcontrib-napoleon = "^0.7"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 black = "^23.3.0"
 flake8 = "^6.0.0"
 isort = "^5.12.0"
@@ -25,6 +36,7 @@ mypy = "^1.3.0"
 pre-commit = "^3.3.2"
 pytest-cov = "^4.1.0"
 pytest-mock = "^3.7.0"
+testbook = "^0.4.2"
 tox = "^4.5.2"
 xdoctest = "^1.1.1"
 
