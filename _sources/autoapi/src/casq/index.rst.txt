@@ -11,5 +11,6 @@ Subpackages
    :maxdepth: 3
 
    common/index.rst
+   notebooks/index.rst
 
 
