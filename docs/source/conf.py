@@ -31,7 +31,7 @@ release = "0.1.0"
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ["autoapi.extension"]
+extensions = ["autoapi.extension", "sphinx_favicon"]
 autoapi_dirs = ["../../src"]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -60,14 +60,17 @@ html_theme_options = {
     ],
     "logo": {
         "alt_text": "casq",
-        "image_light": "_static/logo_title_light.png",
-        "image_dark": "_static/logo_title_dark.png",
+        "image_light": "_static/logo_title_light_padding.png",
+        "image_dark": "_static/logo_title_dark_padding.png",
     },
     "primary_sidebar_end": ["indices.html"],
     "footer_start": ["copyright"],
     "footer_end": [],
 }
 html_show_sourcelink = False
+html_title = "casq v0.1.0 documentation"
+
+favicons = ["favicon.png"]
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

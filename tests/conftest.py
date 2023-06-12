@@ -2,8 +2,8 @@
 #
 #    _________ __________ _
 #   / ___/ __ `/ ___/ __ `/    Python toolkit
-#  / /__/ /_/ (__  ) /_/ /     for control, analysis and simulation
-#  \___/\__,_/____/\__, /      of superconducting quantum circuits
+#  / /__/ /_/ (__  ) /_/ /     for control and analysis
+#  \___/\__,_/____/\__, /      of superconducting qubits
 #                    /_/
 #
 #  Copyright (c) 2023 Sinan Inel <sinan.inel@aalto.fi>
