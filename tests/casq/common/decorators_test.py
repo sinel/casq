@@ -20,6 +20,8 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  ********************************************************************************
+from __future__ import annotations
+
 from pytest import LogCaptureFixture
 
 from casq.common.decorators import timer, trace
@@ -50,6 +52,26 @@ def test_trace_timer(loguru_caplog: LogCaptureFixture) -> None:
         loguru_caplog.records[0].msg == "Entering [dummy_function(args=[], kwargs=[])]."
     )
     assert "Executed [dummy_function] in" in loguru_caplog.records[1].msg
+    assert "milliseconds" in loguru_caplog.records[1].msg
+    assert (
+        loguru_caplog.records[2].msg == "Exiting [dummy_function] with result [None]."
+    )
+
+
+def test_trace_timer_sec(loguru_caplog: LogCaptureFixture) -> None:
+    """Unit test for trace and timer decorators."""
+
+    @trace(level="DEBUG")
+    @timer(level="DEBUG", unit="sec")
+    def dummy_function() -> None:
+        pass
+
+    dummy_function()
+    assert (
+        loguru_caplog.records[0].msg == "Entering [dummy_function(args=[], kwargs=[])]."
+    )
+    assert "Executed [dummy_function] in" in loguru_caplog.records[1].msg
+    assert "seconds" in loguru_caplog.records[1].msg
     assert (
         loguru_caplog.records[2].msg == "Exiting [dummy_function] with result [None]."
     )

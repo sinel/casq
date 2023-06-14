@@ -22,34 +22,33 @@
 #  ********************************************************************************
 from __future__ import annotations
 
-import logging
-from typing import Generator
+from abc import ABC
+from typing import Optional
+from uuid import uuid4
 
-from loguru import logger
-from pytest import LogCaptureFixture, fixture
+from wonderwords import RandomWord
+
+from casq.common.decorators import trace
 
 
-@fixture
-def loguru_caplog(
-    caplog: LogCaptureFixture,
-) -> Generator[LogCaptureFixture, None, None]:
-    """Fixture for capturing loguru logging output via ptest.
+class CasqObject(ABC):
+    """CasqObject class.
 
-    Since pytest links to the standard library’s logging module,
-    it is necessary to add a sink that propagates Loguru to the caplog handler.
-    This is done by overriding the caplog fixture to capture its handler.
-    See:
-    https://loguru.readthedocs.io/en/stable/resources/migration.html#replacing-caplog-fixture-from-pytest-library
+    Base object for all casq classes.
+    Ensures that every object has a user-friendly text id and database uuid(v4).
 
     Args:
-        caplog: The pytest caplog fixture
-        which captures logging output so that it can be tested against.
+        name: User-friendly name for object.
+        Default is auto-generated using a random adjective plus child classname.
     """
 
-    class PropagateHandler(logging.Handler):
-        def emit(self, record: logging.LogRecord) -> None:
-            logging.getLogger(record.name).handle(record)
-
-    handler_id = logger.add(PropagateHandler(), format="{message}")
-    yield caplog
-    logger.remove(handler_id)
+    @trace()
+    def __init__(self, name: Optional[str] = None) -> None:
+        """Initialize CasqObject."""
+        self.dbid = str(uuid4())
+        if name is None:
+            random_word = RandomWord()
+            self.ufid = (
+                f"{random_word.word(include_categories=['adjective'])}"
+                f"{self.__class__.__name__}"
+            )
