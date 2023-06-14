@@ -11,6 +11,16 @@ Subpackages
    :maxdepth: 3
 
    common/index.rst
+   gates/index.rst
    notebooks/index.rst
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   casq_object/index.rst
 
 

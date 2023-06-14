@@ -1,0 +1,34 @@
+:py:mod:`src.casq.casq_object`
+==============================
+
+.. py:module:: src.casq.casq_object
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   src.casq.casq_object.CasqObject
+
+
+
+
+.. py:class:: CasqObject(name: Optional[str] = None)
+
+
+   Bases: :py:obj:`abc.ABC`
+
+   CasqObject class.
+
+   Base object for all casq classes.
+   Ensures that every object has a user-friendly text id and database uuid(v4).
+
+   Args:
+       name: User-friendly name for object.
+       Default is auto-generated using a random adjective plus child classname.
+
+

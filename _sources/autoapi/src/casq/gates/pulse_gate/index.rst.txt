@@ -1,0 +1,88 @@
+:py:mod:`src.casq.gates.pulse_gate`
+===================================
+
+.. py:module:: src.casq.gates.pulse_gate
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   src.casq.gates.pulse_gate.PulseGate
+
+
+
+
+.. py:class:: PulseGate(name: Optional[str] = None)
+
+
+   Bases: :py:obj:`casq.casq_object.CasqObject`
+
+   PulseGate class.
+
+   Abstract base class for all pulse gates.
+
+   Args:
+       name: Optional user-friendly name for pulse gate.
+
+   .. py:method:: schedule(qubit: int) -> qiskit.pulse.ScheduleBlock
+      :abstractmethod:
+
+      PulseGate.schedule method.
+
+      Builds schedule block for pulse gate.
+      This is an abstract method which children of this base class must override.
+
+      Args:
+          qubit: Index of qubit to drive.
+
+      Returns:
+          :py:class:`qiskit.pulse.ScheduleBlock`
+
+
+   .. py:method:: circuit(qubit: int) -> qiskit.QuantumCircuit
+
+      PulseGate.to_circuit method.
+
+      Builds simple circuit for solitary usage or testing of pulse gate.
+
+      Args:
+          qubit: Index of qubit to drive.
+
+      Returns:
+          :py:class:`matplotlib.figure.Figure`
+
+
+   .. py:method:: draw_schedule(path: Optional[str] = None, hidden: bool = False) -> matplotlib.figure.Figure
+
+      PulseGate.draw_schedule method.
+
+      Draws pulse gate schedule.
+
+      Args:
+          path: Saves figure to specified path if provided.
+          hidden: Does not show figure if True.
+
+      Returns:
+          :py:class:`matplotlib.figure.Figure`
+
+
+   .. py:method:: draw_circuit(path: Optional[str] = None, hidden: bool = False) -> matplotlib.figure.Figure
+
+      PulseGate.draw_circuit method.
+
+      Draws pulse gate circuit.
+
+      Args:
+          path: Saves figure to specified path if provided.
+          hidden: Does not show figure if True.
+
+      Returns:
+          :py:class:`qiskit.QuantumCircuit`
+
+
+

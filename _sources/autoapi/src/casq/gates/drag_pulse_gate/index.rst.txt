@@ -1,0 +1,43 @@
+:py:mod:`src.casq.gates.drag_pulse_gate`
+========================================
+
+.. py:module:: src.casq.gates.drag_pulse_gate
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   src.casq.gates.drag_pulse_gate.DragPulseGate
+
+
+
+
+.. py:class:: DragPulseGate(duration: int, amplitude: float, sigma: float, beta: float, angle: Optional[float] = None, limit_amplitude: Optional[float] = None, name: Optional[str] = None)
+
+
+   Bases: :py:obj:`casq.gates.pulse_gate.PulseGate`
+
+   DragPulseGate class.
+
+   Args:
+       name: Optional user-friendly name for pulse gate.
+
+   .. py:method:: schedule(qubit: int) -> qiskit.pulse.ScheduleBlock
+
+      DragPulseGate.schedule method.
+
+      Builds schedule block for pulse gate.
+
+      Args:
+          qubit: Index of qubit to drive.
+
+      Returns:
+          :py:class:`qiskit.pulse.ScheduleBlock`
+
+
+

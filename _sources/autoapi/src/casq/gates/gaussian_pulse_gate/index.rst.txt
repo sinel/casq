@@ -1,0 +1,43 @@
+:py:mod:`src.casq.gates.gaussian_pulse_gate`
+============================================
+
+.. py:module:: src.casq.gates.gaussian_pulse_gate
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   src.casq.gates.gaussian_pulse_gate.GaussianPulseGate
+
+
+
+
+.. py:class:: GaussianPulseGate(duration: int, amplitude: float, sigma: float, name: Optional[str] = None)
+
+
+   Bases: :py:obj:`casq.gates.pulse_gate.PulseGate`
+
+   GaussianPulseGate class.
+
+   Args:
+       name: Optional user-friendly name for pulse gate.
+
+   .. py:method:: schedule(qubit: int) -> qiskit.pulse.ScheduleBlock
+
+      GaussianPulseGate.schedule method.
+
+      Builds schedule block for pulse gate.
+
+      Args:
+          qubit: Index of qubit to drive.
+
+      Returns:
+          :py:class:`qiskit.pulse.ScheduleBlock`
+
+
+
