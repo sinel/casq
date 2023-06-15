@@ -84,7 +84,7 @@ class PulseGate(CasqObject):
             custom_gate = Gate(self.ufid, 1, [])
             circuit.append(custom_gate, [qubit])
             circuit.measure([qubit], [qubit])
-            circuit.add_calibration(self.ufid, [qubit], self.schedule)
+            circuit.add_calibration(self.ufid, [qubit], self.schedule(qubit))
             self._circuit = circuit
             return circuit
 
