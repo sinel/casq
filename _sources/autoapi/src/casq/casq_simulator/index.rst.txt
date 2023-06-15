@@ -1,0 +1,48 @@
+:py:mod:`src.casq.casq_simulator`
+=================================
+
+.. py:module:: src.casq.casq_simulator
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   src.casq.casq_simulator.CasqSimulator
+
+
+
+
+.. py:class:: CasqSimulator(backend: Union[qiskit.providers.BackendV1, qiskit.providers.BackendV2], qubits: list[int], name: Optional[str] = None)
+
+
+   Bases: :py:obj:`casq.casq_object.CasqObject`
+
+   CasqSimulator class.
+
+   Wraps and extends :py:class:`qiskit_dynamics.DynamicsBackend`.
+
+   Args:
+       backend: Qiskit backend  to use for extracting simulator model.
+       (:py:class:`qiskit.providers.BackendV1`
+       or :py:class:`qiskit.providers.BackendV2`)
+
+   .. py:method:: run(circuit: qiskit.QuantumCircuit, pulse_map: Optional[list[tuple[str, casq.gates.pulse_gate.PulseGate]]] = None) -> qiskit_dynamics.backend.dynamics_job.DynamicsJob
+
+      PulseGate.to_circuit method.
+
+      Builds simple circuit for solitary usage or testing of pulse gate.
+
+      Args:
+          circuit: Quantum circuit to execute.
+          pulse_map: Gate to custom pulse map.
+
+      Returns:
+          :py:class:`qiskit_dynamics.backend.dynamics_job.DynamicsJob`
+
+
+

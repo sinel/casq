@@ -22,5 +22,6 @@ Submodules
    :maxdepth: 1
 
    casq_object/index.rst
+   casq_simulator/index.rst
 
 
