@@ -72,7 +72,7 @@ show_error_codes = true
 explicit_package_bases = true
 
 [[tool.mypy.overrides]]
-module = ["matplotlib.*", "qiskit.*", "wonderwords.*"]
+module = ["matplotlib.*", "qiskit.*", "qiskit_dynamics.*", "wonderwords.*"]
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]

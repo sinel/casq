@@ -30,6 +30,7 @@ from casq.gates.pulse_gate import PulseGate
 
 class DummyPulseGate(PulseGate):
     """DummyPulseGate class."""
+
     def schedule(self, qubit: int) -> pulse.ScheduleBlock:
         """GaussianPulseGate.schedule method.
 
