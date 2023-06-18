@@ -33,8 +33,15 @@ from casq.gates.pulse_gate import PulseGate
 class DragPulseGate(PulseGate):
     """DragPulseGate class.
 
+    Note: Currently only single qubit gates are supported.
+
     Args:
-        name: Optional user-friendly name for pulse gate.
+        duration: Gate duration.
+        amplitude: Gaussian amplitude.
+        sigma: Gaussian standard deviation.
+        beta: Drag parameter.
+        angle: Optional drag parameter.
+        limit_amplitude: Optional drag parameter.
     """
 
     @trace()
@@ -45,12 +52,10 @@ class DragPulseGate(PulseGate):
         sigma: float,
         beta: float,
         angle: Optional[float] = None,
-        limit_amplitude: Optional[float] = None,
-        name: Optional[str] = None,
+        limit_amplitude: Optional[float] = None
     ) -> None:
         """Initialize DragPulseGate."""
-        super().__init__(name)
-        self.duration = duration
+        super().__init__(1, duration)
         self.amplitude = amplitude
         self.sigma = sigma
         self.beta = beta
@@ -58,32 +63,26 @@ class DragPulseGate(PulseGate):
         self.limit_amplitude = limit_amplitude
 
     @trace()
-    def schedule(self, qubit: int) -> pulse.ScheduleBlock:
-        """DragPulseGate.schedule method.
+    def instruction(self, qubit: int) -> pulse.Instruction:
+        """DragPulseGate.instruction method.
 
-        Builds schedule block for pulse gate.
+        Builds instruction for pulse gate.
 
         Args:
-            qubit: Index of qubit to drive.
+            qubit: Qubit to attach gate instruction to.
 
         Returns:
-            :py:class:`qiskit.pulse.ScheduleBlock`
+            :py:class:`qiskit.pulse.Instruction`
         """
-        if self._schedule:
-            return self._schedule
-        else:
-            with pulse.build() as sb:
-                pulse.play(
-                    pulse.library.Drag(
-                        duration=self.duration,
-                        amp=self.amplitude,
-                        sigma=self.sigma,
-                        beta=self.beta,
-                        angle=self.angle,
-                        limit_amplitude=self.limit_amplitude,
-                        name=self.ufid,
-                    ),
-                    pulse.DriveChannel(qubit),
-                )
-            self._schedule = sb
-            return sb
+        return pulse.play(
+            pulse.library.Drag(
+                duration=self.duration,
+                amp=self.amplitude,
+                sigma=self.sigma,
+                beta=self.beta,
+                angle=self.angle,
+                limit_amplitude=self.limit_amplitude,
+                name=self.ufid,
+            ),
+            pulse.DriveChannel(qubit),
+        )

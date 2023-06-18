@@ -2937,13 +2937,13 @@ testing = ["fields", "hunter", "process-tests", "pytest-xdist", "six", "virtuale
 
 [[package]]
 name = "pytest-mock"
-version = "3.10.0"
+version = "3.11.1"
 description = "Thin-wrapper around the mock package for easier use with pytest"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pytest-mock-3.10.0.tar.gz", hash = "sha256:fbbdb085ef7c252a326fd8cdcac0aa3b1333d8811f131bdcc701002e1be7ed4f"},
-    {file = "pytest_mock-3.10.0-py3-none-any.whl", hash = "sha256:f4c973eeae0282963eb293eb173ce91b091a79c1334455acfac9ddee8a1c784b"},
+    {file = "pytest-mock-3.11.1.tar.gz", hash = "sha256:7f6b125602ac6d743e523ae0bfa71e1a697a2f5534064528c6ff84c2f7c2fc7f"},
+    {file = "pytest_mock-3.11.1-py3-none-any.whl", hash = "sha256:21c279fff83d70763b05f8874cc9cfb3fcacd6d354247a976f9529d19f9acf39"},
 ]
 
 [package.dependencies]
@@ -3529,6 +3529,51 @@ packaging = "*"
 
 [package.extras]
 test = ["pytest (>=6,!=7.0.0,!=7.0.1)", "pytest-cov (>=3.0.0)", "pytest-qt"]
+
+[[package]]
+name = "qutip"
+version = "4.7.1"
+description = "QuTiP: The Quantum Toolbox in Python"
+optional = false
+python-versions = "*"
+files = [
+    {file = "qutip-4.7.1-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:d1c486b106f2ae17d0677d0994cb51f6367ee1e33bfd4e6a6a7bf1b6f627adbb"},
+    {file = "qutip-4.7.1-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:9090cd9c9e6d9b575c4112be2d7f3ebd8654489194b622c6cf02924fd743cf6d"},
+    {file = "qutip-4.7.1-cp310-cp310-win_amd64.whl", hash = "sha256:179c03dad7467fda9e3427e855b79d1d249e2ce70cc53c318e4c7065a48877ae"},
+    {file = "qutip-4.7.1-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:ab2cfb4918d109952a4ba71c1b04c57738d8e6831d50ee06dffb88611b3da7a7"},
+    {file = "qutip-4.7.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:7e593df3f8a096571731728358f5ccd223964276667e07cbb9c785ec0e50f079"},
+    {file = "qutip-4.7.1-cp311-cp311-win_amd64.whl", hash = "sha256:87622a92b3ce5192ddcc50e9a72c42911205a019e311adfeb9ae1ae820eab448"},
+    {file = "qutip-4.7.1-cp36-cp36m-macosx_10_9_x86_64.whl", hash = "sha256:79b0db4f6e814619696541372bd097c7e26e9b1b74e38936aba51faef2a1396d"},
+    {file = "qutip-4.7.1-cp36-cp36m-manylinux_2_5_i686.manylinux1_i686.manylinux_2_12_i686.manylinux2010_i686.whl", hash = "sha256:51b8a67c9c62a73b13cd37893f57b7bae459587e1eafc047e0d9e74742088d20"},
+    {file = "qutip-4.7.1-cp36-cp36m-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:b4b57cd6ae4d7d56951d8c03db07b0627d0815979d9cb62b0ebd939719badb56"},
+    {file = "qutip-4.7.1-cp36-cp36m-win32.whl", hash = "sha256:6f8ff38a3c0a91395937fd385a15595e5b61b86213034681fd46a6e173700a1c"},
+    {file = "qutip-4.7.1-cp36-cp36m-win_amd64.whl", hash = "sha256:418622a5647685420e0cee72ad77ffba09204bf10809388fa939c9605c177c6b"},
+    {file = "qutip-4.7.1-cp37-cp37m-macosx_10_9_x86_64.whl", hash = "sha256:9c3e9ec688cff9b31f5c4fbe8003d2d81fe3630a4b678df19e81ebc90cd5e46b"},
+    {file = "qutip-4.7.1-cp37-cp37m-manylinux_2_5_i686.manylinux1_i686.manylinux_2_12_i686.manylinux2010_i686.whl", hash = "sha256:2c7f95836fcb68ec21554d634749250db7d842c785b962be2f999be01bd63761"},
+    {file = "qutip-4.7.1-cp37-cp37m-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:6d581363bdd75ad70f351c56347c580d3e987f6372c0722266ca63e88d2d571e"},
+    {file = "qutip-4.7.1-cp37-cp37m-win32.whl", hash = "sha256:17b134a6ad485ad19a2fdb39b0522d5aeada3dbd304cd359817c9748883a1de8"},
+    {file = "qutip-4.7.1-cp37-cp37m-win_amd64.whl", hash = "sha256:81869d0a91845937ad252b248c5dcdfe521b2e910f0f0d61428f57213c54e136"},
+    {file = "qutip-4.7.1-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:e44002170937e650ac936df69ee0569935b47a8506fa1a389caffe2570552907"},
+    {file = "qutip-4.7.1-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:cf73c1f15ae21aabc37e7f20f27f735a65c2f6a78da049cf2d693e9a9c7210cf"},
+    {file = "qutip-4.7.1-cp38-cp38-win_amd64.whl", hash = "sha256:f95913d4ee720d168af55da9159467107424cdaaa6c91b43443531a0ca77416c"},
+    {file = "qutip-4.7.1-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:01c17578c08cd1df453b0361acb9029104888950924ed3794aae2678ad08f397"},
+    {file = "qutip-4.7.1-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:9df66605cf383596020a08bcca267b2dd8623d42b188f9068b7e1c813bbb8f21"},
+    {file = "qutip-4.7.1-cp39-cp39-win_amd64.whl", hash = "sha256:fd2c970e2134161ceb5a540a34f99355a6f4feccd4ec0b401ce2ff4bf5eba87d"},
+    {file = "qutip-4.7.1.tar.gz", hash = "sha256:9a87178e68b145c2145b526caa943ccc8400a111325ced45bd17f9b893663af2"},
+]
+
+[package.dependencies]
+numpy = ">=1.16.6"
+packaging = "*"
+scipy = ">=1.0"
+
+[package.extras]
+full = ["cvxopt", "cvxpy (>=1.0)", "cython (>=0.29.20)", "ipython", "matplotlib (>=1.2.1)", "pytest (>=5.2)", "pytest-rerunfailures"]
+graphics = ["matplotlib (>=1.2.1)"]
+ipython = ["ipython"]
+runtime-compilation = ["cython (>=0.29.20)"]
+semidefinite = ["cvxopt", "cvxpy (>=1.0)"]
+tests = ["pytest (>=5.2)", "pytest-rerunfailures"]
 
 [[package]]
 name = "requests"
@@ -4198,29 +4243,29 @@ files = [
 
 [[package]]
 name = "tox"
-version = "4.6.0"
+version = "4.6.1"
 description = "tox is a generic virtualenv management and test command line tool"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "tox-4.6.0-py3-none-any.whl", hash = "sha256:4874000453e637a87ca892f9744a2ab9a7d24064dad1b0ecbf5a4c3c146cc732"},
-    {file = "tox-4.6.0.tar.gz", hash = "sha256:954f1f647f67f481d239a193288983242a6152b67503c4a56b19a4aafaa29736"},
+    {file = "tox-4.6.1-py3-none-any.whl", hash = "sha256:b45c4927bd1b3d91d532fbae9d7ffb676ff2b4d2ae26ef93b41b3189d1eff860"},
+    {file = "tox-4.6.1.tar.gz", hash = "sha256:bf71ff8ee08499d4a3db6b73e35ef8d0e4346a3bea84517245b1e4a09b9f0774"},
 ]
 
 [package.dependencies]
-cachetools = ">=5.3"
+cachetools = ">=5.3.1"
 chardet = ">=5.1"
 colorama = ">=0.4.6"
-filelock = ">=3.12"
+filelock = ">=3.12.2"
 packaging = ">=23.1"
-platformdirs = ">=3.5.1"
+platformdirs = ">=3.5.3"
 pluggy = ">=1"
 pyproject-api = ">=1.5.1"
 virtualenv = ">=20.23"
 
 [package.extras]
-docs = ["furo (>=2023.5.20)", "sphinx (>=7.0.1)", "sphinx-argparse-cli (>=1.11)", "sphinx-autodoc-typehints (>=1.23,!=1.23.4)", "sphinx-copybutton (>=0.5.2)", "sphinx-inline-tabs (>=2023.4.21)", "sphinxcontrib-towncrier (>=0.2.1a0)", "towncrier (>=22.12)"]
-testing = ["build[virtualenv] (>=0.10)", "covdefaults (>=2.3)", "devpi-process (>=0.3)", "diff-cover (>=7.5)", "distlib (>=0.3.6)", "flaky (>=3.7)", "hatch-vcs (>=0.3)", "hatchling (>=1.17)", "psutil (>=5.9.5)", "pytest (>=7.3.1)", "pytest-cov (>=4.1)", "pytest-mock (>=3.10)", "pytest-xdist (>=3.3.1)", "re-assert (>=1.1)", "time-machine (>=2.9)", "wheel (>=0.40)"]
+docs = ["furo (>=2023.5.20)", "sphinx (>=7.0.1)", "sphinx-argparse-cli (>=1.11)", "sphinx-autodoc-typehints (>=1.23,!=1.23.4)", "sphinx-copybutton (>=0.5.2)", "sphinx-inline-tabs (>=2023.4.21)", "sphinxcontrib-towncrier (>=0.2.1a0)", "towncrier (>=23.6)"]
+testing = ["build[virtualenv] (>=0.10)", "covdefaults (>=2.3)", "detect-test-pollution (>=1.1.1)", "devpi-process (>=0.3)", "diff-cover (>=7.6)", "distlib (>=0.3.6)", "flaky (>=3.7)", "hatch-vcs (>=0.3)", "hatchling (>=1.17.1)", "psutil (>=5.9.5)", "pytest (>=7.3.2)", "pytest-cov (>=4.1)", "pytest-mock (>=3.10)", "pytest-xdist (>=3.3.1)", "re-assert (>=1.1)", "time-machine (>=2.9)", "wheel (>=0.40)"]
 
 [[package]]
 name = "traitlets"
@@ -4614,4 +4659,4 @@ tests-strict = ["codecov (==2.0.15)", "pytest (==4.6.0)", "pytest (==4.6.0)", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "d0b43ef951f08305fbf8c188a91c4cb269ce089d052f3745a14d8b463233c3f2"
+content-hash = "8f605ed0e7e47cf2215dd0fbdf1f9c26b5636812ebc5d09b96e040c834620ec3"

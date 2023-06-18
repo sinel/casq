@@ -31,8 +31,8 @@ from wonderwords import RandomWord
 from casq.common.decorators import trace
 
 
-class CasqObject(ABC):
-    """CasqObject class.
+class BaseObject(ABC):
+    """BaseObject class.
 
     Base object for all casq classes.
     Ensures that every object has a user-friendly text id and database uuid(v4).
@@ -44,7 +44,7 @@ class CasqObject(ABC):
 
     @trace()
     def __init__(self, name: Optional[str] = None) -> None:
-        """Initialize CasqObject."""
+        """Initialize BaseObject."""
         self.dbid = str(uuid4())
         if name is None:
             random_word = RandomWord()

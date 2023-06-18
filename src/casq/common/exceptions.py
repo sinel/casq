@@ -22,28 +22,14 @@
 #  ********************************************************************************
 from __future__ import annotations
 
-from uuid import UUID
+class CasqError(Exception):
+    """Base class for errors raised by casq."""
 
-from casq.casq_object import CasqObject
+    def __init__(self, *message):
+        """Set the error message."""
+        super().__init__(" ".join(message))
+        self.message = " ".join(message)
 
-
-def test_database_id() -> None:
-    """Unit test for database id."""
-
-    class Dummy(CasqObject):
-        pass
-
-    dummy = Dummy()
-    assert UUID(dummy.dbid, version=4)
-
-
-def test_user_friendly_id() -> None:
-    """Unit test for user-friendly id."""
-
-    class Dummy(CasqObject):
-        pass
-
-    dummy = Dummy()
-    print(dummy.ufid)
-    assert isinstance(dummy.ufid, str)
-    assert dummy.ufid.endswith("Dummy")
+    def __str__(self):
+        """Return the message."""
+        return repr(self.message)

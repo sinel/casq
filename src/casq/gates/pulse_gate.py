@@ -25,54 +25,75 @@ from __future__ import annotations
 from abc import abstractmethod
 from typing import Optional
 
+from loguru import logger
 from matplotlib import pyplot as plt
 from matplotlib.figure import Figure
+import numpy as np
 from qiskit import QuantumCircuit, pulse
 from qiskit.circuit import Gate
+from qiskit.pulse.transforms import block_to_schedule
+from qiskit_dynamics.pulse import InstructionToSignals
 
-from casq.casq_object import CasqObject
 from casq.common.decorators import trace
+from casq.common.helpers import dbid, ufid
+from casq.common.plotting import plot, plot_signal, LineStyle
 
 
-class PulseGate(CasqObject):
+class PulseGate(Gate):
     """PulseGate class.
 
     Abstract base class for all pulse gates.
+    Note: Currently only single qubit gates are supported.
 
     Args:
-        name: Optional user-friendly name for pulse gate.
+        num_qubits: Number of qubits that pulse gate acts on.
     """
 
     @trace()
-    def __init__(self, name: Optional[str] = None) -> None:
+    def __init__(self, num_qubits: int, duration: int) -> None:
         """Initialize PulseGate."""
-        super().__init__(name)
-        self._schedule: Optional[pulse.ScheduleBlock] = None
-        self._circuit: Optional[QuantumCircuit] = None
+        self.dbid = dbid()
+        self.ufid = ufid(self)
+        super().__init__(self.ufid, num_qubits, [], None)
+        self.duration = duration
 
     @abstractmethod
-    def schedule(self, qubit: int) -> pulse.ScheduleBlock:  # pragma: no cover
-        """PulseGate.schedule method.
+    def instruction(self, qubit: int) -> pulse.Instruction:
+        """PulseGate.instruction method.
 
-        Builds schedule block for pulse gate.
-        This is an abstract method which children of this base class must override.
+        Builds instruction for pulse gate.
 
         Args:
-            qubit: Index of qubit to drive.
+            qubit: Qubit to attach gate instruction to.
 
         Returns:
-            :py:class:`qiskit.pulse.ScheduleBlock`
+            :py:class:`qiskit.pulse.Instruction`
         """
         pass
 
+    def schedule(self, qubit: int) -> pulse.Schedule:
+        """PulseGate.schedule method.
+
+        Builds schedule block for pulse gate.
+
+        Args:
+            qubit: Qubit to attach gate instruction to.
+
+        Returns:
+            :py:class:`qiskit.pulse.Schedule`
+        """
+        with pulse.build() as sb:
+            self.instruction(qubit)
+        return block_to_schedule(sb)
+
     @trace()
     def circuit(self, qubit: int) -> QuantumCircuit:
-        """PulseGate.to_circuit method.
+        """PulseGate.circuit method.
 
         Builds simple circuit for solitary usage or testing of pulse gate.
 
         Args:
-            qubit: Index of qubit to drive.
+            qubit: Qubit to attach gate to.
 
         Returns:
             :py:class:`matplotlib.figure.Figure`
@@ -128,4 +149,30 @@ class PulseGate(CasqObject):
             plt.show()
         if path:
             plt.savefig(path)
+        return figure
+
+    @trace()
+    def draw_signal(
+        self, qubit: int, dt: float, carrier_frequency: float, duration: float,
+        save: Optional[str] = None, hidden: bool = False
+    ) -> Figure:
+        """PulseGate.draw_signal method.
+
+        Draws pulse gate signal.
+
+        Args:
+            qubit: Qubit to attach gate to.
+            dt: Sample time length.
+            carrier_frequency: Carrier frequency.
+            duration: Duration to plot signal.
+            save: Saves figure to specified path if provided.
+            hidden: Does not show figure if True.
+
+        Returns:
+            :py:class:`qiskit.QuantumCircuit`
+        """
+        figure = plot_signal(
+            self.schedule(qubit), dt, f"d{qubit}", carrier_frequency, duration,
+            save=save, hidden=hidden
+        )
         return figure

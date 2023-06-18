@@ -22,50 +22,54 @@
 #  ********************************************************************************
 from __future__ import annotations
 
-from qiskit import pulse
+from typing import Sequence
+
+from qiskit import QuantumCircuit
+from qiskit.circuit.quantumcircuit import InstructionSet
+from qiskit.circuit import Bit, ParameterValueType, Register
 
 from casq.common.decorators import trace
 from casq.gates.pulse_gate import PulseGate
+from casq.common.helpers import dbid, ufid
 
 
-class GaussianPulseGate(PulseGate):
-    """GaussianPulseGate class.
+class PulseCircuit(QuantumCircuit):
+    """PulseCircuit class.
 
-    Note: Currently only single qubit gates are supported.
+    Extends Qiskit QuantumCircuit class
+    with helper methods for adding pulse gates and plotting.
 
     Args:
-        duration: Gate duration.
-        amplitude: Gaussian amplitude.
-        sigma: Gaussian standard deviation.
+        name: Optional user-friendly name for pulse gate.
     """
 
     @trace()
     def __init__(
-        self, duration: int, amplitude: float, sigma: float
-    ) -> None:
-        """Initialize GaussianPulseGate."""
-        super().__init__(1, duration)
-        self.amplitude = amplitude
-        self.sigma = sigma
+        self,
+        *regs: Register | int | Sequence[Bit],
+        name: str | None = None,
+        global_phase: ParameterValueType = 0,
+        metadata: dict | None = None,
+    ):
+        """Initialize PulseCircuit."""
+        self.dbid = dbid()
+        self.ufid = ufid(self)
+        if name is None:
+            name = self.ufid
+        super().__init__(regs, name, global_phase, metadata)
 
-    @trace()
-    def instruction(self, qubit: int) -> pulse.Instruction:
-        """GaussianPulseGate.instruction method.
+    def pulse(self, gate: PulseGate, qubit: int) -> InstructionSet:  # pragma: no cover
+        """PulseGate.gate method.
 
-        Builds instruction for pulse gate.
+        Append pulse gate to circuit.
 
         Args:
-            qubit: Qubit to attach gate instruction to.
+            gate: Pulse gate.
+            qubit: Qubit to attach pulse gate to.
 
         Returns:
             :py:class:`qiskit.pulse.Instruction`
         """
-        return pulse.play(
-            pulse.library.Gaussian(
-                duration=self.duration,
-                amp=self.amplitude,
-                sigma=self.sigma,
-                name=self.ufid,
-            ),
-            pulse.DriveChannel(qubit),
-        )
+        instructions = self.append(gate, [qubit])
+        self.add_calibration(gate.ufid, [qubit], gate.schedule(qubit), [])
+        return instructions

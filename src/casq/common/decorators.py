@@ -23,6 +23,7 @@
 from __future__ import annotations
 
 import functools
+import inspect
 import time
 from typing import Any, Callable
 
@@ -48,7 +49,7 @@ def trace(
         def wrapped(*args: Any, **kwargs: Any) -> Any:
             logger_ = logger.opt(depth=1)
             name = func.__name__
-            args_repr = [repr(a) for a in args]
+            args_repr = inspect.getfullargspec(func)[0]
             kwargs_repr = [f"{k}={v!r}" for k, v in kwargs.items()]
             if log_entry:
                 logger_.log(
@@ -68,7 +69,7 @@ def trace(
     return wrapper
 
 
-def timer(*, level: str = "TRACE", unit: str = "msec") -> Any:
+def timer(*, level: str = "DEBUG", unit: str = "msec") -> Any:
     """Decorator for timing the execution of a function.
 
     Args:
