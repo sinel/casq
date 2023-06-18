@@ -184,11 +184,13 @@ def plot(
                 Union[list[float], npt.NDArray, list[list[float]], list[npt.NDArray]],
                 Optional[str],
                 Optional[LineStyle],
-                Optional[MarkerStyle]
+                Optional[MarkerStyle],
+                Optional[Axes]
             ]
         ],
-        hlines: Optional[list[tuple[float, LineStyle]]] = None,
-        vlines: Optional[list[tuple[float, LineStyle]]] = None,
+        figure: Optional[Figure] = None,
+        hlines: Optional[list[tuple[float, LineStyle, Optional[Axes]]]] = None,
+        vlines: Optional[list[tuple[float, LineStyle, Optional[Axes]]]] = None,
         xlim: tuple[float, float] = None, ylim: tuple[float, float] = None,
         xticks: list[float] = None, yticks: list[float] = None,
         title: str = None, xtitle: str = None, ytitle: Optional[str] = None,
@@ -196,31 +198,39 @@ def plot(
         save: Optional[str] = None, hidden: bool = False
 ) -> Figure:
     # TODO: Validate that all dimensions match.
-    figure, ax = plt.subplots(1, 1, constrained_layout=True)
+    if figure is None:
+        figure, ax = plt.subplots(1, 1)
+    figure.set_constrained_layout(True)
     if title:
-        ax.set_title(title)
+        plt.title(title)
     if xtitle:
-        ax.set_xlabel(xtitle)
+        plt.xlabel(xtitle)
     if ytitle:
-        ax.set_ylabel(ytitle)
+        plt.ylabel(ytitle)
     if xlim:
-        ax.set_xlim(list(xlim))
+        plt.xlim(list(xlim))
     if ylim:
-        ax.set_ylim(list(ylim))
+        plt.ylim(list(ylim))
     if xticks:
-        ax.set_xticks(xticks)
+        plt.xticks(xticks)
     if yticks:
-        ax.set_yticks(yticks)
-    for x, y, label, line_style, marker_style in data:
+        plt.yticks(yticks)
+    for x, y, label, line_style, marker_style, ax in data:
+        if ax is None:
+            ax = figure.axes[0]
         if isinstance(x[0], (list, np.ndarray)):
             add_line_collection(ax, x, y, label, line_style, marker_style)
         else:
             add_line(ax, x, y, label, line_style, marker_style)
     if hlines:
-        for y, line_style in hlines:
+        for y, line_style, ax in hlines:
+            if ax is None:
+                ax = figure.axes[0]
             add_horizontal_line(ax, y, line_style)
     if vlines:
-        for x, line_style in vlines:
+        for x, line_style, ax in vlines:
+            if ax is None:
+                ax = figure.axes[0]
             add_horizontal_line(ax, x, line_style)
     if legend_style:
         plt.legend(loc=legend_style.location.value, bbox_to_anchor=legend_style.anchor)
@@ -268,14 +278,15 @@ def plot_signal(
     signal_envelope_img = np.imag(signal.envelope(signal_times))
     y_min = 1.1*np.min(-signal_envelope_abs)
     y_max = 1.1*np.max(signal_envelope_abs)
-    figure = plot(data=[
-        (signal_times, signal_samples, "Signal", LineStyle(size=0.1), None),
-        ([signal_times, signal_times], [signal_envelope_abs, -signal_envelope_abs], "Envelope (absolute)", LineStyle(size=1), None),
-        # (signal_times, signal_envelope_phase, "Envelope (phase)", LineStyle(size=1), None),
-        (signal_times, signal_envelope_real, "Envelope (real)", LineStyle(size=1), None),
-        (signal_times, signal_envelope_img, "Envelope (imaginary)", LineStyle(size=1), None),
+    figure, axs = plt.subplots(2, 2, sharex="all", sharey="all")
+    plot(data=[
+        (signal_times, signal_samples, "Signal", LineStyle(size=0.1), None, axs[0, 0]),
+        ([signal_times, signal_times], [signal_envelope_abs, -signal_envelope_abs], "Envelope (absolute)", LineStyle(size=1), None, axs[0, 0]),
+        (signal_times, signal_envelope_phase, "Envelope (phase)", LineStyle(size=1), None, axs[1, 0]),
+        (signal_times, signal_envelope_real, "Envelope (real)", LineStyle(size=1), None, axs[0, 1]),
+        (signal_times, signal_envelope_img, "Envelope (imaginary)", LineStyle(size=1), None, axs[1, 1]),
     ],
-        xlim=(0, duration), ylim=(y_min, y_max),
+        figure=figure, xlim=(0, duration), ylim=(y_min, y_max),
         xtitle="Time (ns)", ytitle="Amplitude",
         legend_style=LegendStyle(location=LegendLocation.UPPER_LEFT, anchor=(1.05, 1)),
         save=save, hidden=hidden
