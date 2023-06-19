@@ -26,8 +26,8 @@ from typing import Optional
 
 from qiskit import pulse
 
-from casq.common.decorators import trace
-from casq.gates.pulse_gate import PulseGate
+from casq.common import trace
+from casq.gates import PulseGate
 
 
 class DragPulseGate(PulseGate):
@@ -52,10 +52,11 @@ class DragPulseGate(PulseGate):
         sigma: float,
         beta: float,
         angle: Optional[float] = None,
-        limit_amplitude: Optional[float] = None
+        limit_amplitude: Optional[float] = None,
+        name: Optional[str] = None
     ) -> None:
         """Initialize DragPulseGate."""
-        super().__init__(1, duration)
+        super().__init__(1, duration, name)
         self.amplitude = amplitude
         self.sigma = sigma
         self.beta = beta

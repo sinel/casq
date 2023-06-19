@@ -25,18 +25,13 @@ from __future__ import annotations
 from abc import abstractmethod
 from typing import Optional
 
-from loguru import logger
 from matplotlib import pyplot as plt
 from matplotlib.figure import Figure
-import numpy as np
 from qiskit import QuantumCircuit, pulse
 from qiskit.circuit import Gate
 from qiskit.pulse.transforms import block_to_schedule
-from qiskit_dynamics.pulse import InstructionToSignals
 
-from casq.common.decorators import trace
-from casq.common.helpers import dbid, ufid
-from casq.common.plotting import plot, plot_signal, LineStyle
+from casq.common import trace, dbid, ufid, plot_signal
 
 
 class PulseGate(Gate):
@@ -50,10 +45,10 @@ class PulseGate(Gate):
     """
 
     @trace()
-    def __init__(self, num_qubits: int, duration: int) -> None:
+    def __init__(self, num_qubits: int, duration: int, name: Optional[str] = None) -> None:
         """Initialize PulseGate."""
         self.dbid = dbid()
-        self.ufid = ufid(self)
+        self.ufid = name if name else ufid(self)
         super().__init__(self.ufid, num_qubits, [], None)
         self.duration = duration
 
@@ -98,16 +93,12 @@ class PulseGate(Gate):
         Returns:
             :py:class:`matplotlib.figure.Figure`
         """
-        if self._circuit:
-            return self._circuit
-        else:
-            circuit = QuantumCircuit(1, 1)
-            custom_gate = Gate(self.ufid, 1, [])
-            circuit.append(custom_gate, [qubit])
-            circuit.measure([qubit], [qubit])
-            circuit.add_calibration(self.ufid, [qubit], self.schedule(qubit))
-            self._circuit = circuit
-            return circuit
+        circuit = QuantumCircuit(1, 1)
+        custom_gate = Gate(self.ufid, 1, [])
+        circuit.append(custom_gate, [qubit])
+        circuit.measure([qubit], [qubit])
+        circuit.add_calibration(self.ufid, [qubit], self.schedule(qubit))
+        return circuit
 
     @trace()
     def draw_schedule(self, path: Optional[str] = None, hidden: bool = False) -> Figure:

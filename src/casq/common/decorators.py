@@ -89,11 +89,11 @@ def timer(*, level: str = "DEBUG", unit: str = "msec") -> Any:
             result = func(*args, **kwargs)
             end = time.perf_counter()
             if unit.lower() == "sec":
-                logger_.log(level, "Executed [{}] in {:f} seconds.", name, end - start)
+                logger_.log(level, "Executed [{}] in {:.3f} seconds.", name, end - start)
             else:
                 logger_.log(
                     level,
-                    "Executed [{}] in {:f} milliseconds.",
+                    "Executed [{}] in {:.3f} milliseconds.",
                     name,
                     1e6 * (end - start),
                 )

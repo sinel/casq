@@ -99,6 +99,21 @@ class LegendStyle(NamedTuple):
     anchor: Optional[tuple[float, float]] = None
 
 
+class LineConfig(NamedTuple):
+    x: Union[list[float], npt.NDArray, list[list[float]], list[npt.NDArray]]
+    y: Union[list[float], npt.NDArray, list[list[float]], list[npt.NDArray]]
+    label: Optional[str] = None
+    xtitle: Optional[str] = None
+    ytitle: Optional[str] = None
+    xlim: tuple[float, float] = None
+    ylim: tuple[float, float] = None
+    xticks: list[float] = None
+    yticks: list[float] = None
+    line_style: Optional[LineStyle] = None
+    marker_style: Optional[MarkerStyle] = None
+    ax: Optional[Axes] = None
+
+
 def add_line(
         ax: Axes,
         x: Union[list[float], npt.NDArray], y: Union[list[float], npt.NDArray],
@@ -155,8 +170,11 @@ def add_line_collection(
             line_obj.set_markersize(marker_style.size)
 
 
-def add_horizontal_line(ax: Axes, y: float, line_style: Optional[LineStyle] = None) -> None:
+def add_horizontal_line(ax: Axes, y: float, label: Optional[str] = None,
+                        line_style: Optional[LineStyle] = None) -> None:
     line_obj = ax.axhline(y)
+    if label:
+        line_obj.set_label(label)
     if line_style:
         if line_style.color:
             line_obj.set_color(line_style.color)
@@ -166,8 +184,10 @@ def add_horizontal_line(ax: Axes, y: float, line_style: Optional[LineStyle] = No
             line_obj.set_linewidth(line_style.size)
 
 
-def add_vertical_line(ax: Axes, x: float, line_style: Optional[LineStyle] = None) -> None:
+def add_vertical_line(ax: Axes, x: float, label: Optional[str] = None, line_style: Optional[LineStyle] = None) -> None:
     line_obj = ax.axvline(x)
+    if label:
+        line_obj.set_label(label)
     if line_style:
         if line_style.color:
             line_obj.set_color(line_style.color)
@@ -178,22 +198,12 @@ def add_vertical_line(ax: Axes, x: float, line_style: Optional[LineStyle] = None
 
 
 def plot(
-        data: list[
-            tuple[
-                Union[list[float], npt.NDArray, list[list[float]], list[npt.NDArray]],
-                Union[list[float], npt.NDArray, list[list[float]], list[npt.NDArray]],
-                Optional[str],
-                Optional[LineStyle],
-                Optional[MarkerStyle],
-                Optional[Axes]
-            ]
-        ],
+        data: list[LineConfig],
         figure: Optional[Figure] = None,
-        hlines: Optional[list[tuple[float, LineStyle, Optional[Axes]]]] = None,
-        vlines: Optional[list[tuple[float, LineStyle, Optional[Axes]]]] = None,
-        xlim: tuple[float, float] = None, ylim: tuple[float, float] = None,
+        hlines: Optional[list[tuple[float, Optional[str], LineStyle, Optional[Axes]]]] = None,
+        vlines: Optional[list[tuple[float, Optional[str], LineStyle, Optional[Axes]]]] = None,
         xticks: list[float] = None, yticks: list[float] = None,
-        title: str = None, xtitle: str = None, ytitle: Optional[str] = None,
+        title: str = None,
         legend_style: Optional[LegendStyle] = None, show_grid: bool = False,
         save: Optional[str] = None, hidden: bool = False
 ) -> Figure:
@@ -202,38 +212,42 @@ def plot(
         figure, ax = plt.subplots(1, 1)
     figure.set_constrained_layout(True)
     if title:
-        plt.title(title)
-    if xtitle:
-        plt.xlabel(xtitle)
-    if ytitle:
-        plt.ylabel(ytitle)
-    if xlim:
-        plt.xlim(list(xlim))
-    if ylim:
-        plt.ylim(list(ylim))
-    if xticks:
-        plt.xticks(xticks)
-    if yticks:
-        plt.yticks(yticks)
-    for x, y, label, line_style, marker_style, ax in data:
+        figure.suptitle(title)
+    for x, y, label, xtitle, ytitle, xlim, ylim, xticks, yticks, line_style, marker_style, ax in data:
         if ax is None:
             ax = figure.axes[0]
         if isinstance(x[0], (list, np.ndarray)):
             add_line_collection(ax, x, y, label, line_style, marker_style)
         else:
             add_line(ax, x, y, label, line_style, marker_style)
+        if legend_style:
+            ax.legend(loc=legend_style.location.value, bbox_to_anchor=legend_style.anchor)
+        if xtitle:
+            ax.set_xlabel(xtitle)
+        if ytitle:
+            ax.set_ylabel(ytitle)
+        if xlim:
+            ax.set_xlim(list(xlim))
+        if ylim:
+            ax.set_ylim(list(ylim))
+        if xticks:
+            ax.set_xticks(xticks)
+        if yticks:
+            ax.set_yticks(yticks)
     if hlines:
-        for y, line_style, ax in hlines:
+        for y, label, line_style, ax in hlines:
             if ax is None:
                 ax = figure.axes[0]
-            add_horizontal_line(ax, y, line_style)
+            add_horizontal_line(ax, y, label, line_style)
+            if legend_style:
+                ax.legend(loc=legend_style.location.value, bbox_to_anchor=legend_style.anchor)
     if vlines:
-        for x, line_style, ax in vlines:
+        for x, label, line_style, ax in vlines:
             if ax is None:
                 ax = figure.axes[0]
-            add_horizontal_line(ax, x, line_style)
-    if legend_style:
-        plt.legend(loc=legend_style.location.value, bbox_to_anchor=legend_style.anchor)
+            add_horizontal_line(ax, x, label, line_style)
+            if legend_style:
+                ax.legend(loc=legend_style.location.value, bbox_to_anchor=legend_style.anchor)
     if show_grid:
         plt.grid()
     if save:
@@ -262,7 +276,7 @@ def plot_bloch(
 
 def plot_signal(
         schedule: Union[Schedule, ScheduleBlock], dt: float, channel: str, carrier_frequency: float, duration: float,
-        save: Optional[str] = None, hidden: bool = False
+        number_of_samples: int = 10000, save: Optional[str] = None, hidden: bool = False
 ) -> Figure:
     if isinstance(schedule, ScheduleBlock):
         sched = block_to_schedule(schedule)
@@ -270,25 +284,47 @@ def plot_signal(
         sched = schedule
     converter = InstructionToSignals(dt, carriers={channel: carrier_frequency})
     signal = converter.get_signals(sched)[0]
-    signal_times = np.linspace(0, duration, 10000)
+    signal_times = np.linspace(0, duration, number_of_samples)
     signal_samples = signal(signal_times)
     signal_envelope_abs = np.abs(signal.envelope(signal_times))
     signal_envelope_phase = np.angle(signal.envelope(signal_times))
     signal_envelope_real = np.real(signal.envelope(signal_times))
     signal_envelope_img = np.imag(signal.envelope(signal_times))
-    y_min = 1.1*np.min(-signal_envelope_abs)
-    y_max = 1.1*np.max(signal_envelope_abs)
+    amplitude_min = 1.1 * np.min(-signal_envelope_abs)
+    amplitude_max = 1.1 * np.max(signal_envelope_abs)
+    phase_min = 1.1 * np.min(-signal_envelope_phase)
+    phase_max = 1.1 * np.max(signal_envelope_phase)
     figure, axs = plt.subplots(2, 2, sharex="all", sharey="all")
-    plot(data=[
-        (signal_times, signal_samples, "Signal", LineStyle(size=0.1), None, axs[0, 0]),
-        ([signal_times, signal_times], [signal_envelope_abs, -signal_envelope_abs], "Envelope (absolute)", LineStyle(size=1), None, axs[0, 0]),
-        (signal_times, signal_envelope_phase, "Envelope (phase)", LineStyle(size=1), None, axs[1, 0]),
-        (signal_times, signal_envelope_real, "Envelope (real)", LineStyle(size=1), None, axs[0, 1]),
-        (signal_times, signal_envelope_img, "Envelope (imaginary)", LineStyle(size=1), None, axs[1, 1]),
-    ],
-        figure=figure, xlim=(0, duration), ylim=(y_min, y_max),
-        xtitle="Time (ns)", ytitle="Amplitude",
-        legend_style=LegendStyle(location=LegendLocation.UPPER_LEFT, anchor=(1.05, 1)),
+    ax1 = plt.subplot2grid((2, 2), (0, 0), colspan=2)
+    ax2 = plt.subplot2grid((2, 2), (1, 0), colspan=2)
+    config1 = LineConfig(
+        x=signal_times, y=signal_samples, label="Signal",
+        xtitle="Time (ns)", ytitle="Amplitude", xlim=(0, duration), ylim=(amplitude_min, amplitude_max),
+        line_style=LineStyle(size=0.1), ax=ax1
+    )
+    config2 = LineConfig(
+        x=[signal_times, signal_times], y=[signal_envelope_abs, -signal_envelope_abs], label="Envelope",
+        xtitle="Time (ns)", ytitle="Amplitude", xlim=(0, duration), ylim=(amplitude_min, amplitude_max),
+        line_style=LineStyle(color="black", size=1.5), ax=ax1
+    )
+    config3 = LineConfig(
+        x=signal_times, y=signal_envelope_real, label="Envelope (real)",
+        xtitle="Time (ns)", ytitle="Amplitude", xlim=(0, duration), ylim=(amplitude_min, amplitude_max),
+        line_style=LineStyle(size=1), ax=ax1
+    )
+    config4 = LineConfig(
+        x=signal_times, y=signal_envelope_img, label="Envelope (imaginary)",
+        xtitle="Time (ns)", ytitle="Amplitude", xlim=(0, duration), ylim=(amplitude_min, amplitude_max),
+        line_style=LineStyle(size=1), ax=ax1
+    )
+    config5 = LineConfig(
+        x=signal_times, y=signal_envelope_phase, label=None,
+        xtitle="Time (ns)", ytitle="Phase (radians)", xlim=(0, duration), ylim=(phase_min, phase_max),
+        line_style=LineStyle(color="black", size=1), ax=ax2
+    )
+    plot(
+        data=[config1, config2, config3, config4, config5],
+        figure=figure, legend_style=LegendStyle(),
         save=save, hidden=hidden
     )
     return figure

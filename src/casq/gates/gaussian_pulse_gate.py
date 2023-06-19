@@ -22,10 +22,12 @@
 #  ********************************************************************************
 from __future__ import annotations
 
+from typing import Optional
+
 from qiskit import pulse
 
-from casq.common.decorators import trace
-from casq.gates.pulse_gate import PulseGate
+from casq.common import trace
+from casq.gates import PulseGate
 
 
 class GaussianPulseGate(PulseGate):
@@ -41,10 +43,10 @@ class GaussianPulseGate(PulseGate):
 
     @trace()
     def __init__(
-        self, duration: int, amplitude: float, sigma: float
+        self, duration: int, amplitude: float, sigma: float, name: Optional[str] = None
     ) -> None:
         """Initialize GaussianPulseGate."""
-        super().__init__(1, duration)
+        super().__init__(1, duration, name)
         self.amplitude = amplitude
         self.sigma = sigma
 

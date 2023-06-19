@@ -22,15 +22,16 @@
 #  ********************************************************************************
 from __future__ import annotations
 
-from typing import Sequence
+from typing import Optional, Union
 
 from qiskit import QuantumCircuit
 from qiskit.circuit.quantumcircuit import InstructionSet
-from qiskit.circuit import Bit, ParameterValueType, Register
+from qiskit.circuit import Bit, Register
+from qiskit.circuit.parameterexpression import ParameterValueType
 
-from casq.common.decorators import trace
-from casq.gates.pulse_gate import PulseGate
-from casq.common.helpers import dbid, ufid
+
+from casq.common import trace, dbid, ufid
+from casq.gates import PulseGate
 
 
 class PulseCircuit(QuantumCircuit):
@@ -46,17 +47,17 @@ class PulseCircuit(QuantumCircuit):
     @trace()
     def __init__(
         self,
-        *regs: Register | int | Sequence[Bit],
-        name: str | None = None,
+        *regs: Union[Register, int, list[Bit]],
+        name: Optional[str] = None,
         global_phase: ParameterValueType = 0,
-        metadata: dict | None = None,
+        metadata: Optional[dict] = None,
     ):
         """Initialize PulseCircuit."""
         self.dbid = dbid()
         self.ufid = ufid(self)
         if name is None:
             name = self.ufid
-        super().__init__(regs, name, global_phase, metadata)
+        super().__init__(*regs, name=name, global_phase=global_phase, metadata=metadata)
 
     def pulse(self, gate: PulseGate, qubit: int) -> InstructionSet:  # pragma: no cover
         """PulseGate.gate method.

@@ -28,7 +28,7 @@ from uuid import uuid4
 
 from wonderwords import RandomWord
 
-from casq.common.decorators import trace
+from casq.common import trace
 
 
 class BaseObject(ABC):
