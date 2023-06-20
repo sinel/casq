@@ -25,7 +25,6 @@ from __future__ import annotations
 from enum import Enum
 from typing import NamedTuple, Optional, Union
 
-from loguru import logger
 import numpy as np
 from matplotlib.axes import Axes
 from matplotlib.collections import LineCollection
@@ -220,7 +219,7 @@ def plot(
             add_line_collection(ax, x, y, label, line_style, marker_style)
         else:
             add_line(ax, x, y, label, line_style, marker_style)
-        if legend_style:
+        if label and legend_style:
             ax.legend(loc=legend_style.location.value, bbox_to_anchor=legend_style.anchor)
         if xtitle:
             ax.set_xlabel(xtitle)
@@ -239,14 +238,14 @@ def plot(
             if ax is None:
                 ax = figure.axes[0]
             add_horizontal_line(ax, y, label, line_style)
-            if legend_style:
+            if label and legend_style:
                 ax.legend(loc=legend_style.location.value, bbox_to_anchor=legend_style.anchor)
     if vlines:
         for x, label, line_style, ax in vlines:
             if ax is None:
                 ax = figure.axes[0]
-            add_horizontal_line(ax, x, label, line_style)
-            if legend_style:
+            add_vertical_line(ax, x, label, line_style)
+            if label and legend_style:
                 ax.legend(loc=legend_style.location.value, bbox_to_anchor=legend_style.anchor)
     if show_grid:
         plt.grid()
@@ -264,6 +263,10 @@ def plot_bloch(
         filename: Optional[str] = None, hidden: bool = False
 ) -> Figure:
     b = qutip.Bloch()
+    b.point_color = ["g", "#000"]
+    b.point_size = [128]
+    b.vector_color = "r"
+    b.add_points([x[0], y[0], z[0]], meth="s")
     b.add_points([x, y, z], meth="l")
     b.add_vectors([x[-1], y[-1], z[-1]])
     b.render()

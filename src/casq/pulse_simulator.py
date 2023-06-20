@@ -22,22 +22,32 @@
 #  ********************************************************************************
 from __future__ import annotations
 
+import copy
+import datetime
 from typing import Any, Optional, Union
+from uuid import uuid4
 
+
+from loguru import logger
 import numpy as np
 from qiskit import QiskitError, QuantumCircuit
 from qiskit.providers import BackendV1, BackendV2
 from qiskit.providers.models import UchannelLO
 from qiskit.pulse import Schedule, ScheduleBlock
+from qiskit.quantum_info import Statevector
+from qiskit.result import Result
 from qiskit.transpiler import Target
-from qiskit_dynamics import DynamicsBackend, RotatingFrame
+from qiskit_dynamics import DynamicsBackend, RotatingFrame, Signal
 from qiskit_dynamics.array import Array
 from qiskit_dynamics.backend import parse_backend_hamiltonian_dict
+from qiskit_dynamics.backend.dynamics_backend import (
+    _get_acquire_instruction_timings, _to_schedule_list, _validate_run_input
+)
 from qiskit_dynamics.backend.dynamics_job import DynamicsJob
 from qiskit_dynamics.solvers.solver_classes import Solver
 from qiskit_ibm_runtime import IBMBackend
 
-from casq.common import trace, timer
+from casq.common import trace, timer, CasqError
 
 
 class PulseSimulator(DynamicsBackend):
@@ -65,16 +75,158 @@ class PulseSimulator(DynamicsBackend):
         """Initialize PulseSimulator."""
         super().__init__(solver, target, **options)
         self.solver = solver
+        self.ground_state = Statevector(self._dressed_states[:, 0])
 
     @trace()
     @timer(unit="sec")
     def run(
             self,
             run_input: list[Union[QuantumCircuit, Schedule, ScheduleBlock]],
+            steps: Optional[int] = None,
             validate: Optional[bool] = True,
             **options,
     ) -> DynamicsJob:
-        return super().run(run_input, validate, **options)
+        """Run a list of simulations.
+
+        Args:
+            run_input: A list of simulations, specified by ``QuantumCircuit``, ``Schedule``, or
+                ``ScheduleBlock`` instances.
+            steps: Number of time steps at which to return the solution.
+            validate: Whether to run validation checks on the input.
+            **options: Additional run options to temporarily override current backend options.
+
+        Returns:
+            DynamicsJob object containing results and status.
+
+        Raises:
+            QiskitError: If invalid options are set.
+        """
+        if validate:
+            _validate_run_input(run_input, accept_list=False)
+        try:
+            if options["solver_options"]["t_span"]:
+                raise CasqError(f"Option 't_span' not supported by PulseSimulator.run.")
+        except KeyError:
+            pass
+        try:
+            if options["solver_options"]["t_eval"]:
+                raise CasqError(f"Option 't_eval' not supported by PulseSimulator.run.")
+        except KeyError:
+            pass
+        # Configure run options for simulation
+        if options:
+            backend = copy.deepcopy(self)
+            backend.set_options(**options)
+        else:
+            backend = self
+
+        schedules, num_memory_slots_list = _to_schedule_list(run_input, backend=backend)
+
+        # get the acquires sample times and subsystem measurement information
+        (
+            t_span,
+            measurement_subsystems_list,
+            memory_slot_indices_list,
+        ) = _get_acquire_instruction_timings(
+            schedules, backend.options.subsystem_labels, backend.options.solver._dt
+        )
+        logger.debug(f"Computed time interval to solve over is {t_span}.")
+        if steps:
+            t_eval = np.linspace(t_span[0][0], t_span[0][1], steps)
+            t_eval[0] = t_span[0][0]
+            t_eval[-1] = t_span[0][1]
+        else:
+            t_eval = None
+        backend.options["solver_options"]["t_eval"] = t_eval
+
+        # Build and submit job
+        job_id = str(uuid4())
+        dynamics_job = DynamicsJob(
+            backend=backend,
+            job_id=job_id,
+            fn=backend._run,
+            fn_kwargs={
+                "t_span": t_span,
+                "schedules": schedules,
+                "measurement_subsystems_list": measurement_subsystems_list,
+                "memory_slot_indices_list": memory_slot_indices_list,
+                "num_memory_slots_list": num_memory_slots_list,
+            },
+        )
+        dynamics_job.submit()
+
+        return dynamics_job
+
+    def _run(
+        self,
+        job_id,
+        t_span,
+        schedules,
+        measurement_subsystems_list,
+        memory_slot_indices_list,
+        num_memory_slots_list,
+    ) -> Result:
+        """Simulate a list of schedules."""
+
+        # simulate all schedules
+        y0 = self.options.initial_state
+        if y0 == "ground_state":
+            y0 = Statevector(self._dressed_states[:, 0])
+        # logger.debug(t_span)
+        # logger.debug(self.options.solver_options["t_eval"])
+        # logger.debug(y0)
+        # logger.debug(schedules)
+
+        solver_results = self.options.solver.solve(
+            t_span=t_span, y0=y0, signals=schedules, **self.options.solver_options
+        )
+        # logger.debug(solver_results)
+
+        # compute results for each experiment
+        experiment_names = [schedule.name for schedule in schedules]
+        experiment_metadatas = [schedule.metadata for schedule in schedules]
+        rng = np.random.default_rng(self.options.seed_simulator)
+        experiment_results = []
+        for (
+            experiment_name,
+            solver_result,
+            measurement_subsystems,
+            memory_slot_indices,
+            num_memory_slots,
+            experiment_metadata,
+        ) in zip(
+            experiment_names,
+            solver_results,
+            measurement_subsystems_list,
+            memory_slot_indices_list,
+            num_memory_slots_list,
+            experiment_metadatas,
+        ):
+            experiment_results.append(
+                self.options.experiment_result_function(
+                    experiment_name,
+                    solver_result,
+                    measurement_subsystems,
+                    memory_slot_indices,
+                    num_memory_slots,
+                    self,
+                    seed=rng.integers(low=0, high=9223372036854775807),
+                    metadata=experiment_metadata,
+                )
+            )
+
+        logger.debug(len(experiment_results))
+        logger.debug(experiment_results[0])
+        # Construct full result object
+        return Result(
+            backend_name=self.name,
+            backend_version=self.backend_version,
+            qobj_id="",
+            job_id=job_id,
+            success=True,
+            results=experiment_results,
+            date=datetime.datetime.now().isoformat(),
+        )
 
     @classmethod
     def from_backend(
@@ -91,21 +243,16 @@ class PulseSimulator(DynamicsBackend):
         Based on copy-paste from
         https://github.com/Qiskit-Extensions/qiskit-dynamics/blob/37d12ac33fffd57daea3c9d5f9cda3f00acc37ea/qiskit_dynamics/backend/dynamics_backend.py#L545
         with following modifications:
-        - Support for fake backends. Not sure if this is a bug,
-        but current implementation fails since, on their own,
-        neither BackendV1 nor BackendV2 have all the attributes/methods
-        required in the implementation.
-        For example, BackendV2 does not have configuration method,
-        hence it will always fail acc to current implementation.
-        Furthermore, I don't believe BackendV2 has a hamiltonian attribute,
-        so it should be impossible to use it for constructing a solver.
-        On the other hand, BackendV1 will always fail
-        because it does not have target or defaults
-        (though its properties
-        However, the new IBMBackend in qiskit-ibm-runtime
+        - Fix support for fake backends.
+        BackendV2 does not have configuration method,
+        hence it will always fail according to current implementation.
+        Actually it should fail because it doesn't have hamiltonian information.
+        Also, the new IBMBackend in qiskit-ibm-runtime
         has all required attributes/methods in one place.
-        Perhaps this was the intention?
-        If so, then why the Union[BackendV1, BackendV2] type hinting?
+        So raising error for BackendV2,
+        and added support for IBMBackend.
+
+        Note: https://github.com/Qiskit/qiskit-terra/issues/8712
 
         Args:
             backend: The ``Backend`` instance to build the :class:`.PulseSimulator` from.

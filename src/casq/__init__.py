@@ -22,3 +22,5 @@
 #  ********************************************************************************
 from casq.pulse_circuit import PulseCircuit
 from casq.pulse_simulator import PulseSimulator
+from casq.pulse_solver import PulseSolver
+
