@@ -48,33 +48,33 @@ class LineType(Enum):
 
 class LineStyle(NamedTuple):
     color: Optional[str] = None
-    type: Optional[LineType] = None
+    type: Optional[LineType] = LineType.SOLID
     size: Optional[float] = None
 
 
 class MarkerType(Enum):
-    CIRCLE = 0
-    DIAMOND = 1
-    HEXAGON1 = 2
-    HEXAGON2 = 3
-    PENTAGON = 4
-    PIXEL = 5
-    PLUS = 6
-    PLUS_FILLED = 7
-    POINT = 8
-    SQUARE = 9
-    STAR = 10
-    TRIANGLE_DOWN = 11
-    TRIANGLE_LEFT = 12
-    TRIANGLE_RIGHT = 13
-    TRIANGLE_UP = 14
-    X = 15
-    X_FILLED = 16
+    CIRCLE = "o"
+    DIAMOND = "D"
+    HEXAGON1 = "h"
+    HEXAGON2 = "H"
+    PENTAGON = "p"
+    PIXEL = ","
+    PLUS = "+"
+    PLUS_FILLED = "P"
+    POINT = "."
+    SQUARE = "s"
+    STAR = "*"
+    TRIANGLE_DOWN = "v"
+    TRIANGLE_LEFT = "<"
+    TRIANGLE_RIGHT = ">"
+    TRIANGLE_UP = "^"
+    X = "x"
+    X_FILLED = "X"
 
 
 class MarkerStyle(NamedTuple):
     color: Optional[str] = None
-    type: Optional[MarkerType] = None
+    type: Optional[MarkerType] = MarkerType.CIRCLE
     size: Optional[float] = None
 
 
@@ -124,20 +124,22 @@ def add_line(
     if label:
         line_obj.set_label(label)
     if line_style:
+        line_obj.set_linestyle(line_style.type.name.lower())
         if line_style.color:
             line_obj.set_color(line_style.color)
-        if line_style.type:
-            line_obj.set_linestyle(line_style.type.name.lower())
         if line_style.size:
             line_obj.set_linewidth(line_style.size)
+    else:
+        line_obj.set_linestyle("")
     if marker_style:
+        line_obj.set_marker(marker_style.type.value)
         if marker_style.color:
             line_obj.set_markeredgecolor(marker_style.color)
             line_obj.set_markerfacecolor(marker_style.color)
-        if marker_style.type:
-            line_obj.set_marker(marker_style.type.name.lower())
         if marker_style.size:
             line_obj.set_markersize(marker_style.size)
+    else:
+        line_obj.set_marker("")
 
 
 def add_line_collection(
@@ -159,6 +161,8 @@ def add_line_collection(
             line_obj.set_linestyle(line_style.type.name.lower())
         if line_style.size:
             line_obj.set_linewidth(line_style.size)
+    else:
+        line_obj.set_linestyle = None
     if marker_style:
         if marker_style.color:
             line_obj.set_markeredgecolor(marker_style.color)
@@ -167,6 +171,8 @@ def add_line_collection(
             line_obj.set_marker(marker_style.type.name.lower())
         if marker_style.size:
             line_obj.set_markersize(marker_style.size)
+    else:
+        line_obj.set_marker = None
 
 
 def add_horizontal_line(ax: Axes, y: float, label: Optional[str] = None,
@@ -201,7 +207,6 @@ def plot(
         figure: Optional[Figure] = None,
         hlines: Optional[list[tuple[float, Optional[str], LineStyle, Optional[Axes]]]] = None,
         vlines: Optional[list[tuple[float, Optional[str], LineStyle, Optional[Axes]]]] = None,
-        xticks: list[float] = None, yticks: list[float] = None,
         title: str = None,
         legend_style: Optional[LegendStyle] = None, show_grid: bool = False,
         save: Optional[str] = None, hidden: bool = False

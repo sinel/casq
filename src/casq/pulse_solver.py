@@ -29,6 +29,7 @@ from qiskit.circuit.quantumcircuit import InstructionSet
 from qiskit.circuit import Bit, Register
 from qiskit.circuit.parameterexpression import ParameterValueType
 
+from loguru import logger
 import numpy as np
 import numpy.typing as npt
 from qiskit_ibm_provider import IBMProvider
@@ -48,7 +49,7 @@ from qiskit.quantum_info.states.quantum_state import QuantumState
 from qiskit_dynamics.signals import Signal
 from scipy.integrate._ivp.ivp import OdeResult
 from qiskit.providers import BackendV1
-from qiskit.quantum_info import Statevector, DensityMatrix
+from qiskit.quantum_info import partial_trace, Statevector, DensityMatrix
 from qiskit_dynamics.backend.backend_utils import (
     _get_dressed_state_decomposition,
     _get_memory_slot_probabilities,
@@ -58,6 +59,7 @@ from qiskit_dynamics.backend.backend_utils import (
 )
 
 from casq.common import trace, CasqError
+from casq.common import plot, plot_bloch, plot_signal, LineStyle, LineType, LineConfig, LegendStyle, MarkerStyle
 
 
 from casq.common import trace, dbid, ufid
@@ -75,13 +77,121 @@ class PulseSolver(Solver):
     """
 
     class Solution(NamedTuple):
-        time: list[float]
-        states: list[Union[Statevector, DensityMatrix]]
+        qubits: list[int]
+        times: list[float]
+        statevectors: list[Statevector]
         counts: list[dict]
         samples: list[Union[list, npt.NDArray]]
         populations: list[dict]
         iq_data: list[Union[list, npt.NDArray]]
-        avg_iq_data: list[ Union[list, npt.NDArray]]
+        avg_iq_data: list[Union[list, npt.NDArray]]
+
+        def plot_population(self):
+            populations = {}
+            for key in self.populations[-1].keys():
+                populations[key] = []
+            for p in self.populations:
+                for key in populations.keys():
+                    value = p.get(key, 0)
+                    populations[key].append(value)
+            configs = []
+            for key, value in populations.items():
+                config = LineConfig(
+                    x=self.times, y=value, label=f"Population in |{key}>",
+                    line_style=LineStyle(), xtitle="Time (ns)", ytitle="Population"
+                )
+                configs.append(config)
+            plot(data=configs, legend_style=LegendStyle())
+
+        def plot_iq(self, time_index: Optional[int] = None):
+            t = time_index if time_index else -1
+            x = []
+            y = []
+            for iq in self.iq_data[t]:
+                x.append(iq[0][0])
+                y.append(iq[0][1])
+            config = LineConfig(x=x, y=y, marker_style=MarkerStyle(), xtitle="I", ytitle="Q")
+            plot(data=[config])
+
+        def plot_iq_trajectory(self):
+            x = []
+            y = []
+            for iq in self.avg_iq_data:
+                x.append(iq[0][0])
+                y.append(iq[0][1])
+            config = LineConfig(
+                x=x, y=y, marker_style=MarkerStyle(), xtitle="I", ytitle="Q"
+            )
+            plot(data=[config])
+
+        def plot_trajectory(self, qubit: Optional[int] = None):
+            x, y, z = self._xyz()
+            if len(self.qubits) > 1:
+                if qubit:
+                    x, y, z = x[qubit], y[qubit], z[qubit]
+                else:
+                    raise CasqError(
+                        "Cannot plot Bloch trajectory when qubit is not specified for a multi-qubit system."
+                    )
+            x_config = LineConfig(
+                x=self.times, y=x, line_style=LineStyle(), label="$\\langle X \\rangle$", xtitle="$t$"
+            )
+            y_config = LineConfig(
+                x=self.times, y=y, line_style=LineStyle(), label="$\\langle Y \\rangle$", xtitle="$t$"
+            )
+            z_config = LineConfig(
+                x=self.times, y=z, line_style=LineStyle(), label="$\\langle Z \\rangle$", xtitle="$t$"
+            )
+            plot(data=[x_config, y_config, z_config], legend_style=LegendStyle())
+
+        def plot_bloch_trajectory(self, qubit: Optional[int] = None):
+            x, y, z = self._xyz()
+            if len(self.qubits) > 1:
+                if qubit:
+                    x, y, z = x[qubit], y[qubit], z[qubit]
+                else:
+                    raise CasqError(
+                        "Cannot plot Bloch trajectory when qubit is not specified for a multi-qubit system."
+                    )
+            plot_bloch(x, y, z)
+
+        def _xyz(
+            self
+        ) -> Union[
+            tuple[list[float], list[float], list[float]],
+            tuple[dict[int, list[float]], dict[int, list[float]], dict[int, list[float]]]
+        ]:
+            if len(self.qubits) > 1:
+                x = {}
+                y = {}
+                z = {}
+                for q in self.qubits:
+                    x[q] = []
+                    y[q] = []
+                    z[q] = []
+                    for sv in self.statevectors:
+                        traced_sv = self._trace(sv, q)
+                        xp, yp, zp = traced_sv.data.real
+                        x[q].append(xp)
+                        y[q].append(yp)
+                        z[q].append(zp)
+                return x, y, z
+            else:
+                x = []
+                y = []
+                z = []
+                for sv in self.statevectors:
+                    xp, yp, zp = sv.data.real
+                    x.append(xp)
+                    y.append(yp)
+                    z.append(zp)
+                return x, y, z
+
+        def _trace(self, state: Statevector, qubit: int) -> Statevector:
+            traced_over_qubits = self.qubits
+            traced_over_qubits.remove(qubit)
+            partial_density_matrix = partial_trace(state, traced_over_qubits)
+            return partial_density_matrix.to_statevector()
 
     @classmethod
     @trace()
@@ -305,12 +415,14 @@ class PulseSolver(Solver):
         for t, y in zip(result.t, result.y):
             # Take state out of frame, put in dressed basis, and normalize
             if isinstance(y, Statevector):
+                # noinspection PyTypeChecker
                 y = np.array(self.model.rotating_frame.state_out_of_frame(t=t, y=y))
                 y = self._dressed_states_adjoint @ y
                 y = Statevector(y, dims=qubit_dims)
                 if normalize_states:
                     y = y / np.linalg.norm(y.data)
             elif isinstance(y, DensityMatrix):
+                # noinspection PyTypeChecker
                 y = np.array(
                     self.model.rotating_frame.operator_out_of_frame(t=t, operator=y)
                 )
@@ -355,6 +467,7 @@ class PulseSolver(Solver):
             avg_iq_data_step = np.average(iq_data_step, axis=0)
             avg_iq_data.append(avg_iq_data_step)
         return PulseSolver.Solution(
-            time=result.t, states=result.y, counts=counts, samples=samples,
+            qubits=qubit_labels, times=result.t,
+            statevectors=result.y, counts=counts, samples=samples,
             populations=populations, iq_data=iq_data, avg_iq_data=avg_iq_data
         )
