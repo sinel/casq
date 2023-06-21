@@ -43,6 +43,8 @@ from qiskit import QuantumCircuit
 from qiskit.pulse import Acquire, Schedule, ScheduleBlock
 from qiskit.pulse.transforms.canonicalization import block_to_schedule
 from qiskit import schedule as build_schedule
+from qiskit.scheduler.config import ScheduleConfig
+from qiskit.scheduler.schedule_circuit import schedule_circuit
 
 from qiskit.quantum_info.operators.base_operator import BaseOperator
 from qiskit.quantum_info.states.quantum_state import QuantumState
@@ -255,12 +257,16 @@ class PulseSolver(Solver):
                 measure_channels.append(channel)
             else:
                 raise CasqError(f"Unrecognized channel type {channel[0]} requested.")
-        channel_freqs = {}
         defaults = backend.defaults() if hasattr(backend, "defaults") else None
         if defaults is None:
-            raise CasqError("DriveChannels in model but frequencies not available in target or defaults.")
-        else:
-            drive_frequencies = defaults.qubit_freq_est
+            raise CasqError("Backend defaults are needed to set channel frequencies.")
+        schedule_config = ScheduleConfig(
+            inst_map=defaults.instruction_schedule_map,
+            meas_map=[qubits],
+            dt=dt
+        )
+        channel_freqs = {}
+        drive_frequencies = defaults.qubit_freq_est
         for channel in drive_channels:
             idx = int(channel[1:])
             if idx >= len(drive_frequencies):
@@ -276,15 +282,12 @@ class PulseSolver(Solver):
                 freq += drive_frequencies[channel_lo.q] * channel_lo.scale
             channel_freqs[channel] = freq
         if measure_channels:
-            if defaults is None:
-                raise CasqError("MeasureChannels in model but frequencies not available in target or defaults.")
-            else:
-                measure_frequencies = defaults.meas_freq_est
-                for channel in measure_channels:
-                    idx = int(channel[1:])
-                    if idx >= len(measure_frequencies):
-                        raise CasqError(f"MeasureChannel index {idx} is out of bounds.")
-                    channel_freqs[channel] = measure_frequencies[idx]
+            measure_frequencies = defaults.meas_freq_est
+            for channel in measure_channels:
+                idx = int(channel[1:])
+                if idx >= len(measure_frequencies):
+                    raise CasqError(f"MeasureChannel index {idx} is out of bounds.")
+                channel_freqs[channel] = measure_frequencies[idx]
         for channel in hamiltonian_channels:
             if channel not in channel_freqs:
                 raise CasqError(f"No carrier frequency found for channel {channel}.")
@@ -305,6 +308,7 @@ class PulseSolver(Solver):
             dt=dt,
             backend=backend,
             qubits=qubit_dims,
+            schedule_config=schedule_config,
             seed=seed
         )
 
@@ -327,6 +331,7 @@ class PulseSolver(Solver):
         validate: bool = True,
         backend: Optional[BackendV1] = None,
         qubits: Optional[dict[int, int]] = None,
+        schedule_config: Optional[ScheduleConfig] = None,
         seed: Optional[int] = None
     ):
         super().__init__(
@@ -337,6 +342,7 @@ class PulseSolver(Solver):
         )
         self._backend = backend
         self.qubits = qubits
+        self.schedule_config = schedule_config
         self.seed = seed
         # self.rng = np.random.default_rng(seed)
         self._dressed_evals, self._dressed_states = _get_dressed_state_decomposition(static_hamiltonian.data)
@@ -359,7 +365,8 @@ class PulseSolver(Solver):
             schedule = run_input
         elif isinstance(run_input, QuantumCircuit):
             num_memory_slots = run_input.cregs[0].size
-            schedule = build_schedule(run_input, self._backend, dt=self._dt)
+            schedule = schedule_circuit(run_input, self.schedule_config, method="asap")
+            # schedule = build_schedule(run_input, self._backend, dt=self._dt)
         else:
             raise CasqError(f"Type {type(run_input)} cannot be converted to Schedule.")
         schedule_acquires = []
