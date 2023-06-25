@@ -29,6 +29,8 @@ from qiskit.circuit.quantumcircuit import InstructionSet
 from qiskit.circuit import Bit, Register
 from qiskit.circuit.parameterexpression import ParameterValueType
 
+from jax import core
+import jax.numpy as jnp
 from loguru import logger
 import numpy as np
 import numpy.typing as npt
@@ -38,6 +40,7 @@ from qiskit_dynamics import RotatingFrame
 from qiskit_dynamics.array import Array
 from qiskit_dynamics.backend import parse_backend_hamiltonian_dict
 from qiskit_dynamics import Solver
+from qiskit_dynamics.solvers.solver_classes import t_span_to_list, _y0_to_list, _signals_to_list
 
 from qiskit import QuantumCircuit
 from qiskit.pulse import Acquire, Schedule, ScheduleBlock
@@ -49,9 +52,11 @@ from qiskit.scheduler.schedule_circuit import schedule_circuit
 from qiskit.quantum_info.operators.base_operator import BaseOperator
 from qiskit.quantum_info.states.quantum_state import QuantumState
 from qiskit_dynamics.signals import Signal
+# noinspection PyProtectedMember
 from scipy.integrate._ivp.ivp import OdeResult
 from qiskit.providers import BackendV1
 from qiskit.quantum_info import partial_trace, Statevector, DensityMatrix
+# noinspection PyProtectedMember
 from qiskit_dynamics.backend.backend_utils import (
     _get_dressed_state_decomposition,
     _get_memory_slot_probabilities,
@@ -59,20 +64,21 @@ from qiskit_dynamics.backend.backend_utils import (
     _get_counts_from_samples,
     _get_iq_data
 )
+from qiskit_dynamics.solvers.solver_utils import setup_args_lists
+from qiskit_dynamics.solvers.solver_functions import _is_diffrax_method
 
+from casq import PulseBackendProperties
 from casq.common import trace, CasqError
 from casq.common import plot, plot_bloch, plot_signal, LineStyle, LineType, LineConfig, LegendStyle, MarkerStyle
-
-
-from casq.common import trace, dbid, ufid
 from casq.gates import PulseGate
+from casq.helpers import discretize, get_channel_frequencies
 
 
 class PulseSolver(Solver):
     """PulseSolver class.
 
     Extends Qiskit Solver class
-    with automated calculation of time inetrval and evaluation steps.
+    with automated calculation of time interval and evaluation steps.
 
     Args:
         name: Optional user-friendly name for pulse gate.
@@ -219,84 +225,36 @@ class PulseSolver(Solver):
         Returns:
             :py:class:`qiskit_dynamics.Solver`
         """
-        provider = IBMProvider()
-        backend = provider.get_backend(backend_name)
-        config = backend.configuration()
-        if not isinstance(config, PulseBackendConfiguration):
-            raise CasqError(
-                f"Backend configuration must be of type 'qiskit.providers.models.PulseBackendConfiguration'."
-            )
-        num_qubits = config.num_qubits
-        hamiltonian = config.hamiltonian
-        dt = config.dt
+        props = PulseBackendProperties(PulseBackendProperties.get_backend(backend_name))
         if qubits is None:
-            qubits = list(range(num_qubits))
+            qubits = list(range(props.num_qubits))
         else:
             qubits = sorted(qubits)
-        if qubits[-1] >= num_qubits:
+        if qubits[-1] >= props.num_qubits:
             raise CasqError(
-                f"Selected qubit {qubits[-1]} is out of bounds for backend {backend} with {num_qubits} qubits."
+                f"Selected qubit {qubits[-1]} is out of bounds "
+                f"for backend {props.backend} with {props.num_qubits} qubits."
             )
+        schedule_config = ScheduleConfig(
+            inst_map=props.defaults.instruction_schedule_map,
+            meas_map=[qubits],
+            dt=props.dt
+        )
         # hamiltonian
         (
             static_hamiltonian,
             hamiltonian_operators,
             hamiltonian_channels,
             qubit_dims,
-        ) = parse_backend_hamiltonian_dict(hamiltonian, qubits)
+        ) = parse_backend_hamiltonian_dict(props.hamiltonian, qubits)
         # channel frequencies
-        drive_channels = []
-        control_channels = []
-        measure_channels = []
-        for channel in hamiltonian_channels:
-            if channel[0] == "d":
-                drive_channels.append(channel)
-            elif channel[0] == "u":
-                control_channels.append(channel)
-            elif channel[0] == "m":
-                measure_channels.append(channel)
-            else:
-                raise CasqError(f"Unrecognized channel type {channel[0]} requested.")
-        defaults = backend.defaults() if hasattr(backend, "defaults") else None
-        if defaults is None:
-            raise CasqError("Backend defaults are needed to set channel frequencies.")
-        schedule_config = ScheduleConfig(
-            inst_map=defaults.instruction_schedule_map,
-            meas_map=[qubits],
-            dt=dt
-        )
-        channel_freqs = {}
-        drive_frequencies = defaults.qubit_freq_est
-        for channel in drive_channels:
-            idx = int(channel[1:])
-            if idx >= len(drive_frequencies):
-                raise CasqError(f"DriveChannel index {idx} is out of bounds.")
-            channel_freqs[channel] = drive_frequencies[idx]
-        control_channel_lo = config.u_channel_lo
-        for channel in control_channels:
-            idx = int(channel[1:])
-            if idx >= len(control_channel_lo):
-                raise CasqError(f"ControlChannel index {idx} is out of bounds.")
-            freq = 0.0
-            for channel_lo in control_channel_lo[idx]:
-                freq += drive_frequencies[channel_lo.q] * channel_lo.scale
-            channel_freqs[channel] = freq
-        if measure_channels:
-            measure_frequencies = defaults.meas_freq_est
-            for channel in measure_channels:
-                idx = int(channel[1:])
-                if idx >= len(measure_frequencies):
-                    raise CasqError(f"MeasureChannel index {idx} is out of bounds.")
-                channel_freqs[channel] = measure_frequencies[idx]
-        for channel in hamiltonian_channels:
-            if channel not in channel_freqs:
-                raise CasqError(f"No carrier frequency found for channel {channel}.")
+        channel_freqs = get_channel_frequencies(hamiltonian_channels, props)
         # rotating frame
         if rotating_frame == "auto":
             if "dense" in evaluation_mode:
                 rotating_frame = static_hamiltonian
             else:
-                rotating_frame = np.diag(static_hamiltonian)
+                rotating_frame = jnp.diag(static_hamiltonian)
         return cls(
             static_hamiltonian=Array(static_hamiltonian),
             hamiltonian_operators=Array(hamiltonian_operators),
@@ -305,8 +263,8 @@ class PulseSolver(Solver):
             rotating_frame=rotating_frame,
             evaluation_mode=evaluation_mode,
             rwa_cutoff_freq=rwa_cutoff_freq,
-            dt=dt,
-            backend=backend,
+            dt=props.dt,
+            backend=props.backend,
             qubits=qubit_dims,
             schedule_config=schedule_config,
             seed=seed
@@ -341,17 +299,19 @@ class PulseSolver(Solver):
             rwa_cutoff_freq, rwa_carrier_freqs, validate
         )
         self._backend = backend
+        self._backend_props = PulseBackendProperties(backend)
         self.qubits = qubits
         self.schedule_config = schedule_config
         self.seed = seed
-        # self.rng = np.random.default_rng(seed)
+        self._hamiltonian_channels = hamiltonian_channels
+        self._channel_carrier_freqs = channel_carrier_freqs
         self._dressed_evals, self._dressed_states = _get_dressed_state_decomposition(static_hamiltonian.data)
         self._dressed_states_adjoint = self._dressed_states.conj().transpose()
 
     def solve(
         self,
-        run_input: Union[QuantumCircuit, Schedule, ScheduleBlock],
-        initial_state: Optional[Union[Statevector, DensityMatrix]] = None,
+        run_input: Union[list[Union[QuantumCircuit, Schedule, ScheduleBlock]]],
+        initial_state: Optional[Union[Union[Array, QuantumState, BaseOperator]]] = None,
         convert_results: bool = True,
         steps: Optional[int] = None,
         normalize_states: bool = True,
@@ -363,10 +323,18 @@ class PulseSolver(Solver):
             schedule = block_to_schedule(run_input)
         elif isinstance(run_input, Schedule):
             schedule = run_input
+            signals = discretize(
+                schedule, self._backend_props.dt,
+                get_channel_frequencies(list(schedule.channels), self._backend_props)
+            )
+            schedule = [schedule]
         elif isinstance(run_input, QuantumCircuit):
+            # raise CasqError(
+            #     "QuantumCircuit is not supported because of 'https://github.com/Qiskit/qiskit-terra/issues/9488'"
+            # )
             num_memory_slots = run_input.cregs[0].size
-            schedule = schedule_circuit(run_input, self.schedule_config, method="asap")
-            # schedule = build_schedule(run_input, self._backend, dt=self._dt)
+            schedule = schedule_circuit(run_input, self.schedule_config, method="alap")
+            # # schedule = build_schedule(run_input, self._backend, dt=self._dt)
         else:
             raise CasqError(f"Type {type(run_input)} cannot be converted to Schedule.")
         schedule_acquires = []
@@ -383,7 +351,7 @@ class PulseSolver(Solver):
         for acquire_time in schedule_acquire_times[1:]:
             if acquire_time != schedule_acquire_times[0]:
                 raise CasqError("Only support for measurements at one time.")
-        t_span = (0.0, self._dt * schedule_acquire_times[0])
+        t_span = [0.0, self._dt * schedule_acquire_times[0]]
         measurement_subsystems = []
         memory_slot_indices = []
         for inst in schedule_acquires:
@@ -392,19 +360,22 @@ class PulseSolver(Solver):
             else:
                 raise CasqError(
                     f"Attempted to measure subsystem {inst.channel.index}, but it is not in subsystem_list.")
-
             memory_slot_indices.append(inst.mem_slot.index)
         if not initial_state:
             initial_state = Statevector(self._dressed_states[:, 0])
+            # initial_state = np.array(self._dressed_states[:, 0])
         if steps:
-            t_eval = np.linspace(t_span[0], t_span[1], steps)
+            t_eval = jnp.linspace(t_span[0], t_span[1], steps)
             t_eval[0] = t_span[0]
             t_eval[-1] = t_span[1]
         else:
             t_eval = None
-        result = super().solve(Array(t_span), initial_state, [schedule], convert_results, t_eval=t_eval, **kwargs)[0]
+        result = super().solve(
+            t_span=t_span, y0=initial_state, signals=[schedule],
+            convert_results=convert_results, t_eval=t_eval, **kwargs
+        )
         return self._build_solution(
-            result, measurement_subsystems, memory_slot_indices, num_memory_slots, normalize_states, shots
+            result[0], measurement_subsystems, memory_slot_indices, num_memory_slots, normalize_states, shots
         )
 
     def _build_solution(
@@ -419,6 +390,7 @@ class PulseSolver(Solver):
         populations = []
         iq_data = []
         avg_iq_data = []
+        quantum_states = []
         for t, y in zip(result.t, result.y):
             # Take state out of frame, put in dressed basis, and normalize
             if isinstance(y, Statevector):
@@ -437,6 +409,9 @@ class PulseSolver(Solver):
                 y = DensityMatrix(y, dims=qubit_dims)
                 if normalize_states:
                     y = y / np.diag(y.data).sum()
+            else:
+                y = Statevector(y, dims=qubit_dims)
+            quantum_states.append(y)
             # compute probabilities for measurement slot values
             measurement_subsystems = [
                 qubit_labels.index(x) for x in measurement_subsystems
@@ -455,9 +430,9 @@ class PulseSolver(Solver):
             # Default iq_centers
             iq_centers = []
             for sub_dim in qubit_dims:
-                theta = 2 * np.pi / sub_dim
+                theta = 2 * jnp.pi / sub_dim
                 iq_centers.append(
-                    [[np.cos(idx * theta), np.sin(idx * theta)] for idx in range(sub_dim)]
+                    [[jnp.cos(idx * theta), jnp.sin(idx * theta)] for idx in range(sub_dim)]
                 )
             # generate IQ
             iq_data_step = _get_iq_data(
@@ -471,10 +446,10 @@ class PulseSolver(Solver):
                 seed=self.seed,
             )
             iq_data.append(iq_data_step)
-            avg_iq_data_step = np.average(iq_data_step, axis=0)
+            avg_iq_data_step = jnp.average(iq_data_step, axis=0)
             avg_iq_data.append(avg_iq_data_step)
         return PulseSolver.Solution(
             qubits=qubit_labels, times=result.t,
-            statevectors=result.y, counts=counts, samples=samples,
+            statevectors=quantum_states, counts=counts, samples=samples,
             populations=populations, iq_data=iq_data, avg_iq_data=avg_iq_data
         )

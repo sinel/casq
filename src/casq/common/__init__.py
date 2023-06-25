@@ -22,7 +22,7 @@
 #  ********************************************************************************
 from casq.common.decorators import trace, timer
 from casq.common.exceptions import CasqError
-from casq.common.helpers import dbid, ufid
+from casq.common.helpers import dbid, ufid, initialize_jax
 from casq.common.plotting import (
     LineType, LineStyle, MarkerType, MarkerStyle,
     LegendLocation, LegendStyle, LineConfig,

@@ -28,6 +28,7 @@ from qiskit import QuantumCircuit
 from qiskit.circuit.quantumcircuit import InstructionSet
 from qiskit.circuit import Bit, Register
 from qiskit.circuit.parameterexpression import ParameterValueType
+from qiskit.providers import BackendV1
 
 
 from casq.common import trace, dbid, ufid
@@ -44,6 +45,25 @@ class PulseCircuit(QuantumCircuit):
         name: Optional user-friendly name for pulse gate.
     """
 
+    @staticmethod
+    def from_pulse(gate: PulseGate, backend: BackendV1, qubit: int = 0):
+        """PulseCircuit.from_pulse method.
+
+        Builds simple circuit for solitary usage or testing of pulse gate.
+
+        Args:
+            gate: Pulse gate.
+            backend: Qiskit backend.
+            qubit: Qubit to attach gate to.
+
+        Returns:
+            :py:class:`matplotlib.figure.Figure`
+        """
+        circuit = PulseCircuit(1, 1)
+        circuit.pulse(gate, backend, qubit)
+        circuit.measure(qubit, qubit)
+        return circuit
+
     @trace()
     def __init__(
         self,
@@ -59,7 +79,7 @@ class PulseCircuit(QuantumCircuit):
             name = self.ufid
         super().__init__(*regs, name=name, global_phase=global_phase, metadata=metadata)
 
-    def pulse(self, gate: PulseGate, qubit: int) -> InstructionSet:  # pragma: no cover
+    def pulse(self, gate: PulseGate, backend: BackendV1, qubit: int = 0) -> InstructionSet:  # pragma: no cover
         """PulseGate.gate method.
 
         Append pulse gate to circuit.
@@ -67,10 +87,11 @@ class PulseCircuit(QuantumCircuit):
         Args:
             gate: Pulse gate.
             qubit: Qubit to attach pulse gate to.
+            backend: Qiskit backend.
 
         Returns:
             :py:class:`qiskit.pulse.Instruction`
         """
         instructions = self.append(gate, [qubit])
-        self.add_calibration(gate.ufid, [qubit], gate.schedule(qubit), [])
+        self.add_calibration(gate.name, [qubit], gate.schedule(qubit, backend), [])
         return instructions

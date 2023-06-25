@@ -24,17 +24,18 @@ from __future__ import annotations
 
 from typing import Optional
 
-from qiskit.pulse import Drag
+from qiskit.pulse import GaussianSquare
 from qiskit.pulse.library import Pulse
-from qiskit.pulse.library.symbolic_pulses import ScalableSymbolicPulse
+# noinspection PyProtectedMember
+from qiskit.pulse.library.symbolic_pulses import _lifted_gaussian, ScalableSymbolicPulse
 import sympy as sym
 
 from casq.common import trace
 from casq.gates import PulseGate
 
 
-class DragPulseGate(PulseGate):
-    """DragPulseGate class.
+class GaussianSquarePulseGate(PulseGate):
+    """GaussianSquarePulseGate class.
 
     Note: Currently only single qubit gates are supported.
 
@@ -42,40 +43,29 @@ class DragPulseGate(PulseGate):
         duration: Pulse length in terms of the sampling period dt.
         amplitude: The magnitude of the amplitude of the Gaussian and square pulse.
         sigma: A measure of how wide or narrow the Gaussian risefall is, i.e. its standard deviation.
-        beta: The correction amplitude.
+        width: The duration of the embedded square pulse.
         angle: The angle of the complex amplitude of the pulse. Default value 0.
+        risefall_sigma_ratio: The ratio of each risefall duration to sigma.
         limit_amplitude: If True, then limit the amplitude of the waveform to 1.
             The default is True and the amplitude is constrained to 1.
         jax: If True, use JAX-enabled implementation.
         name: Optional display name for the pulse gate.
     """
 
-    # Helper function that returns a lifted Gaussian symbolic equation.
-    @staticmethod
-    def lifted_drag(t: sym.Symbol, center: sym.Symbol, t_zero: sym.Symbol, sigma: sym.Symbol) -> sym.Expr:
-        t_shifted = (t - center).expand()
-        t_offset = (t_zero - center).expand()
-        gauss = sym.exp(-((t_shifted / sigma) ** 2) / 2)
-        offset = sym.exp(-((t_offset / sigma) ** 2) / 2)
-        return (gauss - offset) / (1 - offset)
-
     @trace()
     def __init__(
-        self,
-        duration: int,
-        amplitude: float,
-        sigma: float,
-        beta: float,
-        angle: Optional[float] = None,
-        limit_amplitude: bool = True,
+        self, duration: int, amplitude: float, sigma: float,
+        width: Optional[float] = None, angle: float = 0,
+        risefall_sigma_ratio: Optional[float] = None, limit_amplitude: bool = True,
         jax: bool = False, name: Optional[str] = None
     ) -> None:
-        """Initialize DragPulseGate."""
+        """Initialize GaussianPulseGate."""
         super().__init__(1, duration, jax, name)
         self.amplitude = amplitude
         self.sigma = sigma
-        self.beta = beta
+        self.width = width
         self.angle = angle
+        self.risefall_sigma_ratio = risefall_sigma_ratio
         self.limit_amplitude = limit_amplitude
 
     @trace()
@@ -87,12 +77,39 @@ class DragPulseGate(PulseGate):
         Returns:
             :py:class:`qiskit.pulse.library.Pulse`
         """
-        return Drag(
-            duration=self.duration,
-            amp=self.amplitude,
-            sigma=self.sigma,
-            beta=self.beta,
-            angle=self.angle,
-            limit_amplitude=self.limit_amplitude,
-            name=self.name,
-        )
+        if self.jax:
+            _t, _duration, _amp, _sigma, _width, _angle = sym.symbols("t, duration, amp, sigma, width, angle")
+            _center = _duration / 2
+            _sq_t0 = _center - _width / 2
+            _sq_t1 = _center + _width / 2
+            _gaussian_ledge = _lifted_gaussian(_t, _sq_t0, -1, _sigma)
+            _gaussian_redge = _lifted_gaussian(_t, _sq_t1, _duration + 1, _sigma)
+            envelope_expr = (
+                _amp * sym.exp(sym.I * _angle) * sym.Piecewise(
+                    (_gaussian_ledge, _t <= _sq_t0), (_gaussian_redge, _t >= _sq_t1), (1, True)
+                )
+            )
+            # noinspection PyTypeChecker
+            # Suppress warning for constraints argument in ScalableSymbolicPulse
+            return ScalableSymbolicPulse(
+                pulse_type=self.name,
+                duration=self.duration,
+                amp=self.amplitude,
+                angle=self.angle,
+                parameters={"sigma": self.sigma, "width": self.width},
+                envelope=envelope_expr,
+                constraints=sym.And(_sigma > 0, _width >= 0, _duration >= _width),
+                valid_amp_conditions=sym.Abs(_amp) <= 1.0,
+                name=self.name,
+            )
+        else:
+            return GaussianSquare(
+                duration=self.duration,
+                amp=self.amplitude,
+                sigma=self.sigma,
+                width=self.width,
+                angle=self.angle,
+                risefall_sigma_ratio=self.risefall_sigma_ratio,
+                limit_amplitude=self.limit_amplitude,
+                name=self.name,
+            )

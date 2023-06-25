@@ -20,6 +20,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  ********************************************************************************
+from casq.pulse_backend_properties import PulseBackendProperties
 from casq.pulse_circuit import PulseCircuit
 from casq.pulse_solver import PulseSolver
 

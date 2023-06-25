@@ -25,11 +25,13 @@ from __future__ import annotations
 from typing import Any
 from uuid import uuid4
 
+import jax
+from qiskit_dynamics.array import Array
 from wonderwords import RandomWord
 
 
 def dbid() -> str:
-    """Generate database identifier for object.
+    """Generates database identifier for object.
 
     Returns:
         Database identifier.
@@ -38,7 +40,7 @@ def dbid() -> str:
 
 
 def ufid(obj: Any) -> str:
-    """Generate user-friendly identifier for object.
+    """Generates user-friendly identifier for object.
 
     Args:
         obj: Object.
@@ -51,3 +53,11 @@ def ufid(obj: Any) -> str:
         f"{random_word.word(include_categories=['adjective'])}"
         f"{obj.__class__.__name__}"
     )
+
+
+def initialize_jax() -> None:
+    """Initializes jax to use CPU in 64-bit mode.
+    """
+    jax.config.update("jax_enable_x64", True)
+    jax.config.update("jax_platform_name", "cpu")
+    Array.set_default_backend("jax")
