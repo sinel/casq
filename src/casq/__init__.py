@@ -23,4 +23,4 @@
 from casq.pulse_backend_properties import PulseBackendProperties
 from casq.pulse_circuit import PulseCircuit
 from casq.pulse_solver import PulseSolver
-
+from casq.pulse_simulator import PulseSimulator
