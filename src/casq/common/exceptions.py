@@ -20,16 +20,18 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  ********************************************************************************
+"""Common exceptions used by library."""
 from __future__ import annotations
+
 
 class CasqError(Exception):
     """Base class for errors raised by casq."""
 
-    def __init__(self, *message):
+    def __init__(self, *message: str):
         """Set the error message."""
         super().__init__(" ".join(message))
         self.message = " ".join(message)
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Return the message."""
         return repr(self.message)

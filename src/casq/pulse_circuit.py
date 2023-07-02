@@ -20,18 +20,18 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  ********************************************************************************
+"""Pulse circuit."""
 from __future__ import annotations
 
 from typing import Optional, Union
 
 from qiskit import QuantumCircuit
-from qiskit.circuit.quantumcircuit import InstructionSet
 from qiskit.circuit import Bit, Register
 from qiskit.circuit.parameterexpression import ParameterValueType
+from qiskit.circuit.quantumcircuit import InstructionSet
 from qiskit.providers import BackendV1
 
-
-from casq.common import trace, dbid, ufid
+from casq.common import dbid, trace, ufid
 from casq.gates import PulseGate
 
 
@@ -46,7 +46,7 @@ class PulseCircuit(QuantumCircuit):
     """
 
     @staticmethod
-    def from_pulse(gate: PulseGate, backend: BackendV1, qubit: int = 0):
+    def from_pulse(gate: PulseGate, backend: BackendV1, qubit: int = 0) -> PulseCircuit:
         """PulseCircuit.from_pulse method.
 
         Builds simple circuit for solitary usage or testing of pulse gate.
@@ -79,7 +79,9 @@ class PulseCircuit(QuantumCircuit):
             name = self.ufid
         super().__init__(*regs, name=name, global_phase=global_phase, metadata=metadata)
 
-    def pulse(self, gate: PulseGate, backend: BackendV1, qubit: int = 0) -> InstructionSet:  # pragma: no cover
+    def pulse(
+        self, gate: PulseGate, backend: BackendV1, qubit: int = 0
+    ) -> InstructionSet:  # pragma: no cover
         """PulseGate.gate method.
 
         Append pulse gate to circuit.

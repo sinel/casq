@@ -20,6 +20,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  ********************************************************************************
+"""Pulse gate."""
 from __future__ import annotations
 
 from abc import abstractmethod
@@ -28,14 +29,13 @@ from typing import Optional, Union
 from matplotlib.figure import Figure
 from qiskit.circuit import Gate
 from qiskit.providers import BackendV1
-from qiskit.pulse import align_sequential, build, measure, play, DriveChannel, Schedule
+from qiskit.pulse import DriveChannel, Schedule, align_sequential, build, measure, play
 from qiskit.pulse.library import Pulse
 from qiskit.pulse.transforms.canonicalization import block_to_schedule
 from qiskit_dynamics import Signal
 
-from casq import PulseBackendProperties
-from casq.common import trace, dbid, ufid, plot_signal, CasqError
-from casq.helpers import discretize, get_channel_frequencies
+from casq.common import CasqError, dbid, plot_signal, trace, ufid
+from casq.helpers import discretize, get_channel_frequencies, PulseBackendProperties
 
 
 class PulseGate(Gate):
@@ -52,7 +52,13 @@ class PulseGate(Gate):
     """
 
     @trace()
-    def __init__(self, num_qubits: int, duration: int, jax: Optional[bool] = None, name: Optional[str] = None) -> None:
+    def __init__(
+        self,
+        num_qubits: int,
+        duration: int,
+        jax: Optional[bool] = None,
+        name: Optional[str] = None,
+    ) -> None:
         """Initialize PulseGate."""
         self.dbid = dbid()
         self.ufid = name if name else ufid(self)
@@ -72,9 +78,13 @@ class PulseGate(Gate):
         pass
 
     def schedule(
-        self, qubit: int, backend: Optional[BackendV1] = None,
-        dt: Optional[float] = None, channel_frequencies: Optional[dict[str, float]] = None,
-        measured: bool = False, discretized: bool = False
+        self,
+        qubit: int,
+        backend: Optional[BackendV1] = None,
+        dt: Optional[float] = None,
+        channel_frequencies: Optional[dict[str, float]] = None,
+        measured: bool = False,
+        discretized: bool = False,
     ) -> Union[Schedule, list[Signal]]:
         """PulseGate.schedule method.
 
@@ -89,7 +99,8 @@ class PulseGate(Gate):
             discretized: If True, convert schedule into discretized list of signals.
 
         Returns:
-            :py:class:`qiskit.pulse.Schedule` or list of :py:class:`qiskit_dynamics.signals.Signal`
+            :py:class:`qiskit.pulse.Schedule`
+            or list of :py:class:`qiskit_dynamics.signals.Signal`
         """
         schedule_name = f"{self.name}Schedule"
         if measured:
@@ -99,7 +110,9 @@ class PulseGate(Gate):
                         play(self.pulse(), DriveChannel(qubit))
                         measure(qubit)
             else:
-                raise CasqError("Backend is required for building schedules with measurements.")
+                raise CasqError(
+                    "Backend is required for building schedules with measurements."
+                )
         else:
             with build(name=schedule_name) as sb:
                 play(self.pulse(), DriveChannel(qubit))
@@ -107,7 +120,9 @@ class PulseGate(Gate):
         if discretized:
             if backend:
                 props = PulseBackendProperties(backend)
-                channel_frequencies = get_channel_frequencies(list(sched.channels), props)
+                channel_frequencies = get_channel_frequencies(
+                    list(sched.channels), props
+                )
                 return discretize(sched, props.dt, channel_frequencies)
             elif dt and channel_frequencies:
                 return discretize(sched, dt, channel_frequencies)
@@ -121,8 +136,13 @@ class PulseGate(Gate):
 
     @trace()
     def draw_signal(
-        self, qubit: int, dt: float, carrier_frequency: float, duration: float,
-        save: Optional[str] = None, hidden: bool = False
+        self,
+        qubit: int,
+        dt: float,
+        carrier_frequency: float,
+        duration: float,
+        filename: Optional[str] = None,
+        hidden: bool = False,
     ) -> Figure:
         """PulseGate.draw_signal method.
 
@@ -133,14 +153,19 @@ class PulseGate(Gate):
             dt: Sample time length.
             carrier_frequency: Carrier frequency.
             duration: Duration to plot signal.
-            save: Saves figure to specified path if provided.
+            filename: Saves figure to specified path if provided.
             hidden: Does not show figure if True.
 
         Returns:
             :py:class:`qiskit.QuantumCircuit`
         """
         figure = plot_signal(
-            self.schedule(qubit), dt, f"d{qubit}", carrier_frequency, duration,
-            save=save, hidden=hidden
+            self.schedule(qubit),
+            dt,
+            f"d{qubit}",
+            carrier_frequency,
+            duration,
+            filename=filename,
+            hidden=hidden,
         )
         return figure

@@ -20,6 +20,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  ********************************************************************************
+"""Common helper functions used by library."""
 from __future__ import annotations
 
 from typing import Any
@@ -56,8 +57,7 @@ def ufid(obj: Any) -> str:
 
 
 def initialize_jax() -> None:
-    """Initializes jax to use CPU in 64-bit mode.
-    """
+    """Initializes jax to use CPU in 64-bit mode."""
     jax.config.update("jax_enable_x64", True)
     jax.config.update("jax_platform_name", "cpu")
     Array.set_default_backend("jax")

@@ -20,7 +20,14 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  ********************************************************************************
-from casq.pulse_backend_properties import PulseBackendProperties
+"""Collecting casq main package imports in one place for convenient access."""
+from casq.helpers import discretize, get_channel_frequencies, PulseBackendProperties
 from casq.pulse_circuit import PulseCircuit
-from casq.pulse_solver import PulseSolver
+from casq.pulse_optimizer import PulseOptimizer
 from casq.pulse_simulator import PulseSimulator
+
+__all__ = [
+    "discretize", "get_channel_frequencies",
+    "PulseBackendProperties", "PulseCircuit",
+    "PulseOptimizer", "PulseSimulator"
+]

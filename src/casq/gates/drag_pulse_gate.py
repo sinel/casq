@@ -20,17 +20,19 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  ********************************************************************************
+"""Drag pulse gate."""
 from __future__ import annotations
 
 from typing import Optional
 
 from qiskit.pulse import Drag
 from qiskit.pulse.library import Pulse
-from qiskit.pulse.library.symbolic_pulses import ScalableSymbolicPulse
+
+# from qiskit.pulse.library.symbolic_pulses import ScalableSymbolicPulse
 import sympy as sym
 
 from casq.common import trace
-from casq.gates import PulseGate
+from casq.gates.pulse_gate import PulseGate
 
 
 class DragPulseGate(PulseGate):
@@ -41,7 +43,8 @@ class DragPulseGate(PulseGate):
     Args:
         duration: Pulse length in terms of the sampling period dt.
         amplitude: The magnitude of the amplitude of the Gaussian and square pulse.
-        sigma: A measure of how wide or narrow the Gaussian risefall is, i.e. its standard deviation.
+        sigma: A measure of how wide or narrow the Gaussian risefall is,
+            i.e. its standard deviation.
         beta: The correction amplitude.
         angle: The angle of the complex amplitude of the pulse. Default value 0.
         limit_amplitude: If True, then limit the amplitude of the waveform to 1.
@@ -52,12 +55,26 @@ class DragPulseGate(PulseGate):
 
     # Helper function that returns a lifted Gaussian symbolic equation.
     @staticmethod
-    def lifted_drag(t: sym.Symbol, center: sym.Symbol, t_zero: sym.Symbol, sigma: sym.Symbol) -> sym.Expr:
+    def lifted_drag(
+        t: sym.Symbol, center: sym.Symbol, t_zero: sym.Symbol, sigma: sym.Symbol
+    ) -> sym.Expr:
+        """Helper function that returns a lifted Gaussian drag symbolic equation.
+
+        Args:
+            t: Symbol object representing time.
+            center: Symbol or expression representing the middle point of the samples.
+            t_zero: The value of t at which the pulse is lowered to 0.
+            sigma: Symbol or expression representing Gaussian sigma.
+
+        Returns:
+            Symbolic equation.
+        """
         t_shifted = (t - center).expand()
         t_offset = (t_zero - center).expand()
         gauss = sym.exp(-((t_shifted / sigma) ** 2) / 2)
         offset = sym.exp(-((t_offset / sigma) ** 2) / 2)
-        return (gauss - offset) / (1 - offset)
+        expression: sym.Expr = (gauss - offset) / (1 - offset)
+        return expression
 
     @trace()
     def __init__(
@@ -68,7 +85,8 @@ class DragPulseGate(PulseGate):
         beta: float,
         angle: Optional[float] = None,
         limit_amplitude: bool = True,
-        jax: bool = False, name: Optional[str] = None
+        jax: bool = False,
+        name: Optional[str] = None,
     ) -> None:
         """Initialize DragPulseGate."""
         super().__init__(1, duration, jax, name)

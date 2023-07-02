@@ -20,68 +20,48 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  ********************************************************************************
+"""Pulse simulator."""
 from __future__ import annotations
 
-import copy
+from enum import Enum
+from typing import Any, Optional, Union
 
-from typing import NamedTuple, Optional, Union
-
-from qiskit import QuantumCircuit
-from qiskit.circuit.quantumcircuit import InstructionSet
-from qiskit.circuit import Bit, Register
-from qiskit.circuit.parameterexpression import ParameterValueType
-
-from jax import core
-import jax.numpy as jnp
-from loguru import logger
+from matplotlib.figure import Figure
 import numpy as np
-import numpy.typing as npt
-from qiskit_ibm_provider import IBMProvider
-from qiskit.providers.models import PulseBackendConfiguration
-from qiskit_dynamics import RotatingFrame
-from qiskit_dynamics.array import Array
-from qiskit_dynamics.backend import parse_backend_hamiltonian_dict
-from qiskit_dynamics import Solver
-from qiskit_dynamics.solvers.solver_classes import t_span_to_list, _y0_to_list, _signals_to_list
-
-from qiskit import QuantumCircuit
-from qiskit.pulse import Acquire, Schedule, ScheduleBlock
-from qiskit.pulse.transforms.canonicalization import block_to_schedule
-from qiskit import schedule as build_schedule
-from qiskit.scheduler.config import ScheduleConfig
-from qiskit.scheduler.schedule_circuit import schedule_circuit
-from qiskit.transpiler import Target
+from qiskit.providers import BackendV1, BackendV2
+from qiskit.quantum_info import DensityMatrix, Statevector, partial_trace
 from qiskit.result import Result
-from qiskit.result.models import ExperimentResult, ExperimentResultData, QobjExperimentHeader
-from qiskit.qobj.utils import MeasLevel, MeasReturnType
-from qiskit.qobj.common import QobjHeader
-from qiskit import QiskitError
+from qiskit.result.models import (
+    ExperimentResult,
+    ExperimentResultData,
+    QobjExperimentHeader,
+)
+from qiskit_dynamics import RotatingFrame, Solver
+from qiskit_dynamics.array import Array
+from qiskit_dynamics.backend import DynamicsBackend
 
-from qiskit.quantum_info.operators.base_operator import BaseOperator
-from qiskit.quantum_info.states.quantum_state import QuantumState
-from qiskit_dynamics.signals import Signal
-# noinspection PyProtectedMember
-from scipy.integrate._ivp.ivp import OdeResult
-from qiskit.providers import BackendV1
-from qiskit.quantum_info import partial_trace, Statevector, DensityMatrix
 # noinspection PyProtectedMember
 from qiskit_dynamics.backend.backend_utils import (
-    _get_dressed_state_decomposition,
+    _get_counts_from_samples,
+    _get_iq_data,
     _get_memory_slot_probabilities,
     _sample_probability_dict,
-    _get_counts_from_samples,
-    _get_iq_data
 )
-from qiskit_dynamics.solvers.solver_utils import setup_args_lists
-from qiskit_dynamics.solvers.solver_functions import _is_diffrax_method
-from qiskit_dynamics import DynamicsBackend
-from qiskit_dynamics.backend import DynamicsBackend, default_experiment_result_function
 
-from casq import PulseBackendProperties
-from casq.common import trace, CasqError
-from casq.common import plot, plot_bloch, plot_signal, LineStyle, LineType, LineConfig, LegendStyle, MarkerStyle
-from casq.gates import PulseGate
-from casq.helpers import discretize, get_channel_frequencies
+# noinspection PyProtectedMember
+from scipy.integrate._ivp.ivp import OdeResult
+
+from casq.helpers import PulseBackendProperties
+from casq.common import (
+    CasqError,
+    LegendStyle,
+    LineConfig,
+    LineStyle,
+    MarkerStyle,
+    plot,
+    plot_bloch,
+    trace,
+)
 
 
 class PulseSimulator(DynamicsBackend):
@@ -99,141 +79,275 @@ class PulseSimulator(DynamicsBackend):
         based on a steps argument is now provided.
     """
 
-    class Solution(ExperimentResult):
+    class ODESolverMethod(str, Enum):
+        """Solver methods."""
+        QISKIT_DYNAMICS_RK4 = "RK4"
+        QISKIT_DYNAMICS_JAX_RK4 = "jax_RK4"
+        QISKIT_DYNAMICS_JAX_ODEINT = "jax_odeint"
+        SCIPY_BDF = "BDF"
+        SCIPY_DOP853 = "DOP853"
+        SCIPY_LSODA = "LSODA"
+        SCIPY_RADAU = "Radau"
+        SCIPY_RK23 = "RK23"
+        SCIPY_RK45 = "RK45"
 
-        def __init__(
-            self, shots: Union[int, tuple[int, int]], success: bool,
-            data: ExperimentResultData, status: Optional[str] = None,
-            seed: Optional[int] = None, header: Optional[QobjExperimentHeader] = None
-        ):
-            """Instantiate :class:`~casq.PulseSimulator`.
+    @staticmethod
+    def plot_population(result: ExperimentResult) -> Figure:
+        """PulseSimulator.plot_population method.
 
-            Extends instantiation of :class:`~qiskit.qiskit_dynamics.DynamicsBackend`
-            with additional 'steps' argument.
+        Plots populations from result.
 
-            Args:
-                shots(int or tuple): if an integer the number of shots or if a
-                    tuple the starting and ending shot for this data
-                success (bool): True if the experiment was successful
-                data (ExperimentResultData): The data for the experiment's
-                    result
-                status (str): The status of the experiment
-                seed (int): The seed used for simulation (if run on a simulator)
-                header (qiskit.qobj.QobjExperimentHeader): A free form dictionary
-                    header for the experiment
-            """
-            super().__init__(
-                shots=shots, success=success,
-                data=data, meas_level=MeasLevel.CLASSIFIED,
-                status=status, seed=seed, header=header
-            )
+        Args:
+            result: Pulse simulator result.
 
-        def plot_population(self):
-            populations = {}
-            for key in self.populations[-1].keys():
-                populations[key] = []
-            for p in self.populations:
-                for key in populations.keys():
+        Returns:
+            :py:class:`matplotlib.figure.Figure`
+        """
+        if hasattr(result.data, "populations") and hasattr(result.data, "times"):
+            times = result.data.times
+            populations = result.data.populations
+            pops: dict[str, list] = {}
+            for key in populations[-1].keys():
+                pops[key] = []
+            for p in populations:
+                for key in pops.keys():
                     value = p.get(key, 0)
-                    populations[key].append(value)
+                    pops[key].append(value)
             configs = []
-            for key, value in populations.items():
+            for key, value in pops.items():
                 config = LineConfig(
-                    x=self.times, y=value, label=f"Population in |{key}>",
-                    line_style=LineStyle(), xtitle="Time (ns)", ytitle="Population"
+                    x=times,
+                    y=value,
+                    label=f"Population in |{key}>",
+                    line_style=LineStyle(),
+                    xtitle="Time (ns)",
+                    ytitle="Population",
                 )
                 configs.append(config)
-            plot(data=configs, legend_style=LegendStyle())
+            return plot(data=configs, legend_style=LegendStyle())
+        else:
+            raise CasqError(
+                "PulseSimulator.plot_population method requires "
+                "an ExperimentResult instance generated by PulseSimulator"
+            )
 
-        def plot_iq(self, time_index: Optional[int] = None):
+    @staticmethod
+    def plot_iq(result: ExperimentResult, time_index: Optional[int] = None) -> Figure:
+        """PulseSimulator.plot_iq method.
+
+        Plots IQ points from result.
+
+        Args:
+            result: Pulse simulator result.
+            time_index: Time at which to plot IQ points.
+
+        Returns:
+            :py:class:`matplotlib.figure.Figure`
+        """
+        if hasattr(result.data, "iq_data"):
+            iq_data = result.data.iq_data
             t = time_index if time_index else -1
             x = []
             y = []
-            for iq in self.iq_data[t]:
-                x.append(iq[0][0])
-                y.append(iq[0][1])
-            config = LineConfig(x=x, y=y, marker_style=MarkerStyle(), xtitle="I", ytitle="Q")
-            plot(data=[config])
-
-        def plot_iq_trajectory(self):
-            x = []
-            y = []
-            for iq in self.avg_iq_data:
+            for iq in iq_data[t]:
                 x.append(iq[0][0])
                 y.append(iq[0][1])
             config = LineConfig(
                 x=x, y=y, marker_style=MarkerStyle(), xtitle="I", ytitle="Q"
             )
-            plot(data=[config])
+            return plot(data=[config])
+        else:
+            raise CasqError(
+                "PulseSimulator.plot_iq method requires "
+                "an ExperimentResult instance generated by PulseSimulator"
+            )
 
-        def plot_trajectory(self, qubit: Optional[int] = None):
-            x, y, z = self._xyz()
-            if len(self.qubits) > 1:
+    @staticmethod
+    def plot_iq_trajectory(result: ExperimentResult) -> Figure:
+        """PulseSimulator.plot_iq_trajectory method.
+
+        Plots trajectory of average IQ points from result.
+
+        Args:
+            result: Pulse simulator result.
+
+        Returns:
+            :py:class:`matplotlib.figure.Figure`
+        """
+        if hasattr(result.data, "avg_iq_data"):
+            avg_iq_data = result.data.avg_iq_data
+            x = []
+            y = []
+            for iq in avg_iq_data:
+                x.append(iq[0][0])
+                y.append(iq[0][1])
+            config = LineConfig(
+                x=x, y=y, marker_style=MarkerStyle(), xtitle="I", ytitle="Q"
+            )
+            return plot(data=[config])
+        else:
+            raise CasqError(
+                "PulseSimulator.plot_iq_trajectory method requires "
+                "an ExperimentResult instance generated by PulseSimulator"
+            )
+
+    @staticmethod
+    def plot_trajectory(
+            result: ExperimentResult, qubit: Optional[int] = None
+    ) -> Figure:
+        """PulseSimulator.plot_trajectory method.
+
+        Plots statevector trajectory from result.
+
+        Args:
+            result: Pulse simulator result.
+            qubit: Qubit to plot trajectory of.
+
+        Returns:
+            :py:class:`matplotlib.figure.Figure`
+        """
+        if hasattr(result.data, "qubits") and hasattr(result.data, "times"):
+            times = result.data.times
+            qubits = result.data.qubits
+            x, y, z = PulseSimulator._xyz(result)
+            if len(qubits) > 1:
                 if qubit:
                     x, y, z = x[qubit], y[qubit], z[qubit]
                 else:
                     raise CasqError(
-                        "Cannot plot Bloch trajectory when qubit is not specified for a multi-qubit system."
+                        "Cannot plot Bloch trajectory "
+                        "when qubit is not specified for a multi-qubit system."
                     )
             x_config = LineConfig(
-                x=self.times, y=x, line_style=LineStyle(), label="$\\langle X \\rangle$", xtitle="$t$"
+                x=times,
+                y=x,
+                line_style=LineStyle(),
+                label="$\\langle X \\rangle$",
+                xtitle="$t$",
             )
             y_config = LineConfig(
-                x=self.times, y=y, line_style=LineStyle(), label="$\\langle Y \\rangle$", xtitle="$t$"
+                x=times,
+                y=y,
+                line_style=LineStyle(),
+                label="$\\langle Y \\rangle$",
+                xtitle="$t$",
             )
             z_config = LineConfig(
-                x=self.times, y=z, line_style=LineStyle(), label="$\\langle Z \\rangle$", xtitle="$t$"
+                x=times,
+                y=z,
+                line_style=LineStyle(),
+                label="$\\langle Z \\rangle$",
+                xtitle="$t$",
             )
-            plot(data=[x_config, y_config, z_config], legend_style=LegendStyle())
+            return plot(data=[x_config, y_config, z_config], legend_style=LegendStyle())
+        else:
+            raise CasqError(
+                "PulseSimulator.plot_trajectory method requires "
+                "an ExperimentResult instance generated by PulseSimulator"
+            )
 
-        def plot_bloch_trajectory(self, qubit: Optional[int] = None):
-            x, y, z = self._xyz()
-            if len(self.qubits) > 1:
+    @staticmethod
+    def plot_bloch_trajectory(
+            result: ExperimentResult, qubit: Optional[int] = None
+    ) -> Figure:
+        """PulseSimulator.plot_bloch_trajectory method.
+
+        Plots statevector trajectory on Bloch sphere from result.
+
+        Args:
+            result: Pulse simulator result.
+            qubit: Qubit to plot trajectory of.
+
+        Returns:
+            :py:class:`matplotlib.figure.Figure`
+        """
+        if hasattr(result.data, "qubits"):
+            qubits = result.data.qubits
+            x, y, z = PulseSimulator._xyz(result)
+            if len(qubits) > 1:
                 if qubit:
                     x, y, z = x[qubit], y[qubit], z[qubit]
                 else:
                     raise CasqError(
-                        "Cannot plot Bloch trajectory when qubit is not specified for a multi-qubit system."
+                        "Cannot plot Bloch trajectory "
+                        "when qubit is not specified for a multi-qubit system."
                     )
-            plot_bloch(x, y, z)
+            return plot_bloch(x, y, z)
+        else:
+            raise CasqError(
+                "PulseSimulator.plot_bloch_trajectory method requires "
+                "an ExperimentResult instance generated by PulseSimulator"
+            )
 
-        def _xyz(
-            self
-        ) -> Union[
-            tuple[list[float], list[float], list[float]],
-            tuple[dict[int, list[float]], dict[int, list[float]], dict[int, list[float]]]
-        ]:
-            if len(self.qubits) > 1:
-                x = {}
-                y = {}
-                z = {}
-                for q in self.qubits:
-                    x[q] = []
-                    y[q] = []
-                    z[q] = []
-                    for sv in self.statevectors:
-                        traced_sv = self._trace(sv, q)
+    @staticmethod
+    def _xyz(
+            result: ExperimentResult,
+    ) -> Union[
+        tuple[list[float], list[float], list[float]],
+        tuple[dict[int, list[float]], dict[int, list[float]], dict[int, list[float]]],
+    ]:
+        """PulseSimulator._xyz method.
+
+        Transforms statevectors into 3D trajectory from result.
+
+        Args:
+            result: Pulse simulator result.
+
+        Returns:
+            XYZ data lists or dict of lists.
+        """
+        if hasattr(result.data, "qubits") and hasattr(result.data, "statevectors"):
+            statevectors = result.data.statevectors
+            qubits = result.data.qubits
+            if len(qubits) > 1:
+                xq: dict[int, list] = {}
+                yq: dict[int, list] = {}
+                zq: dict[int, list] = {}
+                for q in qubits:
+                    xq[q] = []
+                    yq[q] = []
+                    zq[q] = []
+                    for sv in statevectors:
+                        traced_sv = PulseSimulator._trace(qubits, sv, q)
                         xp, yp, zp = traced_sv.data.real
-                        x[q].append(xp)
-                        y[q].append(yp)
-                        z[q].append(zp)
-                return x, y, z
+                        xq[q].append(xp)
+                        yq[q].append(yp)
+                        zq[q].append(zp)
+                return xq, yq, zq
             else:
-                x = []
-                y = []
-                z = []
-                for sv in self.statevectors:
+                xsv: list[float] = []
+                ysv: list[float] = []
+                zsv: list[float] = []
+                for sv in statevectors:
                     xp, yp, zp = sv.data.real
-                    x.append(xp)
-                    y.append(yp)
-                    z.append(zp)
-                return x, y, z
+                    xsv.append(xp)
+                    ysv.append(yp)
+                    zsv.append(zp)
+                return xsv, ysv, zsv
+        else:
+            raise CasqError(
+                "PulseSimulator._xyz method requires "
+                "an ExperimentResult instance generated by PulseSimulator"
+            )
 
-        def _trace(self, state: Statevector, qubit: int) -> Statevector:
-            traced_over_qubits = self.qubits
-            traced_over_qubits.remove(qubit)
-            partial_density_matrix = partial_trace(state, traced_over_qubits)
-            return partial_density_matrix.to_statevector()
+    @staticmethod
+    def _trace(qubits: list[int], state: Statevector, qubit: int) -> Statevector:
+        """PulseSimulator._trace method.
+
+        Generate partial trace of statevector for specified qubit.
+
+        Args:
+            qubits: List of qubits for system.
+            state: System state given as statevector.
+            qubit: Qubit to trace out.
+
+        Returns:
+            Reduced statevector.
+        """
+        traced_over_qubits = qubits
+        traced_over_qubits.remove(qubit)
+        partial_density_matrix = partial_trace(state, traced_over_qubits)
+        return partial_density_matrix.to_statevector()
 
     @staticmethod
     def get_experiment_result(
@@ -245,19 +359,21 @@ class PulseSimulator(DynamicsBackend):
             backend: DynamicsBackend,
             seed: Optional[int] = None,
             metadata: Optional[dict] = None,
-    ) -> Solution:
+    ) -> ExperimentResult:
         """Generates ExperimentResult objects from solver result.
 
         Args:
             experiment_name: Name of experiment.
             solver_result: Result object from :class:`Solver.solve`.
             measurement_subsystems: Labels of subsystems in the model being measured.
-            memory_slot_indices: Indices of memory slots to store the results in for each subsystem.
-            num_memory_slots: Total number of memory slots in the returned output. If ``None``,
-                ``max(memory_slot_indices)`` will be used.
-            backend: The backend instance that ran the simulation. Various options and properties
-                are utilized.
-            seed: Seed for any random number generation involved (e.g. when computing outcome samples).
+            memory_slot_indices: Indices of memory slots
+                to store the results in for each subsystem.
+            num_memory_slots: Total number of memory slots in the returned output.
+                If ``None``, ``max(memory_slot_indices)`` will be used.
+            backend: The backend instance that ran the simulation.
+                Various options and properties are utilized.
+            seed: Seed for any random number generation involved
+                (e.g. when computing outcome samples).
             metadata: Metadata to add to the header of the
                 :class:`~qiskit.result.models.ExperimentResult` object.
 
@@ -277,7 +393,11 @@ class PulseSimulator(DynamicsBackend):
             # Take state out of frame, put in dressed basis, and normalize
             if isinstance(y, Statevector):
                 # noinspection PyTypeChecker
-                y = np.array(backend.options.solver.model.rotating_frame.state_out_of_frame(t=t, y=y))
+                y = np.array(
+                    backend.options.solver.model.rotating_frame.state_out_of_frame(
+                        t=t, y=y
+                    )
+                )
                 y = backend._dressed_states_adjoint @ y
                 y = Statevector(y, dims=backend.options.subsystem_dims)
                 if backend.options.normalize_states:
@@ -285,7 +405,9 @@ class PulseSimulator(DynamicsBackend):
             elif isinstance(y, DensityMatrix):
                 # noinspection PyTypeChecker
                 y = np.array(
-                    backend.options.solver.model.rotating_frame.operator_out_of_frame(t=t, operator=y)
+                    backend.options.solver.model.rotating_frame.operator_out_of_frame(
+                        t=t, operator=y
+                    )
                 )
                 y = backend._dressed_states_adjoint @ y @ backend._dressed_states
                 y = DensityMatrix(y, dims=backend.options.subsystem_dims)
@@ -296,7 +418,8 @@ class PulseSimulator(DynamicsBackend):
             quantum_states.append(y)
             # compute probabilities for measurement slot values
             measurement_subsystems = [
-                backend.options.subsystem_labels.index(x) for x in measurement_subsystems
+                backend.options.subsystem_labels.index(x)
+                for x in measurement_subsystems
             ]
             populations_step = _get_memory_slot_probabilities(
                 probability_dict=y.probabilities_dict(qargs=measurement_subsystems),
@@ -306,15 +429,20 @@ class PulseSimulator(DynamicsBackend):
             )
             populations.append(populations_step)
             # sample
-            samples_step = _sample_probability_dict(populations_step, shots=backend.options.shots, seed=seed)
+            samples_step = _sample_probability_dict(
+                populations_step, shots=backend.options.shots, seed=seed
+            )
             samples.append(samples_step)
             counts.append(_get_counts_from_samples(samples_step))
             # Default iq_centers
             iq_centers = []
             for sub_dim in backend.options.subsystem_dims:
-                theta = 2 * jnp.pi / sub_dim
+                theta = 2 * np.pi / sub_dim
                 iq_centers.append(
-                    [[jnp.cos(idx * theta), jnp.sin(idx * theta)] for idx in range(sub_dim)]
+                    [
+                        [np.cos(idx * theta), np.sin(idx * theta)]
+                        for idx in range(sub_dim)
+                    ]
                 )
             # generate IQ
             iq_data_step = _get_iq_data(
@@ -328,26 +456,91 @@ class PulseSimulator(DynamicsBackend):
                 seed=seed,
             )
             iq_data.append(iq_data_step)
-            avg_iq_data_step = jnp.average(iq_data_step, axis=0)
+            avg_iq_data_step = np.average(iq_data_step, axis=0)
             avg_iq_data.append(avg_iq_data_step)
         data = ExperimentResultData(
-            counts=counts, memory=samples,
-            qubits=backend.options.subsystem_labels, times=solver_result.t,
-            statevectors=quantum_states, populations=populations,
-            iq_data=iq_data, avg_iq_data=avg_iq_data
+            counts=counts,
+            memory=samples,
+            qubits=backend.options.subsystem_labels,
+            times=solver_result.t,
+            statevectors=quantum_states,
+            populations=populations,
+            iq_data=iq_data,
+            avg_iq_data=avg_iq_data,
         )
-        return PulseSimulator.Solution(
-            shots=backend.options.shots, success=True, data=data,
-            seed=seed, header=QobjExperimentHeader(name=experiment_name, metadata=metadata)
+        return ExperimentResult(
+            shots=backend.options.shots,
+            success=True,
+            data=data,
+            seed=seed,
+            header=QobjExperimentHeader(name=experiment_name, metadata=metadata),
+        )
+
+    @classmethod
+    def from_backend(
+        cls,
+        backend: Union[str, BackendV1, BackendV2],
+        rotating_frame: Optional[Union[Array, RotatingFrame, str]] = "auto",
+        evaluation_mode: str = "dense",
+        rwa_cutoff_freq: Optional[float] = None,
+        qubits: Optional[list[int]] = None,
+        initial_state: Optional[Union[DensityMatrix, Statevector]] = None,
+        method: Optional[PulseSimulator.ODESolverMethod] = None,
+        steps: Optional[int] = None,
+        shots: int = 1024,
+        seed: Optional[int] = None,
+        solver_options: Optional[dict[str, Any]] = None
+    ) -> PulseSimulator:
+        """Construct a PulseSimulator instance from an existing Backend instance.
+
+        Args:
+            backend: The ``Backend`` instance to build the :class:`.PulseSimulator` from.
+            rotating_frame: Rotating frame argument for the internal :class:`.Solver`. Defaults to
+                ``"auto"``, allowing this method to pick a rotating frame.
+            evaluation_mode: Evaluation mode argument for the internal :class:`.Solver`.
+            rwa_cutoff_freq: Rotating wave approximation argument for the internal :class:`.Solver`.
+            qubits: Integer labels for selected qubits from system. Defaults to [0].
+            initial_state: Initial state for simulation, an arbitrary Statevector or DensityMatrix.
+                If None, then defaults to the ground state for the system Hamiltonian.
+            method: ODE solver method.
+            steps: Number of steps at which to solve the system.
+                Used to automatically calculate an evenly-spaced t_eval range.
+            shots: Number of shots per experiment. Defaults to 1024.
+            seed: Seed to use in random sampling. Defaults to None.
+            solver_options: Dictionary containing optional kwargs for passing to Solver.solve().
+                Defaults to the empty dictionary {}.
+
+        Returns:
+            PulseSimulator
+        """
+        if isinstance(backend, str):
+            backend = PulseBackendProperties.get_backend(backend)
+        if solver_options:
+            solver_options.update(method=method.value)
+        else:
+            solver_options = {"method": method.value}
+        dynamics_backend = DynamicsBackend.from_backend(
+            backend, subsystem_list=qubits, rotating_frame=rotating_frame,
+            evaluation_mode=evaluation_mode, rwa_cutoff_freq=rwa_cutoff_freq,
+            solver_options=solver_options
+        )
+        return PulseSimulator(
+            solver=dynamics_backend.options.solver, qubits=qubits,
+            initial_state=initial_state, method=method,
+            steps=steps, shots=shots, seed=seed, backend=backend
         )
 
     @trace()
     def __init__(
-        self,
-        solver: Solver,
-        target: Optional[Target] = None,
-        steps: Optional[int] = None,
-        **options,
+            self,
+            solver: Solver,
+            qubits: Optional[list[int]] = None,
+            initial_state: Optional[Union[DensityMatrix, Statevector]] = None,
+            method: Optional[PulseSimulator.ODESolverMethod] = None,
+            steps: Optional[int] = None,
+            shots: int = 1024,
+            seed: Optional[int] = None,
+            backend: Optional[BackendV1] = None
     ):
         """Instantiate :class:`~casq.PulseSimulator`.
 
@@ -356,16 +549,41 @@ class PulseSimulator(DynamicsBackend):
 
         Args:
             solver: Solver instance configured for pulse simulation.
-            target: Target object.
-            options: Additional configuration options for the simulator.
+            qubits: Integer labels for selected qubits from system. Defaults to [0].
+            initial_state: Initial state for simulation, an arbitrary Statevector or DensityMatrix.
+                If None, then defaults to the ground state for the system Hamiltonian.
+            method: ODE solver method.
             steps: Number of steps at which to solve the system.
                 Used to automatically calculate an evenly-spaced t_eval range.
+            shots: Number of shots per experiment. Defaults to 1024.
+            seed: Seed to use in random sampling. Defaults to None.
+            backend: Optional backend used to construct simulator.
 
         Raises:
             QiskitError: If any instantiation arguments fail validation checks.
         """
-        super().__init__(solver, target, **options)
+        if qubits is None:
+            qubits = [0]
+        if initial_state is None:
+            initial_state = "ground_state"
+        if method is None:
+            solver_options = {}
+        else:
+            solver_options = {"method": method.value}
+        super().__init__(
+            solver=solver, target=None, subsystem_labels=qubits,
+            initial_state=initial_state, shots=shots,
+            seed_simulator=seed, solver_options=solver_options,
+            experiment_result_function=PulseSimulator.get_experiment_result
+        )
+        self.solver = solver
+        self.qubits = qubits
+        self.initial_state = initial_state
+        self.method = method
         self.steps = steps
+        self.shots = shots
+        self.seed = seed
+        self.backend = backend
 
     def _run(
             self,
@@ -378,9 +596,9 @@ class PulseSimulator(DynamicsBackend):
     ) -> Result:
         auto_t_eval = None
         if self.steps:
-            auto_t_eval = jnp.linspace(t_span[0], t_span[1], self.steps)
-            auto_t_eval[0] = t_span[0]
-            auto_t_eval[-1] = t_span[1]
+            auto_t_eval = np.linspace(t_span[0][0], t_span[0][1], self.steps)
+            auto_t_eval[0] = t_span[0][0]
+            auto_t_eval[-1] = t_span[0][1]
         if "solver_options" in self.options:
             t_eval = self.options.solver_options.get("t_eval", None)
             if t_eval is None:
@@ -390,7 +608,10 @@ class PulseSimulator(DynamicsBackend):
         else:
             self.options.solver_options = {"t_eval": auto_t_eval}
         return super()._run(
-            job_id, t_span, schedules,
-            measurement_subsystems_list, memory_slot_indices_list,
-            num_memory_slots_list
+            job_id,
+            t_span,
+            schedules,
+            measurement_subsystems_list,
+            memory_slot_indices_list,
+            num_memory_slots_list,
         )

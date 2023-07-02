@@ -20,18 +20,21 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  ********************************************************************************
+"""Gaussian square pulse gate."""
 from __future__ import annotations
 
 from typing import Optional
 
+from loguru import logger
 from qiskit.pulse import GaussianSquare
 from qiskit.pulse.library import Pulse
+
 # noinspection PyProtectedMember
-from qiskit.pulse.library.symbolic_pulses import _lifted_gaussian, ScalableSymbolicPulse
+from qiskit.pulse.library.symbolic_pulses import ScalableSymbolicPulse, _lifted_gaussian
 import sympy as sym
 
 from casq.common import trace
-from casq.gates import PulseGate
+from casq.gates.pulse_gate import PulseGate
 
 
 class GaussianSquarePulseGate(PulseGate):
@@ -42,7 +45,8 @@ class GaussianSquarePulseGate(PulseGate):
     Args:
         duration: Pulse length in terms of the sampling period dt.
         amplitude: The magnitude of the amplitude of the Gaussian and square pulse.
-        sigma: A measure of how wide or narrow the Gaussian risefall is, i.e. its standard deviation.
+        sigma: A measure of how wide or narrow the Gaussian risefall is,
+            i.e. its standard deviation.
         width: The duration of the embedded square pulse.
         angle: The angle of the complex amplitude of the pulse. Default value 0.
         risefall_sigma_ratio: The ratio of each risefall duration to sigma.
@@ -54,10 +58,16 @@ class GaussianSquarePulseGate(PulseGate):
 
     @trace()
     def __init__(
-        self, duration: int, amplitude: float, sigma: float,
-        width: Optional[float] = None, angle: float = 0,
-        risefall_sigma_ratio: Optional[float] = None, limit_amplitude: bool = True,
-        jax: bool = False, name: Optional[str] = None
+        self,
+        duration: int,
+        amplitude: float,
+        sigma: float,
+        width: float,
+        angle: float = 0,
+        risefall_sigma_ratio: Optional[float] = None,
+        limit_amplitude: bool = True,
+        jax: bool = False,
+        name: Optional[str] = None,
     ) -> None:
         """Initialize GaussianPulseGate."""
         super().__init__(1, duration, jax, name)
@@ -78,15 +88,21 @@ class GaussianSquarePulseGate(PulseGate):
             :py:class:`qiskit.pulse.library.Pulse`
         """
         if self.jax:
-            _t, _duration, _amp, _sigma, _width, _angle = sym.symbols("t, duration, amp, sigma, width, angle")
+            _t, _duration, _amp, _sigma, _width, _angle = sym.symbols(
+                "t, duration, amp, sigma, width, angle"
+            )
             _center = _duration / 2
             _sq_t0 = _center - _width / 2
             _sq_t1 = _center + _width / 2
             _gaussian_ledge = _lifted_gaussian(_t, _sq_t0, -1, _sigma)
             _gaussian_redge = _lifted_gaussian(_t, _sq_t1, _duration + 1, _sigma)
             envelope_expr = (
-                _amp * sym.exp(sym.I * _angle) * sym.Piecewise(
-                    (_gaussian_ledge, _t <= _sq_t0), (_gaussian_redge, _t >= _sq_t1), (1, True)
+                _amp
+                * sym.exp(sym.I * _angle)
+                * sym.Piecewise(
+                    (_gaussian_ledge, _t <= _sq_t0),
+                    (_gaussian_redge, _t >= _sq_t1),
+                    (1, True),
                 )
             )
             # noinspection PyTypeChecker

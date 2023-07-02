@@ -42,6 +42,7 @@ mypy = "^1.3.0"
 pre-commit = "^3.3.2"
 pytest-cov = "^4.1.0"
 pytest-mock = "^3.7.0"
+ruff = "^0.0.275"
 testbook = "^0.4.2"
 tox = "^4.5.2"
 xdoctest = "^1.1.1"
@@ -74,7 +75,15 @@ show_error_codes = true
 explicit_package_bases = true
 
 [[tool.mypy.overrides]]
-module = ["matplotlib.*", "qiskit.*", "qiskit_dynamics.*", "wonderwords.*"]
+module = [
+    "matplotlib.*",
+    "qiskit.*",
+    "qiskit_dynamics.*",
+    "qiskit_ibm_provider.*",
+    "qutip.*",
+    "scipy.*",
+    "wonderwords.*"
+]
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]
@@ -83,6 +92,16 @@ python_files = "*_test.py"
 python_functions = "test_*"
 addopts = "--capture=tee-sys --cov=src --cov-report term-missing --xdoctest tests"
 filterwarnings = "ignore::DeprecationWarning"
+
+[tool.ruff]
+extend-exclude = [".pytest_cache", "docs/*"]
+# extend-ignore = ["E203"]
+# ignore = ["D100", "D107", "D205", "D212", "D415"]
+select = ["D"]
+target-version = "py311"
+
+[tool.ruff.pydocstyle]
+convention = "google"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

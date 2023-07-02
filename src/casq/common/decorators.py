@@ -20,6 +20,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  ********************************************************************************
+"""Common decorator functions used by library."""
 from __future__ import annotations
 
 import functools
@@ -89,7 +90,9 @@ def timer(*, level: str = "DEBUG", unit: str = "msec") -> Any:
             result = func(*args, **kwargs)
             end = time.perf_counter()
             if unit.lower() == "sec":
-                logger_.log(level, "Executed [{}] in {:.3f} seconds.", name, end - start)
+                logger_.log(
+                    level, "Executed [{}] in {:.3f} seconds.", name, end - start
+                )
             else:
                 logger_.log(
                     level,

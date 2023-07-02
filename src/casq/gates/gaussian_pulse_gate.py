@@ -20,18 +20,20 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  ********************************************************************************
+"""Gaussian pulse gate."""
 from __future__ import annotations
 
 from typing import Optional
 
 from qiskit.pulse import Gaussian
 from qiskit.pulse.library import Pulse
+
 # noinspection PyProtectedMember
-from qiskit.pulse.library.symbolic_pulses import _lifted_gaussian, ScalableSymbolicPulse
+from qiskit.pulse.library.symbolic_pulses import ScalableSymbolicPulse, _lifted_gaussian
 import sympy as sym
 
 from casq.common import trace
-from casq.gates import PulseGate
+from casq.gates.pulse_gate import PulseGate
 
 
 class GaussianPulseGate(PulseGate):
@@ -42,7 +44,8 @@ class GaussianPulseGate(PulseGate):
     Args:
         duration: Pulse length in terms of the sampling period dt.
         amplitude: The magnitude of the amplitude of the Gaussian and square pulse.
-        sigma: A measure of how wide or narrow the Gaussian risefall is, i.e. its standard deviation.
+        sigma: A measure of how wide or narrow the Gaussian risefall is,
+            i.e. its standard deviation.
         angle: The angle of the complex amplitude of the pulse. Default value 0.
         limit_amplitude: If True, then limit the amplitude of the waveform to 1.
             The default is True and the amplitude is constrained to 1.
@@ -52,9 +55,14 @@ class GaussianPulseGate(PulseGate):
 
     @trace()
     def __init__(
-        self, duration: int, amplitude: float, sigma: float,
-        angle: float = 0, limit_amplitude: bool = True,
-        jax: bool = False, name: Optional[str] = None
+        self,
+        duration: int,
+        amplitude: float,
+        sigma: float,
+        angle: float = 0,
+        limit_amplitude: bool = True,
+        jax: bool = False,
+        name: Optional[str] = None,
     ) -> None:
         """Initialize GaussianPulseGate."""
         super().__init__(1, duration, jax, name)
@@ -73,10 +81,14 @@ class GaussianPulseGate(PulseGate):
             :py:class:`qiskit.pulse.library.Pulse`
         """
         if self.jax:
-            _t, _duration, _amp, _sigma, _angle = sym.symbols("t, duration, amp, sigma, angle")
+            _t, _duration, _amp, _sigma, _angle = sym.symbols(
+                "t, duration, amp, sigma, angle"
+            )
             _center = _duration / 2
             envelope_expr = (
-                _amp * sym.exp(sym.I * _angle) * _lifted_gaussian(_t, _center, _duration + 1, _sigma)
+                _amp
+                * sym.exp(sym.I * _angle)
+                * _lifted_gaussian(_t, _center, _duration + 1, _sigma)
             )
             return ScalableSymbolicPulse(
                 pulse_type=self.name,

@@ -20,6 +20,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  ********************************************************************************
+"""Decorator tests."""
 from __future__ import annotations
 
 from pytest import LogCaptureFixture

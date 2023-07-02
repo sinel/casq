@@ -20,7 +20,10 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  ********************************************************************************
-from casq.gates.pulse_gate import PulseGate
+"""Collecting gates package imports in one place for convenient access."""
+from casq.gates.drag_pulse_gate import DragPulseGate
 from casq.gates.gaussian_pulse_gate import GaussianPulseGate
 from casq.gates.gaussian_square_pulse_gate import GaussianSquarePulseGate
-from casq.gates.drag_pulse_gate import DragPulseGate
+from casq.gates.pulse_gate import PulseGate
+
+__all__ = ["DragPulseGate", "GaussianPulseGate", "GaussianSquarePulseGate", "PulseGate"]
