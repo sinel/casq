@@ -20,13 +20,12 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  ********************************************************************************
-"""Gaussian square pulse gate."""
+"""Gaussian pulse gate."""
 from __future__ import annotations
 
 from typing import Optional
 
-from loguru import logger
-from qiskit.pulse import GaussianSquare
+from qiskit.pulse import Gaussian
 from qiskit.pulse.library import Pulse
 
 # noinspection PyProtectedMember
@@ -34,11 +33,11 @@ from qiskit.pulse.library.symbolic_pulses import ScalableSymbolicPulse, _lifted_
 import sympy as sym
 
 from casq.common import trace
-from casq.gates.pulse_gate import PulseGate
+from casq.circuit.pulse_gate import PulseGate
 
 
-class GaussianSquarePulseGate(PulseGate):
-    """GaussianSquarePulseGate class.
+class GaussianPulseGate(PulseGate):
+    """GaussianPulseGate class.
 
     Note: Currently only single qubit gates are supported.
 
@@ -47,9 +46,7 @@ class GaussianSquarePulseGate(PulseGate):
         amplitude: The magnitude of the amplitude of the Gaussian and square pulse.
         sigma: A measure of how wide or narrow the Gaussian risefall is,
             i.e. its standard deviation.
-        width: The duration of the embedded square pulse.
         angle: The angle of the complex amplitude of the pulse. Default value 0.
-        risefall_sigma_ratio: The ratio of each risefall duration to sigma.
         limit_amplitude: If True, then limit the amplitude of the waveform to 1.
             The default is True and the amplitude is constrained to 1.
         jax: If True, use JAX-enabled implementation.
@@ -62,9 +59,7 @@ class GaussianSquarePulseGate(PulseGate):
         duration: int,
         amplitude: float,
         sigma: float,
-        width: float,
         angle: float = 0,
-        risefall_sigma_ratio: Optional[float] = None,
         limit_amplitude: bool = True,
         jax: bool = False,
         name: Optional[str] = None,
@@ -73,9 +68,7 @@ class GaussianSquarePulseGate(PulseGate):
         super().__init__(1, duration, jax, name)
         self.amplitude = amplitude
         self.sigma = sigma
-        self.width = width
         self.angle = angle
-        self.risefall_sigma_ratio = risefall_sigma_ratio
         self.limit_amplitude = limit_amplitude
 
     @trace()
@@ -88,44 +81,33 @@ class GaussianSquarePulseGate(PulseGate):
             :py:class:`qiskit.pulse.library.Pulse`
         """
         if self.jax:
-            _t, _duration, _amp, _sigma, _width, _angle = sym.symbols(
-                "t, duration, amp, sigma, width, angle"
+            _t, _duration, _amp, _sigma, _angle = sym.symbols(
+                "t, duration, amp, sigma, angle"
             )
             _center = _duration / 2
-            _sq_t0 = _center - _width / 2
-            _sq_t1 = _center + _width / 2
-            _gaussian_ledge = _lifted_gaussian(_t, _sq_t0, -1, _sigma)
-            _gaussian_redge = _lifted_gaussian(_t, _sq_t1, _duration + 1, _sigma)
             envelope_expr = (
                 _amp
                 * sym.exp(sym.I * _angle)
-                * sym.Piecewise(
-                    (_gaussian_ledge, _t <= _sq_t0),
-                    (_gaussian_redge, _t >= _sq_t1),
-                    (1, True),
-                )
+                * _lifted_gaussian(_t, _center, _duration + 1, _sigma)
             )
-            # noinspection PyTypeChecker
-            # Suppress warning for constraints argument in ScalableSymbolicPulse
             return ScalableSymbolicPulse(
                 pulse_type=self.name,
                 duration=self.duration,
                 amp=self.amplitude,
                 angle=self.angle,
-                parameters={"sigma": self.sigma, "width": self.width},
+                limit_amplitude=self.limit_amplitude,
+                parameters={"sigma": self.sigma},
                 envelope=envelope_expr,
-                constraints=sym.And(_sigma > 0, _width >= 0, _duration >= _width),
+                constraints=_sigma > 0,
                 valid_amp_conditions=sym.Abs(_amp) <= 1.0,
                 name=self.name,
             )
         else:
-            return GaussianSquare(
+            return Gaussian(
                 duration=self.duration,
                 amp=self.amplitude,
                 sigma=self.sigma,
-                width=self.width,
                 angle=self.angle,
-                risefall_sigma_ratio=self.risefall_sigma_ratio,
                 limit_amplitude=self.limit_amplitude,
                 name=self.name,
             )

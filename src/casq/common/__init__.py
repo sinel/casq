@@ -23,7 +23,9 @@
 """Collecting common package imports in one place for convenient access."""
 from casq.common.decorators import timer, trace
 from casq.common.exceptions import CasqError
-from casq.common.helpers import dbid, initialize_jax, ufid
+from casq.common.helpers import (
+    dbid, discretize, get_channel_frequencies, initialize_jax, ufid
+)
 from casq.common.plotting import (
     LegendLocation,
     LegendStyle,
@@ -46,6 +48,8 @@ __all__ = [
     "trace",
     "CasqError",
     "dbid",
+    "discretize",
+    "get_channel_frequencies",
     "initialize_jax",
     "ufid",
     "LegendLocation",

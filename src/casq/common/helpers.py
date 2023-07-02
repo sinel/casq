@@ -23,12 +23,21 @@
 """Common helper functions used by library."""
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Union
 from uuid import uuid4
 
 import jax
 from qiskit_dynamics.array import Array
 from wonderwords import RandomWord
+
+from loguru import logger
+from qiskit.pulse import Schedule
+from qiskit.pulse.channels import Channel, ControlChannel, DriveChannel, MeasureChannel
+from qiskit_dynamics import Signal
+from qiskit_dynamics.pulse import InstructionToSignals
+
+from casq import PulseBackendProperties
+from casq.common import CasqError
 
 
 def dbid() -> str:
@@ -61,3 +70,82 @@ def initialize_jax() -> None:
     jax.config.update("jax_enable_x64", True)
     jax.config.update("jax_platform_name", "cpu")
     Array.set_default_backend("jax")
+
+
+def discretize(
+    schedule: Schedule, dt: float, channel_frequencies: dict[str, float]
+) -> list[Signal]:
+    """Discretizes pulse schedule into signals.
+
+    Args:
+        schedule: Pulse schedule.
+        dt: Time interval.
+        channel_frequencies: Channel frequencies.
+
+    Returns:
+        List of :py:class:`qiskit_dynamics.signals.Signal`
+    """
+    converter = InstructionToSignals(
+        dt, carriers=channel_frequencies, channels=list(channel_frequencies.keys())
+    )
+    signals: list[Signal] = converter.get_signals(schedule)
+    return signals
+
+
+def get_channel_frequencies(
+    channels: Union[list[str], list[Channel]], props: PulseBackendProperties
+) -> dict[str, float]:
+    """Discretizes pulse schedule into signals.
+
+    Args:
+        channels: List of channel names or channel instances.
+        props: Backend properties.
+
+    Returns:
+        List of :py:class:`qiskit_dynamics.signals.Signal`
+    """
+    drive_channels = []
+    control_channels = []
+    measure_channels = []
+    if isinstance(channels[0], str):
+        for channel in channels:
+            if channel[0] == "d":
+                drive_channels.append(DriveChannel(int(channel[1:])))
+            elif channel[0] == "u":
+                control_channels.append(ControlChannel(int(channel[1:])))
+            elif channel[0] == "m":
+                measure_channels.append(MeasureChannel(int(channel[1:])))
+            else:
+                logger.warning(f"Unrecognized channel [{channel}] requested.")
+    else:
+        for channel in channels:
+            if isinstance(channel, DriveChannel):
+                drive_channels.append(channel)
+            elif isinstance(channel, ControlChannel):
+                control_channels.append(channel)
+            elif isinstance(channel, MeasureChannel):
+                measure_channels.append(channel)
+            else:
+                logger.warning(f"Unrecognized channel [{channel}] requested.")
+    channel_freqs = {}
+    drive_frequencies = props.qubit_frequencies
+    for channel in drive_channels:
+        if channel.index >= len(drive_frequencies):
+            raise CasqError(f"DriveChannel index {channel.index} is out of bounds.")
+        channel_freqs[channel.name] = drive_frequencies[channel.index]
+    for channel in control_channels:
+        if channel.index >= len(props.control_channel_lo):
+            raise CasqError(f"ControlChannel index {channel.index} is out of bounds.")
+        freq = 0.0
+        for channel_lo in props.control_channel_lo[channel.index]:
+            freq += drive_frequencies[channel_lo.q] * channel_lo.scale
+        channel_freqs[channel.name] = freq
+    if measure_channels:
+        measure_frequencies = props.measurement_frequencies
+        for channel in measure_channels:
+            if channel.index >= len(measure_frequencies):
+                raise CasqError(
+                    f"MeasureChannel index {channel.index} is out of bounds."
+                )
+            channel_freqs[channel.name] = measure_frequencies[channel.index]
+    return channel_freqs

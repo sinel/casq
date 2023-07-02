@@ -51,7 +51,7 @@ from qiskit_dynamics.backend.backend_utils import (
 # noinspection PyProtectedMember
 from scipy.integrate._ivp.ivp import OdeResult
 
-from casq.helpers import PulseBackendProperties
+from casq.pulse_backend_properties import PulseBackendProperties
 from casq.common import (
     CasqError,
     LegendStyle,
@@ -527,7 +527,8 @@ class PulseSimulator(DynamicsBackend):
         return PulseSimulator(
             solver=dynamics_backend.options.solver, qubits=qubits,
             initial_state=initial_state, method=method,
-            steps=steps, shots=shots, seed=seed, backend=backend
+            steps=steps, shots=shots, seed=seed,
+            solver_options=solver_options, backend=backend
         )
 
     @trace()
@@ -540,6 +541,7 @@ class PulseSimulator(DynamicsBackend):
             steps: Optional[int] = None,
             shots: int = 1024,
             seed: Optional[int] = None,
+            solver_options: Optional[dict[str, Any]] = None,
             backend: Optional[BackendV1] = None
     ):
         """Instantiate :class:`~casq.PulseSimulator`.
@@ -557,6 +559,8 @@ class PulseSimulator(DynamicsBackend):
                 Used to automatically calculate an evenly-spaced t_eval range.
             shots: Number of shots per experiment. Defaults to 1024.
             seed: Seed to use in random sampling. Defaults to None.
+            solver_options: Dictionary containing optional kwargs for passing to Solver.solve().
+                Defaults to the empty dictionary {}.
             backend: Optional backend used to construct simulator.
 
         Raises:
@@ -566,10 +570,14 @@ class PulseSimulator(DynamicsBackend):
             qubits = [0]
         if initial_state is None:
             initial_state = "ground_state"
-        if method is None:
-            solver_options = {}
+        if solver_options:
+            if method is not None:
+                solver_options.update(method=method.value)
         else:
-            solver_options = {"method": method.value}
+            if method is None:
+                solver_options = {}
+            else:
+                solver_options = {"method": method.value}
         super().__init__(
             solver=solver, target=None, subsystem_labels=qubits,
             initial_state=initial_state, shots=shots,

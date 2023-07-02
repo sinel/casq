@@ -34,8 +34,11 @@ from qiskit.pulse.library import Pulse
 from qiskit.pulse.transforms.canonicalization import block_to_schedule
 from qiskit_dynamics import Signal
 
-from casq.common import CasqError, dbid, plot_signal, trace, ufid
-from casq.helpers import discretize, get_channel_frequencies, PulseBackendProperties
+from casq.common import (
+    CasqError, dbid, discretize,
+    get_channel_frequencies, plot_signal, trace, ufid
+)
+from casq import PulseBackendProperties
 
 
 class PulseGate(Gate):
