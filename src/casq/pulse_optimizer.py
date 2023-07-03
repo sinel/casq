@@ -56,20 +56,20 @@ class PulseOptimizer:
         COUNTS = 0
 
     class OptimizationMethod(str, Enum):
-        BFGS = "BFGS"
-        CG = "CG"
-        COBYLA = "COBYLA"
-        DOGLEG = "dogleg"
-        L_BFGS_B = "L-BFGS-B"
-        NEWTON_CG = "Newton-CG"
-        NELDER_MEAD = "Nelder-Mead"
-        POWELL = "Powell"
-        SLSQP = "SLSQP"
-        TNC = "TNC"
-        TRUST_CONSTR = "trust-constr"
-        TRUST_EXACT = "trust-exact"
-        TRUST_KRYLOV = "trust-krylov"
-        TRUST_NCG = "trust-ncg"
+        SCIPY_BFGS = "BFGS"
+        SCIPY_CG = "CG"
+        SCIPY_COBYLA = "COBYLA"
+        SCIPY_DOGLEG = "dogleg"
+        SCIPY_L_BFGS_B = "L-BFGS-B"
+        SCIPY_NEWTON_CG = "Newton-CG"
+        SCIPY_NELDER_MEAD = "Nelder-Mead"
+        SCIPY_POWELL = "Powell"
+        SCIPY_SLSQP = "SLSQP"
+        SCIPY_TNC = "TNC"
+        SCIPY_TRUST_CONSTR = "trust-constr"
+        SCIPY_TRUST_EXACT = "trust-exact"
+        SCIPY_TRUST_KRYLOV = "trust-krylov"
+        SCIPY_TRUST_NCG = "trust-ncg"
 
     class FiniteDifferenceScheme(str, Enum):
         CS = "cs"
@@ -185,7 +185,7 @@ class PulseOptimizer:
             options.update(maxiter=maxiter)
         opt_results = minimize(
             fun=self.objective_function, x0=params,
-            method=PulseOptimizer.OptimizationMethod.NELDER_MEAD,
+            method=method,
             jac=jac, hess=hess, hessp=hessp,
             bounds=bounds, constraints=constraints, tol=tol,
             options=options, callback=callback
