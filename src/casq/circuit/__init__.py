@@ -21,11 +21,11 @@
 #  limitations under the License.
 #  ********************************************************************************
 """Collecting gates package imports in one place for convenient access."""
-from casq.gates.drag_pulse_gate import DragPulseGate
-from casq.gates.gaussian_pulse_gate import GaussianPulseGate
-from casq.gates.gaussian_square_pulse_gate import GaussianSquarePulseGate
-from casq.gates.pulse_gate import PulseGate
-from casq.gates.pulse_circuit import PulseCircuit
+from casq.circuit.drag_pulse_gate import DragPulseGate
+from casq.circuit.gaussian_pulse_gate import GaussianPulseGate
+from casq.circuit.gaussian_square_pulse_gate import GaussianSquarePulseGate
+from casq.circuit.pulse_gate import PulseGate
+from casq.circuit.pulse_circuit import PulseCircuit
 
 __all__ = [
     "DragPulseGate", "GaussianPulseGate", "GaussianSquarePulseGate",

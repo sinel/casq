@@ -32,7 +32,9 @@ from loguru import logger
 import numpy.typing as npt
 from qiskit.quantum_info import DensityMatrix, Statevector
 from qiskit.quantum_info.analysis import hellinger_fidelity
-from scipy.optimize import minimize
+from scipy.optimize import (
+    minimize, Bounds, HessianUpdateStrategy, LinearConstraint, NonlinearConstraint
+)
 
 from casq.pulse_simulator import PulseSimulator
 from casq.common import trace, CasqError
@@ -52,6 +54,27 @@ class PulseOptimizer:
 
     class FidelityType(Enum):
         COUNTS = 0
+
+    class OptimizationMethod(str, Enum):
+        BFGS = "BFGS"
+        CG = "CG"
+        COBYLA = "COBYLA"
+        DOGLEG = "dogleg"
+        L_BFGS_B = "L-BFGS-B"
+        NEWTON_CG = "Newton-CG"
+        NELDER_MEAD = "Nelder-Mead"
+        POWELL = "Powell"
+        SLSQP = "SLSQP"
+        TNC = "TNC"
+        TRUST_CONSTR = "trust-constr"
+        TRUST_EXACT = "trust-exact"
+        TRUST_KRYLOV = "trust-krylov"
+        TRUST_NCG = "trust-ncg"
+
+    class FiniteDifferenceScheme(str, Enum):
+        CS = "cs"
+        TWO_POINT = "2-point"
+        THREE_POINT = "3-point"
 
     class Solution(NamedTuple):
         num_iterations: int
@@ -105,26 +128,74 @@ class PulseOptimizer:
         self.pulse_function = self._build_pulse_function()
         self.objective_function = self._build_objective_function()
 
-    def optimize(self, params: npt.NDArray) -> PulseOptimizer.Solution:
+    def optimize(
+        self,
+        params: npt.NDArray,
+        method: OptimizationMethod,
+        jac: Optional[Union[bool, FiniteDifferenceScheme, Callable]] = None,
+        hess: Optional[Union[FiniteDifferenceScheme, HessianUpdateStrategy, Callable]] = None,
+        hessp: Optional[Callable] = None,
+        bounds: Optional[Union[list, Bounds]] = None,
+        constraints: Optional[
+            Union[
+                dict, list[dict],
+                LinearConstraint, list[LinearConstraint],
+                NonlinearConstraint, list[NonlinearConstraint]
+            ]
+        ] = None,
+        tol: Optional[float] = None,
+        maxiter: Optional[int] = None,
+        verbose: bool = True,
+        callback: Optional[Callable] = None
+    ) -> PulseOptimizer.Solution:
         """PulseOptimizer.optimize method.
 
         Optimize pulse.
+        This is basically a wrapper around scipy.optimize.minimize.
+        For more details, see
+        https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html
 
         Args:
             params: Pulse parameters.
+            method: Optimization method.
+            jac: Method for computing the gradient vector.
+                Only for CG, BFGS, Newton-CG, L-BFGS-B, TNC, SLSQP,
+                dogleg, trust-ncg, trust-krylov, trust-exact and trust-constr.
+            hess: Method for computing the Hessian matrix.
+                Only for Newton-CG, dogleg, trust-ncg, trust-krylov,
+                trust-exact and trust-constr.
+            hessp: Hessian of objective function times an arbitrary vector p.
+                Only for Newton-CG, trust-ncg, trust-krylov, trust-constr.
+                Only one of hessp or hess needs to be given.
+                If hess is provided, then hessp will be ignored.
+            bounds: Bounds on variables for Nelder-Mead, L-BFGS-B, TNC,
+                SLSQP, Powell, trust-constr, and COBYLA methods.
+            constraints: Constraints definition.
+                Only for COBYLA, SLSQP and trust-constr.
+            tol: Tolerance for termination.
+            maxiter: Maximum number of iterations to perform.
+            verbose: If True, print convergence messages.
+            callback: A callable called after each iteration.
 
         Returns:
             :py:class:`casq.PulseOptimizer.Solution`
         """
+        options = {"disp": verbose}
+        if maxiter:
+            options.update(maxiter=maxiter)
         opt_results = minimize(
-            fun=self.objective_function, x0=params, jac=False, method="Nelder-Mead"
+            fun=self.objective_function, x0=params,
+            method=PulseOptimizer.OptimizationMethod.NELDER_MEAD,
+            jac=jac, hess=hess, hessp=hessp,
+            bounds=bounds, constraints=constraints, tol=tol,
+            options=options, callback=callback
         )
         gate = self.pulse_function(opt_results.x)
         circuit = PulseCircuit.from_pulse(gate, self.simulator.backend, self.target_qubit)
         counts = self.simulator.run([circuit]).result().results[-1].data.counts[-1]
         return PulseOptimizer.Solution(
             num_iterations=opt_results.nfev, parameters=opt_results.x,
-            measurement=counts, fidelity=opt_results.fun,
+            measurement=counts, fidelity=1-opt_results.fun,
             gate=gate, circuit=circuit, message=opt_results.message
         )
 
@@ -144,10 +215,11 @@ class PulseOptimizer:
             result = (
                 self.simulator.run(
                     run_input=[circuit],
-                ).result().results[-1]
+                ).result().results[0]
             )
             counts = result.data.counts[-1]
             fidelity = hellinger_fidelity(self.target_measurement, counts)
+            logger.debug(f"PARAMETERS: {params} TARGET: {counts} OBJECTIVE: {1.0 - fidelity}")
             return 1.0 - fidelity
 
         if self.use_jit:

@@ -24,7 +24,7 @@
 from casq.common.decorators import timer, trace
 from casq.common.exceptions import CasqError
 from casq.common.helpers import (
-    dbid, discretize, get_channel_frequencies, initialize_jax, ufid
+    dbid, discretize, initialize_jax, ufid
 )
 from casq.common.plotting import (
     LegendLocation,
@@ -49,7 +49,6 @@ __all__ = [
     "CasqError",
     "dbid",
     "discretize",
-    "get_channel_frequencies",
     "initialize_jax",
     "ufid",
     "LegendLocation",

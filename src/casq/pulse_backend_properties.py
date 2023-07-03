@@ -25,6 +25,7 @@ from __future__ import annotations
 
 from typing import NamedTuple, Union
 
+from loguru import logger
 from qiskit.providers import BackendV1
 from qiskit.providers.models import (
     BackendProperties,
@@ -32,6 +33,7 @@ from qiskit.providers.models import (
     PulseDefaults,
 )
 from qiskit_ibm_provider import IBMProvider
+from qiskit.pulse.channels import Channel, ControlChannel, DriveChannel, MeasureChannel
 
 from casq.common import CasqError, trace
 
@@ -149,3 +151,60 @@ class PulseBackendProperties:
                 "Backend must have a properties method "
                 "which returns a 'qiskit.providers.models.BackendProperties' instance."
             )
+
+    def get_channel_frequencies(
+        self, channels: Union[list[str], list[Channel]]
+    ) -> dict[str, float]:
+        """Discretizes pulse schedule into signals.
+
+        Args:
+            channels: List of channel names or channel instances.
+
+        Returns:
+            List of :py:class:`qiskit_dynamics.signals.Signal`
+        """
+        drive_channels = []
+        control_channels = []
+        measure_channels = []
+        if isinstance(channels[0], str):
+            for channel in channels:
+                if channel[0] == "d":
+                    drive_channels.append(DriveChannel(int(channel[1:])))
+                elif channel[0] == "u":
+                    control_channels.append(ControlChannel(int(channel[1:])))
+                elif channel[0] == "m":
+                    measure_channels.append(MeasureChannel(int(channel[1:])))
+                else:
+                    logger.warning(f"Unrecognized channel [{channel}] requested.")
+        else:
+            for channel in channels:
+                if isinstance(channel, DriveChannel):
+                    drive_channels.append(channel)
+                elif isinstance(channel, ControlChannel):
+                    control_channels.append(channel)
+                elif isinstance(channel, MeasureChannel):
+                    measure_channels.append(channel)
+                else:
+                    logger.warning(f"Unrecognized channel [{channel}] requested.")
+        channel_freqs = {}
+        drive_frequencies = self.qubit_frequencies
+        for channel in drive_channels:
+            if channel.index >= len(drive_frequencies):
+                raise CasqError(f"DriveChannel index {channel.index} is out of bounds.")
+            channel_freqs[channel.name] = drive_frequencies[channel.index]
+        for channel in control_channels:
+            if channel.index >= len(self.control_channel_lo):
+                raise CasqError(f"ControlChannel index {channel.index} is out of bounds.")
+            freq = 0.0
+            for channel_lo in self.control_channel_lo[channel.index]:
+                freq += drive_frequencies[channel_lo.q] * channel_lo.scale
+            channel_freqs[channel.name] = freq
+        if measure_channels:
+            measure_frequencies = self.measurement_frequencies
+            for channel in measure_channels:
+                if channel.index >= len(measure_frequencies):
+                    raise CasqError(
+                        f"MeasureChannel index {channel.index} is out of bounds."
+                    )
+                channel_freqs[channel.name] = measure_frequencies[channel.index]
+        return channel_freqs
