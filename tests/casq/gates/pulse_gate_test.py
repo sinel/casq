@@ -26,7 +26,7 @@ from __future__ import annotations
 from matplotlib.figure import Figure
 from qiskit import pulse
 
-from casq.gates.pulse_gate import PulseGate
+from casq.circuit.pulse_gate import PulseGate
 
 
 class DummyPulseGate(PulseGate):

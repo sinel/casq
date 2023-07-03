@@ -29,6 +29,7 @@ from typing import Any, Optional, Union
 from matplotlib.figure import Figure
 import numpy as np
 from qiskit.providers import BackendV1, BackendV2
+from qiskit.pulse import Schedule
 from qiskit.quantum_info import DensityMatrix, Statevector, partial_trace
 from qiskit.result import Result
 from qiskit.result.models import (
@@ -51,7 +52,6 @@ from qiskit_dynamics.backend.backend_utils import (
 # noinspection PyProtectedMember
 from scipy.integrate._ivp.ivp import OdeResult
 
-from casq.pulse_backend_properties import PulseBackendProperties
 from casq.common import (
     CasqError,
     LegendStyle,
@@ -62,6 +62,7 @@ from casq.common import (
     plot_bloch,
     trace,
 )
+from casq.pulse_backend_properties import PulseBackendProperties
 
 
 class PulseSimulator(DynamicsBackend):
@@ -81,6 +82,7 @@ class PulseSimulator(DynamicsBackend):
 
     class ODESolverMethod(str, Enum):
         """Solver methods."""
+
         QISKIT_DYNAMICS_RK4 = "RK4"
         QISKIT_DYNAMICS_JAX_RK4 = "jax_RK4"
         QISKIT_DYNAMICS_JAX_ODEINT = "jax_odeint"
@@ -193,7 +195,7 @@ class PulseSimulator(DynamicsBackend):
 
     @staticmethod
     def plot_trajectory(
-            result: ExperimentResult, qubit: Optional[int] = None
+        result: ExperimentResult, qubit: Optional[int] = None
     ) -> Figure:
         """PulseSimulator.plot_trajectory method.
 
@@ -248,7 +250,7 @@ class PulseSimulator(DynamicsBackend):
 
     @staticmethod
     def plot_bloch_trajectory(
-            result: ExperimentResult, qubit: Optional[int] = None
+        result: ExperimentResult, qubit: Optional[int] = None
     ) -> Figure:
         """PulseSimulator.plot_bloch_trajectory method.
 
@@ -281,7 +283,7 @@ class PulseSimulator(DynamicsBackend):
 
     @staticmethod
     def _xyz(
-            result: ExperimentResult,
+        result: ExperimentResult,
     ) -> Union[
         tuple[list[float], list[float], list[float]],
         tuple[dict[int, list[float]], dict[int, list[float]], dict[int, list[float]]],
@@ -351,14 +353,14 @@ class PulseSimulator(DynamicsBackend):
 
     @staticmethod
     def get_experiment_result(
-            experiment_name: str,
-            solver_result: OdeResult,
-            measurement_subsystems: list[int],
-            memory_slot_indices: list[int],
-            num_memory_slots: Union[None, int],
-            backend: DynamicsBackend,
-            seed: Optional[int] = None,
-            metadata: Optional[dict] = None,
+        experiment_name: str,
+        solver_result: OdeResult,
+        measurement_subsystems: list[int],
+        memory_slot_indices: list[int],
+        num_memory_slots: Union[None, int],
+        backend: DynamicsBackend,
+        seed: Optional[int] = None,
+        metadata: Optional[dict] = None,
     ) -> ExperimentResult:
         """Generates ExperimentResult objects from solver result.
 
@@ -489,7 +491,7 @@ class PulseSimulator(DynamicsBackend):
         steps: Optional[int] = None,
         shots: int = 1024,
         seed: Optional[int] = None,
-        solver_options: Optional[dict[str, Any]] = None
+        solver_options: Optional[dict[str, Any]] = None,
     ) -> PulseSimulator:
         """Construct a PulseSimulator instance from an existing Backend instance.
 
@@ -515,34 +517,44 @@ class PulseSimulator(DynamicsBackend):
         """
         if isinstance(backend, str):
             backend = PulseBackendProperties.get_backend(backend)
-        if solver_options:
-            solver_options.update(method=method.value)
-        else:
-            solver_options = {"method": method.value}
+        if method:
+            if solver_options:
+                solver_options.update(method=method.value)
+            else:
+                solver_options = {"method": method.value}
         dynamics_backend = DynamicsBackend.from_backend(
-            backend, subsystem_list=qubits, rotating_frame=rotating_frame,
-            evaluation_mode=evaluation_mode, rwa_cutoff_freq=rwa_cutoff_freq,
-            solver_options=solver_options
+            backend,
+            subsystem_list=qubits,
+            rotating_frame=rotating_frame,
+            evaluation_mode=evaluation_mode,
+            rwa_cutoff_freq=rwa_cutoff_freq,
+            solver_options=solver_options,
         )
-        return PulseSimulator(
-            solver=dynamics_backend.options.solver, qubits=qubits,
-            initial_state=initial_state, method=method,
-            steps=steps, shots=shots, seed=seed,
-            solver_options=solver_options, backend=backend
+        simulator: PulseSimulator = PulseSimulator(
+            solver=dynamics_backend.options.solver,
+            qubits=qubits,
+            initial_state=initial_state,
+            method=method,
+            steps=steps,
+            shots=shots,
+            seed=seed,
+            solver_options=solver_options,
+            backend=backend,
         )
+        return simulator
 
     @trace()
     def __init__(
-            self,
-            solver: Solver,
-            qubits: Optional[list[int]] = None,
-            initial_state: Optional[Union[DensityMatrix, Statevector]] = None,
-            method: Optional[PulseSimulator.ODESolverMethod] = None,
-            steps: Optional[int] = None,
-            shots: int = 1024,
-            seed: Optional[int] = None,
-            solver_options: Optional[dict[str, Any]] = None,
-            backend: Optional[BackendV1] = None
+        self,
+        solver: Solver,
+        qubits: Optional[list[int]] = None,
+        initial_state: Optional[Union[DensityMatrix, Statevector]] = None,
+        method: Optional[PulseSimulator.ODESolverMethod] = None,
+        steps: Optional[int] = None,
+        shots: int = 1024,
+        seed: Optional[int] = None,
+        solver_options: Optional[dict[str, Any]] = None,
+        backend: Optional[BackendV1] = None,
     ):
         """Instantiate :class:`~casq.PulseSimulator`.
 
@@ -579,10 +591,14 @@ class PulseSimulator(DynamicsBackend):
             else:
                 solver_options = {"method": method.value}
         super().__init__(
-            solver=solver, target=None, subsystem_labels=qubits,
-            initial_state=initial_state, shots=shots,
-            seed_simulator=seed, solver_options=solver_options,
-            experiment_result_function=PulseSimulator.get_experiment_result
+            solver=solver,
+            target=None,
+            subsystem_labels=qubits,
+            initial_state=initial_state,
+            shots=shots,
+            seed_simulator=seed,
+            solver_options=solver_options,
+            experiment_result_function=PulseSimulator.get_experiment_result,
         )
         self.solver = solver
         self.qubits = qubits
@@ -594,14 +610,27 @@ class PulseSimulator(DynamicsBackend):
         self.backend = backend
 
     def _run(
-            self,
-            job_id,
-            t_span,
-            schedules,
-            measurement_subsystems_list,
-            memory_slot_indices_list,
-            num_memory_slots_list,
+        self,
+        job_id: str,
+        t_span: Union[list[tuple[float, float]], list[list[float]]],
+        schedules: list[Schedule],
+        measurement_subsystems_list: list[list[int]],
+        memory_slot_indices_list: list[list[int]],
+        num_memory_slots_list: list[int],
     ) -> Result:
+        """Run a list of simulations.
+
+        Args:
+            job_id: Job identifier.
+            t_span: Tuple or list of initial and final time.
+            schedules: List of schedules.
+            measurement_subsystems_list: List of measurement subsystems.
+            memory_slot_indices_list: List of memory slot indices.
+            num_memory_slots_list: List of numbers of memory slots.
+
+        Returns:
+            ExperimentResult object.
+        """
         auto_t_eval = None
         if self.steps:
             auto_t_eval = np.linspace(t_span[0][0], t_span[0][1], self.steps)

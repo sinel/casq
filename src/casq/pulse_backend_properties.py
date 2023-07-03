@@ -32,8 +32,8 @@ from qiskit.providers.models import (
     PulseBackendConfiguration,
     PulseDefaults,
 )
-from qiskit_ibm_provider import IBMProvider
 from qiskit.pulse.channels import Channel, ControlChannel, DriveChannel, MeasureChannel
+from qiskit_ibm_provider import IBMProvider
 
 from casq.common import CasqError, trace
 
@@ -194,7 +194,9 @@ class PulseBackendProperties:
             channel_freqs[channel.name] = drive_frequencies[channel.index]
         for channel in control_channels:
             if channel.index >= len(self.control_channel_lo):
-                raise CasqError(f"ControlChannel index {channel.index} is out of bounds.")
+                raise CasqError(
+                    f"ControlChannel index {channel.index} is out of bounds."
+                )
             freq = 0.0
             for channel_lo in self.control_channel_lo[channel.index]:
                 freq += drive_frequencies[channel_lo.q] * channel_lo.scale

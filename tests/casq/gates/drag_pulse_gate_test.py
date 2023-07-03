@@ -25,7 +25,7 @@ from __future__ import annotations
 
 from qiskit import pulse
 
-from casq.gates.drag_pulse_gate import DragPulseGate
+from casq.circuit.drag_pulse_gate import DragPulseGate
 
 
 def test_schedule() -> None:

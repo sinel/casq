@@ -25,6 +25,4 @@ from casq.pulse_backend_properties import PulseBackendProperties
 from casq.pulse_optimizer import PulseOptimizer
 from casq.pulse_simulator import PulseSimulator
 
-__all__ = [
-    "PulseBackendProperties", "PulseOptimizer", "PulseSimulator"
-]
+__all__ = ["PulseBackendProperties", "PulseOptimizer", "PulseSimulator"]

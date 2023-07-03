@@ -197,11 +197,12 @@ def add_line_collection(
         line_style: Line style.
         marker_style: Marker style.
     """
-    if isinstance(x[0], list):
-        collection = LineCollection([list(zip(xc, yc)) for xc, yc in zip(x, y)])
+    if all(isinstance(item, npt.NDArray) for item in x):
+        collection = LineCollection(
+            [np.column_stack((np.asarray(xc), np.asarray(yc))) for xc, yc in zip(x, y)]
+        )
     else:
-        collection = LineCollection([np.column_stack((np.asarray(xc), np.asarray(yc))) for xc, yc in zip(x, y)])
-    # print(collection)
+        collection = LineCollection([list(zip(xc, yc)) for xc, yc in zip(x, y)])  # type: ignore
     line_obj = ax.add_collection(collection)
     if label:
         line_obj.set_label(label)
@@ -335,7 +336,9 @@ def plot(
             ax = figure.axes[0]
         if isinstance(x, np.ndarray) and isinstance(y, np.ndarray):
             add_line(ax, x, y, label, line_style, marker_style)
-        elif all(isinstance(item, float) for item in x) and all(isinstance(item, float) for item in y):
+        elif all(isinstance(item, float) for item in x) and all(
+            isinstance(item, float) for item in y
+        ):
             add_line(ax, x, y, label, line_style, marker_style)  # type: ignore
         else:
             add_line_collection(ax, [x], [y], label, line_style, marker_style)  # type: ignore

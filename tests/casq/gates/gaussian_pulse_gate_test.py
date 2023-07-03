@@ -25,7 +25,7 @@ from __future__ import annotations
 
 from qiskit import pulse
 
-from casq.gates.gaussian_pulse_gate import GaussianPulseGate
+from casq.circuit.gaussian_pulse_gate import GaussianPulseGate
 
 
 def test_schedule() -> None:

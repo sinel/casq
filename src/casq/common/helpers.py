@@ -27,12 +27,11 @@ from typing import Any
 from uuid import uuid4
 
 import jax
-from qiskit_dynamics.array import Array
-from wonderwords import RandomWord
-
 from qiskit.pulse import Schedule
 from qiskit_dynamics import Signal
+from qiskit_dynamics.array import Array
 from qiskit_dynamics.pulse import InstructionToSignals
+from wonderwords import RandomWord
 
 
 def dbid() -> str:

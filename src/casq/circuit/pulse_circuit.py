@@ -31,8 +31,8 @@ from qiskit.circuit.parameterexpression import ParameterValueType
 from qiskit.circuit.quantumcircuit import InstructionSet
 from qiskit.providers import BackendV1
 
-from casq.common import dbid, trace, ufid
 from casq.circuit import PulseGate
+from casq.common import dbid, trace, ufid
 
 
 class PulseCircuit(QuantumCircuit):
@@ -59,7 +59,7 @@ class PulseCircuit(QuantumCircuit):
         Returns:
             :py:class:`matplotlib.figure.Figure`
         """
-        circuit = PulseCircuit(1, 1)
+        circuit: PulseCircuit = PulseCircuit(1, 1)
         circuit.pulse(gate, backend, qubit)
         circuit.measure(qubit, qubit)
         return circuit

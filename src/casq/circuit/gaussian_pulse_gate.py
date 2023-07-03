@@ -32,8 +32,8 @@ from qiskit.pulse.library import Pulse
 from qiskit.pulse.library.symbolic_pulses import ScalableSymbolicPulse, _lifted_gaussian
 import sympy as sym
 
-from casq.common import trace
 from casq.circuit.pulse_gate import PulseGate
+from casq.common import trace
 
 
 class GaussianPulseGate(PulseGate):
