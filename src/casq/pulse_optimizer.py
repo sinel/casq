@@ -228,7 +228,7 @@ class PulseOptimizer:
         circuit = PulseCircuit.from_pulse(
             gate, self.simulator.backend, self.target_qubit
         )
-        counts = self.simulator.run([circuit]).result().results[-1].data.counts[-1]
+        counts = self.simulator.run([circuit]).result().results[0].data.counts[-1]
         return PulseOptimizer.Solution(
             num_iterations=opt_results.nfev,
             parameters=opt_results.x,

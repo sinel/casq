@@ -26,6 +26,7 @@ from __future__ import annotations
 from enum import Enum
 from typing import Any, Optional, Union
 
+from loguru import logger
 from matplotlib.figure import Figure
 import numpy as np
 from qiskit.providers import BackendV1, BackendV2
@@ -460,6 +461,7 @@ class PulseSimulator(DynamicsBackend):
             iq_data.append(iq_data_step)
             avg_iq_data_step = np.average(iq_data_step, axis=0)
             avg_iq_data.append(avg_iq_data_step)
+        # noinspection PyTypeChecker
         data = ExperimentResultData(
             counts=counts,
             memory=samples,
@@ -644,6 +646,7 @@ class PulseSimulator(DynamicsBackend):
                 self.options.solver_options["t_eval"] = t_eval
         else:
             self.options.solver_options = {"t_eval": auto_t_eval}
+        logger.debug(f"t_eval = {self.options.solver_options['t_eval']}")
         return super()._run(
             job_id,
             t_span,
