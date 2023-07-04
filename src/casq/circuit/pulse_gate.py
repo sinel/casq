@@ -34,8 +34,9 @@ from qiskit.pulse.library import Pulse
 from qiskit.pulse.transforms.canonicalization import block_to_schedule
 from qiskit_dynamics import Signal
 
-from casq import PulseBackendProperties
-from casq.common import CasqError, dbid, discretize, plot_signal, trace, ufid
+from casq.common import (
+    PulseBackendProperties, CasqError, dbid, discretize, plot_signal, trace, ufid
+)
 
 
 class PulseGate(Gate):
@@ -140,7 +141,6 @@ class PulseGate(Gate):
         qubit: int,
         dt: float,
         carrier_frequency: float,
-        duration: float,
         filename: Optional[str] = None,
         hidden: bool = False,
     ) -> Figure:
@@ -152,7 +152,6 @@ class PulseGate(Gate):
             qubit: Qubit to attach gate to.
             dt: Sample time length.
             carrier_frequency: Carrier frequency.
-            duration: Duration to plot signal.
             filename: Saves figure to specified path if provided.
             hidden: Does not show figure if True.
 
@@ -164,7 +163,7 @@ class PulseGate(Gate):
             dt,
             f"d{qubit}",
             carrier_frequency,
-            duration,
+            self.duration,
             filename=filename,
             hidden=hidden,
         )

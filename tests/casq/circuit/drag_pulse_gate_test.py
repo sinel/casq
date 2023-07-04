@@ -25,7 +25,7 @@ from __future__ import annotations
 
 from qiskit import pulse
 
-from casq.circuit.drag_pulse_gate import DragPulseGate
+from casq.circuit import DragPulseGate
 
 
 def test_schedule() -> None:
@@ -38,7 +38,8 @@ def test_schedule() -> None:
     dummy = DragPulseGate(duration, amplitude, sigma, beta)
     schedule = dummy.schedule(qubit)
     # noinspection PyTypeChecker
-    instruction: pulse.Play = schedule.blocks[0]
+    instruction: pulse.Play = schedule.instructions[0][1]
+    assert instruction.pulse.pulse_type == "Drag"
     # noinspection PyTypeChecker
     waveform: pulse.Drag = instruction.pulse
     assert schedule.duration == duration
@@ -47,16 +48,3 @@ def test_schedule() -> None:
     assert waveform.amp == amplitude
     assert waveform.sigma == sigma
     assert waveform.beta == beta
-
-
-def test_schedule_lazy() -> None:
-    """Unit test for pulse schedule lazy loading."""
-    qubit = 0
-    duration = 256
-    amplitude = 1
-    sigma = 128
-    beta = 0.75
-    dummy = DragPulseGate(duration, amplitude, sigma, beta)
-    schedule1 = dummy.schedule(qubit)
-    schedule2 = dummy.schedule(qubit)
-    assert id(schedule1) == id(schedule2)

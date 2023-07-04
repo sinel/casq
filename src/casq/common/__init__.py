@@ -24,6 +24,7 @@
 from casq.common.decorators import timer, trace
 from casq.common.exceptions import CasqError
 from casq.common.helpers import dbid, discretize, initialize_jax, ufid
+from casq.common.pulse_backend_properties import PulseBackendProperties
 from casq.common.plotting import (
     LegendLocation,
     LegendStyle,
@@ -49,6 +50,7 @@ __all__ = [
     "discretize",
     "initialize_jax",
     "ufid",
+    "PulseBackendProperties",
     "LegendLocation",
     "LegendStyle",
     "LineConfig",

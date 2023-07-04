@@ -53,9 +53,11 @@ def ufid(obj: Any) -> str:
         User-friendly identifier.
     """
     random_word = RandomWord()
+    name = obj.__class__.__name__
+    if not name[0].isupper():
+        name = name.capitalize()
     return (
-        f"{random_word.word(include_categories=['adjective'])}"
-        f"{obj.__class__.__name__}"
+        f"{random_word.word(include_categories=['adjective'])}{name}"
     )
 
 

@@ -20,12 +20,12 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  ********************************************************************************
-"""Gaussian pulse gate tests."""
+"""Drag pulse gate tests."""
 from __future__ import annotations
 
 from qiskit import pulse
 
-from casq.circuit import GaussianPulseGate
+from casq.circuit import GaussianSquarePulseGate
 
 
 def test_schedule() -> None:
@@ -34,15 +34,17 @@ def test_schedule() -> None:
     duration = 256
     amplitude = 1
     sigma = 128
-    dummy = GaussianPulseGate(duration, amplitude, sigma)
+    width = 128
+    dummy = GaussianSquarePulseGate(duration, amplitude, sigma, width)
     schedule = dummy.schedule(qubit)
     # noinspection PyTypeChecker
     instruction: pulse.Play = schedule.instructions[0][1]
-    assert instruction.pulse.pulse_type == "Gaussian"
+    assert instruction.pulse.pulse_type == "GaussianSquare"
     # noinspection PyTypeChecker
-    waveform: pulse.Gaussian = instruction.pulse
+    waveform: pulse.GaussianSquare = instruction.pulse
     assert schedule.duration == duration
     assert instruction.channel.index == qubit
     assert waveform.name == dummy.ufid
     assert waveform.amp == amplitude
     assert waveform.sigma == sigma
+    assert waveform.width == width

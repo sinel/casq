@@ -27,13 +27,20 @@ import logging
 from typing import Generator
 
 from loguru import logger
-from pytest import LogCaptureFixture, fixture
+import pytest
+
+from casq.common import PulseBackendProperties
 
 
-@fixture
+@pytest.fixture
+def backend():
+    return PulseBackendProperties.get_backend("ibmq_manila")
+
+
+@pytest.fixture
 def loguru_caplog(
-    caplog: LogCaptureFixture,
-) -> Generator[LogCaptureFixture, None, None]:
+    caplog: pytest.LogCaptureFixture,
+) -> Generator[pytest.LogCaptureFixture, None, None]:
     """Fixture for capturing loguru logging output via ptest.
 
     Since pytest links to the standard library’s logging module,

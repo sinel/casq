@@ -24,7 +24,7 @@
 from __future__ import annotations
 
 from enum import Enum
-from typing import NamedTuple, Optional, Sequence, Union
+from typing import NamedTuple, Optional, Union
 
 from matplotlib.axes import Axes
 from matplotlib.collections import LineCollection
@@ -36,8 +36,6 @@ from qiskit.pulse import Schedule, ScheduleBlock
 from qiskit.pulse.transforms import block_to_schedule
 from qiskit_dynamics.pulse import InstructionToSignals
 import qutip
-
-from casq.common import CasqError
 
 plt.style.use("seaborn-v0_8-notebook")
 
@@ -197,12 +195,12 @@ def add_line_collection(
         line_style: Line style.
         marker_style: Marker style.
     """
-    if all(isinstance(item, npt.NDArray) for item in x):
+    if all(isinstance(item, np.ndarray) for item in x):
         collection = LineCollection(
             [np.column_stack((np.asarray(xc), np.asarray(yc))) for xc, yc in zip(x, y)]
         )
     else:
-        collection = LineCollection([list(zip(xc, yc)) for xc, yc in zip(x, y)])  # type: ignore
+        collection = LineCollection([list(zip(xc, yc)) for xc, yc in zip(x, y)])
     line_obj = ax.add_collection(collection)
     if label:
         line_obj.set_label(label)
@@ -240,7 +238,6 @@ def add_horizontal_line(
         y: Constant Y value for horizontal line.
         label: Label to be used for line in legend.
         line_style: Line style.
-        marker_style: Marker style.
     """
     line_obj = ax.axhline(y)
     if label:
@@ -267,7 +264,6 @@ def add_vertical_line(
         x: Constant X value for vertical line.
         label: Label to be used for line in legend.
         line_style: Line style.
-        marker_style: Marker style.
     """
     line_obj = ax.axvline(x)
     if label:
@@ -315,7 +311,7 @@ def plot(
     # TODO: Validate that all dimensions match.
     if figure is None:
         figure, ax = plt.subplots(1, 1)
-    figure.set_constrained_layout(True)
+    figure.set_layout_engine("constrained")
     if title:
         figure.suptitle(title)
     for (
@@ -341,7 +337,7 @@ def plot(
         ):
             add_line(ax, x, y, label, line_style, marker_style)  # type: ignore
         else:
-            add_line_collection(ax, [x], [y], label, line_style, marker_style)  # type: ignore
+            add_line_collection(ax, x, y, label, line_style, marker_style)  # type: ignore
         if label and legend_style:
             ax.legend(
                 loc=legend_style.location.value, bbox_to_anchor=legend_style.anchor
@@ -351,9 +347,9 @@ def plot(
         if ytitle:
             ax.set_ylabel(ytitle)
         if xlim:
-            ax.set_xlim(list(xlim))
+            ax.set_xlim(xlim)
         if ylim:
-            ax.set_ylim(list(ylim))
+            ax.set_ylim(ylim)
         if xticks:
             ax.set_xticks(xticks)
         if yticks:
@@ -432,7 +428,7 @@ def plot_signal(
     """Create and plot Matplotlib figure.
 
     Args:
-        schedule: Qiskit pulse schedules.
+        schedule: Qiskit pulse schedule.
         dt: Sampling time interval.
         channel: Qiskit pulse channel.
         carrier_frequency: Carrier frequency used for signal.
@@ -507,6 +503,7 @@ def plot_signal(
         line_style=LineStyle(size=1),
         ax=ax1,
     )
+    ylim_phase = None if phase_min == phase_max else (phase_min, phase_max)
     config5 = LineConfig(
         x=signal_times,
         y=signal_envelope_phase,
@@ -514,7 +511,7 @@ def plot_signal(
         xtitle="Time (ns)",
         ytitle="Phase (radians)",
         xlim=(0, duration),
-        ylim=(phase_min, phase_max),
+        ylim=ylim_phase,
         line_style=LineStyle(color="black", size=1),
         ax=ax2,
     )

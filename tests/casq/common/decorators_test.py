@@ -23,16 +23,22 @@
 """Decorator tests."""
 from __future__ import annotations
 
+import sys
+
+from loguru import logger
 from pytest import LogCaptureFixture
 
 from casq.common.decorators import timer, trace
+
+logger.remove()
+logger.add(sys.stderr, level="DEBUG")
 
 
 def test_trace_timer_suppressed(loguru_caplog: LogCaptureFixture) -> None:
     """Unit test for trace and timer decorators when suppressed due to log level."""
 
-    @trace()
-    @timer()
+    @trace(level="TRACE")
+    @timer(level="TRACE")
     def dummy_function() -> None:
         pass
 

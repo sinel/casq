@@ -54,6 +54,7 @@ from qiskit_dynamics.backend.backend_utils import (
 from scipy.integrate._ivp.ivp import OdeResult
 
 from casq.common import (
+    PulseBackendProperties,
     CasqError,
     LegendStyle,
     LineConfig,
@@ -63,7 +64,6 @@ from casq.common import (
     plot_bloch,
     trace,
 )
-from casq.pulse_backend_properties import PulseBackendProperties
 
 
 class PulseSimulator(DynamicsBackend):

@@ -23,6 +23,7 @@
 """Pulse gate tests."""
 from __future__ import annotations
 
+from loguru import logger
 from matplotlib.figure import Figure
 from qiskit import pulse
 
@@ -32,50 +33,27 @@ from casq.circuit.pulse_gate import PulseGate
 class DummyPulseGate(PulseGate):
     """DummyPulseGate class."""
 
-    def schedule(self, qubit: int) -> pulse.ScheduleBlock:
-        """GaussianPulseGate.schedule method.
-
-        Args:
-            qubit: Index of qubit to drive.
+    def pulse(self) -> pulse.library.Pulse:
+        """GaussianPulseGate.pulse method.
 
         Returns:
-            :py:class:`qiskit.pulse.ScheduleBlock`
+            :py:class:`qiskit.pulse.library.Pulse`
         """
-        with pulse.build() as sb:
-            pulse.play(
-                pulse.library.Constant(1, 1, name=self.ufid),
-                pulse.DriveChannel(qubit),
-            )
-        self._schedule = sb
-        return sb
+        return pulse.Gaussian(duration=256, amp=1, sigma=128)
 
 
-def test_circuit() -> None:
-    """Unit test for pulse gate circuit."""
-    dummy = DummyPulseGate()
-    circuit = dummy.circuit(0)
-    operation = circuit.data[0].operation
-    assert operation.name.endswith("DummyPulseGate")
-    assert operation.num_qubits == 1
+def test_schedule() -> None:
+    """Unit test for PulseGate.schedule."""
+    dummy = DummyPulseGate(1, 1)
+    schedule = dummy.schedule(0)
+    assert isinstance(schedule, pulse.Schedule)
+    assert schedule.name.endswith("DummyPulseGateSchedule")
 
 
-def test_circuit_lazy() -> None:
-    """Unit test for pulse gate circuit lazy loading."""
-    dummy = DummyPulseGate()
-    circuit1 = dummy.circuit(0)
-    circuit2 = dummy.circuit(0)
-    assert id(circuit1) == id(circuit2)
-
-
-def test_draw_schedule() -> None:
+def test_draw_signal() -> None:
     """Unit test for draw_schedule method."""
-    dummy = DummyPulseGate()
-    figure = dummy.draw_schedule(hidden=True)
-    assert isinstance(figure, Figure)
-
-
-def test_draw_circuit() -> None:
-    """Unit test for draw_circuit method."""
-    dummy = DummyPulseGate()
-    figure = dummy.draw_circuit(hidden=True)
+    dummy = DummyPulseGate(1, 1)
+    figure = dummy.draw_signal(
+        qubit=0, dt=1, carrier_frequency=1, hidden=True
+    )
     assert isinstance(figure, Figure)
