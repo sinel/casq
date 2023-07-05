@@ -91,7 +91,7 @@ class GaussianPulseGate(PulseGate):
                 * _lifted_gaussian(_t, _center, _duration + 1, _sigma)
             )
             return ScalableSymbolicPulse(
-                pulse_type=self.name,
+                pulse_type="Gaussian",
                 duration=self.duration,
                 amp=self.amplitude,
                 angle=self.angle,

@@ -26,7 +26,9 @@ from __future__ import annotations
 from typing import Any
 from uuid import UUID
 
-from casq.common import dbid, ufid
+from qiskit_dynamics.array import Array
+
+from casq.common import dbid, ufid, initialize_jax
 
 
 def test_dbid() -> None:
@@ -40,3 +42,9 @@ def test_ufid() -> None:
     name = ufid(obj)
     assert isinstance(name, str)
     assert name.endswith("Dict")
+
+
+def test_initialize_jax() -> None:
+    """Unit test for initializing jax."""
+    initialize_jax()
+    assert Array.default_backend() == "jax"

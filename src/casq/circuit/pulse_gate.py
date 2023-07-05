@@ -76,7 +76,6 @@ class PulseGate(Gate):
         Returns:
             :py:class:`qiskit.pulse.library.Pulse`
         """
-        pass
 
     def schedule(
         self,

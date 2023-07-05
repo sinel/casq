@@ -25,9 +25,12 @@ from __future__ import annotations
 
 from loguru import logger
 from matplotlib.figure import Figure
+import pytest
 from qiskit import pulse
+from qiskit_dynamics import Signal
 
-from casq.circuit.pulse_gate import PulseGate
+from casq.circuit import PulseGate
+from casq.common import CasqError
 
 
 class DummyPulseGate(PulseGate):
@@ -48,6 +51,51 @@ def test_schedule() -> None:
     schedule = dummy.schedule(0)
     assert isinstance(schedule, pulse.Schedule)
     assert schedule.name.endswith("DummyPulseGateSchedule")
+
+
+def test_measured_schedule(backend) -> None:
+    """Unit test for PulseGate.schedule with measurement."""
+    dummy = DummyPulseGate(1, 1)
+    schedule = dummy.schedule(0, backend=backend, measured=True)
+    assert isinstance(schedule.instructions[0][1], pulse.Play)
+    assert isinstance(schedule.instructions[1][1], pulse.Acquire)
+    assert isinstance(schedule, pulse.Schedule)
+    assert schedule.name.endswith("DummyPulseGateSchedule")
+
+
+def test_measured_schedule_without_backend() -> None:
+    """Unit test for PulseGate.schedule with measurement and no backend argument."""
+    dummy = DummyPulseGate(1, 1)
+    with pytest.raises(CasqError) as e:
+        dummy.schedule(0, measured=True)
+    assert isinstance(e.value, CasqError)
+    assert e.value.message == "Backend is required for building schedules with measurements."
+
+
+def test_discretized_schedule_with_backend(backend) -> None:
+    """Unit test for discretized PulseGate.schedule."""
+    dummy = DummyPulseGate(1, 1)
+    signals = dummy.schedule(0, backend=backend, discretized=True)
+    assert isinstance(signals[0], Signal)
+
+
+def test_discretized_schedule_with_properties(backend_properties) -> None:
+    """Unit test for discretized PulseGate.schedule."""
+    dummy = DummyPulseGate(1, 1)
+    schedule = dummy.schedule(0)
+    dt = backend_properties.dt
+    frequencies = backend_properties.get_channel_frequencies(list(schedule.channels))
+    signals = dummy.schedule(0, dt=dt, channel_frequencies=frequencies, discretized=True)
+    assert isinstance(signals[0], Signal)
+
+
+def test_discretized_schedule_with_missing_arguments() -> None:
+    """Unit test for discretized PulseGate.schedule with missing arguments."""
+    dummy = DummyPulseGate(1, 1)
+    with pytest.raises(CasqError) as e:
+        dummy.schedule(0, discretized=True)
+    assert isinstance(e.value, CasqError)
+    assert e.value.message.startswith("Cannot discretize pulse schedule")
 
 
 def test_draw_signal() -> None:

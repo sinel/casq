@@ -20,18 +20,17 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  ********************************************************************************
-"""Common exceptions used by library."""
+"""Base object tests."""
 from __future__ import annotations
 
+from typing import Any
+from uuid import UUID
 
-class CasqError(Exception):
-    """Base class for errors raised by casq."""
+from casq.common import CasqError
 
-    def __init__(self, *message: str):
-        """Set the error message."""
-        super().__init__(" ".join(message))
-        self.message = " ".join(message)
 
-    def __str__(self) -> str:  # pragma: no cover
-        """Return the message."""
-        return repr(self.message)
+def test_casq_error() -> None:
+    """Unit test for CasqError."""
+    error = CasqError("Hello.")
+    assert isinstance(error, Exception)
+    assert error.message == "Hello."

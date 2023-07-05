@@ -108,7 +108,7 @@ class GaussianSquarePulseGate(PulseGate):
             # noinspection PyTypeChecker
             # Suppress warning for constraints argument in ScalableSymbolicPulse
             return ScalableSymbolicPulse(
-                pulse_type=self.name,
+                pulse_type="GaussianSquare",
                 duration=self.duration,
                 amp=self.amplitude,
                 angle=self.angle,

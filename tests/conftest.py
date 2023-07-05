@@ -38,6 +38,11 @@ def backend():
 
 
 @pytest.fixture
+def backend_properties():
+    return PulseBackendProperties("ibmq_manila")
+
+
+@pytest.fixture
 def loguru_caplog(
     caplog: pytest.LogCaptureFixture,
 ) -> Generator[pytest.LogCaptureFixture, None, None]:
