@@ -23,7 +23,7 @@
 """Pulse gate tests."""
 from __future__ import annotations
 
-from qiskit import pulse
+from matplotlib.figure import Figure
 from qiskit.result.models import ExperimentResult, ExperimentResultData
 
 from casq import PulseSimulator
@@ -49,17 +49,10 @@ def test_from_backend_with_options() -> None:
     )
 
 
-def test_steps() -> None:
+def test_steps(pulse_schedule) -> None:
     """Unit test for PulseSimulator steps."""
     simulator = PulseSimulator.from_backend("ibmq_manila", qubits=[0], steps=10)
-    gaussian = pulse.library.Gaussian(256, 1, 128, name="Gaussian")
-    with pulse.build() as schedule:
-        d0 = pulse.DriveChannel(0)
-        m0 = pulse.MemorySlot(0)
-        with pulse.align_sequential():
-            pulse.play(gaussian, d0)
-            pulse.acquire(duration=1, qubit_or_channel=0, register=m0)
-    result = simulator.run([schedule]).result().results[0]
+    result = simulator.run([pulse_schedule]).result().results[0]
     assert isinstance(result, ExperimentResult)
     assert isinstance(result.data, ExperimentResultData)
     assert result.shots == simulator.shots
@@ -76,3 +69,11 @@ def test_steps() -> None:
     assert result.data.populations[0] == {"0": 1.}
     assert hasattr(result.data, "iq_data")
     assert hasattr(result.data, "avg_iq_data")
+
+
+def test_plot_population(pulse_schedule) -> None:
+    """Unit test for PulseSimulator.plot_population."""
+    simulator = PulseSimulator.from_backend("ibmq_manila", qubits=[0], steps=10)
+    result = simulator.run([pulse_schedule]).result().results[0]
+    figure = PulseSimulator.plot_population(result, hidden=True)
+    assert isinstance(figure, Figure)

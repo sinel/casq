@@ -25,6 +25,7 @@ from __future__ import annotations
 
 from typing import NamedTuple, Union
 
+import numpy as np
 from loguru import logger
 from qiskit.providers import BackendV1
 from qiskit.providers.models import (
@@ -103,7 +104,7 @@ class PulseBackendProperties:
             readout_length=self.properties.readout_length(qubit),
             t1=self.properties.t1(qubit),
             t2=self.properties.t2(qubit),
-            is_operational=self.properties.is_operational(qubit),
+            is_operational=self.properties.is_qubit_operational(qubit),
         )
 
     def _get_config(self) -> PulseBackendConfiguration:  # pragma: no cover
@@ -199,8 +200,13 @@ class PulseBackendProperties:
                 )
             freq = 0.0
             for channel_lo in self.control_channel_lo[channel.index]:
+                # TO-DO: channel_lo.scale is complex.
+                # So resulting frequency may be complex?
                 freq += drive_frequencies[channel_lo.q] * channel_lo.scale
-            channel_freqs[channel.name] = freq
+            if np.imag(freq) == 0:
+                channel_freqs[channel.name] = np.real(freq)
+            else:
+                channel_freqs[channel.name] = freq
         if measure_channels:
             measure_frequencies = self.measurement_frequencies
             for channel in measure_channels:

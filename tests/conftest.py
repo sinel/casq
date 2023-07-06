@@ -28,6 +28,7 @@ from typing import Generator
 
 from loguru import logger
 import pytest
+from qiskit import pulse
 
 from casq.common import PulseBackendProperties
 
@@ -40,6 +41,18 @@ def backend():
 @pytest.fixture
 def backend_properties():
     return PulseBackendProperties("ibmq_manila")
+
+
+@pytest.fixture
+def pulse_schedule():
+    gaussian = pulse.library.Gaussian(256, 1, 128, name="Gaussian")
+    with pulse.build() as schedule:
+        d0 = pulse.DriveChannel(0)
+        m0 = pulse.MemorySlot(0)
+        with pulse.align_sequential():
+            pulse.play(gaussian, d0)
+            pulse.acquire(duration=1, qubit_or_channel=0, register=m0)
+    return schedule
 
 
 @pytest.fixture

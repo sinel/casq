@@ -118,11 +118,18 @@ class LegendStyle(NamedTuple):
     anchor: Optional[tuple[float, float]] = None
 
 
+class LineData(NamedTuple):
+    """Line configuration."""
+
+    x: Union[list[float], npt.NDArray]
+    y: Union[list[float], npt.NDArray]
+    z: Optional[Union[list[float], npt.NDArray]] = None
+
+
 class LineConfig(NamedTuple):
     """Line configuration."""
 
-    x: Union[list[float], npt.NDArray, list[list[float]], list[npt.NDArray]]
-    y: Union[list[float], npt.NDArray, list[list[float]], list[npt.NDArray]]
+    data: LineData
     label: Optional[str] = None
     xtitle: Optional[str] = None
     ytitle: Optional[str] = None
@@ -135,10 +142,24 @@ class LineConfig(NamedTuple):
     ax: Optional[Axes] = None
 
 
+class LineCollectionConfig(NamedTuple):
+    """Line collection configuration."""
+
+    data: list[LineData]
+    label: Optional[str] = None
+    xtitle: Optional[str] = None
+    ytitle: Optional[str] = None
+    xlim: Optional[tuple[float, float]] = None
+    ylim: Optional[tuple[float, float]] = None
+    xticks: Optional[list[float]] = None
+    yticks: Optional[list[float]] = None
+    line_style: Optional[LineStyle] = None
+    ax: Optional[Axes] = None
+
+
 def add_line(
     ax: Axes,
-    x: Union[list[float], npt.NDArray],
-    y: Union[list[float], npt.NDArray],
+    data: LineData,
     label: Optional[str] = None,
     line_style: Optional[LineStyle] = None,
     marker_style: Optional[MarkerStyle] = None,
@@ -147,13 +168,12 @@ def add_line(
 
     Args:
         ax: Matplotlib axes.
-        x: X data.
-        y: Y data.
+        data: Line data.
         label: Label to be used for line in legend.
         line_style: Line style.
         marker_style: Marker style.
     """
-    line_obj = ax.plot(x, y)[0]
+    line_obj = ax.plot(data.x, data.y)[0]
     if label:
         line_obj.set_label(label)
     if line_style:
@@ -179,28 +199,24 @@ def add_line(
 
 def add_line_collection(
     ax: Axes,
-    x: Union[list[list[float]], list[npt.NDArray]],
-    y: Union[list[list[float]], list[npt.NDArray]],
+    data: list[LineData],
     label: Optional[str] = None,
     line_style: Optional[LineStyle] = None,
-    marker_style: Optional[MarkerStyle] = None,
 ) -> None:
     """Add line collection to Matplotlib axes.
 
     Args:
         ax: Matplotlib axes.
-        x: X data collection.
-        y: Y data collection.
+        data: Line collection data.
         label: Label to be used for line collection in legend.
         line_style: Line style.
-        marker_style: Marker style.
     """
-    if all(isinstance(item, np.ndarray) for item in x):
+    if isinstance(data[0].x, np.ndarray):
         collection = LineCollection(
-            [np.column_stack((np.asarray(xc), np.asarray(yc))) for xc, yc in zip(x, y)]
+            [np.column_stack((line_data.x, line_data.y)) for line_data in data]
         )
     else:
-        collection = LineCollection([list(zip(xc, yc)) for xc, yc in zip(x, y)])
+        collection = LineCollection([list(zip(line_data.x, line_data.y)) for line_data in data])
     line_obj = ax.add_collection(collection)
     if label:
         line_obj.set_label(label)
@@ -213,16 +229,6 @@ def add_line_collection(
             line_obj.set_linewidth(line_style.size)
     else:
         line_obj.set_linestyle = None
-    if marker_style:
-        if marker_style.color:
-            line_obj.set_markeredgecolor(marker_style.color)
-            line_obj.set_markerfacecolor(marker_style.color)
-        if marker_style.type:
-            line_obj.set_marker(marker_style.type.name.lower())
-        if marker_style.size:
-            line_obj.set_markersize(marker_style.size)
-    else:
-        line_obj.set_marker = None
 
 
 def add_horizontal_line(
@@ -278,7 +284,7 @@ def add_vertical_line(
 
 
 def plot(
-    data: list[LineConfig],
+    configs: list[Union[LineConfig, LineCollectionConfig]],
     figure: Optional[Figure] = None,
     hlines: Optional[
         list[tuple[float, Optional[str], LineStyle, Optional[Axes]]]
@@ -295,7 +301,7 @@ def plot(
     """Create and plot Matplotlib figure.
 
     Args:
-        data: Line configurations.
+        configs: Line configurations.
         figure: Optional Matplotlib figure to use for plotting.
         hlines: Horizontal line configurations.
         vlines: Vertical line configurations.
@@ -314,30 +320,18 @@ def plot(
     figure.set_layout_engine("constrained")
     if title:
         figure.suptitle(title)
-    for (
-        x,
-        y,
-        label,
-        xtitle,
-        ytitle,
-        xlim,
-        ylim,
-        xticks,
-        yticks,
-        line_style,
-        marker_style,
-        ax,
-    ) in data:
+    for config in configs:
+        if isinstance(config, LineConfig):
+            data, label, xtitle, ytitle, xlim, ylim, xticks, yticks, line_style, marker_style, ax = config
+        else:
+            data, label, xtitle, ytitle, xlim, ylim, xticks, yticks, line_style, ax = config
+            marker_style = None
         if ax is None:
             ax = figure.axes[0]
-        if isinstance(x, np.ndarray) and isinstance(y, np.ndarray):
-            add_line(ax, x, y, label, line_style, marker_style)
-        elif all(isinstance(item, float) for item in x) and all(
-            isinstance(item, float) for item in y
-        ):
-            add_line(ax, x, y, label, line_style, marker_style)  # type: ignore
+        if isinstance(config, LineConfig):
+            add_line(ax, data, label, line_style, marker_style)
         else:
-            add_line_collection(ax, x, y, label, line_style, marker_style)  # type: ignore
+            add_line_collection(ax, data, label, line_style)
         if label and legend_style:
             ax.legend(
                 loc=legend_style.location.value, bbox_to_anchor=legend_style.anchor
@@ -375,9 +369,9 @@ def plot(
     if show_grid:
         plt.grid()
     if filename:
-        plt.savefig(filename)
+        plt.savefig(filename)  # pragma: no cover
     if not hidden:
-        plt.show()
+        plt.show()  # pragma: no cover
     return figure
 
 
@@ -409,9 +403,9 @@ def plot_bloch(
     b.add_vectors([x[-1], y[-1], z[-1]])
     b.render()
     if filename:
-        b.save(filename)
+        b.save(filename)  # pragma: no cover
     if not hidden:
-        b.show()
+        b.show()  # pragma: no cover
     return b.fig
 
 
@@ -460,8 +454,7 @@ def plot_signal(
     ax1 = plt.subplot2grid((2, 2), (0, 0), colspan=2)
     ax2 = plt.subplot2grid((2, 2), (1, 0), colspan=2)
     config1 = LineConfig(
-        x=signal_times,
-        y=signal_samples,
+        data=LineData(signal_times, signal_samples),
         label="Signal",
         xtitle="Time (ns)",
         ytitle="Amplitude",
@@ -470,9 +463,11 @@ def plot_signal(
         line_style=LineStyle(size=0.1),
         ax=ax1,
     )
-    config2 = LineConfig(
-        x=[signal_times, signal_times],
-        y=[signal_envelope_abs, -signal_envelope_abs],
+    config2 = LineCollectionConfig(
+        data=[
+            LineData(signal_times, signal_envelope_abs),
+            LineData(signal_times, -signal_envelope_abs)
+        ],
         label="Envelope",
         xtitle="Time (ns)",
         ytitle="Amplitude",
@@ -482,8 +477,7 @@ def plot_signal(
         ax=ax1,
     )
     config3 = LineConfig(
-        x=signal_times,
-        y=signal_envelope_real,
+        data=LineData(signal_times, signal_envelope_real),
         label="Envelope (real)",
         xtitle="Time (ns)",
         ytitle="Amplitude",
@@ -493,8 +487,7 @@ def plot_signal(
         ax=ax1,
     )
     config4 = LineConfig(
-        x=signal_times,
-        y=signal_envelope_img,
+        data=LineData(signal_times, signal_envelope_img),
         label="Envelope (imaginary)",
         xtitle="Time (ns)",
         ytitle="Amplitude",
@@ -505,8 +498,7 @@ def plot_signal(
     )
     ylim_phase = None if phase_min == phase_max else (phase_min, phase_max)
     config5 = LineConfig(
-        x=signal_times,
-        y=signal_envelope_phase,
+        data=LineData(signal_times, signal_envelope_phase),
         label=None,
         xtitle="Time (ns)",
         ytitle="Phase (radians)",
@@ -516,7 +508,7 @@ def plot_signal(
         ax=ax2,
     )
     plot(
-        data=[config1, config2, config3, config4, config5],
+        configs=[config1, config2, config3, config4, config5],
         figure=figure,
         legend_style=LegendStyle(),
         filename=filename,

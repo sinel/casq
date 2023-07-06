@@ -58,6 +58,7 @@ from casq.common import (
     CasqError,
     LegendStyle,
     LineConfig,
+    LineData,
     LineStyle,
     MarkerStyle,
     plot,
@@ -95,13 +96,18 @@ class PulseSimulator(DynamicsBackend):
         SCIPY_RK45 = "RK45"
 
     @staticmethod
-    def plot_population(result: ExperimentResult) -> Figure:
+    def plot_population(
+        result: ExperimentResult,
+        filename: Optional[str] = None, hidden: bool = False
+    ) -> Figure:
         """PulseSimulator.plot_population method.
 
         Plots populations from result.
 
         Args:
             result: Pulse simulator result.
+            filename: If filename is provided as path str, then figure is saved as png.
+            hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
         Returns:
             :py:class:`matplotlib.figure.Figure`
@@ -119,15 +125,14 @@ class PulseSimulator(DynamicsBackend):
             configs = []
             for key, value in pops.items():
                 config = LineConfig(
-                    x=times,
-                    y=value,
+                    data=LineData(times, value),
                     label=f"Population in |{key}>",
                     line_style=LineStyle(),
                     xtitle="Time (ns)",
                     ytitle="Population",
                 )
                 configs.append(config)
-            return plot(data=configs, legend_style=LegendStyle())
+            return plot(configs=configs, legend_style=LegendStyle(), filename=filename, hidden=hidden)
         else:
             raise CasqError(
                 "PulseSimulator.plot_population method requires "
@@ -135,7 +140,10 @@ class PulseSimulator(DynamicsBackend):
             )
 
     @staticmethod
-    def plot_iq(result: ExperimentResult, time_index: Optional[int] = None) -> Figure:
+    def plot_iq(
+        result: ExperimentResult, time_index: Optional[int] = None,
+        filename: Optional[str] = None, hidden: bool = False
+    ) -> Figure:
         """PulseSimulator.plot_iq method.
 
         Plots IQ points from result.
@@ -143,6 +151,8 @@ class PulseSimulator(DynamicsBackend):
         Args:
             result: Pulse simulator result.
             time_index: Time at which to plot IQ points.
+            filename: If filename is provided as path str, then figure is saved as png.
+            hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
         Returns:
             :py:class:`matplotlib.figure.Figure`
@@ -156,9 +166,9 @@ class PulseSimulator(DynamicsBackend):
                 x.append(iq[0][0])
                 y.append(iq[0][1])
             config = LineConfig(
-                x=x, y=y, marker_style=MarkerStyle(), xtitle="I", ytitle="Q"
+                data=LineData(x, y), marker_style=MarkerStyle(), xtitle="I", ytitle="Q"
             )
-            return plot(data=[config])
+            return plot(configs=[config], filename=filename, hidden=hidden)
         else:
             raise CasqError(
                 "PulseSimulator.plot_iq method requires "
@@ -166,13 +176,18 @@ class PulseSimulator(DynamicsBackend):
             )
 
     @staticmethod
-    def plot_iq_trajectory(result: ExperimentResult) -> Figure:
+    def plot_iq_trajectory(
+        result: ExperimentResult,
+        filename: Optional[str] = None, hidden: bool = False
+    ) -> Figure:
         """PulseSimulator.plot_iq_trajectory method.
 
         Plots trajectory of average IQ points from result.
 
         Args:
             result: Pulse simulator result.
+            filename: If filename is provided as path str, then figure is saved as png.
+            hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
         Returns:
             :py:class:`matplotlib.figure.Figure`
@@ -185,9 +200,9 @@ class PulseSimulator(DynamicsBackend):
                 x.append(iq[0][0])
                 y.append(iq[0][1])
             config = LineConfig(
-                x=x, y=y, marker_style=MarkerStyle(), xtitle="I", ytitle="Q"
+                data=LineData(x, y), marker_style=MarkerStyle(), xtitle="I", ytitle="Q"
             )
-            return plot(data=[config])
+            return plot(configs=[config], filename=filename, hidden=hidden)
         else:
             raise CasqError(
                 "PulseSimulator.plot_iq_trajectory method requires "
@@ -196,7 +211,8 @@ class PulseSimulator(DynamicsBackend):
 
     @staticmethod
     def plot_trajectory(
-        result: ExperimentResult, qubit: Optional[int] = None
+        result: ExperimentResult, qubit: Optional[int] = None,
+        filename: Optional[str] = None, hidden: bool = False
     ) -> Figure:
         """PulseSimulator.plot_trajectory method.
 
@@ -205,6 +221,8 @@ class PulseSimulator(DynamicsBackend):
         Args:
             result: Pulse simulator result.
             qubit: Qubit to plot trajectory of.
+            filename: If filename is provided as path str, then figure is saved as png.
+            hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
         Returns:
             :py:class:`matplotlib.figure.Figure`
@@ -222,27 +240,27 @@ class PulseSimulator(DynamicsBackend):
                         "when qubit is not specified for a multi-qubit system."
                     )
             x_config = LineConfig(
-                x=times,
-                y=x,
+                data=LineData(times, x),
                 line_style=LineStyle(),
                 label="$\\langle X \\rangle$",
                 xtitle="$t$",
             )
             y_config = LineConfig(
-                x=times,
-                y=y,
+                data=LineData(times, y),
                 line_style=LineStyle(),
                 label="$\\langle Y \\rangle$",
                 xtitle="$t$",
             )
             z_config = LineConfig(
-                x=times,
-                y=z,
+                data=LineData(times, z),
                 line_style=LineStyle(),
                 label="$\\langle Z \\rangle$",
                 xtitle="$t$",
             )
-            return plot(data=[x_config, y_config, z_config], legend_style=LegendStyle())
+            return plot(
+                configs=[x_config, y_config, z_config], legend_style=LegendStyle(),
+                filename=filename, hidden=hidden
+            )
         else:
             raise CasqError(
                 "PulseSimulator.plot_trajectory method requires "
@@ -251,7 +269,8 @@ class PulseSimulator(DynamicsBackend):
 
     @staticmethod
     def plot_bloch_trajectory(
-        result: ExperimentResult, qubit: Optional[int] = None
+        result: ExperimentResult, qubit: Optional[int] = None,
+        filename: Optional[str] = None, hidden: bool = False
     ) -> Figure:
         """PulseSimulator.plot_bloch_trajectory method.
 
@@ -260,6 +279,8 @@ class PulseSimulator(DynamicsBackend):
         Args:
             result: Pulse simulator result.
             qubit: Qubit to plot trajectory of.
+            filename: If filename is provided as path str, then figure is saved as png.
+            hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
         Returns:
             :py:class:`matplotlib.figure.Figure`
@@ -275,7 +296,7 @@ class PulseSimulator(DynamicsBackend):
                         "Cannot plot Bloch trajectory "
                         "when qubit is not specified for a multi-qubit system."
                     )
-            return plot_bloch(x, y, z)
+            return plot_bloch(x, y, z, filename=filename, hidden=hidden)
         else:
             raise CasqError(
                 "PulseSimulator.plot_bloch_trajectory method requires "
