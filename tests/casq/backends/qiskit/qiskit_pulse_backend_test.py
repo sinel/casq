@@ -23,26 +23,15 @@
 """Pulse gate tests."""
 from __future__ import annotations
 
-from casq.circuit import GaussianPulseGate, PulseCircuit
+from casq.backends.qiskit.backend_characteristics import BackendCharacteristics
+from casq.backends.qiskit.dynamics_backend_patch import DynamicsBackendPatch
+from casq.backends.qiskit.qiskit_pulse_backend import QiskitPulseBackend
 
 
-def test_pulse_instruction(backend) -> None:
-    """Unit test for PulseCircuit.pulse."""
-    gate = GaussianPulseGate(1, 1, 1)
-    circuit = PulseCircuit(1)
-    instruction = circuit.pulse(gate, backend, 0).instructions[0]
-    assert instruction.name == gate.name
-    assert instruction.num_qubits == 1
-    assert instruction.num_clbits == 0
-
-
-def test_from_pulse(backend) -> None:
-    """Unit test for PulseCircuit.from_pulse."""
-    gate = GaussianPulseGate(1, 1, 1)
-    circuit = PulseCircuit.from_pulse(gate, backend, 0)
-    assert circuit.data[0].operation.name == gate.name
-    assert len(circuit.data[0].qubits) == 1
-    assert len(circuit.data[0].clbits) == 0
-    assert circuit.data[1].operation.name == "measure"
-    assert len(circuit.data[1].qubits) == 1
-    assert len(circuit.data[1].clbits) == 1
+def test_from_backend() -> None:
+    """Unit test for PulseSimulator initialization from backend."""
+    qiskit_dynamics_backend = DynamicsBackendPatch.from_backend(
+        BackendCharacteristics.get_backend("ibmq_manila")
+    )
+    backend = QiskitPulseBackend.from_backend(qiskit_dynamics_backend)
+    assert isinstance(backend, QiskitPulseBackend)

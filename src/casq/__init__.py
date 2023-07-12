@@ -20,8 +20,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  ********************************************************************************
-"""Collecting casq main package imports in one place for convenient access."""
+"""Collecting casq package imports in one place for convenient access."""
 from casq.pulse_optimizer import PulseOptimizer
-from casq.pulse_simulator import PulseSimulator
 
-__all__ = ["PulseOptimizer", "PulseSimulator"]
+__all__ = ["PulseOptimizer"]

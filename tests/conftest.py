@@ -29,30 +29,21 @@ from typing import Generator
 from loguru import logger
 import pytest
 from qiskit import pulse
-
-from casq.common import PulseBackendProperties
-
-
-@pytest.fixture
-def backend():
-    return PulseBackendProperties.get_backend("ibmq_manila")
+from qiskit.pulse import Schedule
+from qiskit.pulse.transforms.canonicalization import block_to_schedule
 
 
 @pytest.fixture
-def backend_properties():
-    return PulseBackendProperties("ibmq_manila")
-
-
-@pytest.fixture
-def pulse_schedule():
+def pulse_schedule() -> Schedule:
+    """Fixture for building a test pulse schedule."""
     gaussian = pulse.library.Gaussian(256, 1, 128, name="Gaussian")
-    with pulse.build() as schedule:
+    with pulse.build() as sb:
         d0 = pulse.DriveChannel(0)
         m0 = pulse.MemorySlot(0)
         with pulse.align_sequential():
             pulse.play(gaussian, d0)
             pulse.acquire(duration=1, qubit_or_channel=0, register=m0)
-    return schedule
+    return block_to_schedule(sb)
 
 
 @pytest.fixture

@@ -29,8 +29,9 @@ import pytest
 from qiskit import pulse
 from qiskit_dynamics import Signal
 
-from casq.circuit import PulseGate
+from casq.backends.qiskit.backend_characteristics import BackendCharacteristics
 from casq.common import CasqError
+from casq.gates.pulse_gate import PulseGate
 
 
 class DummyPulseGate(PulseGate):
@@ -53,8 +54,9 @@ def test_schedule() -> None:
     assert schedule.name.endswith("DummyPulseGateSchedule")
 
 
-def test_measured_schedule(backend) -> None:
+def test_measured_schedule() -> None:
     """Unit test for PulseGate.schedule with measurement."""
+    backend = BackendCharacteristics.get_backend("ibmq_manila")
     dummy = DummyPulseGate(1, 1)
     schedule = dummy.schedule(0, backend=backend, measured=True)
     assert isinstance(schedule.instructions[0][1], pulse.Play)
@@ -69,23 +71,33 @@ def test_measured_schedule_without_backend() -> None:
     with pytest.raises(CasqError) as e:
         dummy.schedule(0, measured=True)
     assert isinstance(e.value, CasqError)
-    assert e.value.message == "Backend is required for building schedules with measurements."
+    assert (
+        e.value.message
+        == "Backend is required for building schedules with measurements."
+    )
 
 
-def test_discretized_schedule_with_backend(backend) -> None:
+def test_discretized_schedule_with_backend() -> None:
     """Unit test for discretized PulseGate.schedule."""
+    backend = BackendCharacteristics.get_backend("ibmq_manila")
     dummy = DummyPulseGate(1, 1)
     signals = dummy.schedule(0, backend=backend, discretized=True)
     assert isinstance(signals[0], Signal)
 
 
-def test_discretized_schedule_with_properties(backend_properties) -> None:
+def test_discretized_schedule_with_properties() -> None:
     """Unit test for discretized PulseGate.schedule."""
+    backend = BackendCharacteristics.get_backend("ibmq_manila")
+    backend_characteristics = BackendCharacteristics(backend)
     dummy = DummyPulseGate(1, 1)
     schedule = dummy.schedule(0)
-    dt = backend_properties.dt
-    frequencies = backend_properties.get_channel_frequencies(list(schedule.channels))
-    signals = dummy.schedule(0, dt=dt, channel_frequencies=frequencies, discretized=True)
+    dt = backend_characteristics.dt
+    frequencies = backend_characteristics.get_channel_frequencies(
+        list(schedule.channels)
+    )
+    signals = dummy.schedule(
+        0, dt=dt, channel_frequencies=frequencies, discretized=True
+    )
     assert isinstance(signals[0], Signal)
 
 
@@ -101,7 +113,5 @@ def test_discretized_schedule_with_missing_arguments() -> None:
 def test_draw_signal() -> None:
     """Unit test for draw_schedule method."""
     dummy = DummyPulseGate(1, 1)
-    figure = dummy.draw_signal(
-        qubit=0, dt=1, carrier_frequency=1, hidden=True
-    )
+    figure = dummy.draw_signal(qubit=0, dt=1, carrier_frequency=1, hidden=True)
     assert isinstance(figure, Figure)

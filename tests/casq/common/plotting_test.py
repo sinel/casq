@@ -23,18 +23,27 @@
 """Base object tests."""
 from __future__ import annotations
 
-import numpy as np
 from matplotlib.figure import Figure
 from matplotlib.legend import Legend
 import matplotlib.pyplot as plt
+import numpy as np
 
 from casq.common import (
-    add_line, add_line_collection,
-    add_horizontal_line, add_vertical_line,
-    plot, plot_bloch, plot_signal,
-    LineConfig, LineData, LineStyle, LineType,
-    LegendLocation, LegendStyle,
-    MarkerStyle, MarkerType,
+    LegendLocation,
+    LegendStyle,
+    LineConfig,
+    LineData,
+    LineStyle,
+    LineType,
+    MarkerStyle,
+    MarkerType,
+    add_horizontal_line,
+    add_line,
+    add_line_collection,
+    add_vertical_line,
+    plot,
+    plot_bloch,
+    plot_signal,
 )
 
 
@@ -44,8 +53,11 @@ def test_add_line() -> None:
     line_style = LineStyle(type=LineType.DASHED, color="blue", size=5)
     marker_style = MarkerStyle(type=MarkerType.X, color="red", size=20)
     add_line(
-        ax, LineData([0, 1], [0, 1]),
-        label="hello", line_style=line_style, marker_style=marker_style
+        ax,
+        LineData([0, 1], [0, 1]),
+        label="hello",
+        line_style=line_style,
+        marker_style=marker_style,
     )
     assert len(ax.lines) == 1
     line = ax.lines[0]
@@ -63,13 +75,8 @@ def test_add_line_collection_with_floats() -> None:
     """Unit test for add_line_collection."""
     figure, ax = plt.subplots(1, 1)
     line_style = LineStyle(type=LineType.DASHED, color="blue", size=5)
-    data = [
-        LineData([0, 1], [0, 1]),
-        LineData([0, 1], [0, 2])
-    ]
-    add_line_collection(
-        ax, data, label="hello", line_style=line_style
-    )
+    data = [LineData([0, 1], [0, 1]), LineData([0, 1], [0, 2])]
+    add_line_collection(ax, data, label="hello", line_style=line_style)
     assert len(ax.collections) == 1
     collection = ax.collections[0]
     assert len(collection.get_segments()) == 2
@@ -85,7 +92,7 @@ def test_add_line_collection_with_ndarray() -> None:
     figure, ax = plt.subplots(1, 1)
     data = [
         LineData(np.asarray([0, 1]), np.asarray([0, 1])),
-        LineData(np.asarray([0, 1]), np.asarray([0, 2]))
+        LineData(np.asarray([0, 1]), np.asarray([0, 2])),
     ]
     add_line_collection(ax, data)
     assert len(ax.collections) == 1
@@ -124,9 +131,12 @@ def test_plot() -> None:
     """Unit test for plot."""
     config = LineConfig(
         LineData([0, 1], [0, 1]),
-        xtitle="x_title", ytitle="y_title",
-        xlim=(0, 1), ylim=(0, 1),
-        xticks=[0, 0.5, 1], yticks=[0, 0.5, 1]
+        xtitle="x_title",
+        ytitle="y_title",
+        xlim=(0, 1),
+        ylim=(0, 1),
+        xticks=[0, 0.5, 1],
+        yticks=[0, 0.5, 1],
     )
     line_style = LineStyle(type=LineType.DASHED, color="blue", size=5)
     legend_style = LegendStyle(location=LegendLocation.CENTER, anchor=(0, 0))
@@ -134,8 +144,10 @@ def test_plot() -> None:
         [config],
         hlines=[(1, "hline_label", line_style, None)],
         vlines=[(1, "vline_label", line_style, None)],
-        legend_style=legend_style, show_grid=True,
-        title="figure_title", hidden=True
+        legend_style=legend_style,
+        show_grid=True,
+        title="figure_title",
+        hidden=True,
     )
     ax = figure.axes[0]
     legends = [child for child in ax.get_children() if isinstance(child, Legend)]

@@ -31,8 +31,8 @@ from qiskit.circuit.parameterexpression import ParameterValueType
 from qiskit.circuit.quantumcircuit import InstructionSet
 from qiskit.providers import BackendV1
 
-from casq.circuit.pulse_gate import PulseGate
 from casq.common import dbid, trace, ufid
+from casq.gates.pulse_gate import PulseGate
 
 
 class PulseCircuit(QuantumCircuit):

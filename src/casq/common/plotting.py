@@ -37,6 +37,8 @@ from qiskit.pulse.transforms import block_to_schedule
 from qiskit_dynamics.pulse import InstructionToSignals
 import qutip
 
+from casq.common import CasqError
+
 plt.style.use("seaborn-v0_8-notebook")
 
 
@@ -216,7 +218,9 @@ def add_line_collection(
             [np.column_stack((line_data.x, line_data.y)) for line_data in data]
         )
     else:
-        collection = LineCollection([list(zip(line_data.x, line_data.y)) for line_data in data])
+        collection = LineCollection(
+            [list(zip(line_data.x, line_data.y)) for line_data in data]
+        )
     line_obj = ax.add_collection(collection)
     if label:
         line_obj.set_label(label)
@@ -322,10 +326,35 @@ def plot(
         figure.suptitle(title)
     for config in configs:
         if isinstance(config, LineConfig):
-            data, label, xtitle, ytitle, xlim, ylim, xticks, yticks, line_style, marker_style, ax = config
-        else:
-            data, label, xtitle, ytitle, xlim, ylim, xticks, yticks, line_style, ax = config
+            (
+                data,
+                label,
+                xtitle,
+                ytitle,
+                xlim,
+                ylim,
+                xticks,
+                yticks,
+                line_style,
+                marker_style,
+                ax,
+            ) = config
+        elif isinstance(config, LineCollectionConfig):
+            (
+                data,
+                label,
+                xtitle,
+                ytitle,
+                xlim,
+                ylim,
+                xticks,
+                yticks,
+                line_style,
+                ax,
+            ) = config
             marker_style = None
+        else:
+            raise CasqError("Unrecognized plotting config type.")
         if ax is None:
             ax = figure.axes[0]
         if isinstance(config, LineConfig):
@@ -349,19 +378,19 @@ def plot(
         if yticks:
             ax.set_yticks(yticks)
     if hlines:
-        for y, label, line_style, ax in hlines:  # type: ignore
+        for y, label, line_style, ax in hlines:
             if ax is None:
                 ax = figure.axes[0]
-            add_horizontal_line(ax, y, label, line_style)  # type: ignore
+            add_horizontal_line(ax, y, label, line_style)
             if label and legend_style:
                 ax.legend(
                     loc=legend_style.location.value, bbox_to_anchor=legend_style.anchor
                 )
     if vlines:
-        for x, label, line_style, ax in vlines:  # type: ignore
+        for x, label, line_style, ax in vlines:
             if ax is None:
                 ax = figure.axes[0]
-            add_vertical_line(ax, x, label, line_style)  # type: ignore
+            add_vertical_line(ax, x, label, line_style)
             if label and legend_style:
                 ax.legend(
                     loc=legend_style.location.value, bbox_to_anchor=legend_style.anchor
@@ -466,7 +495,7 @@ def plot_signal(
     config2 = LineCollectionConfig(
         data=[
             LineData(signal_times, signal_envelope_abs),
-            LineData(signal_times, -signal_envelope_abs)
+            LineData(signal_times, -signal_envelope_abs),
         ],
         label="Envelope",
         xtitle="Time (ns)",

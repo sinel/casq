@@ -34,9 +34,8 @@ from qiskit.pulse.library import Pulse
 from qiskit.pulse.transforms.canonicalization import block_to_schedule
 from qiskit_dynamics import Signal
 
-from casq.common import (
-    PulseBackendProperties, CasqError, dbid, discretize, plot_signal, trace, ufid
-)
+from casq.backends.qiskit.backend_characteristics import BackendCharacteristics
+from casq.common import CasqError, dbid, discretize, plot_signal, trace, ufid
 
 
 class PulseGate(Gate):
@@ -119,7 +118,7 @@ class PulseGate(Gate):
         sched = block_to_schedule(sb)
         if discretized:
             if backend:
-                props = PulseBackendProperties(backend)
+                props = BackendCharacteristics(backend)
                 channel_frequencies_from_backend: dict[
                     str, float
                 ] = props.get_channel_frequencies(list(sched.channels))

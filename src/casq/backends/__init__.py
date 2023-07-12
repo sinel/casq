@@ -20,17 +20,19 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  ********************************************************************************
-"""Collecting gates package imports in one place for convenient access."""
-from casq.circuit.drag_pulse_gate import DragPulseGate
-from casq.circuit.gaussian_pulse_gate import GaussianPulseGate
-from casq.circuit.gaussian_square_pulse_gate import GaussianSquarePulseGate
-from casq.circuit.pulse_circuit import PulseCircuit
-from casq.circuit.pulse_gate import PulseGate
+"""Collecting casq.backends package imports in one place for convenient access."""
+from casq.backends.pulse_backend import PulseBackend
+from casq.backends.pulse_solution import PulseSolution
+from casq.backends.qiskit.helpers import get_experiment_result
+from casq.backends.qiskit.backend_characteristics import BackendCharacteristics
+from casq.backends.qiskit.dynamics_backend_patch import DynamicsBackendPatch
+from casq.backends.qiskit.qiskit_pulse_backend import QiskitPulseBackend
 
 __all__ = [
-    "DragPulseGate",
-    "GaussianPulseGate",
-    "GaussianSquarePulseGate",
-    "PulseGate",
-    "PulseCircuit",
+    "get_experiment_result",
+    "PulseBackend",
+    "PulseSolution",
+    "BackendCharacteristics",
+    "DynamicsBackendPatch",
+    "QiskitPulseBackend",
 ]

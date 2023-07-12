@@ -20,12 +20,12 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  ********************************************************************************
-"""Gaussian pulse gate tests."""
+"""Drag pulse gate tests."""
 from __future__ import annotations
 
 from qiskit import pulse
 
-from casq.circuit import GaussianPulseGate
+from casq.gates.drag_pulse_gate import DragPulseGate
 
 
 def test_pulse_instruction() -> None:
@@ -34,18 +34,20 @@ def test_pulse_instruction() -> None:
     duration = 256
     amplitude = 1
     sigma = 128
-    dummy = GaussianPulseGate(duration, amplitude, sigma)
+    beta = 0.75
+    dummy = DragPulseGate(duration, amplitude, sigma, beta)
     schedule = dummy.schedule(qubit)
     # noinspection PyTypeChecker
     instruction: pulse.Play = schedule.instructions[0][1]
-    assert instruction.pulse.pulse_type == "Gaussian"
+    assert instruction.pulse.pulse_type == "Drag"
     # noinspection PyTypeChecker
-    waveform: pulse.Gaussian = instruction.pulse
+    waveform: pulse.Drag = instruction.pulse
     assert schedule.duration == duration
     assert instruction.channel.index == qubit
     assert waveform.name == dummy.ufid
     assert waveform.amp == amplitude
     assert waveform.sigma == sigma
+    assert waveform.beta == beta
 
 
 def test_symbolic_pulse_instruction() -> None:
@@ -54,15 +56,17 @@ def test_symbolic_pulse_instruction() -> None:
     duration = 256
     amplitude = 1
     sigma = 128
-    dummy = GaussianPulseGate(duration, amplitude, sigma, jax=True)
+    beta = 0.75
+    dummy = DragPulseGate(duration, amplitude, sigma, beta, jax=True)
     schedule = dummy.schedule(qubit)
     # noinspection PyTypeChecker
     instruction: pulse.Play = schedule.instructions[0][1]
-    assert instruction.pulse.pulse_type == "Gaussian"
+    assert instruction.pulse.pulse_type == "Drag"
     # noinspection PyTypeChecker
-    waveform: pulse.Gaussian = instruction.pulse
+    waveform: pulse.Drag = instruction.pulse
     assert schedule.duration == duration
     assert instruction.channel.index == qubit
     assert waveform.name == dummy.ufid
     assert waveform.amp == amplitude
     assert waveform.sigma == sigma
+    assert waveform.beta == beta

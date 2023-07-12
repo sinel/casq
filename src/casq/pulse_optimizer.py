@@ -40,15 +40,13 @@ from scipy.optimize import (
     minimize,
 )
 
-from casq.circuit import (
-    DragPulseGate,
-    GaussianPulseGate,
-    GaussianSquarePulseGate,
-    PulseCircuit,
-    PulseGate,
-)
+from casq.backends.pulse_backend import PulseBackend
 from casq.common import CasqError, trace
-from casq.pulse_simulator import PulseSimulator
+from casq.gates.drag_pulse_gate import DragPulseGate
+from casq.gates.gaussian_pulse_gate import GaussianPulseGate
+from casq.gates.gaussian_square_pulse_gate import GaussianSquarePulseGate
+from casq.gates.pulse_circuit import PulseCircuit
+from casq.gates.pulse_gate import PulseGate
 
 
 class PulseOptimizer:
@@ -107,10 +105,11 @@ class PulseOptimizer:
         self,
         pulse_type: PulseType,
         pulse_arguments: dict[str, Any],
-        simulator: PulseSimulator,
+        backend: PulseBackend,
         target_measurement: Union[dict[str, float], DensityMatrix, Statevector],
         fidelity_type: Optional[FidelityType] = None,
         target_qubit: Optional[int] = None,
+        method: Optional[PulseBackend.ODESolverMethod] = None,
         use_jax: bool = False,
         use_jit: bool = False,
     ):
@@ -121,29 +120,31 @@ class PulseOptimizer:
             pulse_arguments: Dict containing pulse arguments.
                 Use None values for parameters,
                 and actual values for fixed arguments.
-            simulator: Pulse simulator.
+            backend: Pulse backend.
             target_measurement: Target measurement against which fidelity will be calculated.
             fidelity_type: Fidelity type. Defaults to FidelityType.COUNTS.
             target_qubit: Qubit to drive with pulse. Defaults to first qubit in simulator.
+            method: ODE solver method.
             use_jax: If True, then ODE solver method must be jax-compatible
                 and jax-compatible pulse is constructed.
             use_jit: If True, then jit and value_and_grad is applied to objective function.
         """
         self.pulse_type = pulse_type
         self.pulse_arguments = pulse_arguments
-        self.simulator = simulator
+        self.backend = backend
         self.target_measurement = target_measurement
         self.fidelity_type = (
             PulseOptimizer.FidelityType.COUNTS
             if fidelity_type is None
             else fidelity_type
         )
-        self.target_qubit = target_qubit if target_qubit else self.simulator.qubits[0]
+        self.target_qubit = target_qubit if target_qubit else self.backend.qubits[0]
+        self.method = method
         self.use_jax = use_jax
         self.use_jit = use_jit
-        if self.use_jax and self.simulator.method not in [
-            PulseSimulator.ODESolverMethod.QISKIT_DYNAMICS_JAX_RK4,
-            PulseSimulator.ODESolverMethod.QISKIT_DYNAMICS_JAX_ODEINT,
+        if self.use_jax and self.method not in [
+            PulseBackend.ODESolverMethod.QISKIT_DYNAMICS_JAX_RK4,
+            PulseBackend.ODESolverMethod.QISKIT_DYNAMICS_JAX_ODEINT,
         ]:
             raise CasqError(
                 f"If 'jax' is enabled, a jax-compatible ODE solver method is required."
@@ -225,10 +226,8 @@ class PulseOptimizer:
             callback=callback,
         )
         gate = self.pulse_function(opt_results.x)
-        circuit = PulseCircuit.from_pulse(
-            gate, self.simulator.backend, self.target_qubit
-        )
-        counts = self.simulator.run([circuit]).result().results[0].data.counts[-1]
+        circuit = PulseCircuit.from_pulse(gate, self.backend.backend, self.target_qubit)
+        counts = self.backend.run([circuit])[circuit.name].counts[-1]
         return PulseOptimizer.Solution(
             num_iterations=opt_results.nfev,
             parameters=opt_results.x,
@@ -251,16 +250,12 @@ class PulseOptimizer:
         def objective(params: npt.NDArray) -> float:
             p = self.pulse_function(params)
             circuit = PulseCircuit.from_pulse(
-                p, self.simulator.backend, self.target_qubit
+                p, self.backend.backend, self.target_qubit
             )
-            result = (
-                self.simulator.run(
-                    run_input=[circuit],
-                )
-                .result()
-                .results[0]
-            )
-            counts = result.data.counts[-1]
+            solution = self.backend.run(run_input=[circuit], method=self.method)[
+                circuit.name
+            ]
+            counts = solution.counts[-1]
             fidelity = hellinger_fidelity(self.target_measurement, counts)
             infidelity = 1.0 - float(fidelity)
             logger.debug(

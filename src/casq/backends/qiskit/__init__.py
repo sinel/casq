@@ -20,31 +20,4 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  ********************************************************************************
-"""Base object tests."""
-from __future__ import annotations
-
-from typing import Any
-from uuid import UUID
-
-from qiskit_dynamics.array import Array
-
-from casq.common import dbid, initialize_jax, ufid
-
-
-def test_dbid() -> None:
-    """Unit test for dbid."""
-    assert UUID(dbid(), version=4)
-
-
-def test_ufid() -> None:
-    """Unit test for ufid."""
-    obj: dict[str, Any] = {}
-    name = ufid(obj)
-    assert isinstance(name, str)
-    assert name.endswith("Dict")
-
-
-def test_initialize_jax() -> None:
-    """Unit test for initializing jax."""
-    initialize_jax()
-    assert Array.default_backend() == "jax"
+"""Empty __init__.py file for Python to recognize folder as package."""

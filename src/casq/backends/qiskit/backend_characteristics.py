@@ -20,13 +20,13 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  ********************************************************************************
-"""Pulse-specific helper functions."""
+"""BackendCharacteristics."""
 from __future__ import annotations
 
 from typing import NamedTuple, Union
 
-import numpy as np
 from loguru import logger
+import numpy as np
 from qiskit.providers import BackendV1
 from qiskit.providers.models import (
     BackendProperties,
@@ -39,13 +39,18 @@ from qiskit_ibm_provider import IBMProvider
 from casq.common import CasqError, trace
 
 
-class PulseBackendProperties:
-    """PulseBackendProperties class.
+class BackendCharacteristics:
+    """BackendCharacteristics class.
 
-    Extracts pulse backend properties needed by various casq classes and methods.
+    Extracts IBMQ backend characteristics needed by various casq classes and methods.
+    Requires PulseBackendConfiguration with valid configuration, properties, and defaults.
+
+    BackendV2 currently lacks all necessary characteristics
+    that may be utilized by a PulseBackend.
+    However, this may change in future Qiskit versions.
 
     Args:
-        backend: IBMQ backend.
+        backend: IBMQ backend compatible with BackendV1.
     """
 
     class QubitProperties(NamedTuple):
@@ -60,7 +65,7 @@ class PulseBackendProperties:
 
     @staticmethod
     def get_backend(name: str) -> BackendV1:  # pragma: no cover
-        """PulseBackendProperties._get_backend method.
+        """BackendCharacteristics._get_backend method.
 
         Returns:
             :py:class:`qiskit.providers.Backend`
@@ -70,9 +75,9 @@ class PulseBackendProperties:
 
     @trace()
     def __init__(self, backend: Union[str, BackendV1]):
-        """Initialize PulseBackendProperties."""
+        """Initialize BackendCharacteristics."""
         if isinstance(backend, str):
-            self.backend = PulseBackendProperties.get_backend(backend)
+            self.backend = BackendCharacteristics.get_backend(backend)
         else:
             self.backend = backend
         self.config = self._get_config()
@@ -90,15 +95,15 @@ class PulseBackendProperties:
         self.gates = self.properties.gates
 
     def get_qubit_properties(self, qubit: int) -> QubitProperties:
-        """PulseBackendProperties.get_qubit_properties method.
+        """BackendCharacteristics.get_qubit_properties method.
 
         Args:
             qubit: Qubit to attach gate to.
 
         Returns:
-            :py:class:`casq.PulseBackendProperties.QubitProperties`
+            :py:class:`casq.backends.qiskit.BackendCharacteristics.QubitProperties`
         """
-        return PulseBackendProperties.QubitProperties(
+        return BackendCharacteristics.QubitProperties(
             frequency=self.properties.frequency(qubit),
             readout_error=self.properties.readout_error(qubit),
             readout_length=self.properties.readout_length(qubit),
@@ -108,7 +113,7 @@ class PulseBackendProperties:
         )
 
     def _get_config(self) -> PulseBackendConfiguration:  # pragma: no cover
-        """PulseBackendProperties._get_config method.
+        """BackendCharacteristics._get_config method.
 
         Returns:
             :py:class:`qiskit.providers.models.PulseBackendConfiguration`
@@ -126,7 +131,7 @@ class PulseBackendProperties:
             )
 
     def _get_defaults(self) -> PulseDefaults:  # pragma: no cover
-        """PulseBackendProperties._get_defaults method.
+        """BackendCharacteristics._get_defaults method.
 
         Returns:
             :py:class:`qiskit.providers.models.PulseDefaults`
@@ -140,7 +145,7 @@ class PulseBackendProperties:
             )
 
     def _get_properties(self) -> BackendProperties:  # pragma: no cover
-        """PulseBackendProperties._get_properties method.
+        """BackendCharacteristics._get_properties method.
 
         Returns:
             :py:class:`qiskit.providers.models.BackendProperties`
