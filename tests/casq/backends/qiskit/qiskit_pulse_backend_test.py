@@ -23,6 +23,8 @@
 """Pulse gate tests."""
 from __future__ import annotations
 
+from loguru import logger
+
 from casq.backends.qiskit.backend_characteristics import BackendCharacteristics
 from casq.backends.qiskit.dynamics_backend_patch import DynamicsBackendPatch
 from casq.backends.qiskit.qiskit_pulse_backend import QiskitPulseBackend
@@ -30,8 +32,6 @@ from casq.backends.qiskit.qiskit_pulse_backend import QiskitPulseBackend
 
 def test_from_backend() -> None:
     """Unit test for PulseSimulator initialization from backend."""
-    qiskit_dynamics_backend = DynamicsBackendPatch.from_backend(
-        BackendCharacteristics.get_backend("ibmq_manila")
-    )
-    backend = QiskitPulseBackend.from_backend(qiskit_dynamics_backend)
-    assert isinstance(backend, QiskitPulseBackend)
+    backend = BackendCharacteristics.get_backend("ibmq_manila")
+    pulse_backend = QiskitPulseBackend.from_backend(backend)
+    assert isinstance(pulse_backend, QiskitPulseBackend)

@@ -221,3 +221,19 @@ class BackendCharacteristics:
                     )
                 channel_freqs[channel.name] = measure_frequencies[channel.index]
         return channel_freqs
+
+    def get_control_channel_map(self, channels_filter: list[str]) -> dict[tuple[int, ...], int]:
+        """Get control channel map from backend configuration.
+
+        Args:
+            channels_filter: List of channel names to filter by.
+
+        Returns:
+            Dictionary mapping qubits to control channels.
+        """
+        control_channel_map = {}
+        for qubits in self.config.control_channels:
+            index = self.config.control_channels[qubits][0].index
+            if f"u{index}" in channels_filter:
+                control_channel_map[qubits] = index
+        return control_channel_map

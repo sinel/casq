@@ -23,17 +23,22 @@
 """Pulse simulator."""
 from __future__ import annotations
 
-from typing import Optional, Union
+from copy import deepcopy
+from dataclasses import asdict, dataclass, field
+from typing import Any, Callable, Optional, Union
 
 from loguru import logger
 import numpy as np
 from qiskit.providers import BackendV1, BackendV2
+from qiskit.providers.models import PulseBackendConfiguration, PulseDefaults
 from qiskit.pulse import Schedule
+from qiskit.qobj.utils import MeasLevel, MeasReturnType
+from qiskit.quantum_info import DensityMatrix, Statevector
 from qiskit.result import Result
 from qiskit.transpiler import Target
 from qiskit_dynamics import RotatingFrame, Solver
 from qiskit_dynamics.array import Array
-from qiskit_dynamics.backend import DynamicsBackend
+from qiskit_dynamics.backend import default_experiment_result_function, DynamicsBackend
 
 
 class DynamicsBackendPatch(DynamicsBackend):
@@ -51,11 +56,33 @@ class DynamicsBackendPatch(DynamicsBackend):
         based on a steps argument is now provided.
     """
 
+    @dataclass
+    class Options:
+        shots: int = 1024
+        solver_options: dict[str, Any] = field(default_factory=dict)
+        meas_map: Optional[dict] = None
+        control_channel_map: Optional[dict] = None
+        normalize_states: bool = True
+        initial_state: Union[str, DensityMatrix, Statevector] = "ground_state"
+        meas_level: MeasLevel = MeasLevel.CLASSIFIED
+        meas_return: MeasReturnType = MeasReturnType.AVERAGE
+        iq_centers: list[list[list[float, float]]] = None
+        iq_width: float = 0.2
+        max_outcome_level: Optional[int] = 1
+        memory: bool = True
+        seed_simulator: Optional[int] = None
+        experiment_result_function: Callable = default_experiment_result_function
+        configuration: Optional[PulseBackendConfiguration] = None
+        defaults: Optional[PulseDefaults] = None
+
+        def to_dict(self) -> dict[str, Any]:
+            return asdict(self, dict_factory=lambda opt: {k: v for (k, v) in opt if v is not None})
+
     @classmethod
     def from_backend(
         cls,
         backend: Union[BackendV1, BackendV2],
-        subsystem_list: Optional[list[int]] = None,
+        qubits: Optional[list[int]] = None,
         rotating_frame: Optional[Union[Array, RotatingFrame, str]] = "auto",
         evaluation_mode: str = "dense",
         rwa_cutoff_freq: Optional[float] = None,
@@ -66,15 +93,14 @@ class DynamicsBackendPatch(DynamicsBackend):
 
         Args:
             backend: The ``Backend`` instance to build the :class:`.DynamicsBackend` from.
-            subsystem_list: The list of qubits in the backend to include in the model.
+            qubits: List of qubits to include from the backend.
             rotating_frame: Rotating frame argument for the internal :class:`.Solver`. Defaults to
                 ``"auto"``, allowing this method to pick a rotating frame.
             evaluation_mode: Evaluation mode argument for the internal :class:`.Solver`.
             rwa_cutoff_freq: Rotating wave approximation argument for the internal :class:`.Solver`.
             steps: Number of steps at which to solve the system.
                 Used to automatically calculate an evenly-spaced t_eval range.
-            **options: Additional options to be applied in construction of the
-                :class:`.DynamicsBackend`.
+            options: Additional configuration options for the backend.
 
         Returns:
             DynamicsBackendPatch
@@ -84,27 +110,18 @@ class DynamicsBackendPatch(DynamicsBackend):
         """
         dynamics_backend = DynamicsBackend.from_backend(
             backend=backend,
-            subsystem_list=subsystem_list,
+            subsystem_list=qubits,
             rotating_frame=rotating_frame,
             evaluation_mode=evaluation_mode,
             rwa_cutoff_freq=rwa_cutoff_freq,
             **options
         )
-        dynamics_backend_patch: DynamicsBackendPatch = DynamicsBackendPatch(
-            solver=dynamics_backend.options.solver,
-            rwa_cutoff_freq=rwa_cutoff_freq,
-            steps=steps,
-            **options
-        )
+        options = {k: v for k, v in dynamics_backend.options.__dict__.items() if v is not None}
+        dynamics_backend_patch: DynamicsBackendPatch = DynamicsBackendPatch(steps=steps, **options)
         return dynamics_backend_patch
 
     def __init__(
-        self,
-        solver: Solver,
-        target: Optional[Target] = None,
-        rwa_cutoff_freq: Optional[float] = None,
-        steps: Optional[int] = None,
-        **options
+        self, solver: Solver, target: Optional[Target] = None, steps: Optional[int] = None, **options
     ):
         """Instantiate :class:`~casq.DynamicsBackendPatch`.
 
@@ -114,16 +131,14 @@ class DynamicsBackendPatch(DynamicsBackend):
         Args:
             solver: Solver instance configured for pulse simulation.
             target: Target object.
-            rwa_cutoff_freq: Rotating wave approximation argument for the internal :class:`.Solver`.
             steps: Number of steps at which to solve the system.
                 Used to automatically calculate an evenly-spaced t_eval range.
-            options: Additional configuration options for the simulator.
+            options: Additional configuration options for the backend.
 
         Raises:
             QiskitError: If any instantiation arguments fail validation checks.
         """
-        options.update(steps=steps)
-        options.update(rwa_cutoff_freq=rwa_cutoff_freq)
+        self.steps = steps
         super().__init__(solver, target, **options)
 
     def _run(
@@ -149,8 +164,8 @@ class DynamicsBackendPatch(DynamicsBackend):
             ExperimentResult object.
         """
         auto_t_eval = None
-        if self.options.steps:
-            auto_t_eval = np.linspace(t_span[0][0], t_span[0][1], self.options.steps)
+        if self.steps:
+            auto_t_eval = np.linspace(t_span[0][0], t_span[0][1], self.steps)
             auto_t_eval[0] = t_span[0][0]
             auto_t_eval[-1] = t_span[0][1]
         if "solver_options" in self.options:

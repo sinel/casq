@@ -24,16 +24,15 @@
 from __future__ import annotations
 
 from abc import abstractmethod
-from collections import OrderedDict
+from dataclasses import asdict, dataclass
 from enum import Enum
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
+import numpy as np
 import numpy.typing as npt
 from qiskit import QuantumCircuit
-from qiskit.providers import BackendV1, BackendV2
 from qiskit.pulse import Schedule, ScheduleBlock
-from qiskit.quantum_info import DensityMatrix, Operator, Statevector
-from qiskit_dynamics.models import RotatingFrame
+from qiskit.quantum_info import DensityMatrix, Statevector
 
 from casq.backends.pulse_solution import PulseSolution
 from casq.gates.pulse_circuit import PulseCircuit
@@ -42,8 +41,8 @@ from casq.gates.pulse_circuit import PulseCircuit
 class PulseBackend:
     """PulseBackend class."""
 
-    class BackendType(Enum):
-        """Backend type."""
+    class NativeBackendType(Enum):
+        """Native backend type."""
 
         C3 = 0
         QCTRL = 1
@@ -63,74 +62,66 @@ class PulseBackend:
         SCIPY_RK23 = "RK23"
         SCIPY_RK45 = "RK45"
 
+    @dataclass
+    class Options:
+        seed: Optional[int] = None
+
+        def to_dict(self) -> dict[str, Any]:
+            return asdict(self)
+
+    @dataclass
+    class RunOptions:
+        initial_state: Optional[Union[DensityMatrix, Statevector]] = None
+        method: Optional[PulseBackend.ODESolverMethod] = None
+        shots: int = 1024
+        steps: Optional[int] = None
+
+        def to_dict(self) -> dict[str, Any]:
+            return asdict(self)
+
+    @dataclass
+    class Hamiltonian:
+        static: npt.NDArray
+        operators: npt.NDArray
+        channels: list[str]
+
+        def to_dict(self) -> dict[str, Any]:
+            return asdict(self)
+
     def __init__(
         self,
-        backend_type: PulseBackend.BackendType,
-        static_hamiltonian: Optional[npt.NDArray] = None,
-        hamiltonian_operators: Optional[list[Operator]] = None,
-        hamiltonian_channels: Optional[list[str]] = None,
-        qubit_dict: Optional[dict[int, int]] = None,
-        channel_carrier_freqs: Optional[dict] = None,
-        dt: Optional[float] = None,
-        rotating_frame: Optional[Union[npt.NDArray, RotatingFrame, str]] = "auto",
-        evaluation_mode: str = "dense",
-        rwa_cutoff_freq: Optional[float] = None,
-        steps: Optional[int] = None,
+        native_backend_type: PulseBackend.NativeBackendType,
+        hamiltonian_dict: dict,
+        qubits: Optional[list[int]] = None,
+        options: Optional[Options] = None
     ):
         """Instantiate :class:`~casq.backends.PulseBackend`.
 
         Args:
-            backend_type: Backend type.
-            static_hamiltonian: Constant Hamiltonian term.
-                If a ``rotating_frame`` is specified,
-                the ``frame_operator`` will be subtracted
-                from the static_hamiltonian.
-            hamiltonian_operators: Hamiltonian operators.
-            hamiltonian_channels: List of channel names in pulse schedules
-                corresponding to Hamiltonian operators.
-            qubit_dict: Dictionary of qubits (key=index, value=dimension)
-                in the backend to include in the model.
-            channel_carrier_freqs: Dictionary mapping channel names to floats
-                which represent the carrier frequency of the pulse channel
-                with the corresponding name.
-            dt: Sample rate for simulating pulse schedules.
-            rotating_frame: Rotating frame to transform the model into.
-                Rotating frames which are diagonal can be supplied as
-                a 1d array of the diagonal elements
-                to explicitly indicate that they are diagonal.
-            evaluation_mode: Method for model evaluation.
-            rwa_cutoff_freq: Rotating wave approximation cutoff frequency.
-                If ``None``, no approximation is made.
-            steps: Number of steps at which to solve the system.
-                Used to automatically calculate an evenly-spaced t_eval range.
+            native_backend_type: Native backend type.
+            hamiltonian_dict: Pulse backend Hamiltonian dictionary.
+            qubits: List of qubits to include from the backend.
+            options: Pulse backend options.
         """
-        self.backend_type = backend_type
-        self.static_hamiltonian = static_hamiltonian
-        self.hamiltonian_operators = hamiltonian_operators
-        self.hamiltonian_channels = hamiltonian_channels
-        self.qubit_dict = (
-            OrderedDict(sorted(qubit_dict.items()))
-            if qubit_dict is not None
-            else {0: 2}
-        )
-        self.qubits = list(self.qubit_dict.keys())
-        self.qubit_dims = list(self.qubit_dict.values())
-        self.channel_carrier_freqs = channel_carrier_freqs
-        self.dt = dt
-        self.rotating_frame = rotating_frame
-        self.evaluation_mode = evaluation_mode
-        self.rwa_cutoff_freq = rwa_cutoff_freq
-        self.steps = steps
-        self.backend: Union[BackendV1, BackendV2] = ...
+        self._native_backend_type = native_backend_type
+        self._hamiltonian_dict = hamiltonian_dict
+        self.qubits = [0] if qubits is None else qubits
+        self.options = PulseBackend.Options() if options is None else options
+        self._hamiltonian, self.qubit_dims = self._parse_hamiltonian_dict()
+        self._native_backend = self._get_native_backend()
 
     @abstractmethod
     def run(
         self,
         run_input: list[Union[PulseCircuit, QuantumCircuit, Schedule, ScheduleBlock]],
-        qubits: Optional[list[int]] = None,
-        initial_state: Optional[Union[DensityMatrix, Statevector]] = None,
-        method: Optional[PulseBackend.ODESolverMethod] = None,
-        shots: int = 1024,
-        seed: Optional[int] = None,
+        run_options: Optional[RunOptions] = None
     ) -> dict[str, PulseSolution]:
         """PulseBackend.run."""
+
+    @abstractmethod
+    def _get_native_backend(self) -> Any:
+        """PulseBackend._get_native_backend."""
+
+    @abstractmethod
+    def _parse_hamiltonian_dict(self) -> tuple[PulseBackend.Hamiltonian, list[int]]:
+        """PulseBackend._parse_hamiltonian_dict."""
