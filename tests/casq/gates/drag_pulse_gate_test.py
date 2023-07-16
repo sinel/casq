@@ -24,6 +24,7 @@
 from __future__ import annotations
 
 from qiskit import pulse
+from qiskit.pulse.library import ScalableSymbolicPulse
 
 from casq.gates.drag_pulse_gate import DragPulseGate
 
@@ -36,28 +37,7 @@ def test_pulse_instruction() -> None:
     sigma = 128
     beta = 0.75
     dummy = DragPulseGate(duration, amplitude, sigma, beta)
-    schedule = dummy.schedule(qubit)
-    # noinspection PyTypeChecker
-    instruction: pulse.Play = schedule.instructions[0][1]
-    assert instruction.pulse.pulse_type == "Drag"
-    # noinspection PyTypeChecker
-    waveform: pulse.Drag = instruction.pulse
-    assert schedule.duration == duration
-    assert instruction.channel.index == qubit
-    assert waveform.name == dummy.ufid
-    assert waveform.amp == amplitude
-    assert waveform.sigma == sigma
-    assert waveform.beta == beta
-
-
-def test_symbolic_pulse_instruction() -> None:
-    """Unit test for symbolic pulse instruction."""
-    qubit = 0
-    duration = 256
-    amplitude = 1
-    sigma = 128
-    beta = 0.75
-    dummy = DragPulseGate(duration, amplitude, sigma, beta, jax=True)
+    assert isinstance(dummy.pulse(), ScalableSymbolicPulse)
     schedule = dummy.schedule(qubit)
     # noinspection PyTypeChecker
     instruction: pulse.Play = schedule.instructions[0][1]

@@ -47,7 +47,6 @@ class PulseGate(Gate):
     Args:
         num_qubits: The number of qubits the gate acts on.
         duration: Pulse length in terms of the sampling period dt.
-        jax: If True, use JAX-enabled implementation.
         name: Optional display name for the pulse gate.
     """
 
@@ -56,7 +55,6 @@ class PulseGate(Gate):
         self,
         num_qubits: int,
         duration: int,
-        jax: Optional[bool] = None,
         name: Optional[str] = None,
     ) -> None:
         """Initialize PulseGate."""
@@ -64,7 +62,6 @@ class PulseGate(Gate):
         self.ufid = name if name else ufid(self)
         super().__init__(self.ufid, num_qubits, [], self.ufid)
         self.duration = duration
-        self.jax = jax
 
     @abstractmethod
     def pulse(self) -> Pulse:

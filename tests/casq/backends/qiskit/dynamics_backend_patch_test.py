@@ -37,7 +37,7 @@ def test_options_to_dict() -> None:
     options = DynamicsBackendPatch.Options()
     options_dict = options.to_dict()
     assert options_dict.get("shots", None) == 1024
-    assert not("configuration" in options_dict)
+    assert not ("configuration" in options_dict)
 
 
 def test_from_backend(backend: BackendV1) -> None:

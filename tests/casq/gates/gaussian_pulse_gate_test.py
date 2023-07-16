@@ -24,6 +24,7 @@
 from __future__ import annotations
 
 from qiskit import pulse
+from qiskit.pulse.library import ScalableSymbolicPulse
 
 from casq.gates.gaussian_pulse_gate import GaussianPulseGate
 
@@ -35,26 +36,7 @@ def test_pulse_instruction() -> None:
     amplitude = 1
     sigma = 128
     dummy = GaussianPulseGate(duration, amplitude, sigma)
-    schedule = dummy.schedule(qubit)
-    # noinspection PyTypeChecker
-    instruction: pulse.Play = schedule.instructions[0][1]
-    assert instruction.pulse.pulse_type == "Gaussian"
-    # noinspection PyTypeChecker
-    waveform: pulse.Gaussian = instruction.pulse
-    assert schedule.duration == duration
-    assert instruction.channel.index == qubit
-    assert waveform.name == dummy.ufid
-    assert waveform.amp == amplitude
-    assert waveform.sigma == sigma
-
-
-def test_symbolic_pulse_instruction() -> None:
-    """Unit test for symbolic pulse instruction."""
-    qubit = 0
-    duration = 256
-    amplitude = 1
-    sigma = 128
-    dummy = GaussianPulseGate(duration, amplitude, sigma, jax=True)
+    assert isinstance(dummy.pulse(), ScalableSymbolicPulse)
     schedule = dummy.schedule(qubit)
     # noinspection PyTypeChecker
     instruction: pulse.Play = schedule.instructions[0][1]

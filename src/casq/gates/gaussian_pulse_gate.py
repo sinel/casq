@@ -25,12 +25,7 @@ from __future__ import annotations
 
 from typing import Optional
 
-from qiskit.pulse import Gaussian
-from qiskit.pulse.library import Pulse
-
-# noinspection PyProtectedMember
-from qiskit.pulse.library.symbolic_pulses import ScalableSymbolicPulse, _lifted_gaussian
-import sympy as sym
+from qiskit.pulse.library import Gaussian, Pulse
 
 from casq.common import trace
 from casq.gates.pulse_gate import PulseGate
@@ -49,7 +44,6 @@ class GaussianPulseGate(PulseGate):
         angle: The angle of the complex amplitude of the pulse. Default value 0.
         limit_amplitude: If True, then limit the amplitude of the waveform to 1.
             The default is True and the amplitude is constrained to 1.
-        jax: If True, use JAX-enabled implementation.
         name: Optional display name for the pulse gate.
     """
 
@@ -61,11 +55,10 @@ class GaussianPulseGate(PulseGate):
         sigma: float,
         angle: float = 0,
         limit_amplitude: bool = True,
-        jax: bool = False,
         name: Optional[str] = None,
     ) -> None:
         """Initialize GaussianPulseGate."""
-        super().__init__(1, duration, jax, name)
+        super().__init__(1, duration, name)
         self.amplitude = amplitude
         self.sigma = sigma
         self.angle = angle
@@ -80,34 +73,11 @@ class GaussianPulseGate(PulseGate):
         Returns:
             :py:class:`qiskit.pulse.library.Pulse`
         """
-        if self.jax:
-            _t, _duration, _amp, _sigma, _angle = sym.symbols(
-                "t, duration, amp, sigma, angle"
-            )
-            _center = _duration / 2
-            envelope_expr = (
-                _amp
-                * sym.exp(sym.I * _angle)
-                * _lifted_gaussian(_t, _center, _duration + 1, _sigma)
-            )
-            return ScalableSymbolicPulse(
-                pulse_type="Gaussian",
-                duration=self.duration,
-                amp=self.amplitude,
-                angle=self.angle,
-                limit_amplitude=self.limit_amplitude,
-                parameters={"sigma": self.sigma},
-                envelope=envelope_expr,
-                constraints=_sigma > 0,
-                valid_amp_conditions=sym.Abs(_amp) <= 1.0,
-                name=self.name,
-            )
-        else:
-            return Gaussian(
-                duration=self.duration,
-                amp=self.amplitude,
-                sigma=self.sigma,
-                angle=self.angle,
-                limit_amplitude=self.limit_amplitude,
-                name=self.name,
-            )
+        return Gaussian(
+            duration=self.duration,
+            amp=self.amplitude,
+            sigma=self.sigma,
+            angle=self.angle,
+            limit_amplitude=self.limit_amplitude,
+            name=self.name,
+        )

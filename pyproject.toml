@@ -74,6 +74,7 @@ warn_return_any = true
 warn_unused_ignores = true
 show_error_codes = true
 explicit_package_bases = true
+enable_incomplete_feature="Unpack"
 
 [[tool.mypy.overrides]]
 module = [

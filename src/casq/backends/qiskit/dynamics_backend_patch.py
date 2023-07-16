@@ -23,7 +23,6 @@
 """Pulse simulator."""
 from __future__ import annotations
 
-from copy import deepcopy
 from dataclasses import asdict, dataclass, field
 from typing import Any, Callable, Optional, Union
 
@@ -38,7 +37,7 @@ from qiskit.result import Result
 from qiskit.transpiler import Target
 from qiskit_dynamics import RotatingFrame, Solver
 from qiskit_dynamics.array import Array
-from qiskit_dynamics.backend import default_experiment_result_function, DynamicsBackend
+from qiskit_dynamics.backend import DynamicsBackend, default_experiment_result_function
 
 
 class DynamicsBackendPatch(DynamicsBackend):
@@ -58,6 +57,8 @@ class DynamicsBackendPatch(DynamicsBackend):
 
     @dataclass
     class Options:
+        """Qiskit dynamics backend options."""
+
         shots: int = 1024
         solver_options: dict[str, Any] = field(default_factory=dict)
         meas_map: Optional[dict] = None
@@ -66,7 +67,7 @@ class DynamicsBackendPatch(DynamicsBackend):
         initial_state: Union[str, DensityMatrix, Statevector] = "ground_state"
         meas_level: MeasLevel = MeasLevel.CLASSIFIED
         meas_return: MeasReturnType = MeasReturnType.AVERAGE
-        iq_centers: list[list[list[float, float]]] = None
+        iq_centers: Optional[list[list[list[float]]]] = None
         iq_width: float = 0.2
         max_outcome_level: Optional[int] = 1
         memory: bool = True
@@ -76,18 +77,21 @@ class DynamicsBackendPatch(DynamicsBackend):
         defaults: Optional[PulseDefaults] = None
 
         def to_dict(self) -> dict[str, Any]:
-            return asdict(self, dict_factory=lambda opt: {k: v for (k, v) in opt if v is not None})
+            """Converts to dict."""
+            return asdict(
+                self, dict_factory=lambda opt: {k: v for (k, v) in opt if v is not None}
+            )
 
     @classmethod
     def from_backend(
         cls,
         backend: Union[BackendV1, BackendV2],
         qubits: Optional[list[int]] = None,
-        rotating_frame: Optional[Union[Array, RotatingFrame, str]] = "auto",
+        rotating_frame: Union[Array, RotatingFrame, str] = "auto",
         evaluation_mode: str = "dense",
         rwa_cutoff_freq: Optional[float] = None,
         steps: Optional[int] = None,
-        **options
+        **options: Any,
     ) -> DynamicsBackendPatch:
         """Construct a DynamicsBackendPatch instance from an existing Backend instance.
 
@@ -114,14 +118,22 @@ class DynamicsBackendPatch(DynamicsBackend):
             rotating_frame=rotating_frame,
             evaluation_mode=evaluation_mode,
             rwa_cutoff_freq=rwa_cutoff_freq,
-            **options
+            **options,
         )
-        options = {k: v for k, v in dynamics_backend.options.__dict__.items() if v is not None}
-        dynamics_backend_patch: DynamicsBackendPatch = DynamicsBackendPatch(steps=steps, **options)
+        options = {
+            k: v for k, v in dynamics_backend.options.__dict__.items() if v is not None
+        }
+        dynamics_backend_patch: DynamicsBackendPatch = DynamicsBackendPatch(
+            steps=steps, **options
+        )
         return dynamics_backend_patch
 
     def __init__(
-        self, solver: Solver, target: Optional[Target] = None, steps: Optional[int] = None, **options
+        self,
+        solver: Solver,
+        target: Optional[Target] = None,
+        steps: Optional[int] = None,
+        **options: Any,
     ):
         """Instantiate :class:`~casq.DynamicsBackendPatch`.
 

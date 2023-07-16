@@ -72,7 +72,9 @@ def test_get_channel_frequencies_by_letter(backend: BackendV1) -> None:
     assert isinstance(freqs["m0"], float)
 
 
-def test_get_channel_frequencies_by_letter_warning(backend: BackendV1, loguru_caplog: pytest.LogCaptureFixture) -> None:
+def test_get_channel_frequencies_by_letter_warning(
+    backend: BackendV1, loguru_caplog: pytest.LogCaptureFixture
+) -> None:
     """Unit test for BackendCharacteristics.get_channel_frequencies by letter with unrecognized letter warning."""
     backend_characteristics = BackendCharacteristics(backend)
     backend_characteristics.get_channel_frequencies(["x0"])
@@ -91,7 +93,9 @@ def test_get_channel_frequencies_by_channel(backend: BackendV1) -> None:
     assert isinstance(freqs["m0"], float)
 
 
-def test_get_channel_frequencies_by_channel_warning(backend: BackendV1, loguru_caplog: pytest.LogCaptureFixture) -> None:
+def test_get_channel_frequencies_by_channel_warning(
+    backend: BackendV1, loguru_caplog: pytest.LogCaptureFixture
+) -> None:
     """Unit test for BackendCharacteristics.get_channel_frequencies by channel with unrecognized channel warning."""
     backend_characteristics = BackendCharacteristics(backend)
     backend_characteristics.get_channel_frequencies([MemorySlot(0)])
@@ -102,37 +106,40 @@ def test_get_channel_frequencies_by_channel_warning(backend: BackendV1, loguru_c
     )
 
 
-def test_get_channel_frequencies_with_too_many_drive_channels(backend: BackendV1) -> None:
+def test_get_channel_frequencies_with_too_many_drive_channels(
+    backend: BackendV1,
+) -> None:
     """Unit test for BackendCharacteristics.get_channel_frequencies by letter."""
     backend_characteristics = BackendCharacteristics(backend)
     with pytest.raises(CasqError) as e:
-        backend_characteristics.get_channel_frequencies(["d0", "d1", "d2", "d3", "d4", "d5"])
+        backend_characteristics.get_channel_frequencies(
+            ["d0", "d1", "d2", "d3", "d4", "d5"]
+        )
     assert isinstance(e.value, CasqError)
-    assert (
-        e.value.message
-        == "DriveChannel index 5 is out of bounds."
-    )
+    assert e.value.message == "DriveChannel index 5 is out of bounds."
 
 
-def test_get_channel_frequencies_with_too_many_control_channels(backend: BackendV1) -> None:
+def test_get_channel_frequencies_with_too_many_control_channels(
+    backend: BackendV1,
+) -> None:
     """Unit test for BackendCharacteristics.get_channel_frequencies by letter."""
     backend_characteristics = BackendCharacteristics(backend)
     with pytest.raises(CasqError) as e:
-        backend_characteristics.get_channel_frequencies(["u0", "u1", "u2", "u3", "u4", "u5", "u6", "u7", "u8"])
+        backend_characteristics.get_channel_frequencies(
+            ["u0", "u1", "u2", "u3", "u4", "u5", "u6", "u7", "u8"]
+        )
     assert isinstance(e.value, CasqError)
-    assert (
-        e.value.message
-        == "ControlChannel index 8 is out of bounds."
-    )
+    assert e.value.message == "ControlChannel index 8 is out of bounds."
 
 
-def test_get_channel_frequencies_with_too_many_measure_channels(backend: BackendV1) -> None:
+def test_get_channel_frequencies_with_too_many_measure_channels(
+    backend: BackendV1,
+) -> None:
     """Unit test for BackendCharacteristics.get_channel_frequencies by letter."""
     backend_characteristics = BackendCharacteristics(backend)
     with pytest.raises(CasqError) as e:
-        backend_characteristics.get_channel_frequencies(["m0", "m1", "m2", "m3", "m4", "m5"])
+        backend_characteristics.get_channel_frequencies(
+            ["m0", "m1", "m2", "m3", "m4", "m5"]
+        )
     assert isinstance(e.value, CasqError)
-    assert (
-        e.value.message
-        == "MeasureChannel index 5 is out of bounds."
-    )
+    assert e.value.message == "MeasureChannel index 5 is out of bounds."

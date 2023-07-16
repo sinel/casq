@@ -249,7 +249,9 @@ class BackendCharacteristics:
                 channel_freqs[channel.name] = measure_frequencies[channel.index]
         return channel_freqs
 
-    def get_control_channel_map(self, channels_filter: list[str]) -> dict[tuple[int, ...], int]:
+    def get_control_channel_map(
+        self, channels_filter: list[str]
+    ) -> dict[tuple[int, ...], int]:
         """Get control channel map from backend configuration.
 
         Args:

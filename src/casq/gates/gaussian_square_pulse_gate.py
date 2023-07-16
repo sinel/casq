@@ -25,13 +25,7 @@ from __future__ import annotations
 
 from typing import Optional
 
-from loguru import logger
-from qiskit.pulse import GaussianSquare
-from qiskit.pulse.library import Pulse
-
-# noinspection PyProtectedMember
-from qiskit.pulse.library.symbolic_pulses import ScalableSymbolicPulse, _lifted_gaussian
-import sympy as sym
+from qiskit.pulse.library import GaussianSquare, Pulse
 
 from casq.common import trace
 from casq.gates.pulse_gate import PulseGate
@@ -52,7 +46,6 @@ class GaussianSquarePulseGate(PulseGate):
         risefall_sigma_ratio: The ratio of each risefall duration to sigma.
         limit_amplitude: If True, then limit the amplitude of the waveform to 1.
             The default is True and the amplitude is constrained to 1.
-        jax: If True, use JAX-enabled implementation.
         name: Optional display name for the pulse gate.
     """
 
@@ -66,11 +59,10 @@ class GaussianSquarePulseGate(PulseGate):
         angle: float = 0,
         risefall_sigma_ratio: Optional[float] = None,
         limit_amplitude: bool = True,
-        jax: bool = False,
         name: Optional[str] = None,
     ) -> None:
         """Initialize GaussianPulseGate."""
-        super().__init__(1, duration, jax, name)
+        super().__init__(1, duration, name)
         self.amplitude = amplitude
         self.sigma = sigma
         self.width = width
@@ -80,52 +72,20 @@ class GaussianSquarePulseGate(PulseGate):
 
     @trace()
     def pulse(self) -> Pulse:
-        """GaussianPulseGate.pulse method.
+        """GaussianSquarePulseGate.pulse method.
 
         Builds pulse for pulse gate.
 
         Returns:
             :py:class:`qiskit.pulse.library.Pulse`
         """
-        if self.jax:
-            _t, _duration, _amp, _sigma, _width, _angle = sym.symbols(
-                "t, duration, amp, sigma, width, angle"
-            )
-            _center = _duration / 2
-            _sq_t0 = _center - _width / 2
-            _sq_t1 = _center + _width / 2
-            _gaussian_ledge = _lifted_gaussian(_t, _sq_t0, -1, _sigma)
-            _gaussian_redge = _lifted_gaussian(_t, _sq_t1, _duration + 1, _sigma)
-            envelope_expr = (
-                _amp
-                * sym.exp(sym.I * _angle)
-                * sym.Piecewise(
-                    (_gaussian_ledge, _t <= _sq_t0),
-                    (_gaussian_redge, _t >= _sq_t1),
-                    (1, True),
-                )
-            )
-            # noinspection PyTypeChecker
-            # Suppress warning for constraints argument in ScalableSymbolicPulse
-            return ScalableSymbolicPulse(
-                pulse_type="GaussianSquare",
-                duration=self.duration,
-                amp=self.amplitude,
-                angle=self.angle,
-                parameters={"sigma": self.sigma, "width": self.width},
-                envelope=envelope_expr,
-                constraints=sym.And(_sigma > 0, _width >= 0, _duration >= _width),
-                valid_amp_conditions=sym.Abs(_amp) <= 1.0,
-                name=self.name,
-            )
-        else:
-            return GaussianSquare(
-                duration=self.duration,
-                amp=self.amplitude,
-                sigma=self.sigma,
-                width=self.width,
-                angle=self.angle,
-                risefall_sigma_ratio=self.risefall_sigma_ratio,
-                limit_amplitude=self.limit_amplitude,
-                name=self.name,
-            )
+        return GaussianSquare(
+            duration=self.duration,
+            amp=self.amplitude,
+            sigma=self.sigma,
+            width=self.width,
+            angle=self.angle,
+            risefall_sigma_ratio=self.risefall_sigma_ratio,
+            limit_amplitude=self.limit_amplitude,
+            name=self.name,
+        )

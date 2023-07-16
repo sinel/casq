@@ -24,7 +24,7 @@
 from __future__ import annotations
 
 from enum import Enum
-from typing import NamedTuple, Optional, Union
+from typing import NamedTuple, Optional, Sequence, Union
 
 from matplotlib.axes import Axes
 from matplotlib.collections import LineCollection
@@ -36,6 +36,8 @@ from qiskit.pulse import Schedule, ScheduleBlock
 from qiskit.pulse.transforms import block_to_schedule
 from qiskit_dynamics.pulse import InstructionToSignals
 import qutip
+
+from casq.common import CasqError
 
 plt.style.use("seaborn-v0_8-notebook")
 
@@ -286,7 +288,7 @@ def add_vertical_line(
 
 
 def plot(
-    configs: list[Union[LineConfig, LineCollectionConfig]],
+    configs: Sequence[Union[LineConfig, LineCollectionConfig]],
     figure: Optional[Figure] = None,
     hlines: Optional[
         list[tuple[float, Optional[str], LineStyle, Optional[Axes]]]
@@ -325,7 +327,7 @@ def plot(
     for config in configs:
         if isinstance(config, LineConfig):
             (
-                data,
+                line_data,
                 label,
                 xtitle,
                 ytitle,
@@ -337,9 +339,12 @@ def plot(
                 marker_style,
                 ax,
             ) = config
+            if ax is None:
+                ax = figure.axes[0]
+            add_line(ax, line_data, label, line_style, marker_style)
         else:
             (
-                data,
+                line_collection_data,
                 label,
                 xtitle,
                 ytitle,
@@ -350,13 +355,9 @@ def plot(
                 line_style,
                 ax,
             ) = config
-            marker_style = None
-        if ax is None:
-            ax = figure.axes[0]
-        if isinstance(config, LineConfig):
-            add_line(ax, data, label, line_style, marker_style)
-        else:
-            add_line_collection(ax, data, label, line_style)
+            if ax is None:
+                ax = figure.axes[0]
+            add_line_collection(ax, line_collection_data, label, line_style)
         if label and legend_style:
             ax.legend(
                 loc=legend_style.location.value, bbox_to_anchor=legend_style.anchor

@@ -47,10 +47,17 @@ def test_seed_option(backend: BackendV1) -> None:
 
 def test_evaluation_mode_option(backend: BackendV1) -> None:
     """Unit test for PulseSimulator initialization from backend."""
-    options = QiskitPulseBackend.QiskitOptions(evaluation_mode=QiskitPulseBackend.EvaluationMode.SPARSE)
+    options = QiskitPulseBackend.QiskitOptions(
+        evaluation_mode=QiskitPulseBackend.EvaluationMode.SPARSE
+    )
     pulse_backend = QiskitPulseBackend.from_backend(backend, options=options)
-    assert pulse_backend.options.evaluation_mode is QiskitPulseBackend.EvaluationMode.SPARSE
-    assert pulse_backend._native_backend.options.solver.model.evaluation_mode == "sparse"
+    assert (
+        pulse_backend.options.evaluation_mode
+        is QiskitPulseBackend.EvaluationMode.SPARSE
+    )
+    assert (
+        pulse_backend._native_backend.options.solver.model.evaluation_mode == "sparse"
+    )
 
 
 @timer(unit="sec")

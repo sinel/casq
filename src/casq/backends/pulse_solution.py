@@ -26,9 +26,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import NamedTuple, Optional, Union
 
-from loguru import logger
 from matplotlib.figure import Figure
-import numpy.typing as npt
 from qiskit.quantum_info import DensityMatrix, Statevector, partial_trace
 from qiskit.result import Result
 
@@ -52,7 +50,7 @@ class PulseSolution:
         """Solution status."""
 
         is_success: bool = True
-        message: str = Optional[None]
+        message: Optional[str] = None
 
     @classmethod
     def from_qiskit(
@@ -125,7 +123,7 @@ class PulseSolution:
         shots: int = 1024,
         seed: Optional[int] = None,
         timestamp: float = datetime.timestamp(datetime.now()),
-    ):
+    ) -> None:
         """Instantiate :class:`~casq.PulseSolution`.
 
         Args:
@@ -172,7 +170,7 @@ class PulseSolution:
         Returns:
             :py:class:`matplotlib.figure.Figure`
         """
-        pops: dict[str, list] = {}
+        pops: dict[str, list[float]] = {}
         for key in self.populations[-1].keys():
             pops[key] = []
         for p in self.populations:
@@ -180,9 +178,9 @@ class PulseSolution:
                 value = p.get(key, 0)
                 pops[key].append(value)
         configs = []
-        for key, value in pops.items():
+        for key, values in pops.items():
             config = LineConfig(
-                data=LineData(self.times, value),
+                data=LineData(self.times, values),
                 label=f"Population in |{key}>",
                 line_style=LineStyle(),
                 xtitle="Time (ns)",
@@ -251,7 +249,7 @@ class PulseSolution:
 
     def plot_trajectory(
         self,
-        qubit: Optional[int] = None,
+        qubit: int = 0,
         filename: Optional[str] = None,
         hidden: bool = False,
     ) -> Figure:
@@ -267,15 +265,7 @@ class PulseSolution:
         Returns:
             :py:class:`matplotlib.figure.Figure`
         """
-        x, y, z = self._xyz()
-        if len(self.qubits) > 1:
-            if qubit:
-                x, y, z = x[qubit], y[qubit], z[qubit]
-            else:
-                raise CasqError(
-                    "Cannot plot Bloch trajectory "
-                    "when qubit is not specified for a multi-qubit system."
-                )
+        x, y, z = self._xyz(qubit)
         x_config = LineConfig(
             data=LineData(self.times, x),
             line_style=LineStyle(),
@@ -303,7 +293,7 @@ class PulseSolution:
 
     def plot_bloch_trajectory(
         self,
-        qubit: Optional[int] = None,
+        qubit: int = 0,
         filename: Optional[str] = None,
         hidden: bool = False,
     ) -> Figure:
@@ -319,23 +309,10 @@ class PulseSolution:
         Returns:
             :py:class:`matplotlib.figure.Figure`
         """
-        x, y, z = self._xyz()
-        if len(self.qubits) > 1:
-            if qubit:
-                x, y, z = x[qubit], y[qubit], z[qubit]
-            else:
-                raise CasqError(
-                    "Cannot plot Bloch trajectory "
-                    "when qubit is not specified for a multi-qubit system."
-                )
+        x, y, z = self._xyz(qubit)
         return plot_bloch(x, y, z, filename=filename, hidden=hidden)
 
-    def _xyz(
-        self,
-    ) -> Union[
-        tuple[list[float], list[float], list[float]],
-        tuple[dict[int, list[float]], dict[int, list[float]], dict[int, list[float]]],
-    ]:
+    def _xyz(self, qubit: int = 0) -> tuple[list[float], list[float], list[float]]:
         """PulseSolution._xyz method.
 
         Transforms statevectors into 3D trajectory from result.
@@ -344,9 +321,9 @@ class PulseSolution:
             XYZ data lists or dict of lists.
         """
         if len(self.qubits) > 1:
-            xq: dict[int, list] = {}
-            yq: dict[int, list] = {}
-            zq: dict[int, list] = {}
+            xq: dict[int, list[float]] = {}
+            yq: dict[int, list[float]] = {}
+            zq: dict[int, list[float]] = {}
             for q in self.qubits:
                 xq[q] = []
                 yq[q] = []
@@ -357,7 +334,7 @@ class PulseSolution:
                     xq[q].append(xp)
                     yq[q].append(yp)
                     zq[q].append(zp)
-            return xq, yq, zq
+            return xq[qubit], yq[qubit], zq[qubit]
         else:
             xsv: list[float] = []
             ysv: list[float] = []

@@ -27,6 +27,7 @@ from matplotlib.figure import Figure
 from matplotlib.legend import Legend
 import matplotlib.pyplot as plt
 import numpy as np
+from qiskit.pulse import Schedule, ScheduleBlock
 
 from casq.common import (
     LegendLocation,
@@ -175,13 +176,13 @@ def test_plot_bloch() -> None:
     assert isinstance(figure, Figure)
 
 
-def test_plot_schedule_signal(pulse_schedule) -> None:
+def test_plot_schedule_signal(pulse_schedule: Schedule) -> None:
     """Unit test for plot_signal."""
     figure = plot_signal(pulse_schedule, 1, "", 1, 1, hidden=True)
     assert isinstance(figure, Figure)
 
 
-def test_plot_schedule_block_signal(pulse_schedule_block) -> None:
+def test_plot_schedule_block_signal(pulse_schedule_block: ScheduleBlock) -> None:
     """Unit test for plot_signal."""
     figure = plot_signal(pulse_schedule_block, 1, "", 1, 1, hidden=True)
     assert isinstance(figure, Figure)

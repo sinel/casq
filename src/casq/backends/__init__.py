@@ -23,9 +23,9 @@
 """Collecting casq.backends package imports in one place for convenient access."""
 from casq.backends.pulse_backend import PulseBackend
 from casq.backends.pulse_solution import PulseSolution
-from casq.backends.qiskit.helpers import get_experiment_result
 from casq.backends.qiskit.backend_characteristics import BackendCharacteristics
 from casq.backends.qiskit.dynamics_backend_patch import DynamicsBackendPatch
+from casq.backends.qiskit.helpers import get_experiment_result
 from casq.backends.qiskit.qiskit_pulse_backend import QiskitPulseBackend
 
 __all__ = [

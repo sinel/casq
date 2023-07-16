@@ -64,17 +64,25 @@ class PulseBackend:
 
     @dataclass
     class Options:
+        """Pulse backend options."""
+
         seed: Optional[int] = None
 
         @abstractmethod
         def to_native_options(self) -> dict[str, Any]:
+            """Converts to native options."""
             pass
 
         def to_dict(self) -> dict[str, Any]:
-            return asdict(self, dict_factory=lambda opt: {k: v for (k, v) in opt if v is not None})
+            """Converts to dict."""
+            return asdict(
+                self, dict_factory=lambda opt: {k: v for (k, v) in opt if v is not None}
+            )
 
     @dataclass
     class RunOptions:
+        """Pulse backend run options."""
+
         initial_state: Optional[Union[DensityMatrix, Statevector]] = None
         method: Optional[PulseBackend.ODESolverMethod] = None
         shots: int = 1024
@@ -82,26 +90,33 @@ class PulseBackend:
 
         @abstractmethod
         def to_native_options(self) -> dict[str, Any]:
+            """Converts to native options."""
             pass
 
         def to_dict(self) -> dict[str, Any]:
-            return asdict(self, dict_factory=lambda opt: {k: v for (k, v) in opt if v is not None})
+            """Converts to dict."""
+            return asdict(
+                self, dict_factory=lambda opt: {k: v for (k, v) in opt if v is not None}
+            )
 
     @dataclass
     class Hamiltonian:
+        """Hamiltonian properties."""
+
         static: npt.NDArray
         operators: npt.NDArray
         channels: list[str]
 
         def to_dict(self) -> dict[str, Any]:
+            """Converts to dict."""
             return asdict(self)
 
     def __init__(
         self,
         native_backend_type: PulseBackend.NativeBackendType,
         hamiltonian_dict: dict,
-        qubits: Optional[list[int]] = None,
-        options: Optional[Options] = None
+        qubits: list[int],
+        options: Options,
     ):
         """Instantiate :class:`~casq.backends.PulseBackend`.
 
@@ -113,8 +128,8 @@ class PulseBackend:
         """
         self._native_backend_type = native_backend_type
         self._hamiltonian_dict = hamiltonian_dict
-        self.qubits = [0] if qubits is None else qubits
-        self.options = PulseBackend.Options() if options is None else options
+        self.qubits = qubits
+        self.options = options
         self._hamiltonian, self.qubit_dims = self._parse_hamiltonian_dict()
         self._native_backend = self._get_native_backend()
 
@@ -122,7 +137,7 @@ class PulseBackend:
     def run(
         self,
         run_input: list[Union[PulseCircuit, QuantumCircuit, Schedule, ScheduleBlock]],
-        run_options: Optional[RunOptions] = None
+        run_options: Optional[RunOptions] = None,
     ) -> dict[str, PulseSolution]:
         """PulseBackend.run."""
 

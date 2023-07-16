@@ -32,22 +32,28 @@ from casq.backends import PulseSolution
 
 
 def mock_solution() -> PulseSolution:
-    return PulseSolution(
-        "test", [0],
+    """Mock pulse backend solution."""
+    instance: PulseSolution = PulseSolution(
+        "test",
+        [0],
         PulseSolution.Status(is_success=True, message="Wonderful solution."),
         times=[0, 1],
         samples=[[0, 1, 1, 0, 0], [1, 0, 1, 0, 1]],
         counts=[{"0": 1024}, {"0": 500, "1": 524}],
         populations=[{"0": 1}, {"0": 0.49, "1": 0.51}],
-        states=[Statevector([1.+0.j, 0.+0.j, 0.+0.j]), Statevector([0.5+0.j, 0.5+0.j, 0.+0.j])],
+        states=[
+            Statevector([1.0 + 0.0j, 0.0 + 0.0j, 0.0 + 0.0j]),
+            Statevector([0.5 + 0.0j, 0.5 + 0.0j, 0.0 + 0.0j]),
+        ],
         iq_data=[
             [(0.4, 0.6), (0.6, 0.4), (0.6, 0.4), (0.4, 0.6), (0.4, 0.6)],
-            [(0.6, 0.4), (0.4, 0.6), (0.6, 0.4), (0.4, 0.6), (0.6, 0.4)]
+            [(0.6, 0.4), (0.4, 0.6), (0.6, 0.4), (0.4, 0.6), (0.6, 0.4)],
         ],
         avg_iq_data=[(0.5, 0.5), (0.5, 0.5)],
         shots=5,
-        timestamp=datetime.timestamp(datetime(2000, 1, 1))
+        timestamp=datetime.timestamp(datetime(2000, 1, 1)),
     )
+    return instance
 
 
 def test_pulse_solution_init() -> None:
@@ -62,11 +68,11 @@ def test_pulse_solution_init() -> None:
     assert solution.samples == [[0, 1, 1, 0, 0], [1, 0, 1, 0, 1]]
     assert solution.counts == [{"0": 1024}, {"0": 500, "1": 524}]
     assert solution.populations == [{"0": 1}, {"0": 0.49, "1": 0.51}]
-    assert all(solution.states[0].data == [1.+0.j, 0.+0.j, 0.+0.j])
-    assert all(solution.states[1].data == [0.5+0.j, 0.5+0.j, 0.+0.j])
+    assert all(solution.states[0].data == [1.0 + 0.0j, 0.0 + 0.0j, 0.0 + 0.0j])
+    assert all(solution.states[1].data == [0.5 + 0.0j, 0.5 + 0.0j, 0.0 + 0.0j])
     assert solution.iq_data == [
         [(0.4, 0.6), (0.6, 0.4), (0.6, 0.4), (0.4, 0.6), (0.4, 0.6)],
-        [(0.6, 0.4), (0.4, 0.6), (0.6, 0.4), (0.4, 0.6), (0.6, 0.4)]
+        [(0.6, 0.4), (0.4, 0.6), (0.6, 0.4), (0.4, 0.6), (0.6, 0.4)],
     ]
     assert solution.avg_iq_data == [(0.5, 0.5), (0.5, 0.5)]
     assert solution.shots == 5

@@ -228,7 +228,9 @@ class PulseOptimizer:
         )
         gate = self.pulse_function(opt_results.x)
         # noinspection PyProtectedMember
-        circuit = PulseCircuit.from_pulse(gate, self.backend._native_backend, self.target_qubit)
+        circuit = PulseCircuit.from_pulse(
+            gate, self.backend._native_backend, self.target_qubit
+        )
         counts = self.backend.run([circuit])[circuit.name].counts[-1]
         return PulseOptimizer.Solution(
             num_iterations=opt_results.nfev,
@@ -287,7 +289,6 @@ class PulseOptimizer:
                 parameters.append(key)
             else:
                 fixed[key] = value
-        fixed.update(jax=self.use_jax)
         logger.debug(
             f"Building pulse with parameters = {parameters} and fixed arguments = {fixed}"
         )

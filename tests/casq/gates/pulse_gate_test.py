@@ -28,6 +28,7 @@ from matplotlib.figure import Figure
 import pytest
 from qiskit import pulse
 from qiskit.providers import BackendV1
+from qiskit.providers.fake_provider import FakeManila
 from qiskit_dynamics import Signal
 
 from casq.backends.qiskit.backend_characteristics import BackendCharacteristics
