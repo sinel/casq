@@ -37,8 +37,6 @@ from qiskit.pulse.transforms import block_to_schedule
 from qiskit_dynamics.pulse import InstructionToSignals
 import qutip
 
-from casq.common import CasqError
-
 plt.style.use("seaborn-v0_8-notebook")
 
 
@@ -339,7 +337,7 @@ def plot(
                 marker_style,
                 ax,
             ) = config
-        elif isinstance(config, LineCollectionConfig):
+        else:
             (
                 data,
                 label,
@@ -353,8 +351,6 @@ def plot(
                 ax,
             ) = config
             marker_style = None
-        else:
-            raise CasqError("Unrecognized plotting config type.")
         if ax is None:
             ax = figure.axes[0]
         if isinstance(config, LineConfig):

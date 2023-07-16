@@ -161,10 +161,7 @@ def get_experiment_result(
         iq_data=iq_data,
         avg_iq_data=avg_iq_data,
     )
-    if metadata:
-        metadata.update(casq=True)
-    else:
-        metadata = {"casq": True}
+    metadata.update(casq=True)
     return ExperimentResult(
         shots=backend.options.shots,
         success=True,

@@ -25,8 +25,9 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Optional, Union
+from typing import Any, Callable, Optional, Union
 
+from loguru import logger
 import numpy as np
 from qiskit import QuantumCircuit
 from qiskit.providers import BackendV1, BackendV2
@@ -40,6 +41,7 @@ from casq.backends.pulse_backend import PulseBackend
 from casq.backends.pulse_solution import PulseSolution
 from casq.backends.qiskit.backend_characteristics import BackendCharacteristics
 from casq.backends.qiskit.dynamics_backend_patch import DynamicsBackendPatch
+from casq.backends.qiskit.helpers import get_experiment_result
 from casq.common import timer, trace
 from casq.gates.pulse_circuit import PulseCircuit
 
@@ -59,21 +61,26 @@ class QiskitPulseBackend(PulseBackend):
         rotating_frame: Optional[Union[Array, RotatingFrame]] = None
         evaluation_mode: Optional[QiskitPulseBackend.EvaluationMode] = None
         rwa_cutoff_freq: Optional[float] = None
+        experiment_result_function: Callable = get_experiment_result
 
-        def to_dynamics_backend_options(self) -> dict[str, Any]:
+        def to_native_options(self) -> dict[str, Any]:
             options_dict = self.to_dict()
-            options_dict.update(seed_simulator=options_dict["seed"])
-            del options_dict["seed"]
-            del options_dict["dt"]
-            del options_dict["channel_carrier_freqs"]
-            del options_dict["rotating_frame"]
-            del options_dict["evaluation_mode"]
-            del options_dict["rwa_cutoff_freq"]
+            if "seed" in options_dict:
+                options_dict.update(seed_simulator=options_dict["seed"])
+            options_dict.pop("seed", None)
+            options_dict.pop("dt", None)
+            options_dict.pop("channel_carrier_freqs", None)
+            options_dict.pop("rotating_frame", None)
+            options_dict.pop("evaluation_mode", None)
+            options_dict.pop("rwa_cutoff_freq", None)
             return options_dict
 
     @dataclass
     class QiskitRunOptions(PulseBackend.RunOptions):
-        pass
+
+        def to_native_options(self) -> dict[str, Any]:
+            options_dict = self.to_dict()
+            return options_dict
 
     @classmethod
     @trace()
@@ -102,6 +109,8 @@ class QiskitPulseBackend(PulseBackend):
             qubit_dims
         ) = parse_backend_hamiltonian_dict(backend_characteristics.hamiltonian, qubits)
         options = QiskitPulseBackend.QiskitOptions() if options is None else options
+        if isinstance(options, PulseBackend.Options):
+            options = QiskitPulseBackend.QiskitOptions(**options.to_dict())
         if options.dt is None:
             options.dt = backend_characteristics.dt
         if options.control_channel_map is None:
@@ -136,7 +145,7 @@ class QiskitPulseBackend(PulseBackend):
         """
         options = QiskitPulseBackend.QiskitOptions() if options is None else options
         super().__init__(PulseBackend.NativeBackendType.QISKIT, hamiltonian_dict, qubits, options)
-        self.options: QiskitPulseBackend.QiskitOptions = self.options
+        self.options = QiskitPulseBackend.QiskitOptions(**self.options.to_dict())
 
     @trace()
     @timer()
@@ -146,8 +155,14 @@ class QiskitPulseBackend(PulseBackend):
         run_options: Optional[QiskitPulseBackend.QiskitRunOptions] = None
     ) -> dict[str, PulseSolution]:
         """QiskitPulseBackend.run."""
-        result = self._native_backend.run(run_input=run_input, **run_options.to_dict())
-        return PulseSolution.from_qiskit(result.result())
+        run_options = QiskitPulseBackend.QiskitRunOptions() if run_options is None else run_options
+        if isinstance(run_options, PulseBackend.RunOptions):
+            run_options = QiskitPulseBackend.QiskitRunOptions(**run_options.to_dict())
+        if run_options.initial_state is None:
+            run_options.initial_state = "ground_state"
+        result = self._native_backend.run(run_input=run_input, **run_options.to_native_options()).result()
+        result.header = {"casq": True}
+        return PulseSolution.from_qiskit(result)
 
     @trace()
     @timer()
@@ -167,7 +182,7 @@ class QiskitPulseBackend(PulseBackend):
             evaluation_mode=evaluation_mode,
             rwa_cutoff_freq=self.options.rwa_cutoff_freq,
         )
-        options_dict = self.options.to_dynamics_backend_options()
+        options_dict = self.options.to_native_options()
         return DynamicsBackendPatch(solver, **options_dict)
 
     @trace()

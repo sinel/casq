@@ -23,14 +23,15 @@
 """Pulse gate tests."""
 from __future__ import annotations
 
+from qiskit.providers import BackendV1
+
 from casq.backends.qiskit.backend_characteristics import BackendCharacteristics
 from casq.gates.gaussian_pulse_gate import GaussianPulseGate
 from casq.gates.pulse_circuit import PulseCircuit
 
 
-def test_pulse_instruction() -> None:
+def test_pulse_instruction(backend: BackendV1) -> None:
     """Unit test for PulseCircuit.pulse."""
-    backend = BackendCharacteristics.get_backend("ibmq_manila")
     gate = GaussianPulseGate(1, 1, 1)
     circuit = PulseCircuit(1)
     instruction = circuit.pulse(gate, backend, 0).instructions[0]
@@ -39,9 +40,8 @@ def test_pulse_instruction() -> None:
     assert instruction.num_clbits == 0
 
 
-def test_from_pulse() -> None:
+def test_from_pulse(backend: BackendV1) -> None:
     """Unit test for PulseCircuit.from_pulse."""
-    backend = BackendCharacteristics.get_backend("ibmq_manila")
     gate = GaussianPulseGate(1, 1, 1)
     circuit = PulseCircuit.from_pulse(gate, backend, 0)
     assert circuit.data[0].operation.name == gate.name

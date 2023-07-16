@@ -23,7 +23,7 @@
 """BackendCharacteristics."""
 from __future__ import annotations
 
-from typing import NamedTuple, Union
+from typing import Any, NamedTuple, Union
 
 from loguru import logger
 import numpy as np
@@ -52,6 +52,15 @@ class BackendCharacteristics:
     Args:
         backend: IBMQ backend compatible with BackendV1.
     """
+
+    class GateProperties(NamedTuple):
+        """Gate properties."""
+
+        gate_error: float
+        gate_length: float
+        qubits: list[int]
+        parameters: dict[str, Any]
+        is_operational: bool
 
     class QubitProperties(NamedTuple):
         """Qubit properties."""
@@ -91,8 +100,6 @@ class BackendCharacteristics:
         self.control_channel_lo = self.config.u_channel_lo
         self.qubit_frequencies = self.defaults.qubit_freq_est
         self.measurement_frequencies = self.defaults.meas_freq_est
-        self.qubits = self.properties.qubits
-        self.gates = self.properties.gates
 
     def get_qubit_properties(self, qubit: int) -> QubitProperties:
         """BackendCharacteristics.get_qubit_properties method.
@@ -110,6 +117,26 @@ class BackendCharacteristics:
             t1=self.properties.t1(qubit),
             t2=self.properties.t2(qubit),
             is_operational=self.properties.is_qubit_operational(qubit),
+        )
+
+    def get_gate_properties(self, gate_name: str) -> GateProperties:
+        """BackendCharacteristics.get_gate_properties method.
+
+        Args:
+            gate_name: Gate name.
+
+        Returns:
+            :py:class:`casq.backends.qiskit.BackendCharacteristics.GateProperties`
+        """
+        gate = next(g for g in self.properties.gates if g.gate == gate_name)
+        gate_dict = gate.to_dict()
+        qubits = gate_dict["qubits"]
+        return BackendCharacteristics.GateProperties(
+            gate_error=self.properties.gate_error(gate_name, qubits),
+            gate_length=self.properties.gate_length(gate_name, qubits),
+            qubits=qubits,
+            parameters=gate_dict["parameters"],
+            is_operational=self.properties.is_gate_operational(gate_name, qubits),
         )
 
     def _get_config(self) -> PulseBackendConfiguration:  # pragma: no cover
@@ -211,7 +238,7 @@ class BackendCharacteristics:
             if np.imag(freq) == 0:
                 channel_freqs[channel.name] = np.real(freq)
             else:
-                channel_freqs[channel.name] = freq
+                channel_freqs[channel.name] = freq  # pragma: no cover
         if measure_channels:
             measure_frequencies = self.measurement_frequencies
             for channel in measure_channels:

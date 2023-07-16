@@ -26,37 +26,29 @@ from __future__ import annotations
 from loguru import logger
 from qiskit.providers import BackendV1
 from qiskit.pulse import Schedule
+from qiskit_dynamics.backend.dynamics_backend import DynamicsJob
 
-from casq.backends import PulseSolution, QiskitPulseBackend
+from casq.backends import DynamicsBackendPatch, PulseSolution, QiskitPulseBackend
 from casq.common import timer
+
+
+def test_options_to_dict() -> None:
+    """Unit test for PulseSimulator initialization from backend."""
+    options = DynamicsBackendPatch.Options()
+    options_dict = options.to_dict()
+    assert options_dict.get("shots", None) == 1024
+    assert not("configuration" in options_dict)
 
 
 def test_from_backend(backend: BackendV1) -> None:
     """Unit test for PulseSimulator initialization from backend."""
-    pulse_backend = QiskitPulseBackend.from_backend(backend)
-    assert isinstance(pulse_backend, QiskitPulseBackend)
-
-
-def test_seed_option(backend: BackendV1) -> None:
-    """Unit test for PulseSimulator initialization from backend."""
-    options = QiskitPulseBackend.QiskitOptions(seed=1)
-    pulse_backend = QiskitPulseBackend.from_backend(backend, options=options)
-    assert pulse_backend.options.seed == 1
-    assert pulse_backend._native_backend.options.seed_simulator == 1
-
-
-def test_evaluation_mode_option(backend: BackendV1) -> None:
-    """Unit test for PulseSimulator initialization from backend."""
-    options = QiskitPulseBackend.QiskitOptions(evaluation_mode=QiskitPulseBackend.EvaluationMode.SPARSE)
-    pulse_backend = QiskitPulseBackend.from_backend(backend, options=options)
-    assert pulse_backend.options.evaluation_mode is QiskitPulseBackend.EvaluationMode.SPARSE
-    assert pulse_backend._native_backend.options.solver.model.evaluation_mode == "sparse"
+    dynamics_backend = DynamicsBackendPatch.from_backend(backend)
+    assert isinstance(dynamics_backend, DynamicsBackendPatch)
 
 
 @timer(unit="sec")
 def test_run(backend: BackendV1, pulse_schedule: Schedule) -> None:
     """Unit test for PulseSimulator initialization from backend."""
-    run_options = QiskitPulseBackend.QiskitRunOptions(shots=5)
-    pulse_backend = QiskitPulseBackend.from_backend(backend)
-    solution = pulse_backend.run([pulse_schedule], run_options=run_options)["test"]
-    assert isinstance(solution, PulseSolution)
+    dynamics_backend = DynamicsBackendPatch.from_backend(backend, steps=10, shots=5)
+    result = dynamics_backend.run([pulse_schedule])
+    assert isinstance(result, DynamicsJob)

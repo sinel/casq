@@ -27,6 +27,7 @@ from loguru import logger
 from matplotlib.figure import Figure
 import pytest
 from qiskit import pulse
+from qiskit.providers import BackendV1
 from qiskit_dynamics import Signal
 
 from casq.backends.qiskit.backend_characteristics import BackendCharacteristics
@@ -54,9 +55,12 @@ def test_schedule() -> None:
     assert schedule.name.endswith("DummyPulseGateSchedule")
 
 
-def test_measured_schedule() -> None:
+def test_measured_schedule(backend: BackendV1) -> None:
     """Unit test for PulseGate.schedule with measurement."""
-    backend = BackendCharacteristics.get_backend("ibmq_manila")
+    # TO-DO: Find an easy way to create mock
+    # of backend.defaults().instruction_schedule_map (InstructionScheduleMap)
+    # which is needed by qiskit.pulse.measure
+    # backend = BackendCharacteristics.get_backend("ibmq_manila")
     dummy = DummyPulseGate(1, 1)
     schedule = dummy.schedule(0, backend=backend, measured=True)
     assert isinstance(schedule.instructions[0][1], pulse.Play)
@@ -77,17 +81,15 @@ def test_measured_schedule_without_backend() -> None:
     )
 
 
-def test_discretized_schedule_with_backend() -> None:
+def test_discretized_schedule_with_backend(backend: BackendV1) -> None:
     """Unit test for discretized PulseGate.schedule."""
-    backend = BackendCharacteristics.get_backend("ibmq_manila")
     dummy = DummyPulseGate(1, 1)
     signals = dummy.schedule(0, backend=backend, discretized=True)
     assert isinstance(signals[0], Signal)
 
 
-def test_discretized_schedule_with_properties() -> None:
+def test_discretized_schedule_with_properties(backend: BackendV1) -> None:
     """Unit test for discretized PulseGate.schedule."""
-    backend = BackendCharacteristics.get_backend("ibmq_manila")
     backend_characteristics = BackendCharacteristics(backend)
     dummy = DummyPulseGate(1, 1)
     schedule = dummy.schedule(0)

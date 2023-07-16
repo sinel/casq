@@ -175,7 +175,13 @@ def test_plot_bloch() -> None:
     assert isinstance(figure, Figure)
 
 
-def test_plot_signal(pulse_schedule) -> None:
+def test_plot_schedule_signal(pulse_schedule) -> None:
     """Unit test for plot_signal."""
     figure = plot_signal(pulse_schedule, 1, "", 1, 1, hidden=True)
+    assert isinstance(figure, Figure)
+
+
+def test_plot_schedule_block_signal(pulse_schedule_block) -> None:
+    """Unit test for plot_signal."""
+    figure = plot_signal(pulse_schedule_block, 1, "", 1, 1, hidden=True)
     assert isinstance(figure, Figure)

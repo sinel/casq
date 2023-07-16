@@ -41,7 +41,7 @@ from scipy.optimize import (
 )
 
 from casq.backends.pulse_backend import PulseBackend
-from casq.common import CasqError, trace
+from casq.common import CasqError, timer, trace
 from casq.gates.drag_pulse_gate import DragPulseGate
 from casq.gates.gaussian_pulse_gate import GaussianPulseGate
 from casq.gates.gaussian_square_pulse_gate import GaussianSquarePulseGate
@@ -152,6 +152,7 @@ class PulseOptimizer:
         self.pulse_function = self._build_pulse_function()
         self.objective_function = self._build_objective_function()
 
+    @timer(unit="sec")
     def optimize(
         self,
         params: npt.NDArray,
@@ -226,7 +227,8 @@ class PulseOptimizer:
             callback=callback,
         )
         gate = self.pulse_function(opt_results.x)
-        circuit = PulseCircuit.from_pulse(gate, self.backend.backend, self.target_qubit)
+        # noinspection PyProtectedMember
+        circuit = PulseCircuit.from_pulse(gate, self.backend._native_backend, self.target_qubit)
         counts = self.backend.run([circuit])[circuit.name].counts[-1]
         return PulseOptimizer.Solution(
             num_iterations=opt_results.nfev,
@@ -249,17 +251,19 @@ class PulseOptimizer:
 
         def objective(params: npt.NDArray) -> float:
             p = self.pulse_function(params)
+            # noinspection PyProtectedMember
             circuit = PulseCircuit.from_pulse(
-                p, self.backend.backend, self.target_qubit
+                p, self.backend._native_backend, self.target_qubit
             )
-            solution = self.backend.run(run_input=[circuit], method=self.method)[
+            run_options = PulseBackend.RunOptions(method=self.method)
+            solution = self.backend.run(run_input=[circuit], run_options=run_options)[
                 circuit.name
             ]
             counts = solution.counts[-1]
             fidelity = hellinger_fidelity(self.target_measurement, counts)
             infidelity = 1.0 - float(fidelity)
             logger.debug(
-                f"PARAMETERS: {params} TARGET: {counts} OBJECTIVE: {infidelity}"
+                f"PARAMETERS: {params} RESULT: {counts} OBJECTIVE: {infidelity}"
             )
             return infidelity
 

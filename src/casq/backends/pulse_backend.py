@@ -66,8 +66,12 @@ class PulseBackend:
     class Options:
         seed: Optional[int] = None
 
+        @abstractmethod
+        def to_native_options(self) -> dict[str, Any]:
+            pass
+
         def to_dict(self) -> dict[str, Any]:
-            return asdict(self)
+            return asdict(self, dict_factory=lambda opt: {k: v for (k, v) in opt if v is not None})
 
     @dataclass
     class RunOptions:
@@ -76,8 +80,12 @@ class PulseBackend:
         shots: int = 1024
         steps: Optional[int] = None
 
+        @abstractmethod
+        def to_native_options(self) -> dict[str, Any]:
+            pass
+
         def to_dict(self) -> dict[str, Any]:
-            return asdict(self)
+            return asdict(self, dict_factory=lambda opt: {k: v for (k, v) in opt if v is not None})
 
     @dataclass
     class Hamiltonian:

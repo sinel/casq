@@ -26,7 +26,9 @@ from __future__ import annotations
 from datetime import datetime
 from typing import NamedTuple, Optional, Union
 
+from loguru import logger
 from matplotlib.figure import Figure
+import numpy.typing as npt
 from qiskit.quantum_info import DensityMatrix, Statevector, partial_trace
 from qiskit.result import Result
 
@@ -67,9 +69,21 @@ class PulseSolution:
         Returns:
             Dict of pulse solutions.
         """
-        if result.header.metadata.get("casq", False):
+        if result.header.get("casq", False):
             results = {}
             for experiment_result in result.results:
+                samples = []
+                for item in experiment_result.data.memory:
+                    samples.append(item.tolist())
+                iq_data = []
+                for item in experiment_result.data.iq_data:
+                    iq_data_inner = []
+                    for item_inner in item:
+                        iq_data_inner.append((item_inner[0][0], item_inner[0][1]))
+                    iq_data.append(iq_data_inner)
+                avg_iq_data = []
+                for item in experiment_result.data.avg_iq_data:
+                    avg_iq_data.append((item[0][0], item[0][1]))
                 solution = PulseSolution(
                     backend_name=result.backend_name,
                     qubits=experiment_result.data.qubits,
@@ -78,15 +92,15 @@ class PulseSolution:
                         message=experiment_result.success,
                     ),
                     times=experiment_result.data.times,
-                    samples=experiment_result.data.memory,
+                    samples=samples,
                     counts=experiment_result.data.counts,
                     populations=experiment_result.data.populations,
                     states=experiment_result.data.states,
-                    iq_data=experiment_result.data.iq_data,
-                    avg_iq_data=experiment_result.data.avg_iq_data,
+                    iq_data=iq_data,
+                    avg_iq_data=avg_iq_data,
                     shots=experiment_result.shots,
                     seed=experiment_result.seed,
-                    timestamp=datetime.timestamp(result.date),
+                    timestamp=datetime.fromisoformat(result.date).timestamp(),
                 )
                 results[experiment_result.header.name] = solution
             return results

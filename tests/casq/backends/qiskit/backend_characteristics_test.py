@@ -23,7 +23,8 @@
 """BackendCharacteristics tests."""
 from __future__ import annotations
 
-from pytest import LogCaptureFixture
+import pytest
+from qiskit.providers import BackendV1
 from qiskit.providers.models import (
     BackendProperties,
     PulseBackendConfiguration,
@@ -37,12 +38,7 @@ from qiskit.pulse.channels import (
 )
 
 from casq.backends.qiskit.backend_characteristics import BackendCharacteristics
-
-
-def test_get_backend() -> None:
-    """Unit test for BackendCharacteristics.get_backend."""
-    backend = BackendCharacteristics.get_backend("ibmq_manila")
-    assert backend.name == "ibmq_manila"
+from casq.common import CasqError
 
 
 def test_backend_properties_init() -> None:
@@ -53,33 +49,40 @@ def test_backend_properties_init() -> None:
     assert isinstance(backend_characteristics.defaults, PulseDefaults)
 
 
-def test_get_qubit_properties() -> None:
+def test_get_qubit_properties(backend: BackendV1) -> None:
     """Unit test for BackendCharacteristics.get_qubit_properties."""
-    backend_characteristics = BackendCharacteristics("ibmq_manila")
+    backend_characteristics = BackendCharacteristics(backend)
     qubit_properties = backend_characteristics.get_qubit_properties(0)
     assert isinstance(qubit_properties, BackendCharacteristics.QubitProperties)
 
 
-def test_get_channel_frequencies_by_letter() -> None:
+def test_get_gate_properties(backend: BackendV1) -> None:
+    """Unit test for BackendCharacteristics.get_qubit_properties."""
+    backend_characteristics = BackendCharacteristics(backend)
+    gate_properties = backend_characteristics.get_gate_properties("x")
+    assert isinstance(gate_properties, BackendCharacteristics.GateProperties)
+
+
+def test_get_channel_frequencies_by_letter(backend: BackendV1) -> None:
     """Unit test for BackendCharacteristics.get_channel_frequencies by letter."""
-    backend_characteristics = BackendCharacteristics("ibmq_manila")
+    backend_characteristics = BackendCharacteristics(backend)
     freqs = backend_characteristics.get_channel_frequencies(["d0", "u0", "m0"])
     assert isinstance(freqs["d0"], float)
     assert isinstance(freqs["u0"], float)
     assert isinstance(freqs["m0"], float)
 
 
-def test_get_channel_frequencies_by_letter_warning(loguru_caplog: LogCaptureFixture) -> None:
+def test_get_channel_frequencies_by_letter_warning(backend: BackendV1, loguru_caplog: pytest.LogCaptureFixture) -> None:
     """Unit test for BackendCharacteristics.get_channel_frequencies by letter with unrecognized letter warning."""
-    backend_characteristics = BackendCharacteristics("ibmq_manila")
+    backend_characteristics = BackendCharacteristics(backend)
     backend_characteristics.get_channel_frequencies(["x0"])
     assert loguru_caplog.records[0].levelname == "WARNING"
     assert "Unrecognized channel [x0] requested." in loguru_caplog.records[0].message
 
 
-def test_get_channel_frequencies_by_channel() -> None:
+def test_get_channel_frequencies_by_channel(backend: BackendV1) -> None:
     """Unit test for BackendCharacteristics.get_channel_frequencies by channel."""
-    backend_characteristics = BackendCharacteristics("ibmq_manila")
+    backend_characteristics = BackendCharacteristics(backend)
     freqs = backend_characteristics.get_channel_frequencies(
         [DriveChannel(0), ControlChannel(0), MeasureChannel(0)]
     )
@@ -88,12 +91,48 @@ def test_get_channel_frequencies_by_channel() -> None:
     assert isinstance(freqs["m0"], float)
 
 
-def test_get_channel_frequencies_by_channel_warning(loguru_caplog: LogCaptureFixture) -> None:
+def test_get_channel_frequencies_by_channel_warning(backend: BackendV1, loguru_caplog: pytest.LogCaptureFixture) -> None:
     """Unit test for BackendCharacteristics.get_channel_frequencies by channel with unrecognized channel warning."""
-    backend_characteristics = BackendCharacteristics("ibmq_manila")
+    backend_characteristics = BackendCharacteristics(backend)
     backend_characteristics.get_channel_frequencies([MemorySlot(0)])
     assert loguru_caplog.records[0].levelname == "WARNING"
     assert (
         "Unrecognized channel [MemorySlot(0)] requested."
         in loguru_caplog.records[0].message
+    )
+
+
+def test_get_channel_frequencies_with_too_many_drive_channels(backend: BackendV1) -> None:
+    """Unit test for BackendCharacteristics.get_channel_frequencies by letter."""
+    backend_characteristics = BackendCharacteristics(backend)
+    with pytest.raises(CasqError) as e:
+        backend_characteristics.get_channel_frequencies(["d0", "d1", "d2", "d3", "d4", "d5"])
+    assert isinstance(e.value, CasqError)
+    assert (
+        e.value.message
+        == "DriveChannel index 5 is out of bounds."
+    )
+
+
+def test_get_channel_frequencies_with_too_many_control_channels(backend: BackendV1) -> None:
+    """Unit test for BackendCharacteristics.get_channel_frequencies by letter."""
+    backend_characteristics = BackendCharacteristics(backend)
+    with pytest.raises(CasqError) as e:
+        backend_characteristics.get_channel_frequencies(["u0", "u1", "u2", "u3", "u4", "u5", "u6", "u7", "u8"])
+    assert isinstance(e.value, CasqError)
+    assert (
+        e.value.message
+        == "ControlChannel index 8 is out of bounds."
+    )
+
+
+def test_get_channel_frequencies_with_too_many_measure_channels(backend: BackendV1) -> None:
+    """Unit test for BackendCharacteristics.get_channel_frequencies by letter."""
+    backend_characteristics = BackendCharacteristics(backend)
+    with pytest.raises(CasqError) as e:
+        backend_characteristics.get_channel_frequencies(["m0", "m1", "m2", "m3", "m4", "m5"])
+    assert isinstance(e.value, CasqError)
+    assert (
+        e.value.message
+        == "MeasureChannel index 5 is out of bounds."
     )
