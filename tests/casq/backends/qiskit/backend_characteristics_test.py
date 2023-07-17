@@ -41,9 +41,9 @@ from casq.backends.qiskit.backend_characteristics import BackendCharacteristics
 from casq.common import CasqError
 
 
-def test_backend_properties_init() -> None:
+def test_backend_properties_init(backend: BackendV1) -> None:
     """Unit test for BackendCharacteristics initialization."""
-    backend_characteristics = BackendCharacteristics("ibmq_manila")
+    backend_characteristics = BackendCharacteristics(backend)
     assert isinstance(backend_characteristics.config, PulseBackendConfiguration)
     assert isinstance(backend_characteristics.properties, BackendProperties)
     assert isinstance(backend_characteristics.defaults, PulseDefaults)
