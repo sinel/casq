@@ -1,0 +1,265 @@
+:py:mod:`casq.pulse_optimizer`
+==============================
+
+.. py:module:: casq.pulse_optimizer
+
+.. autoapi-nested-parse::
+
+   Pulse circuit.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   casq.pulse_optimizer.PulseOptimizer
+
+
+
+
+.. py:class:: PulseOptimizer(pulse_type: PulseType, pulse_arguments: dict[str, Any], backend: casq.backends.pulse_backend.PulseBackend, method: casq.backends.pulse_backend.PulseBackend.ODESolverMethod, target_measurement: Union[dict[str, float], qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector], fidelity_type: Optional[FidelityType] = None, target_qubit: Optional[int] = None, use_jax: bool = False, use_jit: bool = False)
+
+
+   PulseOptimizer class.
+
+   .. py:class:: PulseType(*args, **kwds)
+
+
+      Bases: :py:obj:`enum.Enum`
+
+      Pulse type.
+
+      .. py:attribute:: DRAG
+         :value: 0
+
+         
+
+      .. py:attribute:: GAUSSIAN
+         :value: 1
+
+         
+
+      .. py:attribute:: GAUSSIAN_SQUARE
+         :value: 2
+
+         
+
+
+   .. py:class:: FidelityType(*args, **kwds)
+
+
+      Bases: :py:obj:`enum.Enum`
+
+      Fidelity type.
+
+      .. py:attribute:: COUNTS
+         :value: 0
+
+         
+
+
+   .. py:class:: OptimizationMethod
+
+
+      Bases: :py:obj:`str`, :py:obj:`enum.Enum`
+
+      Optimization methods.
+
+      .. py:attribute:: SCIPY_BFGS
+         :value: 'BFGS'
+
+         
+
+      .. py:attribute:: SCIPY_CG
+         :value: 'CG'
+
+         
+
+      .. py:attribute:: SCIPY_COBYLA
+         :value: 'COBYLA'
+
+         
+
+      .. py:attribute:: SCIPY_DOGLEG
+         :value: 'dogleg'
+
+         
+
+      .. py:attribute:: SCIPY_L_BFGS_B
+         :value: 'L-BFGS-B'
+
+         
+
+      .. py:attribute:: SCIPY_NEWTON_CG
+         :value: 'Newton-CG'
+
+         
+
+      .. py:attribute:: SCIPY_NELDER_MEAD
+         :value: 'Nelder-Mead'
+
+         
+
+      .. py:attribute:: SCIPY_POWELL
+         :value: 'Powell'
+
+         
+
+      .. py:attribute:: SCIPY_SLSQP
+         :value: 'SLSQP'
+
+         
+
+      .. py:attribute:: SCIPY_TNC
+         :value: 'TNC'
+
+         
+
+      .. py:attribute:: SCIPY_TRUST_CONSTR
+         :value: 'trust-constr'
+
+         
+
+      .. py:attribute:: SCIPY_TRUST_EXACT
+         :value: 'trust-exact'
+
+         
+
+      .. py:attribute:: SCIPY_TRUST_KRYLOV
+         :value: 'trust-krylov'
+
+         
+
+      .. py:attribute:: SCIPY_TRUST_NCG
+         :value: 'trust-ncg'
+
+         
+
+
+   .. py:class:: FiniteDifferenceScheme
+
+
+      Bases: :py:obj:`str`, :py:obj:`enum.Enum`
+
+      Finite difference scheme.
+
+      .. py:attribute:: CS
+         :value: 'cs'
+
+         
+
+      .. py:attribute:: TWO_POINT
+         :value: '2-point'
+
+         
+
+      .. py:attribute:: THREE_POINT
+         :value: '3-point'
+
+         
+
+
+   .. py:class:: Solution
+
+
+      Bases: :py:obj:`NamedTuple`
+
+      Pulse optimizer solution.
+
+      .. py:attribute:: num_iterations
+         :type: int
+
+         
+
+      .. py:attribute:: parameters
+         :type: list[float]
+
+         
+
+      .. py:attribute:: measurement
+         :type: Union[dict[str, float], qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector]
+
+         
+
+      .. py:attribute:: fidelity
+         :type: float
+
+         
+
+      .. py:attribute:: gate
+         :type: casq.gates.pulse_gate.PulseGate
+
+         
+
+      .. py:attribute:: circuit
+         :type: casq.gates.pulse_circuit.PulseCircuit
+
+         
+
+      .. py:attribute:: message
+         :type: str
+
+         
+
+
+   .. py:method:: optimize(params: numpy.typing.NDArray, method: OptimizationMethod, jac: Optional[Union[bool, FiniteDifferenceScheme, Callable]] = None, hess: Optional[Union[FiniteDifferenceScheme, scipy.optimize.HessianUpdateStrategy, Callable]] = None, hessp: Optional[Callable] = None, bounds: Optional[Union[list, scipy.optimize.Bounds]] = None, constraints: Optional[Union[dict, list[dict], scipy.optimize.LinearConstraint, list[scipy.optimize.LinearConstraint], scipy.optimize.NonlinearConstraint, list[scipy.optimize.NonlinearConstraint]]] = None, tol: Optional[float] = None, maxiter: Optional[int] = None, verbose: bool = True, callback: Optional[Callable] = None) -> PulseOptimizer
+
+      PulseOptimizer.optimize method.
+
+      Optimize pulse.
+      This is basically a wrapper around scipy.optimize.minimize.
+      For more details, see
+      https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html
+
+      Args:
+          params: Pulse parameters.
+          method: Optimization method.
+          jac: Method for computing the gradient vector.
+              Only for CG, BFGS, Newton-CG, L-BFGS-B, TNC, SLSQP,
+              dogleg, trust-ncg, trust-krylov, trust-exact and trust-constr.
+          hess: Method for computing the Hessian matrix.
+              Only for Newton-CG, dogleg, trust-ncg, trust-krylov,
+              trust-exact and trust-constr.
+          hessp: Hessian of objective function times an arbitrary vector p.
+              Only for Newton-CG, trust-ncg, trust-krylov, trust-constr.
+              Only one of hessp or hess needs to be given.
+              If hess is provided, then hessp will be ignored.
+          bounds: Bounds on variables for Nelder-Mead, L-BFGS-B, TNC,
+              SLSQP, Powell, trust-constr, and COBYLA methods.
+          constraints: Constraints definition.
+              Only for COBYLA, SLSQP and trust-constr.
+          tol: Tolerance for termination.
+          maxiter: Maximum number of iterations to perform.
+          verbose: If True, print convergence messages.
+          callback: A callable called after each iteration.
+
+      Returns:
+          :py:class:`casq.PulseOptimizer.Solution`
+
+
+   .. py:method:: _build_objective_function() -> Callable[[numpy.typing.NDArray], float]
+
+      PulseOptimizer._build_objective_function method.
+
+      Build objective function to minimize.
+
+      Returns:
+          Objective function.
+
+
+   .. py:method:: _build_pulse_function() -> Callable[[numpy.typing.NDArray], casq.gates.pulse_gate.PulseGate]
+
+      PulseOptimizer._build_pulse_function method.
+
+      Build pulse function to construct pulse gate.
+
+      Returns:
+          Pulse function.
+
+
+

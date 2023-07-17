@@ -1,0 +1,177 @@
+:py:mod:`casq.backends.qiskit.dynamics_backend_patch`
+=====================================================
+
+.. py:module:: casq.backends.qiskit.dynamics_backend_patch
+
+.. autoapi-nested-parse::
+
+   Pulse simulator.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   casq.backends.qiskit.dynamics_backend_patch.DynamicsBackendPatch
+
+
+
+
+.. py:class:: DynamicsBackendPatch(solver: qiskit_dynamics.Solver, target: Optional[qiskit.transpiler.Target] = None, **options: Any)
+
+
+   Bases: :py:obj:`qiskit_dynamics.backend.DynamicsBackend`
+
+   DynamicsBackend patch class.
+
+   This class extends :class:`~qiskit.qiskit_dynamics.DynamicsBackend`
+   to provide the following improvements.
+   - Solutions are calculated for each t_eval point,
+       however intermediate solutions are not stored in the result object.
+       This bug is now fixed.
+   - t_eval must be provided without knowing the internally calculated t_span range.
+       Furthermore, manually entering t_span causes an error. As a result,
+       providing a t_eval range is awkward at best and error-prone.
+       As an alternative, automatic calculation of t_eval range
+       based on a steps argument is now provided.
+
+   .. py:class:: Options
+
+
+      Qiskit dynamics backend options.
+
+      .. py:attribute:: shots
+         :type: int
+         :value: 1024
+
+         
+
+      .. py:attribute:: solver_options
+         :type: dict[str, Any]
+
+         
+
+      .. py:attribute:: meas_map
+         :type: Optional[dict]
+
+         
+
+      .. py:attribute:: control_channel_map
+         :type: Optional[dict]
+
+         
+
+      .. py:attribute:: normalize_states
+         :type: bool
+         :value: True
+
+         
+
+      .. py:attribute:: initial_state
+         :type: Union[str, qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector]
+         :value: 'ground_state'
+
+         
+
+      .. py:attribute:: meas_level
+         :type: qiskit.qobj.utils.MeasLevel
+
+         
+
+      .. py:attribute:: meas_return
+         :type: qiskit.qobj.utils.MeasReturnType
+
+         
+
+      .. py:attribute:: iq_centers
+         :type: Optional[list[list[list[float]]]]
+
+         
+
+      .. py:attribute:: iq_width
+         :type: float
+         :value: 0.2
+
+         
+
+      .. py:attribute:: max_outcome_level
+         :type: Optional[int]
+         :value: 1
+
+         
+
+      .. py:attribute:: memory
+         :type: bool
+         :value: True
+
+         
+
+      .. py:attribute:: seed_simulator
+         :type: Optional[int]
+
+         
+
+      .. py:attribute:: experiment_result_function
+         :type: Callable
+
+         
+
+      .. py:attribute:: configuration
+         :type: Optional[qiskit.providers.models.PulseBackendConfiguration]
+
+         
+
+      .. py:attribute:: defaults
+         :type: Optional[qiskit.providers.models.PulseDefaults]
+
+         
+
+      .. py:method:: to_dict() -> dict[str, Any]
+
+         Converts to dict.
+
+
+
+   .. py:method:: from_backend(backend: Union[qiskit.providers.BackendV1, qiskit.providers.BackendV2], qubits: Optional[list[int]] = None, rotating_frame: Union[qiskit_dynamics.array.Array, qiskit_dynamics.RotatingFrame, str] = 'auto', evaluation_mode: str = 'dense', rwa_cutoff_freq: Optional[float] = None, **options: Any) -> DynamicsBackendPatch
+      :classmethod:
+
+      Construct a DynamicsBackendPatch instance from an existing Backend instance.
+
+      Args:
+          backend: The ``Backend`` instance to build the :class:`.DynamicsBackend` from.
+          qubits: List of qubits to include from the backend.
+          rotating_frame: Rotating frame argument for the internal :class:`.Solver`. Defaults to
+              ``"auto"``, allowing this method to pick a rotating frame.
+          evaluation_mode: Evaluation mode argument for the internal :class:`.Solver`.
+          rwa_cutoff_freq: Rotating wave approximation argument for the internal :class:`.Solver`.
+          options: Additional configuration options for the backend.
+
+      Returns:
+          DynamicsBackendPatch
+
+      Raises:
+          QiskitError: If any required parameters are missing from the passed backend.
+
+
+   .. py:method:: _run(job_id: str, t_span: Union[list[tuple[float, float]], list[list[float]]], schedules: list[qiskit.pulse.Schedule], measurement_subsystems_list: list[list[int]], memory_slot_indices_list: list[list[int]], num_memory_slots_list: list[int]) -> qiskit.result.Result
+
+      Run a list of simulations.
+
+      Args:
+          job_id: Job identifier.
+          t_span: Tuple or list of initial and final time.
+          schedules: List of schedules.
+          measurement_subsystems_list: List of measurement subsystems.
+          memory_slot_indices_list: List of memory slot indices.
+          num_memory_slots_list: List of numbers of memory slots.
+
+      Returns:
+          ExperimentResult object.
+
+
+

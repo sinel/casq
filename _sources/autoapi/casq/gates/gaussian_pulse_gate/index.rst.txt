@@ -1,0 +1,54 @@
+:py:mod:`casq.gates.gaussian_pulse_gate`
+========================================
+
+.. py:module:: casq.gates.gaussian_pulse_gate
+
+.. autoapi-nested-parse::
+
+   Gaussian pulse gate.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   casq.gates.gaussian_pulse_gate.GaussianPulseGate
+
+
+
+
+.. py:class:: GaussianPulseGate(duration: int, amplitude: float, sigma: float, angle: float = 0, limit_amplitude: bool = True, name: Optional[str] = None)
+
+
+   Bases: :py:obj:`casq.gates.pulse_gate.PulseGate`
+
+   GaussianPulseGate class.
+
+   Note: Currently only single qubit gates are supported.
+
+   Args:
+       duration: Pulse length in terms of the sampling period dt.
+       amplitude: The magnitude of the amplitude of the Gaussian and square pulse.
+       sigma: A measure of how wide or narrow the Gaussian risefall is,
+           i.e. its standard deviation.
+       angle: The angle of the complex amplitude of the pulse. Default value 0.
+       limit_amplitude: If True, then limit the amplitude of the waveform to 1.
+           The default is True and the amplitude is constrained to 1.
+       name: Optional display name for the pulse gate.
+
+   .. py:method:: pulse() -> qiskit.pulse.library.Pulse
+
+      GaussianPulseGate.pulse method.
+
+      Builds pulse for pulse gate.
+
+      Returns:
+          :py:class:`qiskit.pulse.library.Pulse`
+
+
+

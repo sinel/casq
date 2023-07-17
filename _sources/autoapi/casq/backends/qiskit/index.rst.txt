@@ -1,0 +1,23 @@
+:py:mod:`casq.backends.qiskit`
+==============================
+
+.. py:module:: casq.backends.qiskit
+
+.. autoapi-nested-parse::
+
+   Empty __init__.py file for Python to recognize folder as package.
+
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   backend_characteristics/index.rst
+   dynamics_backend_patch/index.rst
+   helpers/index.rst
+   qiskit_pulse_backend/index.rst
+
+

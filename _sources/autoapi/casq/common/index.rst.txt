@@ -1,0 +1,629 @@
+:py:mod:`casq.common`
+=====================
+
+.. py:module:: casq.common
+
+.. autoapi-nested-parse::
+
+   Collecting casq.common package imports in one place for convenient access.
+
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   decorators/index.rst
+   exceptions/index.rst
+   helpers/index.rst
+   plotting/index.rst
+
+
+Package Contents
+----------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   casq.common.LegendLocation
+   casq.common.LegendStyle
+   casq.common.LineCollectionConfig
+   casq.common.LineConfig
+   casq.common.LineData
+   casq.common.LineStyle
+   casq.common.LineType
+   casq.common.MarkerStyle
+   casq.common.MarkerType
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   casq.common.timer
+   casq.common.trace
+   casq.common.dbid
+   casq.common.discretize
+   casq.common.initialize_jax
+   casq.common.ufid
+   casq.common.add_horizontal_line
+   casq.common.add_line
+   casq.common.add_line_collection
+   casq.common.add_vertical_line
+   casq.common.plot
+   casq.common.plot_bloch
+   casq.common.plot_signal
+
+
+
+.. py:function:: timer(*, level: str = 'DEBUG', unit: str = 'msec') -> Any
+
+   Decorator for timing the execution of a function.
+
+   Args:
+       level: Log level. Default is TRACE.
+       unit: Time unit. Allowed values are {'msec', 'sec'}. Default is 'msec'.
+
+   Returns:
+       Wrapper function for decorator.
+
+
+.. py:function:: trace(*, log_entry: bool = True, log_exit: bool = True, level: str = 'TRACE') -> Any
+
+   Decorator for tracing entry to and exit from a function.
+
+   Args:
+       log_entry: Log entry to function if True. Default is True.
+       log_exit: Log exit from function if True. Default is True.
+       level: Log level. Default is TRACE.
+
+   Returns:
+       Wrapper function for decorator.
+
+
+.. py:exception:: CasqError(*message: str)
+
+
+   Bases: :py:obj:`Exception`
+
+   Base class for errors raised by casq.
+
+   .. py:method:: __str__() -> str
+
+      Return the message.
+
+
+
+.. py:function:: dbid() -> str
+
+   Generates database identifier for object.
+
+   Returns:
+       Database identifier.
+
+
+.. py:function:: discretize(schedule: qiskit.pulse.Schedule, dt: float, channel_frequencies: dict[str, float]) -> list[qiskit_dynamics.Signal]
+
+   Discretizes pulse schedule into signals.
+
+   Args:
+       schedule: Pulse schedule.
+       dt: Time interval.
+       channel_frequencies: Channel frequencies.
+
+   Returns:
+       List of :py:class:`qiskit_dynamics.signals.Signal`
+
+
+.. py:function:: initialize_jax() -> None
+
+   Initializes jax to use CPU in 64-bit mode.
+
+
+.. py:function:: ufid(obj: Any) -> str
+
+   Generates user-friendly identifier for object.
+
+   Args:
+       obj: Object.
+
+   Returns:
+       User-friendly identifier.
+
+
+.. py:class:: LegendLocation(*args, **kwds)
+
+
+   Bases: :py:obj:`enum.Enum`
+
+   Matplotlib legend locations.
+
+   Values correspond to matplotlib legend location codes.
+
+   .. py:attribute:: BEST
+      :value: 0
+
+      
+
+   .. py:attribute:: CENTER
+      :value: 10
+
+      
+
+   .. py:attribute:: CENTER_LEFT
+      :value: 6
+
+      
+
+   .. py:attribute:: CENTER_RIGHT
+      :value: 7
+
+      
+
+   .. py:attribute:: LOWER_CENTER
+      :value: 8
+
+      
+
+   .. py:attribute:: LOWER_LEFT
+      :value: 3
+
+      
+
+   .. py:attribute:: LOWER_RIGHT
+      :value: 4
+
+      
+
+   .. py:attribute:: UPPER_CENTER
+      :value: 9
+
+      
+
+   .. py:attribute:: UPPER_LEFT
+      :value: 2
+
+      
+
+   .. py:attribute:: UPPER_RIGHT
+      :value: 1
+
+      
+
+
+.. py:class:: LegendStyle
+
+
+   Bases: :py:obj:`NamedTuple`
+
+   Legend style properties.
+
+   .. py:attribute:: location
+      :type: LegendLocation
+
+      
+
+   .. py:attribute:: anchor
+      :type: Optional[tuple[float, float]]
+
+      
+
+
+.. py:class:: LineCollectionConfig
+
+
+   Bases: :py:obj:`NamedTuple`
+
+   Line collection configuration.
+
+   .. py:attribute:: data
+      :type: list[LineData]
+
+      
+
+   .. py:attribute:: label
+      :type: Optional[str]
+
+      
+
+   .. py:attribute:: xtitle
+      :type: Optional[str]
+
+      
+
+   .. py:attribute:: ytitle
+      :type: Optional[str]
+
+      
+
+   .. py:attribute:: xlim
+      :type: Optional[tuple[float, float]]
+
+      
+
+   .. py:attribute:: ylim
+      :type: Optional[tuple[float, float]]
+
+      
+
+   .. py:attribute:: xticks
+      :type: Optional[list[float]]
+
+      
+
+   .. py:attribute:: yticks
+      :type: Optional[list[float]]
+
+      
+
+   .. py:attribute:: line_style
+      :type: Optional[LineStyle]
+
+      
+
+   .. py:attribute:: ax
+      :type: Optional[matplotlib.axes.Axes]
+
+      
+
+
+.. py:class:: LineConfig
+
+
+   Bases: :py:obj:`NamedTuple`
+
+   Line configuration.
+
+   .. py:attribute:: data
+      :type: LineData
+
+      
+
+   .. py:attribute:: label
+      :type: Optional[str]
+
+      
+
+   .. py:attribute:: xtitle
+      :type: Optional[str]
+
+      
+
+   .. py:attribute:: ytitle
+      :type: Optional[str]
+
+      
+
+   .. py:attribute:: xlim
+      :type: Optional[tuple[float, float]]
+
+      
+
+   .. py:attribute:: ylim
+      :type: Optional[tuple[float, float]]
+
+      
+
+   .. py:attribute:: xticks
+      :type: Optional[list[float]]
+
+      
+
+   .. py:attribute:: yticks
+      :type: Optional[list[float]]
+
+      
+
+   .. py:attribute:: line_style
+      :type: Optional[LineStyle]
+
+      
+
+   .. py:attribute:: marker_style
+      :type: Optional[MarkerStyle]
+
+      
+
+   .. py:attribute:: ax
+      :type: Optional[matplotlib.axes.Axes]
+
+      
+
+
+.. py:class:: LineData
+
+
+   Bases: :py:obj:`NamedTuple`
+
+   Line configuration.
+
+   .. py:attribute:: x
+      :type: Union[list[float], numpy.typing.NDArray]
+
+      
+
+   .. py:attribute:: y
+      :type: Union[list[float], numpy.typing.NDArray]
+
+      
+
+   .. py:attribute:: z
+      :type: Optional[Union[list[float], numpy.typing.NDArray]]
+
+      
+
+
+.. py:class:: LineStyle
+
+
+   Bases: :py:obj:`NamedTuple`
+
+   Line style properties.
+
+   .. py:attribute:: color
+      :type: Optional[str]
+
+      
+
+   .. py:attribute:: type
+      :type: Optional[LineType]
+
+      
+
+   .. py:attribute:: size
+      :type: Optional[float]
+
+      
+
+
+.. py:class:: LineType(*args, **kwds)
+
+
+   Bases: :py:obj:`enum.Enum`
+
+   Matplotlib line types.
+
+   Keys (lowercase) correspond to matplotlib line type codes.
+
+   .. py:attribute:: SOLID
+      :value: 0
+
+      
+
+   .. py:attribute:: DASHED
+      :value: 1
+
+      
+
+   .. py:attribute:: DOTTED
+      :value: 2
+
+      
+
+   .. py:attribute:: DASHDOT
+      :value: 3
+
+      
+
+
+.. py:class:: MarkerStyle
+
+
+   Bases: :py:obj:`NamedTuple`
+
+   Marker style properties.
+
+   .. py:attribute:: color
+      :type: Optional[str]
+
+      
+
+   .. py:attribute:: type
+      :type: Optional[MarkerType]
+
+      
+
+   .. py:attribute:: size
+      :type: Optional[float]
+
+      
+
+
+.. py:class:: MarkerType(*args, **kwds)
+
+
+   Bases: :py:obj:`enum.Enum`
+
+   Matplotlib marker types.
+
+   Values correspond to matplotlib marker type codes.
+
+   .. py:attribute:: CIRCLE
+      :value: 'o'
+
+      
+
+   .. py:attribute:: DIAMOND
+      :value: 'D'
+
+      
+
+   .. py:attribute:: HEXAGON1
+      :value: 'h'
+
+      
+
+   .. py:attribute:: HEXAGON2
+      :value: 'H'
+
+      
+
+   .. py:attribute:: PENTAGON
+      :value: 'p'
+
+      
+
+   .. py:attribute:: PIXEL
+      :value: ','
+
+      
+
+   .. py:attribute:: PLUS
+      :value: '+'
+
+      
+
+   .. py:attribute:: PLUS_FILLED
+      :value: 'P'
+
+      
+
+   .. py:attribute:: POINT
+      :value: '.'
+
+      
+
+   .. py:attribute:: SQUARE
+      :value: 's'
+
+      
+
+   .. py:attribute:: STAR
+      :value: '*'
+
+      
+
+   .. py:attribute:: TRIANGLE_DOWN
+      :value: 'v'
+
+      
+
+   .. py:attribute:: TRIANGLE_LEFT
+      :value: '<'
+
+      
+
+   .. py:attribute:: TRIANGLE_RIGHT
+      :value: '>'
+
+      
+
+   .. py:attribute:: TRIANGLE_UP
+      :value: '^'
+
+      
+
+   .. py:attribute:: X
+      :value: 'x'
+
+      
+
+   .. py:attribute:: X_FILLED
+      :value: 'X'
+
+      
+
+
+.. py:function:: add_horizontal_line(ax: matplotlib.axes.Axes, y: float, label: Optional[str] = None, line_style: Optional[LineStyle] = None) -> None
+
+   Add horizontal line to Matplotlib axes.
+
+   Args:
+       ax: Matplotlib axes.
+       y: Constant Y value for horizontal line.
+       label: Label to be used for line in legend.
+       line_style: Line style.
+
+
+.. py:function:: add_line(ax: matplotlib.axes.Axes, data: LineData, label: Optional[str] = None, line_style: Optional[LineStyle] = None, marker_style: Optional[MarkerStyle] = None) -> None
+
+   Add line to Matplotlib axes.
+
+   Args:
+       ax: Matplotlib axes.
+       data: Line data.
+       label: Label to be used for line in legend.
+       line_style: Line style.
+       marker_style: Marker style.
+
+
+.. py:function:: add_line_collection(ax: matplotlib.axes.Axes, data: list[LineData], label: Optional[str] = None, line_style: Optional[LineStyle] = None) -> None
+
+   Add line collection to Matplotlib axes.
+
+   Args:
+       ax: Matplotlib axes.
+       data: Line collection data.
+       label: Label to be used for line collection in legend.
+       line_style: Line style.
+
+
+.. py:function:: add_vertical_line(ax: matplotlib.axes.Axes, x: float, label: Optional[str] = None, line_style: Optional[LineStyle] = None) -> None
+
+   Add vertical line to Matplotlib axes.
+
+   Args:
+       ax: Matplotlib axes.
+       x: Constant X value for vertical line.
+       label: Label to be used for line in legend.
+       line_style: Line style.
+
+
+.. py:function:: plot(configs: Sequence[Union[LineConfig, LineCollectionConfig]], figure: Optional[matplotlib.figure.Figure] = None, hlines: Optional[list[tuple[float, Optional[str], LineStyle, Optional[matplotlib.axes.Axes]]]] = None, vlines: Optional[list[tuple[float, Optional[str], LineStyle, Optional[matplotlib.axes.Axes]]]] = None, title: Optional[str] = None, legend_style: Optional[LegendStyle] = None, show_grid: bool = False, filename: Optional[str] = None, hidden: bool = False) -> matplotlib.figure.Figure
+
+   Create and plot Matplotlib figure.
+
+   Args:
+       configs: Line configurations.
+       figure: Optional Matplotlib figure to use for plotting.
+       hlines: Horizontal line configurations.
+       vlines: Vertical line configurations.
+       title: Figure title.
+       legend_style: Legend style. If None, then legend is hidden.
+       show_grid: If True, use grid in plots.
+       filename: If filename is provided as path str, then figure is saved as png.
+       hidden: If False, then plot is not displayed. Useful if method is used for saving only.
+
+   Returns:
+       Matplotlib Figure.
+
+
+.. py:function:: plot_bloch(x: Union[list[float], numpy.typing.NDArray], y: Union[list[float], numpy.typing.NDArray], z: Union[list[float], numpy.typing.NDArray], filename: Optional[str] = None, hidden: bool = False) -> matplotlib.figure.Figure
+
+   Create and plot Matplotlib figure.
+
+   Args:
+       x: X points of trajectory.
+       y: Y points of trajectory.
+       z: Z points of trajectory.
+       filename: If filename is provided as path str, then figure is saved as png.
+       hidden: If False, then plot is not displayed. Useful if method is used for saving only.
+
+   Returns:
+       Matplotlib Figure.
+
+
+.. py:function:: plot_signal(schedule: Union[qiskit.pulse.Schedule, qiskit.pulse.ScheduleBlock], dt: float, channel: str, carrier_frequency: float, duration: float, number_of_samples: int = 10000, filename: Optional[str] = None, hidden: bool = False) -> matplotlib.figure.Figure
+
+   Create and plot Matplotlib figure.
+
+   Args:
+       schedule: Qiskit pulse schedule.
+       dt: Sampling time interval.
+       channel: Qiskit pulse channel.
+       carrier_frequency: Carrier frequency used for signal.
+       duration: Total signal duration used for plotting.
+       number_of_samples: Number of samples to use for plotting.
+       filename: If filename is provided as path str, then figure is saved as png.
+       hidden: If False, then plot is not displayed. Useful if method is used for saving only.
+
+   Returns:
+       Matplotlib Figure.
+
+

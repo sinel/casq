@@ -1,6 +1,0 @@
-:py:mod:`src.casq.notebooks`
-============================
-
-.. py:module:: src.casq.notebooks
-
-

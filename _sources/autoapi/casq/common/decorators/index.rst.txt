@@ -1,0 +1,50 @@
+:py:mod:`casq.common.decorators`
+================================
+
+.. py:module:: casq.common.decorators
+
+.. autoapi-nested-parse::
+
+   Common decorator functions used by library.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   casq.common.decorators.trace
+   casq.common.decorators.timer
+
+
+
+.. py:function:: trace(*, log_entry: bool = True, log_exit: bool = True, level: str = 'TRACE') -> Any
+
+   Decorator for tracing entry to and exit from a function.
+
+   Args:
+       log_entry: Log entry to function if True. Default is True.
+       log_exit: Log exit from function if True. Default is True.
+       level: Log level. Default is TRACE.
+
+   Returns:
+       Wrapper function for decorator.
+
+
+.. py:function:: timer(*, level: str = 'DEBUG', unit: str = 'msec') -> Any
+
+   Decorator for timing the execution of a function.
+
+   Args:
+       level: Log level. Default is TRACE.
+       unit: Time unit. Allowed values are {'msec', 'sec'}. Default is 'msec'.
+
+   Returns:
+       Wrapper function for decorator.
+
+

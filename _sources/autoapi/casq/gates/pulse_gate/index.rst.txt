@@ -1,0 +1,87 @@
+:py:mod:`casq.gates.pulse_gate`
+===============================
+
+.. py:module:: casq.gates.pulse_gate
+
+.. autoapi-nested-parse::
+
+   Pulse gate.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   casq.gates.pulse_gate.PulseGate
+
+
+
+
+.. py:class:: PulseGate(num_qubits: int, duration: int, name: Optional[str] = None)
+
+
+   Bases: :py:obj:`qiskit.circuit.Gate`
+
+   PulseGate class.
+
+   Abstract base class for all pulse gates.
+   Note: Currently only single qubit gates are supported.
+
+   Args:
+       num_qubits: The number of qubits the gate acts on.
+       duration: Pulse length in terms of the sampling period dt.
+       name: Optional display name for the pulse gate.
+
+   .. py:method:: pulse() -> qiskit.pulse.library.Pulse
+      :abstractmethod:
+
+      PulseGate.pulse method.
+
+      Builds pulse for pulse gate.
+
+      Returns:
+          :py:class:`qiskit.pulse.library.Pulse`
+
+
+   .. py:method:: schedule(qubit: int, backend: Optional[qiskit.providers.BackendV1] = None, dt: Optional[float] = None, channel_frequencies: Optional[dict[str, float]] = None, measured: bool = False, discretized: bool = False) -> Union[qiskit.pulse.Schedule, list[qiskit_dynamics.Signal]]
+
+      PulseGate.schedule method.
+
+      Builds schedule to run pulse gate for testing or solitary optimization.
+
+      Args:
+          qubit: Qubit to attach gate instruction to.
+          backend: Optional IBMQ backend. Required if building a measured schedule.
+          dt: Optional time interval.
+          channel_frequencies: Optional channel frequencies.
+          measured: If True, convert schedule into discretized list of signals.
+          discretized: If True, convert schedule into discretized list of signals.
+
+      Returns:
+          :py:class:`qiskit.pulse.Schedule`
+          or list of :py:class:`qiskit_dynamics.signals.Signal`
+
+
+   .. py:method:: draw_signal(qubit: int, dt: float, carrier_frequency: float, filename: Optional[str] = None, hidden: bool = False) -> matplotlib.figure.Figure
+
+      PulseGate.draw_signal method.
+
+      Draws pulse gate signal.
+
+      Args:
+          qubit: Qubit to attach gate to.
+          dt: Sample time length.
+          carrier_frequency: Carrier frequency.
+          filename: Saves figure to specified path if provided.
+          hidden: Does not show figure if True.
+
+      Returns:
+          :py:class:`qiskit.QuantumCircuit`
+
+
+

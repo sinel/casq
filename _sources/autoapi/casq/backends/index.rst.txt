@@ -1,0 +1,717 @@
+:py:mod:`casq.backends`
+=======================
+
+.. py:module:: casq.backends
+
+.. autoapi-nested-parse::
+
+   Collecting casq.backends package imports in one place for convenient access.
+
+
+
+Subpackages
+-----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 3
+
+   qiskit/index.rst
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   pulse_backend/index.rst
+   pulse_solution/index.rst
+
+
+Package Contents
+----------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   casq.backends.PulseBackend
+   casq.backends.PulseSolution
+   casq.backends.BackendCharacteristics
+   casq.backends.DynamicsBackendPatch
+   casq.backends.QiskitPulseBackend
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   casq.backends.get_experiment_result
+
+
+
+.. py:class:: PulseBackend(native_backend_type: PulseBackend, hamiltonian_dict: dict, qubits: list[int], seed: Optional[int] = None)
+
+
+   PulseBackend class.
+
+   .. py:class:: NativeBackendType(*args, **kwds)
+
+
+      Bases: :py:obj:`enum.Enum`
+
+      Native backend type.
+
+      .. py:attribute:: C3
+         :value: 0
+
+         
+
+      .. py:attribute:: QCTRL
+         :value: 1
+
+         
+
+      .. py:attribute:: QISKIT
+         :value: 2
+
+         
+
+      .. py:attribute:: QUTIP
+         :value: 3
+
+         
+
+
+   .. py:class:: ODESolverMethod
+
+
+      Bases: :py:obj:`str`, :py:obj:`enum.Enum`
+
+      Solver methods.
+
+      .. py:attribute:: QISKIT_DYNAMICS_RK4
+         :value: 'RK4'
+
+         
+
+      .. py:attribute:: QISKIT_DYNAMICS_JAX_RK4
+         :value: 'jax_RK4'
+
+         
+
+      .. py:attribute:: QISKIT_DYNAMICS_JAX_ODEINT
+         :value: 'jax_odeint'
+
+         
+
+      .. py:attribute:: SCIPY_BDF
+         :value: 'BDF'
+
+         
+
+      .. py:attribute:: SCIPY_DOP853
+         :value: 'DOP853'
+
+         
+
+      .. py:attribute:: SCIPY_LSODA
+         :value: 'LSODA'
+
+         
+
+      .. py:attribute:: SCIPY_RADAU
+         :value: 'Radau'
+
+         
+
+      .. py:attribute:: SCIPY_RK23
+         :value: 'RK23'
+
+         
+
+      .. py:attribute:: SCIPY_RK45
+         :value: 'RK45'
+
+         
+
+
+   .. py:class:: Hamiltonian
+
+
+      Hamiltonian properties.
+
+      .. py:attribute:: static
+         :type: numpy.typing.NDArray
+
+         
+
+      .. py:attribute:: operators
+         :type: numpy.typing.NDArray
+
+         
+
+      .. py:attribute:: channels
+         :type: list[str]
+
+         
+
+      .. py:method:: to_dict() -> dict[str, Any]
+
+         Converts to dict.
+
+
+
+   .. py:method:: run(run_input: list[Union[casq.gates.pulse_circuit.PulseCircuit, qiskit.QuantumCircuit, qiskit.pulse.Schedule, qiskit.pulse.ScheduleBlock]], method: PulseBackend, initial_state: Optional[Union[qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector]] = None, shots: int = 1024, steps: Optional[int] = None) -> dict[str, casq.backends.pulse_solution.PulseSolution]
+      :abstractmethod:
+
+      PulseBackend.run.
+
+      Args:
+          run_input: List of pulse schedules or circuits.
+          method: ODE solving method to use.
+          initial_state: Initial state for simulation,
+              either None,
+              indicating that the ground state for the system Hamiltonian should be used,
+              or an arbitrary Statevector or DensityMatrix.
+          shots: Number of shots per experiment. Defaults to 1024.
+          steps: Number of steps at which to solve the system.
+              Used to automatically calculate an evenly-spaced t_eval range.
+
+
+   .. py:method:: _get_native_backend() -> Any
+      :abstractmethod:
+
+      PulseBackend._get_native_backend.
+
+
+   .. py:method:: _parse_hamiltonian_dict() -> tuple[PulseBackend, list[int]]
+      :abstractmethod:
+
+      PulseBackend._parse_hamiltonian_dict.
+
+
+
+.. py:class:: PulseSolution(backend_name: str, qubits: list[int], status: PulseSolution, times: list[float], samples: list[list[int]], counts: list[dict[str, int]], populations: list[dict[str, float]], states: list[Union[qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector]], iq_data: list[list[tuple[float, float]]], avg_iq_data: list[tuple[float, float]], shots: int = 1024, seed: Optional[int] = None, timestamp: float = datetime.timestamp(datetime.now()))
+
+
+   PulseSolution class.
+
+   .. py:class:: Status
+
+
+      Bases: :py:obj:`NamedTuple`
+
+      Solution status.
+
+      .. py:attribute:: is_success
+         :type: bool
+         :value: True
+
+         
+
+      .. py:attribute:: message
+         :type: Optional[str]
+
+         
+
+
+   .. py:method:: from_qiskit(result: qiskit.result.Result) -> dict[str, PulseSolution]
+      :classmethod:
+
+      PulseSolution.from_qiskit method.
+
+      Transforms Qiskit result into pulse backend solution.
+
+      Args:
+          result: Qiskit result.
+
+      Returns:
+          Dict of pulse solutions.
+
+
+   .. py:method:: plot_population(filename: Optional[str] = None, hidden: bool = False) -> matplotlib.figure.Figure
+
+      PulseSolution.plot_population method.
+
+      Plots populations from result.
+
+      Args:
+          filename: If filename is provided as path str, then figure is saved as png.
+          hidden: If False, then plot is not displayed. Useful if method is used for saving only.
+
+      Returns:
+          :py:class:`matplotlib.figure.Figure`
+
+
+   .. py:method:: plot_iq(time_index: Optional[int] = None, filename: Optional[str] = None, hidden: bool = False) -> matplotlib.figure.Figure
+
+      PulseSolution.plot_iq method.
+
+      Plots IQ points from result.
+
+      Args:
+          time_index: Time at which to plot IQ points.
+          filename: If filename is provided as path str, then figure is saved as png.
+          hidden: If False, then plot is not displayed. Useful if method is used for saving only.
+
+      Returns:
+          :py:class:`matplotlib.figure.Figure`
+
+
+   .. py:method:: plot_iq_trajectory(filename: Optional[str] = None, hidden: bool = False) -> matplotlib.figure.Figure
+
+      PulseSolution.plot_iq_trajectory method.
+
+      Plots trajectory of average IQ points from result.
+
+      Args:
+          filename: If filename is provided as path str, then figure is saved as png.
+          hidden: If False, then plot is not displayed. Useful if method is used for saving only.
+
+      Returns:
+          :py:class:`matplotlib.figure.Figure`
+
+
+   .. py:method:: plot_trajectory(qubit: int = 0, filename: Optional[str] = None, hidden: bool = False) -> matplotlib.figure.Figure
+
+      PulseSolution.plot_trajectory method.
+
+      Plots statevector trajectory from result.
+
+      Args:
+          qubit: Qubit to plot trajectory of.
+          filename: If filename is provided as path str, then figure is saved as png.
+          hidden: If False, then plot is not displayed. Useful if method is used for saving only.
+
+      Returns:
+          :py:class:`matplotlib.figure.Figure`
+
+
+   .. py:method:: plot_bloch_trajectory(qubit: int = 0, filename: Optional[str] = None, hidden: bool = False) -> matplotlib.figure.Figure
+
+      PulseSolution.plot_bloch_trajectory method.
+
+      Plots statevector trajectory on Bloch sphere from result.
+
+      Args:
+          qubit: Qubit to plot trajectory of.
+          filename: If filename is provided as path str, then figure is saved as png.
+          hidden: If False, then plot is not displayed. Useful if method is used for saving only.
+
+      Returns:
+          :py:class:`matplotlib.figure.Figure`
+
+
+   .. py:method:: _xyz(qubit: int = 0) -> tuple[list[float], list[float], list[float]]
+
+      PulseSolution._xyz method.
+
+      Transforms statevectors into 3D trajectory from result.
+
+      Returns:
+          XYZ data lists or dict of lists.
+
+
+   .. py:method:: _trace(state: qiskit.quantum_info.Statevector, qubit: int) -> qiskit.quantum_info.Statevector
+
+      PulseSolution._trace method.
+
+      Generate partial trace of statevector for specified qubit.
+
+      Args:
+          state: System state given as statevector.
+          qubit: Qubit to trace out.
+
+      Returns:
+          Reduced statevector.
+
+
+
+.. py:class:: BackendCharacteristics(backend: Union[str, qiskit.providers.BackendV1])
+
+
+   BackendCharacteristics class.
+
+   Extracts IBMQ backend characteristics needed by various casq classes and methods.
+   Requires PulseBackendConfiguration with valid configuration, properties, and defaults.
+
+   BackendV2 currently lacks all necessary characteristics
+   that may be utilized by a PulseBackend.
+   However, this may change in future Qiskit versions.
+
+   Args:
+       backend: IBMQ backend compatible with BackendV1.
+
+   .. py:class:: GateProperties
+
+
+      Bases: :py:obj:`NamedTuple`
+
+      Gate properties.
+
+      .. py:attribute:: gate_error
+         :type: float
+
+         
+
+      .. py:attribute:: gate_length
+         :type: float
+
+         
+
+      .. py:attribute:: qubits
+         :type: list[int]
+
+         
+
+      .. py:attribute:: parameters
+         :type: dict[str, Any]
+
+         
+
+      .. py:attribute:: is_operational
+         :type: bool
+
+         
+
+
+   .. py:class:: QubitProperties
+
+
+      Bases: :py:obj:`NamedTuple`
+
+      Qubit properties.
+
+      .. py:attribute:: frequency
+         :type: float
+
+         
+
+      .. py:attribute:: readout_error
+         :type: float
+
+         
+
+      .. py:attribute:: readout_length
+         :type: float
+
+         
+
+      .. py:attribute:: t1
+         :type: float
+
+         
+
+      .. py:attribute:: t2
+         :type: float
+
+         
+
+      .. py:attribute:: is_operational
+         :type: bool
+
+         
+
+
+   .. py:method:: get_backend(name: str) -> qiskit.providers.BackendV1
+      :staticmethod:
+
+      BackendCharacteristics._get_backend method.
+
+      Returns:
+          :py:class:`qiskit.providers.Backend`
+
+
+   .. py:method:: get_qubit_properties(qubit: int) -> QubitProperties
+
+      BackendCharacteristics.get_qubit_properties method.
+
+      Args:
+          qubit: Qubit to attach gate to.
+
+      Returns:
+          :py:class:`casq.backends.qiskit.BackendCharacteristics.QubitProperties`
+
+
+   .. py:method:: get_gate_properties(gate_name: str) -> GateProperties
+
+      BackendCharacteristics.get_gate_properties method.
+
+      Args:
+          gate_name: Gate name.
+
+      Returns:
+          :py:class:`casq.backends.qiskit.BackendCharacteristics.GateProperties`
+
+
+   .. py:method:: _get_config() -> qiskit.providers.models.PulseBackendConfiguration
+
+      BackendCharacteristics._get_config method.
+
+      Returns:
+          :py:class:`qiskit.providers.models.PulseBackendConfiguration`
+
+
+   .. py:method:: _get_defaults() -> qiskit.providers.models.PulseDefaults
+
+      BackendCharacteristics._get_defaults method.
+
+      Returns:
+          :py:class:`qiskit.providers.models.PulseDefaults`
+
+
+   .. py:method:: _get_properties() -> qiskit.providers.models.BackendProperties
+
+      BackendCharacteristics._get_properties method.
+
+      Returns:
+          :py:class:`qiskit.providers.models.BackendProperties`
+
+
+   .. py:method:: get_channel_frequencies(channels: Union[list[str], list[qiskit.pulse.channels.Channel]]) -> dict[str, float]
+
+      Discretizes pulse schedule into signals.
+
+      Args:
+          channels: List of channel names or channel instances.
+
+      Returns:
+          List of :py:class:`qiskit_dynamics.signals.Signal`
+
+
+   .. py:method:: get_control_channel_map(channels_filter: list[str]) -> dict[tuple[int, Ellipsis], int]
+
+      Get control channel map from backend configuration.
+
+      Args:
+          channels_filter: List of channel names to filter by.
+
+      Returns:
+          Dictionary mapping qubits to control channels.
+
+
+
+.. py:class:: DynamicsBackendPatch(solver: qiskit_dynamics.Solver, target: Optional[qiskit.transpiler.Target] = None, **options: Any)
+
+
+   Bases: :py:obj:`qiskit_dynamics.backend.DynamicsBackend`
+
+   DynamicsBackend patch class.
+
+   This class extends :class:`~qiskit.qiskit_dynamics.DynamicsBackend`
+   to provide the following improvements.
+   - Solutions are calculated for each t_eval point,
+       however intermediate solutions are not stored in the result object.
+       This bug is now fixed.
+   - t_eval must be provided without knowing the internally calculated t_span range.
+       Furthermore, manually entering t_span causes an error. As a result,
+       providing a t_eval range is awkward at best and error-prone.
+       As an alternative, automatic calculation of t_eval range
+       based on a steps argument is now provided.
+
+   .. py:class:: Options
+
+
+      Qiskit dynamics backend options.
+
+      .. py:attribute:: shots
+         :type: int
+         :value: 1024
+
+         
+
+      .. py:attribute:: solver_options
+         :type: dict[str, Any]
+
+         
+
+      .. py:attribute:: meas_map
+         :type: Optional[dict]
+
+         
+
+      .. py:attribute:: control_channel_map
+         :type: Optional[dict]
+
+         
+
+      .. py:attribute:: normalize_states
+         :type: bool
+         :value: True
+
+         
+
+      .. py:attribute:: initial_state
+         :type: Union[str, qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector]
+         :value: 'ground_state'
+
+         
+
+      .. py:attribute:: meas_level
+         :type: qiskit.qobj.utils.MeasLevel
+
+         
+
+      .. py:attribute:: meas_return
+         :type: qiskit.qobj.utils.MeasReturnType
+
+         
+
+      .. py:attribute:: iq_centers
+         :type: Optional[list[list[list[float]]]]
+
+         
+
+      .. py:attribute:: iq_width
+         :type: float
+         :value: 0.2
+
+         
+
+      .. py:attribute:: max_outcome_level
+         :type: Optional[int]
+         :value: 1
+
+         
+
+      .. py:attribute:: memory
+         :type: bool
+         :value: True
+
+         
+
+      .. py:attribute:: seed_simulator
+         :type: Optional[int]
+
+         
+
+      .. py:attribute:: experiment_result_function
+         :type: Callable
+
+         
+
+      .. py:attribute:: configuration
+         :type: Optional[qiskit.providers.models.PulseBackendConfiguration]
+
+         
+
+      .. py:attribute:: defaults
+         :type: Optional[qiskit.providers.models.PulseDefaults]
+
+         
+
+      .. py:method:: to_dict() -> dict[str, Any]
+
+         Converts to dict.
+
+
+
+   .. py:method:: from_backend(backend: Union[qiskit.providers.BackendV1, qiskit.providers.BackendV2], qubits: Optional[list[int]] = None, rotating_frame: Union[qiskit_dynamics.array.Array, qiskit_dynamics.RotatingFrame, str] = 'auto', evaluation_mode: str = 'dense', rwa_cutoff_freq: Optional[float] = None, **options: Any) -> DynamicsBackendPatch
+      :classmethod:
+
+      Construct a DynamicsBackendPatch instance from an existing Backend instance.
+
+      Args:
+          backend: The ``Backend`` instance to build the :class:`.DynamicsBackend` from.
+          qubits: List of qubits to include from the backend.
+          rotating_frame: Rotating frame argument for the internal :class:`.Solver`. Defaults to
+              ``"auto"``, allowing this method to pick a rotating frame.
+          evaluation_mode: Evaluation mode argument for the internal :class:`.Solver`.
+          rwa_cutoff_freq: Rotating wave approximation argument for the internal :class:`.Solver`.
+          options: Additional configuration options for the backend.
+
+      Returns:
+          DynamicsBackendPatch
+
+      Raises:
+          QiskitError: If any required parameters are missing from the passed backend.
+
+
+   .. py:method:: _run(job_id: str, t_span: Union[list[tuple[float, float]], list[list[float]]], schedules: list[qiskit.pulse.Schedule], measurement_subsystems_list: list[list[int]], memory_slot_indices_list: list[list[int]], num_memory_slots_list: list[int]) -> qiskit.result.Result
+
+      Run a list of simulations.
+
+      Args:
+          job_id: Job identifier.
+          t_span: Tuple or list of initial and final time.
+          schedules: List of schedules.
+          measurement_subsystems_list: List of measurement subsystems.
+          memory_slot_indices_list: List of memory slot indices.
+          num_memory_slots_list: List of numbers of memory slots.
+
+      Returns:
+          ExperimentResult object.
+
+
+
+.. py:function:: get_experiment_result(experiment_name: str, solver_result: scipy.integrate._ivp.ivp.OdeResult, measurement_subsystems: list[int], memory_slot_indices: list[int], num_memory_slots: Union[None, int], backend: qiskit_dynamics.backend.DynamicsBackend, seed: Optional[int] = None, metadata: Optional[dict] = None) -> qiskit.result.models.ExperimentResult
+
+   Generates ExperimentResult objects from solver result.
+
+   Args:
+       experiment_name: Name of experiment.
+       solver_result: Result object from :class:`Solver.solve`.
+       measurement_subsystems: Labels of subsystems in the model being measured.
+       memory_slot_indices: Indices of memory slots
+           to store the results in for each subsystem.
+       num_memory_slots: Total number of memory slots in the returned output.
+           If ``None``, ``max(memory_slot_indices)`` will be used.
+       backend: The backend instance that ran the simulation.
+           Various options and properties are utilized.
+       seed: Seed for any random number generation involved
+           (e.g. when computing outcome samples).
+       metadata: Metadata to add to the header of the
+           :class:`~qiskit.result.models.ExperimentResult` object.
+
+   Returns:
+       :class:`~qiskit.result.models.ExperimentResult`
+
+   Raises:
+       QiskitError: If a specified option is unsupported.
+
+
+.. py:class:: QiskitPulseBackend(hamiltonian_dict: dict, qubits: list[int], dt: Optional[float] = None, channel_carrier_freqs: Optional[dict] = None, control_channel_map: Optional[dict] = None, rotating_frame: Union[qiskit_dynamics.array.Array, qiskit_dynamics.RotatingFrame, str] = 'auto', evaluation_mode: str = 'dense', rwa_cutoff_freq: Optional[float] = None, seed: Optional[int] = None)
+
+
+   Bases: :py:obj:`casq.backends.pulse_backend.PulseBackend`
+
+   QiskitPulseBackend class.
+
+   .. py:method:: from_backend(backend: Union[qiskit.providers.BackendV1, qiskit.providers.BackendV2], qubits: Optional[list[int]] = None, rotating_frame: Union[qiskit_dynamics.array.Array, qiskit_dynamics.RotatingFrame, str] = 'auto', evaluation_mode: str = 'dense', rwa_cutoff_freq: Optional[float] = None, seed: Optional[int] = None) -> Self
+      :classmethod:
+
+      Construct a QiskitPulseBackend instance from an existing backend instance.
+
+      Args:
+          backend: The ``Backend`` instance to build the :class:`.DynamicsBackend` from.
+          qubits: List of qubits to include from the backend.
+          rotating_frame: Rotating frame argument for the internal :class:`.Solver`. Defaults to
+              ``"auto"``, allowing this method to pick a rotating frame.
+          evaluation_mode: Evaluation mode argument for the internal :class:`.Solver`.
+          rwa_cutoff_freq: Rotating wave approximation argument for the internal :class:`.Solver`.
+          seed: Seed to use in random sampling. Defaults to None.
+
+      Returns:
+          QiskitPulseBackend
+
+
+   .. py:method:: run(run_input: list[Union[casq.gates.pulse_circuit.PulseCircuit, qiskit.QuantumCircuit, qiskit.pulse.Schedule, qiskit.pulse.ScheduleBlock]], method: casq.backends.pulse_backend.PulseBackend.ODESolverMethod, initial_state: Optional[Union[qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector]] = None, shots: int = 1024, steps: Optional[int] = None) -> dict[str, casq.backends.pulse_solution.PulseSolution]
+
+      QiskitPulseBackend.run.
+
+
+   .. py:method:: _get_native_backend() -> casq.backends.qiskit.dynamics_backend_patch.DynamicsBackendPatch
+
+      QiskitPulseBackend._get_native_backend.
+
+
+   .. py:method:: _parse_hamiltonian_dict() -> tuple[casq.backends.pulse_backend.PulseBackend.Hamiltonian, list[int]]
+
+      QiskitPulseBackend._parse_hamiltonian_dict.
+
+
+

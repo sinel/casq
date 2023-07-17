@@ -1,0 +1,69 @@
+:py:mod:`casq.gates.pulse_circuit`
+==================================
+
+.. py:module:: casq.gates.pulse_circuit
+
+.. autoapi-nested-parse::
+
+   Pulse circuit.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   casq.gates.pulse_circuit.PulseCircuit
+
+
+
+
+.. py:class:: PulseCircuit(*regs: Union[qiskit.circuit.Register, int, list[qiskit.circuit.Bit]], name: Optional[str] = None, global_phase: qiskit.circuit.parameterexpression.ParameterValueType = 0, metadata: Optional[dict] = None)
+
+
+   Bases: :py:obj:`qiskit.QuantumCircuit`
+
+   PulseCircuit class.
+
+   Extends Qiskit QuantumCircuit class
+   with helper methods for adding pulse gates and plotting.
+
+   Args:
+       name: Optional user-friendly name for pulse gate.
+
+   .. py:method:: from_pulse(gate: casq.gates.pulse_gate.PulseGate, backend: qiskit.providers.BackendV1, qubit: int = 0) -> PulseCircuit
+      :staticmethod:
+
+      PulseCircuit.from_pulse method.
+
+      Builds simple circuit for solitary usage or testing of pulse gate.
+
+      Args:
+          gate: Pulse gate.
+          backend: Qiskit backend.
+          qubit: Qubit to attach gate to.
+
+      Returns:
+          :py:class:`matplotlib.figure.Figure`
+
+
+   .. py:method:: pulse(gate: casq.gates.pulse_gate.PulseGate, backend: qiskit.providers.BackendV1, qubit: int = 0) -> qiskit.circuit.quantumcircuit.InstructionSet
+
+      PulseGate.gate method.
+
+      Append pulse gate to circuit.
+
+      Args:
+          gate: Pulse gate.
+          qubit: Qubit to attach pulse gate to.
+          backend: Qiskit backend.
+
+      Returns:
+          :py:class:`qiskit.pulse.Instruction`
+
+
+

@@ -1,0 +1,242 @@
+:py:mod:`casq.gates`
+====================
+
+.. py:module:: casq.gates
+
+.. autoapi-nested-parse::
+
+   Collecting casq.gates package imports in one place for convenient access.
+
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   drag_pulse_gate/index.rst
+   gaussian_pulse_gate/index.rst
+   gaussian_square_pulse_gate/index.rst
+   pulse_circuit/index.rst
+   pulse_gate/index.rst
+
+
+Package Contents
+----------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   casq.gates.DragPulseGate
+   casq.gates.GaussianPulseGate
+   casq.gates.GaussianSquarePulseGate
+   casq.gates.PulseCircuit
+   casq.gates.PulseGate
+
+
+
+
+.. py:class:: DragPulseGate(duration: int, amplitude: float, sigma: float, beta: float, angle: Optional[float] = None, limit_amplitude: bool = True, name: Optional[str] = None)
+
+
+   Bases: :py:obj:`casq.gates.pulse_gate.PulseGate`
+
+   DragPulseGate class.
+
+   Note: Currently only single qubit gates are supported.
+
+   Args:
+       duration: Pulse length in terms of the sampling period dt.
+       amplitude: The magnitude of the amplitude of the Gaussian and square pulse.
+       sigma: A measure of how wide or narrow the Gaussian risefall is,
+           i.e. its standard deviation.
+       beta: The correction amplitude.
+       angle: The angle of the complex amplitude of the pulse. Default value 0.
+       limit_amplitude: If True, then limit the amplitude of the waveform to 1.
+           The default is True and the amplitude is constrained to 1.
+       name: Optional display name for the pulse gate.
+
+   .. py:method:: pulse() -> qiskit.pulse.library.Pulse
+
+      DragPulseGate.pulse method.
+
+      Builds pulse for pulse gate.
+
+      Returns:
+          :py:class:`qiskit.pulse.library.Pulse`
+
+
+
+.. py:class:: GaussianPulseGate(duration: int, amplitude: float, sigma: float, angle: float = 0, limit_amplitude: bool = True, name: Optional[str] = None)
+
+
+   Bases: :py:obj:`casq.gates.pulse_gate.PulseGate`
+
+   GaussianPulseGate class.
+
+   Note: Currently only single qubit gates are supported.
+
+   Args:
+       duration: Pulse length in terms of the sampling period dt.
+       amplitude: The magnitude of the amplitude of the Gaussian and square pulse.
+       sigma: A measure of how wide or narrow the Gaussian risefall is,
+           i.e. its standard deviation.
+       angle: The angle of the complex amplitude of the pulse. Default value 0.
+       limit_amplitude: If True, then limit the amplitude of the waveform to 1.
+           The default is True and the amplitude is constrained to 1.
+       name: Optional display name for the pulse gate.
+
+   .. py:method:: pulse() -> qiskit.pulse.library.Pulse
+
+      GaussianPulseGate.pulse method.
+
+      Builds pulse for pulse gate.
+
+      Returns:
+          :py:class:`qiskit.pulse.library.Pulse`
+
+
+
+.. py:class:: GaussianSquarePulseGate(duration: int, amplitude: float, sigma: float, width: float, angle: float = 0, risefall_sigma_ratio: Optional[float] = None, limit_amplitude: bool = True, name: Optional[str] = None)
+
+
+   Bases: :py:obj:`casq.gates.pulse_gate.PulseGate`
+
+   GaussianSquarePulseGate class.
+
+   Note: Currently only single qubit gates are supported.
+
+   Args:
+       duration: Pulse length in terms of the sampling period dt.
+       amplitude: The magnitude of the amplitude of the Gaussian and square pulse.
+       sigma: A measure of how wide or narrow the Gaussian risefall is,
+           i.e. its standard deviation.
+       width: The duration of the embedded square pulse.
+       angle: The angle of the complex amplitude of the pulse. Default value 0.
+       risefall_sigma_ratio: The ratio of each risefall duration to sigma.
+       limit_amplitude: If True, then limit the amplitude of the waveform to 1.
+           The default is True and the amplitude is constrained to 1.
+       name: Optional display name for the pulse gate.
+
+   .. py:method:: pulse() -> qiskit.pulse.library.Pulse
+
+      GaussianSquarePulseGate.pulse method.
+
+      Builds pulse for pulse gate.
+
+      Returns:
+          :py:class:`qiskit.pulse.library.Pulse`
+
+
+
+.. py:class:: PulseCircuit(*regs: Union[qiskit.circuit.Register, int, list[qiskit.circuit.Bit]], name: Optional[str] = None, global_phase: qiskit.circuit.parameterexpression.ParameterValueType = 0, metadata: Optional[dict] = None)
+
+
+   Bases: :py:obj:`qiskit.QuantumCircuit`
+
+   PulseCircuit class.
+
+   Extends Qiskit QuantumCircuit class
+   with helper methods for adding pulse gates and plotting.
+
+   Args:
+       name: Optional user-friendly name for pulse gate.
+
+   .. py:method:: from_pulse(gate: casq.gates.pulse_gate.PulseGate, backend: qiskit.providers.BackendV1, qubit: int = 0) -> PulseCircuit
+      :staticmethod:
+
+      PulseCircuit.from_pulse method.
+
+      Builds simple circuit for solitary usage or testing of pulse gate.
+
+      Args:
+          gate: Pulse gate.
+          backend: Qiskit backend.
+          qubit: Qubit to attach gate to.
+
+      Returns:
+          :py:class:`matplotlib.figure.Figure`
+
+
+   .. py:method:: pulse(gate: casq.gates.pulse_gate.PulseGate, backend: qiskit.providers.BackendV1, qubit: int = 0) -> qiskit.circuit.quantumcircuit.InstructionSet
+
+      PulseGate.gate method.
+
+      Append pulse gate to circuit.
+
+      Args:
+          gate: Pulse gate.
+          qubit: Qubit to attach pulse gate to.
+          backend: Qiskit backend.
+
+      Returns:
+          :py:class:`qiskit.pulse.Instruction`
+
+
+
+.. py:class:: PulseGate(num_qubits: int, duration: int, name: Optional[str] = None)
+
+
+   Bases: :py:obj:`qiskit.circuit.Gate`
+
+   PulseGate class.
+
+   Abstract base class for all pulse gates.
+   Note: Currently only single qubit gates are supported.
+
+   Args:
+       num_qubits: The number of qubits the gate acts on.
+       duration: Pulse length in terms of the sampling period dt.
+       name: Optional display name for the pulse gate.
+
+   .. py:method:: pulse() -> qiskit.pulse.library.Pulse
+      :abstractmethod:
+
+      PulseGate.pulse method.
+
+      Builds pulse for pulse gate.
+
+      Returns:
+          :py:class:`qiskit.pulse.library.Pulse`
+
+
+   .. py:method:: schedule(qubit: int, backend: Optional[qiskit.providers.BackendV1] = None, dt: Optional[float] = None, channel_frequencies: Optional[dict[str, float]] = None, measured: bool = False, discretized: bool = False) -> Union[qiskit.pulse.Schedule, list[qiskit_dynamics.Signal]]
+
+      PulseGate.schedule method.
+
+      Builds schedule to run pulse gate for testing or solitary optimization.
+
+      Args:
+          qubit: Qubit to attach gate instruction to.
+          backend: Optional IBMQ backend. Required if building a measured schedule.
+          dt: Optional time interval.
+          channel_frequencies: Optional channel frequencies.
+          measured: If True, convert schedule into discretized list of signals.
+          discretized: If True, convert schedule into discretized list of signals.
+
+      Returns:
+          :py:class:`qiskit.pulse.Schedule`
+          or list of :py:class:`qiskit_dynamics.signals.Signal`
+
+
+   .. py:method:: draw_signal(qubit: int, dt: float, carrier_frequency: float, filename: Optional[str] = None, hidden: bool = False) -> matplotlib.figure.Figure
+
+      PulseGate.draw_signal method.
+
+      Draws pulse gate signal.
+
+      Args:
+          qubit: Qubit to attach gate to.
+          dt: Sample time length.
+          carrier_frequency: Carrier frequency.
+          filename: Saves figure to specified path if provided.
+          hidden: Does not show figure if True.
+
+      Returns:
+          :py:class:`qiskit.QuantumCircuit`
+
+
+

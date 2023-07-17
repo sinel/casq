@@ -1,0 +1,166 @@
+:py:mod:`casq.backends.pulse_backend`
+=====================================
+
+.. py:module:: casq.backends.pulse_backend
+
+.. autoapi-nested-parse::
+
+   Pulse simulator.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   casq.backends.pulse_backend.PulseBackend
+
+
+
+
+.. py:class:: PulseBackend(native_backend_type: PulseBackend, hamiltonian_dict: dict, qubits: list[int], seed: Optional[int] = None)
+
+
+   PulseBackend class.
+
+   .. py:class:: NativeBackendType(*args, **kwds)
+
+
+      Bases: :py:obj:`enum.Enum`
+
+      Native backend type.
+
+      .. py:attribute:: C3
+         :value: 0
+
+         
+
+      .. py:attribute:: QCTRL
+         :value: 1
+
+         
+
+      .. py:attribute:: QISKIT
+         :value: 2
+
+         
+
+      .. py:attribute:: QUTIP
+         :value: 3
+
+         
+
+
+   .. py:class:: ODESolverMethod
+
+
+      Bases: :py:obj:`str`, :py:obj:`enum.Enum`
+
+      Solver methods.
+
+      .. py:attribute:: QISKIT_DYNAMICS_RK4
+         :value: 'RK4'
+
+         
+
+      .. py:attribute:: QISKIT_DYNAMICS_JAX_RK4
+         :value: 'jax_RK4'
+
+         
+
+      .. py:attribute:: QISKIT_DYNAMICS_JAX_ODEINT
+         :value: 'jax_odeint'
+
+         
+
+      .. py:attribute:: SCIPY_BDF
+         :value: 'BDF'
+
+         
+
+      .. py:attribute:: SCIPY_DOP853
+         :value: 'DOP853'
+
+         
+
+      .. py:attribute:: SCIPY_LSODA
+         :value: 'LSODA'
+
+         
+
+      .. py:attribute:: SCIPY_RADAU
+         :value: 'Radau'
+
+         
+
+      .. py:attribute:: SCIPY_RK23
+         :value: 'RK23'
+
+         
+
+      .. py:attribute:: SCIPY_RK45
+         :value: 'RK45'
+
+         
+
+
+   .. py:class:: Hamiltonian
+
+
+      Hamiltonian properties.
+
+      .. py:attribute:: static
+         :type: numpy.typing.NDArray
+
+         
+
+      .. py:attribute:: operators
+         :type: numpy.typing.NDArray
+
+         
+
+      .. py:attribute:: channels
+         :type: list[str]
+
+         
+
+      .. py:method:: to_dict() -> dict[str, Any]
+
+         Converts to dict.
+
+
+
+   .. py:method:: run(run_input: list[Union[casq.gates.pulse_circuit.PulseCircuit, qiskit.QuantumCircuit, qiskit.pulse.Schedule, qiskit.pulse.ScheduleBlock]], method: PulseBackend, initial_state: Optional[Union[qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector]] = None, shots: int = 1024, steps: Optional[int] = None) -> dict[str, casq.backends.pulse_solution.PulseSolution]
+      :abstractmethod:
+
+      PulseBackend.run.
+
+      Args:
+          run_input: List of pulse schedules or circuits.
+          method: ODE solving method to use.
+          initial_state: Initial state for simulation,
+              either None,
+              indicating that the ground state for the system Hamiltonian should be used,
+              or an arbitrary Statevector or DensityMatrix.
+          shots: Number of shots per experiment. Defaults to 1024.
+          steps: Number of steps at which to solve the system.
+              Used to automatically calculate an evenly-spaced t_eval range.
+
+
+   .. py:method:: _get_native_backend() -> Any
+      :abstractmethod:
+
+      PulseBackend._get_native_backend.
+
+
+   .. py:method:: _parse_hamiltonian_dict() -> tuple[PulseBackend, list[int]]
+      :abstractmethod:
+
+      PulseBackend._parse_hamiltonian_dict.
+
+
+

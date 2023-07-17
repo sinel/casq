@@ -1,0 +1,27 @@
+:py:mod:`casq.common.exceptions`
+================================
+
+.. py:module:: casq.common.exceptions
+
+.. autoapi-nested-parse::
+
+   Common exceptions used by library.
+
+
+
+Module Contents
+---------------
+
+.. py:exception:: CasqError(*message: str)
+
+
+   Bases: :py:obj:`Exception`
+
+   Base class for errors raised by casq.
+
+   .. py:method:: __str__() -> str
+
+      Return the message.
+
+
+

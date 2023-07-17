@@ -1,0 +1,50 @@
+:py:mod:`casq.backends.qiskit.helpers`
+======================================
+
+.. py:module:: casq.backends.qiskit.helpers
+
+.. autoapi-nested-parse::
+
+   Qiskit helper functions used by library.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   casq.backends.qiskit.helpers.get_experiment_result
+
+
+
+.. py:function:: get_experiment_result(experiment_name: str, solver_result: scipy.integrate._ivp.ivp.OdeResult, measurement_subsystems: list[int], memory_slot_indices: list[int], num_memory_slots: Union[None, int], backend: qiskit_dynamics.backend.DynamicsBackend, seed: Optional[int] = None, metadata: Optional[dict] = None) -> qiskit.result.models.ExperimentResult
+
+   Generates ExperimentResult objects from solver result.
+
+   Args:
+       experiment_name: Name of experiment.
+       solver_result: Result object from :class:`Solver.solve`.
+       measurement_subsystems: Labels of subsystems in the model being measured.
+       memory_slot_indices: Indices of memory slots
+           to store the results in for each subsystem.
+       num_memory_slots: Total number of memory slots in the returned output.
+           If ``None``, ``max(memory_slot_indices)`` will be used.
+       backend: The backend instance that ran the simulation.
+           Various options and properties are utilized.
+       seed: Seed for any random number generation involved
+           (e.g. when computing outcome samples).
+       metadata: Metadata to add to the header of the
+           :class:`~qiskit.result.models.ExperimentResult` object.
+
+   Returns:
+       :class:`~qiskit.result.models.ExperimentResult`
+
+   Raises:
+       QiskitError: If a specified option is unsupported.
+
+

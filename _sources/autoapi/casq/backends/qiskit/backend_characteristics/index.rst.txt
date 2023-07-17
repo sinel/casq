@@ -1,0 +1,188 @@
+:py:mod:`casq.backends.qiskit.backend_characteristics`
+======================================================
+
+.. py:module:: casq.backends.qiskit.backend_characteristics
+
+.. autoapi-nested-parse::
+
+   BackendCharacteristics.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   casq.backends.qiskit.backend_characteristics.BackendCharacteristics
+
+
+
+
+.. py:class:: BackendCharacteristics(backend: Union[str, qiskit.providers.BackendV1])
+
+
+   BackendCharacteristics class.
+
+   Extracts IBMQ backend characteristics needed by various casq classes and methods.
+   Requires PulseBackendConfiguration with valid configuration, properties, and defaults.
+
+   BackendV2 currently lacks all necessary characteristics
+   that may be utilized by a PulseBackend.
+   However, this may change in future Qiskit versions.
+
+   Args:
+       backend: IBMQ backend compatible with BackendV1.
+
+   .. py:class:: GateProperties
+
+
+      Bases: :py:obj:`NamedTuple`
+
+      Gate properties.
+
+      .. py:attribute:: gate_error
+         :type: float
+
+         
+
+      .. py:attribute:: gate_length
+         :type: float
+
+         
+
+      .. py:attribute:: qubits
+         :type: list[int]
+
+         
+
+      .. py:attribute:: parameters
+         :type: dict[str, Any]
+
+         
+
+      .. py:attribute:: is_operational
+         :type: bool
+
+         
+
+
+   .. py:class:: QubitProperties
+
+
+      Bases: :py:obj:`NamedTuple`
+
+      Qubit properties.
+
+      .. py:attribute:: frequency
+         :type: float
+
+         
+
+      .. py:attribute:: readout_error
+         :type: float
+
+         
+
+      .. py:attribute:: readout_length
+         :type: float
+
+         
+
+      .. py:attribute:: t1
+         :type: float
+
+         
+
+      .. py:attribute:: t2
+         :type: float
+
+         
+
+      .. py:attribute:: is_operational
+         :type: bool
+
+         
+
+
+   .. py:method:: get_backend(name: str) -> qiskit.providers.BackendV1
+      :staticmethod:
+
+      BackendCharacteristics._get_backend method.
+
+      Returns:
+          :py:class:`qiskit.providers.Backend`
+
+
+   .. py:method:: get_qubit_properties(qubit: int) -> QubitProperties
+
+      BackendCharacteristics.get_qubit_properties method.
+
+      Args:
+          qubit: Qubit to attach gate to.
+
+      Returns:
+          :py:class:`casq.backends.qiskit.BackendCharacteristics.QubitProperties`
+
+
+   .. py:method:: get_gate_properties(gate_name: str) -> GateProperties
+
+      BackendCharacteristics.get_gate_properties method.
+
+      Args:
+          gate_name: Gate name.
+
+      Returns:
+          :py:class:`casq.backends.qiskit.BackendCharacteristics.GateProperties`
+
+
+   .. py:method:: _get_config() -> qiskit.providers.models.PulseBackendConfiguration
+
+      BackendCharacteristics._get_config method.
+
+      Returns:
+          :py:class:`qiskit.providers.models.PulseBackendConfiguration`
+
+
+   .. py:method:: _get_defaults() -> qiskit.providers.models.PulseDefaults
+
+      BackendCharacteristics._get_defaults method.
+
+      Returns:
+          :py:class:`qiskit.providers.models.PulseDefaults`
+
+
+   .. py:method:: _get_properties() -> qiskit.providers.models.BackendProperties
+
+      BackendCharacteristics._get_properties method.
+
+      Returns:
+          :py:class:`qiskit.providers.models.BackendProperties`
+
+
+   .. py:method:: get_channel_frequencies(channels: Union[list[str], list[qiskit.pulse.channels.Channel]]) -> dict[str, float]
+
+      Discretizes pulse schedule into signals.
+
+      Args:
+          channels: List of channel names or channel instances.
+
+      Returns:
+          List of :py:class:`qiskit_dynamics.signals.Signal`
+
+
+   .. py:method:: get_control_channel_map(channels_filter: list[str]) -> dict[tuple[int, Ellipsis], int]
+
+      Get control channel map from backend configuration.
+
+      Args:
+          channels_filter: List of channel names to filter by.
+
+      Returns:
+          Dictionary mapping qubits to control channels.
+
+
+
