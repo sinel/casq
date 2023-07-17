@@ -106,10 +106,10 @@ class PulseOptimizer:
         pulse_type: PulseType,
         pulse_arguments: dict[str, Any],
         backend: PulseBackend,
+        method: PulseBackend.ODESolverMethod,
         target_measurement: Union[dict[str, float], DensityMatrix, Statevector],
         fidelity_type: Optional[FidelityType] = None,
         target_qubit: Optional[int] = None,
-        method: Optional[PulseBackend.ODESolverMethod] = None,
         use_jax: bool = False,
         use_jit: bool = False,
     ):
@@ -231,7 +231,9 @@ class PulseOptimizer:
         circuit = PulseCircuit.from_pulse(
             gate, self.backend._native_backend, self.target_qubit
         )
-        counts = self.backend.run([circuit])[circuit.name].counts[-1]
+        counts = self.backend.run([circuit], method=self.method)[circuit.name].counts[
+            -1
+        ]
         return PulseOptimizer.Solution(
             num_iterations=opt_results.nfev,
             parameters=opt_results.x,
@@ -257,8 +259,7 @@ class PulseOptimizer:
             circuit = PulseCircuit.from_pulse(
                 p, self.backend._native_backend, self.target_qubit
             )
-            run_options = PulseBackend.RunOptions(method=self.method)
-            solution = self.backend.run(run_input=[circuit], run_options=run_options)[
+            solution = self.backend.run(run_input=[circuit], method=self.method)[
                 circuit.name
             ]
             counts = solution.counts[-1]
@@ -270,7 +271,10 @@ class PulseOptimizer:
             return infidelity
 
         if self.use_jit:
-            return jit(value_and_grad(objective))
+            jit_objective: Callable[[npt.NDArray], float] = jit(
+                value_and_grad(objective)
+            )
+            return jit_objective
         else:
             return objective
 

@@ -27,7 +27,7 @@ from loguru import logger
 from qiskit.providers import BackendV1
 from qiskit.pulse import Schedule
 
-from casq.backends import PulseSolution, QiskitPulseBackend
+from casq.backends import PulseBackend, PulseSolution, QiskitPulseBackend
 from casq.common import timer
 
 
@@ -39,31 +39,16 @@ def test_from_backend(backend: BackendV1) -> None:
 
 def test_seed_option(backend: BackendV1) -> None:
     """Unit test for PulseSimulator initialization from backend."""
-    options = QiskitPulseBackend.QiskitOptions(seed=1)
-    pulse_backend = QiskitPulseBackend.from_backend(backend, options=options)
-    assert pulse_backend.options.seed == 1
+    pulse_backend = QiskitPulseBackend.from_backend(backend, seed=1)
+    assert pulse_backend._seed == 1
     assert pulse_backend._native_backend.options.seed_simulator == 1
-
-
-def test_evaluation_mode_option(backend: BackendV1) -> None:
-    """Unit test for PulseSimulator initialization from backend."""
-    options = QiskitPulseBackend.QiskitOptions(
-        evaluation_mode=QiskitPulseBackend.EvaluationMode.SPARSE
-    )
-    pulse_backend = QiskitPulseBackend.from_backend(backend, options=options)
-    assert (
-        pulse_backend.options.evaluation_mode
-        is QiskitPulseBackend.EvaluationMode.SPARSE
-    )
-    assert (
-        pulse_backend._native_backend.options.solver.model.evaluation_mode == "sparse"
-    )
 
 
 @timer(unit="sec")
 def test_run(backend: BackendV1, pulse_schedule: Schedule) -> None:
     """Unit test for PulseSimulator initialization from backend."""
-    run_options = QiskitPulseBackend.QiskitRunOptions(shots=5)
     pulse_backend = QiskitPulseBackend.from_backend(backend)
-    solution = pulse_backend.run([pulse_schedule], run_options=run_options)["test"]
+    solution = pulse_backend.run(
+        [pulse_schedule], method=PulseBackend.ODESolverMethod.SCIPY_DOP853, shots=5
+    )["test"]
     assert isinstance(solution, PulseSolution)

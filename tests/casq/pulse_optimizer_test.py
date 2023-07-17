@@ -27,7 +27,6 @@ from loguru import logger
 import numpy as np
 import pytest
 from qiskit.providers import BackendV1
-from qiskit.pulse import Schedule
 
 from casq import PulseOptimizer
 from casq.backends import PulseBackend, QiskitPulseBackend
@@ -46,6 +45,7 @@ def test_init_gaussian(backend: BackendV1) -> None:
             "sigma": None,
         },
         backend=pulse_backend,
+        method=PulseBackend.ODESolverMethod.SCIPY_DOP853,
         target_measurement={"0": 0, "1": 1024},
     )
     assert isinstance(optimizer, PulseOptimizer)
@@ -64,6 +64,7 @@ def test_init_gaussian_square(backend: BackendV1) -> None:
             "width": None,
         },
         backend=pulse_backend,
+        method=PulseBackend.ODESolverMethod.SCIPY_DOP853,
         target_measurement={"0": 0, "1": 1024},
     )
     assert isinstance(optimizer, PulseOptimizer)
@@ -82,6 +83,7 @@ def test_init_drag(backend: BackendV1) -> None:
             "beta": None,
         },
         backend=pulse_backend,
+        method=PulseBackend.ODESolverMethod.SCIPY_DOP853,
         target_measurement={"0": 0, "1": 1024},
     )
     assert isinstance(optimizer, PulseOptimizer)
@@ -100,10 +102,10 @@ def test_init_jit(backend: BackendV1) -> None:
             "width": None,
         },
         backend=pulse_backend,
+        method=PulseBackend.ODESolverMethod.QISKIT_DYNAMICS_JAX_ODEINT,
         target_measurement={"0": 0, "1": 1024},
         use_jax=True,
         use_jit=True,
-        method=PulseBackend.ODESolverMethod.QISKIT_DYNAMICS_JAX_ODEINT,
     )
     assert isinstance(optimizer, PulseOptimizer)
 
@@ -122,9 +124,9 @@ def test_jax_with_invalid_method(backend: BackendV1) -> None:
                 "width": None,
             },
             backend=pulse_backend,
+            method=PulseBackend.ODESolverMethod.SCIPY_DOP853,
             target_measurement={"0": 0, "1": 1024},
             use_jax=True,
-            method=PulseBackend.ODESolverMethod.SCIPY_DOP853,
         )
     assert isinstance(e.value, CasqError)
     assert (
@@ -147,6 +149,7 @@ def test_optimize(backend: BackendV1) -> None:
             "width": None,
         },
         backend=pulse_backend,
+        method=PulseBackend.ODESolverMethod.SCIPY_DOP853,
         target_measurement={"0": 0, "1": 1024},
     )
     initial_params = np.array([1.0, 1.0])

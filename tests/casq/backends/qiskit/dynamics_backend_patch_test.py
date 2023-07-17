@@ -49,6 +49,8 @@ def test_from_backend(backend: BackendV1) -> None:
 @timer(unit="sec")
 def test_run(backend: BackendV1, pulse_schedule: Schedule) -> None:
     """Unit test for PulseSimulator initialization from backend."""
-    dynamics_backend = DynamicsBackendPatch.from_backend(backend, steps=10, shots=5)
+    dynamics_backend = DynamicsBackendPatch.from_backend(backend)
+    dynamics_backend.set_options(shots=5)
+    dynamics_backend.steps = 10
     result = dynamics_backend.run([pulse_schedule])
     assert isinstance(result, DynamicsJob)

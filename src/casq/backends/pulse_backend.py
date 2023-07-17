@@ -28,7 +28,6 @@ from dataclasses import asdict, dataclass
 from enum import Enum
 from typing import Any, Optional, Union
 
-import numpy as np
 import numpy.typing as npt
 from qiskit import QuantumCircuit
 from qiskit.pulse import Schedule, ScheduleBlock
@@ -63,43 +62,6 @@ class PulseBackend:
         SCIPY_RK45 = "RK45"
 
     @dataclass
-    class Options:
-        """Pulse backend options."""
-
-        seed: Optional[int] = None
-
-        @abstractmethod
-        def to_native_options(self) -> dict[str, Any]:
-            """Converts to native options."""
-            pass
-
-        def to_dict(self) -> dict[str, Any]:
-            """Converts to dict."""
-            return asdict(
-                self, dict_factory=lambda opt: {k: v for (k, v) in opt if v is not None}
-            )
-
-    @dataclass
-    class RunOptions:
-        """Pulse backend run options."""
-
-        initial_state: Optional[Union[DensityMatrix, Statevector]] = None
-        method: Optional[PulseBackend.ODESolverMethod] = None
-        shots: int = 1024
-        steps: Optional[int] = None
-
-        @abstractmethod
-        def to_native_options(self) -> dict[str, Any]:
-            """Converts to native options."""
-            pass
-
-        def to_dict(self) -> dict[str, Any]:
-            """Converts to dict."""
-            return asdict(
-                self, dict_factory=lambda opt: {k: v for (k, v) in opt if v is not None}
-            )
-
-    @dataclass
     class Hamiltonian:
         """Hamiltonian properties."""
 
@@ -116,7 +78,7 @@ class PulseBackend:
         native_backend_type: PulseBackend.NativeBackendType,
         hamiltonian_dict: dict,
         qubits: list[int],
-        options: Options,
+        seed: Optional[int] = None,
     ):
         """Instantiate :class:`~casq.backends.PulseBackend`.
 
@@ -124,12 +86,12 @@ class PulseBackend:
             native_backend_type: Native backend type.
             hamiltonian_dict: Pulse backend Hamiltonian dictionary.
             qubits: List of qubits to include from the backend.
-            options: Pulse backend options.
+            seed: Seed to use in random sampling. Defaults to None.
         """
         self._native_backend_type = native_backend_type
         self._hamiltonian_dict = hamiltonian_dict
         self.qubits = qubits
-        self.options = options
+        self._seed = seed
         self._hamiltonian, self.qubit_dims = self._parse_hamiltonian_dict()
         self._native_backend = self._get_native_backend()
 
@@ -137,9 +99,24 @@ class PulseBackend:
     def run(
         self,
         run_input: list[Union[PulseCircuit, QuantumCircuit, Schedule, ScheduleBlock]],
-        run_options: Optional[RunOptions] = None,
+        method: PulseBackend.ODESolverMethod,
+        initial_state: Optional[Union[DensityMatrix, Statevector]] = None,
+        shots: int = 1024,
+        steps: Optional[int] = None,
     ) -> dict[str, PulseSolution]:
-        """PulseBackend.run."""
+        """PulseBackend.run.
+
+        Args:
+            run_input: List of pulse schedules or circuits.
+            method: ODE solving method to use.
+            initial_state: Initial state for simulation,
+                either None,
+                indicating that the ground state for the system Hamiltonian should be used,
+                or an arbitrary Statevector or DensityMatrix.
+            shots: Number of shots per experiment. Defaults to 1024.
+            steps: Number of steps at which to solve the system.
+                Used to automatically calculate an evenly-spaced t_eval range.
+        """
 
     @abstractmethod
     def _get_native_backend(self) -> Any:

@@ -90,7 +90,6 @@ class DynamicsBackendPatch(DynamicsBackend):
         rotating_frame: Union[Array, RotatingFrame, str] = "auto",
         evaluation_mode: str = "dense",
         rwa_cutoff_freq: Optional[float] = None,
-        steps: Optional[int] = None,
         **options: Any,
     ) -> DynamicsBackendPatch:
         """Construct a DynamicsBackendPatch instance from an existing Backend instance.
@@ -102,8 +101,6 @@ class DynamicsBackendPatch(DynamicsBackend):
                 ``"auto"``, allowing this method to pick a rotating frame.
             evaluation_mode: Evaluation mode argument for the internal :class:`.Solver`.
             rwa_cutoff_freq: Rotating wave approximation argument for the internal :class:`.Solver`.
-            steps: Number of steps at which to solve the system.
-                Used to automatically calculate an evenly-spaced t_eval range.
             options: Additional configuration options for the backend.
 
         Returns:
@@ -123,16 +120,13 @@ class DynamicsBackendPatch(DynamicsBackend):
         options = {
             k: v for k, v in dynamics_backend.options.__dict__.items() if v is not None
         }
-        dynamics_backend_patch: DynamicsBackendPatch = DynamicsBackendPatch(
-            steps=steps, **options
-        )
+        dynamics_backend_patch: DynamicsBackendPatch = DynamicsBackendPatch(**options)
         return dynamics_backend_patch
 
     def __init__(
         self,
         solver: Solver,
         target: Optional[Target] = None,
-        steps: Optional[int] = None,
         **options: Any,
     ):
         """Instantiate :class:`~casq.DynamicsBackendPatch`.
@@ -150,8 +144,8 @@ class DynamicsBackendPatch(DynamicsBackend):
         Raises:
             QiskitError: If any instantiation arguments fail validation checks.
         """
-        self.steps = steps
         super().__init__(solver, target, **options)
+        self.steps: Optional[int] = None
 
     def _run(
         self,

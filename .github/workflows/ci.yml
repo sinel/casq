@@ -47,15 +47,6 @@ jobs:
         run: |
           poetry run black src --diff --check
       #--------------------------------------------------
-      # run flake8
-      #--------------------------------------------------
-#      - name: flake8
-#        run: |
-#          # stop the build if there are Python syntax errors or undefined names
-#          poetry run flake8 src --count --statistics --show-source --select=E9,F63,F7,F82
-#          # exit-zero treats all errors as warnings
-#          poetry run flake8 src --count --statistics --show-source --exit-zero --max-line-length=88 --ignore=D100,D205,D212,D415 --docstring-convention=google
-      #--------------------------------------------------
       # run ruff
       #--------------------------------------------------
       - name: ruff
