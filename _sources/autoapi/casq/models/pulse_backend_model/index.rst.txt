@@ -1,0 +1,30 @@
+:py:mod:`casq.models.pulse_backend_model`
+=========================================
+
+.. py:module:: casq.models.pulse_backend_model
+
+.. autoapi-nested-parse::
+
+   Pulse simulator.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   casq.models.pulse_backend_model.PulseBackendModel
+
+
+
+
+.. py:class:: PulseBackendModel(hamiltonian: casq.models.hamiltonian_model.HamiltonianModel, dt: Optional[float] = None, channel_carrier_freqs: Optional[dict] = None, control_channel_map: Optional[dict] = None)
+
+
+   PulseBackendModel class.
+
+

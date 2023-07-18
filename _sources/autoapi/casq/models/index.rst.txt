@@ -1,0 +1,65 @@
+:py:mod:`casq.models`
+=====================
+
+.. py:module:: casq.models
+
+.. autoapi-nested-parse::
+
+   Collecting casq.models package imports in one place for convenient access.
+
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   hamiltonian_model/index.rst
+   pulse_backend_model/index.rst
+
+
+Package Contents
+----------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   casq.models.HamiltonianModel
+   casq.models.PulseBackendModel
+
+
+
+
+.. py:class:: HamiltonianModel(hamiltonian_dict: dict, qubits: Optional[list[int]] = None, rotating_frame: Optional[numpy.typing.NDArray] = None, in_frame_basis: bool = False, evaluation_mode: EvaluationMode = EvaluationMode.DENSE, rwa_cutoff_freq: Optional[float] = None)
+
+
+   HamiltonianModel class.
+
+   .. py:class:: EvaluationMode(*args, **kwds)
+
+
+      Bases: :py:obj:`enum.Enum`
+
+      Evaluation mode.
+
+      .. py:attribute:: DENSE
+         :value: 0
+
+         
+
+      .. py:attribute:: SPARSE
+         :value: 1
+
+         
+
+
+
+.. py:class:: PulseBackendModel(hamiltonian: casq.models.hamiltonian_model.HamiltonianModel, dt: Optional[float] = None, channel_carrier_freqs: Optional[dict] = None, control_channel_map: Optional[dict] = None)
+
+
+   PulseBackendModel class.
+
+

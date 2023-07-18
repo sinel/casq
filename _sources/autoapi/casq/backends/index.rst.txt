@@ -53,7 +53,7 @@ Functions
 
 
 
-.. py:class:: PulseBackend(native_backend_type: PulseBackend, hamiltonian_dict: dict, qubits: list[int], seed: Optional[int] = None)
+.. py:class:: PulseBackend(native_backend_type: PulseBackend, model: casq.models.PulseBackendModel, seed: Optional[int] = None)
 
 
    PulseBackend class.
@@ -139,39 +139,13 @@ Functions
          
 
 
-   .. py:class:: Hamiltonian
-
-
-      Hamiltonian properties.
-
-      .. py:attribute:: static
-         :type: numpy.typing.NDArray
-
-         
-
-      .. py:attribute:: operators
-         :type: numpy.typing.NDArray
-
-         
-
-      .. py:attribute:: channels
-         :type: list[str]
-
-         
-
-      .. py:method:: to_dict() -> dict[str, Any]
-
-         Converts to dict.
-
-
-
-   .. py:method:: run(run_input: list[Union[casq.gates.pulse_circuit.PulseCircuit, qiskit.QuantumCircuit, qiskit.pulse.Schedule, qiskit.pulse.ScheduleBlock]], method: PulseBackend, initial_state: Optional[Union[qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector]] = None, shots: int = 1024, steps: Optional[int] = None) -> dict[str, casq.backends.pulse_solution.PulseSolution]
+   .. py:method:: run(circuit: casq.gates.pulse_circuit.PulseCircuit, method: PulseBackend, initial_state: Optional[Union[qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector]] = None, shots: int = 1024, steps: Optional[int] = None) -> casq.backends.pulse_solution.PulseSolution
       :abstractmethod:
 
       PulseBackend.run.
 
       Args:
-          run_input: List of pulse schedules or circuits.
+          circuit: Pulse circuit.
           method: ODE solving method to use.
           initial_state: Initial state for simulation,
               either None,
@@ -188,38 +162,13 @@ Functions
       PulseBackend._get_native_backend.
 
 
-   .. py:method:: _parse_hamiltonian_dict() -> tuple[PulseBackend, list[int]]
-      :abstractmethod:
 
-      PulseBackend._parse_hamiltonian_dict.
-
-
-
-.. py:class:: PulseSolution(backend_name: str, qubits: list[int], status: PulseSolution, times: list[float], samples: list[list[int]], counts: list[dict[str, int]], populations: list[dict[str, float]], states: list[Union[qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector]], iq_data: list[list[tuple[float, float]]], avg_iq_data: list[tuple[float, float]], shots: int = 1024, seed: Optional[int] = None, timestamp: float = datetime.timestamp(datetime.now()))
+.. py:class:: PulseSolution(circuit_name: str, qubits: list[int], times: list[float], samples: list[list[int]], counts: list[dict[str, int]], populations: list[dict[str, float]], states: list[Union[qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector]], iq_data: list[list[tuple[float, float]]], avg_iq_data: list[tuple[float, float]], shots: int = 1024, seed: Optional[int] = None, is_success: bool = True, timestamp: float = datetime.timestamp(datetime.now()))
 
 
    PulseSolution class.
 
-   .. py:class:: Status
-
-
-      Bases: :py:obj:`NamedTuple`
-
-      Solution status.
-
-      .. py:attribute:: is_success
-         :type: bool
-         :value: True
-
-         
-
-      .. py:attribute:: message
-         :type: Optional[str]
-
-         
-
-
-   .. py:method:: from_qiskit(result: qiskit.result.Result) -> dict[str, PulseSolution]
+   .. py:method:: from_qiskit(result: qiskit.result.models.ExperimentResult) -> PulseSolution
       :classmethod:
 
       PulseSolution.from_qiskit method.
@@ -227,10 +176,10 @@ Functions
       Transforms Qiskit result into pulse backend solution.
 
       Args:
-          result: Qiskit result.
+          result: Qiskit experiment result.
 
       Returns:
-          Dict of pulse solutions.
+          Pulse solution.
 
 
    .. py:method:: plot_population(filename: Optional[str] = None, hidden: bool = False) -> matplotlib.figure.Figure
@@ -674,14 +623,14 @@ Functions
        QiskitError: If a specified option is unsupported.
 
 
-.. py:class:: QiskitPulseBackend(hamiltonian_dict: dict, qubits: list[int], dt: Optional[float] = None, channel_carrier_freqs: Optional[dict] = None, control_channel_map: Optional[dict] = None, rotating_frame: Union[qiskit_dynamics.array.Array, qiskit_dynamics.RotatingFrame, str] = 'auto', evaluation_mode: str = 'dense', rwa_cutoff_freq: Optional[float] = None, seed: Optional[int] = None)
+.. py:class:: QiskitPulseBackend(model: casq.models.PulseBackendModel, seed: Optional[int] = None)
 
 
    Bases: :py:obj:`casq.backends.pulse_backend.PulseBackend`
 
    QiskitPulseBackend class.
 
-   .. py:method:: from_backend(backend: Union[qiskit.providers.BackendV1, qiskit.providers.BackendV2], qubits: Optional[list[int]] = None, rotating_frame: Union[qiskit_dynamics.array.Array, qiskit_dynamics.RotatingFrame, str] = 'auto', evaluation_mode: str = 'dense', rwa_cutoff_freq: Optional[float] = None, seed: Optional[int] = None) -> Self
+   .. py:method:: from_backend(backend: Union[qiskit.providers.BackendV1, qiskit.providers.BackendV2], qubits: Optional[list[int]] = None, rotating_frame: Optional[Union[qiskit_dynamics.array.Array, qiskit_dynamics.RotatingFrame]] = None, in_frame_basis: bool = False, evaluation_mode: Optional[casq.models.HamiltonianModel.EvaluationMode] = None, rwa_cutoff_freq: Optional[float] = None, seed: Optional[int] = None) -> Self
       :classmethod:
 
       Construct a QiskitPulseBackend instance from an existing backend instance.
@@ -689,9 +638,11 @@ Functions
       Args:
           backend: The ``Backend`` instance to build the :class:`.DynamicsBackend` from.
           qubits: List of qubits to include from the backend.
-          rotating_frame: Rotating frame argument for the internal :class:`.Solver`. Defaults to
-              ``"auto"``, allowing this method to pick a rotating frame.
-          evaluation_mode: Evaluation mode argument for the internal :class:`.Solver`.
+          rotating_frame: Rotating frame argument for the internal :class:`.Solver`.
+                  Defaults to None, allowing this method to pick a rotating frame.
+          in_frame_basis: Whether to represent the model in the basis in which
+                          the rotating frame operator is diagonalized.
+          evaluation_mode: Evaluation mode to use by solver.
           rwa_cutoff_freq: Rotating wave approximation argument for the internal :class:`.Solver`.
           seed: Seed to use in random sampling. Defaults to None.
 
@@ -699,7 +650,7 @@ Functions
           QiskitPulseBackend
 
 
-   .. py:method:: run(run_input: list[Union[casq.gates.pulse_circuit.PulseCircuit, qiskit.QuantumCircuit, qiskit.pulse.Schedule, qiskit.pulse.ScheduleBlock]], method: casq.backends.pulse_backend.PulseBackend.ODESolverMethod, initial_state: Optional[Union[qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector]] = None, shots: int = 1024, steps: Optional[int] = None) -> dict[str, casq.backends.pulse_solution.PulseSolution]
+   .. py:method:: run(circuit: casq.gates.pulse_circuit.PulseCircuit, method: casq.backends.pulse_backend.PulseBackend.ODESolverMethod, initial_state: Optional[Union[qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector]] = None, shots: int = 1024, steps: Optional[int] = None) -> casq.backends.pulse_solution.PulseSolution
 
       QiskitPulseBackend.run.
 
@@ -707,11 +658,6 @@ Functions
    .. py:method:: _get_native_backend() -> casq.backends.qiskit.dynamics_backend_patch.DynamicsBackendPatch
 
       QiskitPulseBackend._get_native_backend.
-
-
-   .. py:method:: _parse_hamiltonian_dict() -> tuple[casq.backends.pulse_backend.PulseBackend.Hamiltonian, list[int]]
-
-      QiskitPulseBackend._parse_hamiltonian_dict.
 
 
 

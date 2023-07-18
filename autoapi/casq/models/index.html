@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="../../../_static/favicon.png" sizes="100x100" rel="icon" type="image/png">
-    <title>casq.notebooks &#8212; casq v0.1.0 documentation</title>
+    <title>casq.models &#8212; casq v0.1.0 documentation</title>
   
   
   
@@ -38,11 +38,11 @@
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/doctools.js"></script>
     <script src="../../../_static/sphinx_highlight.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'autoapi/casq/notebooks/index';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'autoapi/casq/models/index';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="casq.pulse_optimizer" href="../pulse_optimizer/index.html" />
-    <link rel="prev" title="casq.models.pulse_backend_model" href="../models/pulse_backend_model/index.html" />
+    <link rel="next" title="casq.models.hamiltonian_model" href="hamiltonian_model/index.html" />
+    <link rel="prev" title="casq.gates.pulse_gate" href="../gates/pulse_gate/index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -200,6 +200,10 @@ document.write(`
   
 
   
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
 </div>
 
     </nav>
@@ -304,12 +308,12 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../gates/pulse_gate/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.gates.pulse_gate</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../models/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../models/hamiltonian_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models.hamiltonian_model</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../models/pulse_backend_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models.pulse_backend_model</span></code></a></li>
+<li class="toctree-l2 current active has-children"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models</span></code></a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="hamiltonian_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models.hamiltonian_model</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pulse_backend_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models.pulse_backend_model</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.notebooks</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.notebooks</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../pulse_optimizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.pulse_optimizer</span></code></a></li>
 </ul>
 </li>
@@ -369,7 +373,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../index.html" class="nav-link"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq</span></code></a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.notebooks</span></code></li>
+    <li class="breadcrumb-item active" aria-current="page"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models</span></code></li>
   </ul>
 </nav>
 </div>
@@ -386,9 +390,63 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="module-casq.notebooks">
-<span id="casq-notebooks"></span><h1><a class="reference internal" href="#module-casq.notebooks" title="casq.notebooks"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.notebooks</span></code></a><a class="headerlink" href="#module-casq.notebooks" title="Permalink to this heading">#</a></h1>
-<p>Empty __init__.py file for Python to recognize folder as package.</p>
+  <section id="module-casq.models">
+<span id="casq-models"></span><h1><a class="reference internal" href="#module-casq.models" title="casq.models"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models</span></code></a><a class="headerlink" href="#module-casq.models" title="Permalink to this heading">#</a></h1>
+<p>Collecting casq.models package imports in one place for convenient access.</p>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="hamiltonian_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models.hamiltonian_model</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="pulse_backend_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models.pulse_backend_model</span></code></a></li>
+</ul>
+</div>
+</section>
+<section id="package-contents">
+<h2>Package Contents<a class="headerlink" href="#package-contents" title="Permalink to this heading">#</a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">#</a></h3>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#casq.models.HamiltonianModel" title="casq.models.HamiltonianModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HamiltonianModel</span></code></a></p></td>
+<td><p>HamiltonianModel class.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#casq.models.PulseBackendModel" title="casq.models.PulseBackendModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PulseBackendModel</span></code></a></p></td>
+<td><p>PulseBackendModel class.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="casq.models.HamiltonianModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.models.</span></span><span class="sig-name descname"><span class="pre">HamiltonianModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hamiltonian_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotating_frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.typing.NDArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_frame_basis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="hamiltonian_model/index.html#casq.models.hamiltonian_model.HamiltonianModel.EvaluationMode" title="casq.models.hamiltonian_model.HamiltonianModel.EvaluationMode"><span class="pre">EvaluationMode</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">EvaluationMode.DENSE</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rwa_cutoff_freq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.models.HamiltonianModel" title="Permalink to this definition">#</a></dt>
+<dd><p>HamiltonianModel class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="casq.models.HamiltonianModel.EvaluationMode">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">EvaluationMode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.models.HamiltonianModel.EvaluationMode" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>Evaluation mode.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="casq.models.HamiltonianModel.EvaluationMode.DENSE">
+<span class="sig-name descname"><span class="pre">DENSE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#casq.models.HamiltonianModel.EvaluationMode.DENSE" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="casq.models.HamiltonianModel.EvaluationMode.SPARSE">
+<span class="sig-name descname"><span class="pre">SPARSE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#casq.models.HamiltonianModel.EvaluationMode.SPARSE" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="casq.models.PulseBackendModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.models.</span></span><span class="sig-name descname"><span class="pre">PulseBackendModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hamiltonian</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="hamiltonian_model/index.html#casq.models.hamiltonian_model.HamiltonianModel" title="casq.models.hamiltonian_model.HamiltonianModel"><span class="pre">casq.models.hamiltonian_model.HamiltonianModel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_carrier_freqs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">control_channel_map</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.models.PulseBackendModel" title="Permalink to this definition">#</a></dt>
+<dd><p>PulseBackendModel class.</p>
+</dd></dl>
+
+</section>
+</section>
 </section>
 
 
@@ -403,20 +461,20 @@ document.write(`
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../models/pulse_backend_model/index.html"
+       href="../gates/pulse_gate/index.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models.pulse_backend_model</span></code></p>
+        <p class="prev-next-title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.gates.pulse_gate</span></code></p>
       </div>
     </a>
     <a class="right-next"
-       href="../pulse_optimizer/index.html"
+       href="hamiltonian_model/index.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.pulse_optimizer</span></code></p>
+        <p class="prev-next-title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models.hamiltonian_model</span></code></p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -429,6 +487,35 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#package-contents">Package Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.models.HamiltonianModel"><code class="docutils literal notranslate"><span class="pre">HamiltonianModel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.models.HamiltonianModel.EvaluationMode"><code class="docutils literal notranslate"><span class="pre">HamiltonianModel.EvaluationMode</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.models.HamiltonianModel.EvaluationMode.DENSE"><code class="docutils literal notranslate"><span class="pre">HamiltonianModel.EvaluationMode.DENSE</span></code></a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.models.HamiltonianModel.EvaluationMode.SPARSE"><code class="docutils literal notranslate"><span class="pre">HamiltonianModel.EvaluationMode.SPARSE</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.models.PulseBackendModel"><code class="docutils literal notranslate"><span class="pre">PulseBackendModel</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

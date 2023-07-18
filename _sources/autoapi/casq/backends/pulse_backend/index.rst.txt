@@ -22,7 +22,7 @@ Classes
 
 
 
-.. py:class:: PulseBackend(native_backend_type: PulseBackend, hamiltonian_dict: dict, qubits: list[int], seed: Optional[int] = None)
+.. py:class:: PulseBackend(native_backend_type: PulseBackend, model: casq.models.PulseBackendModel, seed: Optional[int] = None)
 
 
    PulseBackend class.
@@ -108,39 +108,13 @@ Classes
          
 
 
-   .. py:class:: Hamiltonian
-
-
-      Hamiltonian properties.
-
-      .. py:attribute:: static
-         :type: numpy.typing.NDArray
-
-         
-
-      .. py:attribute:: operators
-         :type: numpy.typing.NDArray
-
-         
-
-      .. py:attribute:: channels
-         :type: list[str]
-
-         
-
-      .. py:method:: to_dict() -> dict[str, Any]
-
-         Converts to dict.
-
-
-
-   .. py:method:: run(run_input: list[Union[casq.gates.pulse_circuit.PulseCircuit, qiskit.QuantumCircuit, qiskit.pulse.Schedule, qiskit.pulse.ScheduleBlock]], method: PulseBackend, initial_state: Optional[Union[qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector]] = None, shots: int = 1024, steps: Optional[int] = None) -> dict[str, casq.backends.pulse_solution.PulseSolution]
+   .. py:method:: run(circuit: casq.gates.pulse_circuit.PulseCircuit, method: PulseBackend, initial_state: Optional[Union[qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector]] = None, shots: int = 1024, steps: Optional[int] = None) -> casq.backends.pulse_solution.PulseSolution
       :abstractmethod:
 
       PulseBackend.run.
 
       Args:
-          run_input: List of pulse schedules or circuits.
+          circuit: Pulse circuit.
           method: ODE solving method to use.
           initial_state: Initial state for simulation,
               either None,
@@ -155,12 +129,6 @@ Classes
       :abstractmethod:
 
       PulseBackend._get_native_backend.
-
-
-   .. py:method:: _parse_hamiltonian_dict() -> tuple[PulseBackend, list[int]]
-      :abstractmethod:
-
-      PulseBackend._parse_hamiltonian_dict.
 
 
 

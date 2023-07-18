@@ -22,31 +22,12 @@ Classes
 
 
 
-.. py:class:: PulseSolution(backend_name: str, qubits: list[int], status: PulseSolution, times: list[float], samples: list[list[int]], counts: list[dict[str, int]], populations: list[dict[str, float]], states: list[Union[qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector]], iq_data: list[list[tuple[float, float]]], avg_iq_data: list[tuple[float, float]], shots: int = 1024, seed: Optional[int] = None, timestamp: float = datetime.timestamp(datetime.now()))
+.. py:class:: PulseSolution(circuit_name: str, qubits: list[int], times: list[float], samples: list[list[int]], counts: list[dict[str, int]], populations: list[dict[str, float]], states: list[Union[qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector]], iq_data: list[list[tuple[float, float]]], avg_iq_data: list[tuple[float, float]], shots: int = 1024, seed: Optional[int] = None, is_success: bool = True, timestamp: float = datetime.timestamp(datetime.now()))
 
 
    PulseSolution class.
 
-   .. py:class:: Status
-
-
-      Bases: :py:obj:`NamedTuple`
-
-      Solution status.
-
-      .. py:attribute:: is_success
-         :type: bool
-         :value: True
-
-         
-
-      .. py:attribute:: message
-         :type: Optional[str]
-
-         
-
-
-   .. py:method:: from_qiskit(result: qiskit.result.Result) -> dict[str, PulseSolution]
+   .. py:method:: from_qiskit(result: qiskit.result.models.ExperimentResult) -> PulseSolution
       :classmethod:
 
       PulseSolution.from_qiskit method.
@@ -54,10 +35,10 @@ Classes
       Transforms Qiskit result into pulse backend solution.
 
       Args:
-          result: Qiskit result.
+          result: Qiskit experiment result.
 
       Returns:
-          Dict of pulse solutions.
+          Pulse solution.
 
 
    .. py:method:: plot_population(filename: Optional[str] = None, hidden: bool = False) -> matplotlib.figure.Figure
