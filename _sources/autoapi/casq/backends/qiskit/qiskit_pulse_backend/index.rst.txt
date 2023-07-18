@@ -29,7 +29,7 @@ Classes
 
    QiskitPulseBackend class.
 
-   .. py:method:: from_backend(backend: Union[qiskit.providers.BackendV1, qiskit.providers.BackendV2], qubits: Optional[list[int]] = None, rotating_frame: Optional[Union[qiskit_dynamics.array.Array, qiskit_dynamics.RotatingFrame]] = None, in_frame_basis: bool = False, evaluation_mode: Optional[casq.models.HamiltonianModel.EvaluationMode] = None, rwa_cutoff_freq: Optional[float] = None, seed: Optional[int] = None) -> Self
+   .. py:method:: from_backend(backend: Union[qiskit.providers.BackendV1, qiskit.providers.BackendV2], qubits: Optional[list[int]] = None, rotating_frame: Optional[Union[qiskit_dynamics.array.Array, qiskit_dynamics.RotatingFrame]] = None, in_frame_basis: bool = False, evaluation_mode: Optional[casq.models.HamiltonianModel.EvaluationMode] = None, rwa_cutoff_freq: Optional[float] = None, rwa_carrier_freqs: Optional[Union[numpy.typing.NDArray, tuple[numpy.typing.NDArray, numpy.typing.NDArray]]] = None, seed: Optional[int] = None) -> Self
       :classmethod:
 
       Construct a QiskitPulseBackend instance from an existing backend instance.
@@ -42,7 +42,9 @@ Classes
           in_frame_basis: Whether to represent the model in the basis in which
                           the rotating frame operator is diagonalized.
           evaluation_mode: Evaluation mode to use by solver.
-          rwa_cutoff_freq: Rotating wave approximation argument for the internal :class:`.Solver`.
+          rwa_cutoff_freq: Rotating wave approximation cutoff frequency.
+                          If None, no approximation is made.
+          rwa_carrier_freqs: Carrier frequencies to use for rotating wave approximation.
           seed: Seed to use in random sampling. Defaults to None.
 
       Returns:
