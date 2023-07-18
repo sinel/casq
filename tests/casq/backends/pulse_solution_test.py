@@ -36,7 +36,6 @@ def mock_solution() -> PulseSolution:
     instance: PulseSolution = PulseSolution(
         "test",
         [0],
-        PulseSolution.Status(is_success=True, message="Wonderful solution."),
         times=[0, 1],
         samples=[[0, 1, 1, 0, 0], [1, 0, 1, 0, 1]],
         counts=[{"0": 1024}, {"0": 500, "1": 524}],
@@ -51,6 +50,7 @@ def mock_solution() -> PulseSolution:
         ],
         avg_iq_data=[(0.5, 0.5), (0.5, 0.5)],
         shots=5,
+        is_success=True,
         timestamp=datetime.timestamp(datetime(2000, 1, 1)),
     )
     return instance
@@ -59,12 +59,10 @@ def mock_solution() -> PulseSolution:
 def test_pulse_solution_init() -> None:
     """Unit test for PulseSolution initialization."""
     solution = mock_solution()
-    assert solution.backend_name == "test"
+    assert solution.circuit_name == "test"
     assert solution.times == [0, 1]
     assert solution.qubits == [0]
-    assert isinstance(solution.status, PulseSolution.Status)
-    assert solution.status.is_success
-    assert solution.status.message == "Wonderful solution."
+    assert solution.is_success
     assert solution.samples == [[0, 1, 1, 0, 0], [1, 0, 1, 0, 1]]
     assert solution.counts == [{"0": 1024}, {"0": 500, "1": 524}]
     assert solution.populations == [{"0": 1}, {"0": 0.49, "1": 0.51}]

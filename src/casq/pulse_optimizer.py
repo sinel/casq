@@ -138,7 +138,9 @@ class PulseOptimizer:
             if fidelity_type is None
             else fidelity_type
         )
-        self.target_qubit = target_qubit if target_qubit else self.backend.qubits[0]
+        self.target_qubit = (
+            target_qubit if target_qubit else self.backend.model.hamiltonian.qubits[0]
+        )
         self.method = method
         self.use_jax = use_jax
         self.use_jit = use_jit
@@ -231,9 +233,7 @@ class PulseOptimizer:
         circuit = PulseCircuit.from_pulse(
             gate, self.backend._native_backend, self.target_qubit
         )
-        counts = self.backend.run([circuit], method=self.method)[circuit.name].counts[
-            -1
-        ]
+        counts = self.backend.run(circuit, method=self.method).counts[-1]
         return PulseOptimizer.Solution(
             num_iterations=opt_results.nfev,
             parameters=opt_results.x,
@@ -259,9 +259,7 @@ class PulseOptimizer:
             circuit = PulseCircuit.from_pulse(
                 p, self.backend._native_backend, self.target_qubit
             )
-            solution = self.backend.run(run_input=[circuit], method=self.method)[
-                circuit.name
-            ]
+            solution = self.backend.run(circuit=circuit, method=self.method)
             counts = solution.counts[-1]
             fidelity = hellinger_fidelity(self.target_measurement, counts)
             infidelity = 1.0 - float(fidelity)

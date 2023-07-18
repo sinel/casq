@@ -3532,6 +3532,28 @@ semidefinite = ["cvxopt", "cvxpy (>=1.0)"]
 tests = ["pytest (>=5.2)", "pytest-rerunfailures"]
 
 [[package]]
+name = "qutip-qip"
+version = "0.2.3"
+description = "The QuTiP quantum information processing package"
+optional = false
+python-versions = "*"
+files = [
+    {file = "qutip-qip-0.2.3.tar.gz", hash = "sha256:b883e91e723b7d192e704d3280ecac222b961e2fc565e966ad140113e535309b"},
+    {file = "qutip_qip-0.2.3-py3-none-any.whl", hash = "sha256:625a08c00cc8a045bca9c25088f683c74196603990a82a8c29c7bfaa9cabcb24"},
+]
+
+[package.dependencies]
+numpy = ">=1.16.6"
+packaging = "*"
+qutip = ">=4.6"
+scipy = ">=1.0"
+
+[package.extras]
+full = ["matplotlib (>=1.3.0)", "pytest (>=5.2)"]
+graphics = ["matplotlib (>=1.3.0)"]
+tests = ["pytest (>=5.2)"]
+
+[[package]]
 name = "referencing"
 version = "0.29.1"
 description = "JSON Referencing + Python"
@@ -4762,4 +4784,4 @@ tests-strict = ["codecov (==2.0.15)", "pytest (==4.6.0)", "pytest (==4.6.0)", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "e338260bfb16f79411fc608fa222eaee64510f99b83c713019371bd94d4f379c"
+content-hash = "53555eb07378ce5462560d636ad422cfab2cdcf875bf6b2625cab53dc116eb1e"

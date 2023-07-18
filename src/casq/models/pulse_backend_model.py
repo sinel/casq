@@ -20,32 +20,35 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  ********************************************************************************
-"""Pulse gate tests."""
+"""Pulse simulator."""
 from __future__ import annotations
 
-from qiskit.providers import BackendV1
+from typing import Optional
 
-from casq.gates.gaussian_pulse_gate import GaussianPulseGate
-from casq.gates.pulse_circuit import PulseCircuit
-
-
-def test_pulse_instruction(backend: BackendV1) -> None:
-    """Unit test for PulseCircuit.pulse."""
-    gate = GaussianPulseGate(1, 1, 1)
-    circuit = PulseCircuit(1)
-    instruction = circuit.pulse(gate, backend, 0).instructions[0]
-    assert instruction.name == gate.name
-    assert instruction.num_qubits == 1
-    assert instruction.num_clbits == 0
+from casq.common import trace
+from casq.models.hamiltonian_model import HamiltonianModel
 
 
-def test_from_pulse(backend: BackendV1) -> None:
-    """Unit test for PulseCircuit.from_pulse."""
-    gate = GaussianPulseGate(1, 1, 1)
-    circuit = PulseCircuit.from_pulse(gate, backend, 0)
-    assert circuit.data[0].operation.name == gate.name
-    assert len(circuit.data[0].qubits) == 1
-    assert len(circuit.data[0].clbits) == 0
-    assert circuit.data[1].operation.name == "measure"
-    assert len(circuit.data[1].qubits) == 1
-    assert len(circuit.data[1].clbits) == 1
+class PulseBackendModel:
+    """PulseBackendModel class."""
+
+    @trace()
+    def __init__(
+        self,
+        hamiltonian: HamiltonianModel,
+        dt: Optional[float] = None,
+        channel_carrier_freqs: Optional[dict] = None,
+        control_channel_map: Optional[dict] = None,
+    ) -> None:
+        """Instantiate :class:`~casq.PulseSolution`.
+
+        Args:
+            hamiltonian: Pulse circuit name.
+            dt: Sampling interval.
+            channel_carrier_freqs: Dictionary mapping channel names to frequencies.
+            control_channel_map: A dictionary mapping control channel labels to indices.
+        """
+        self.hamiltonian = hamiltonian
+        self.dt = dt
+        self.channel_carrier_freqs = channel_carrier_freqs
+        self.control_channel_map = control_channel_map

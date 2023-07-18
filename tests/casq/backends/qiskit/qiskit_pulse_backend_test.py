@@ -29,6 +29,8 @@ from qiskit.pulse import Schedule
 
 from casq.backends import PulseBackend, PulseSolution, QiskitPulseBackend
 from casq.common import timer
+from casq.gates.gaussian_pulse_gate import GaussianPulseGate
+from casq.gates.pulse_circuit import PulseCircuit
 
 
 def test_from_backend(backend: BackendV1) -> None:
@@ -48,7 +50,9 @@ def test_seed_option(backend: BackendV1) -> None:
 def test_run(backend: BackendV1, pulse_schedule: Schedule) -> None:
     """Unit test for PulseSimulator initialization from backend."""
     pulse_backend = QiskitPulseBackend.from_backend(backend)
+    gate = GaussianPulseGate(1, 1, 1)
+    circuit = PulseCircuit.from_pulse(gate, backend, 0)
     solution = pulse_backend.run(
-        [pulse_schedule], method=PulseBackend.ODESolverMethod.SCIPY_DOP853, shots=5
-    )["test"]
+        circuit, method=PulseBackend.ODESolverMethod.SCIPY_DOP853, shots=5
+    )
     assert isinstance(solution, PulseSolution)

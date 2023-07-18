@@ -29,12 +29,11 @@ from enum import Enum
 from typing import Any, Optional, Union
 
 import numpy.typing as npt
-from qiskit import QuantumCircuit
-from qiskit.pulse import Schedule, ScheduleBlock
 from qiskit.quantum_info import DensityMatrix, Statevector
 
 from casq.backends.pulse_solution import PulseSolution
 from casq.gates.pulse_circuit import PulseCircuit
+from casq.models import HamiltonianModel, PulseBackendModel
 
 
 class PulseBackend:
@@ -61,53 +60,37 @@ class PulseBackend:
         SCIPY_RK23 = "RK23"
         SCIPY_RK45 = "RK45"
 
-    @dataclass
-    class Hamiltonian:
-        """Hamiltonian properties."""
-
-        static: npt.NDArray
-        operators: npt.NDArray
-        channels: list[str]
-
-        def to_dict(self) -> dict[str, Any]:
-            """Converts to dict."""
-            return asdict(self)
-
     def __init__(
         self,
         native_backend_type: PulseBackend.NativeBackendType,
-        hamiltonian_dict: dict,
-        qubits: list[int],
+        model: PulseBackendModel,
         seed: Optional[int] = None,
     ):
         """Instantiate :class:`~casq.backends.PulseBackend`.
 
         Args:
             native_backend_type: Native backend type.
-            hamiltonian_dict: Pulse backend Hamiltonian dictionary.
-            qubits: List of qubits to include from the backend.
+            model: Pulse backend model.
             seed: Seed to use in random sampling. Defaults to None.
         """
         self._native_backend_type = native_backend_type
-        self._hamiltonian_dict = hamiltonian_dict
-        self.qubits = qubits
+        self.model = model
         self._seed = seed
-        self._hamiltonian, self.qubit_dims = self._parse_hamiltonian_dict()
         self._native_backend = self._get_native_backend()
 
     @abstractmethod
     def run(
         self,
-        run_input: list[Union[PulseCircuit, QuantumCircuit, Schedule, ScheduleBlock]],
+        circuit: PulseCircuit,
         method: PulseBackend.ODESolverMethod,
         initial_state: Optional[Union[DensityMatrix, Statevector]] = None,
         shots: int = 1024,
         steps: Optional[int] = None,
-    ) -> dict[str, PulseSolution]:
+    ) -> PulseSolution:
         """PulseBackend.run.
 
         Args:
-            run_input: List of pulse schedules or circuits.
+            circuit: Pulse circuit.
             method: ODE solving method to use.
             initial_state: Initial state for simulation,
                 either None,
@@ -121,7 +104,3 @@ class PulseBackend:
     @abstractmethod
     def _get_native_backend(self) -> Any:
         """PulseBackend._get_native_backend."""
-
-    @abstractmethod
-    def _parse_hamiltonian_dict(self) -> tuple[PulseBackend.Hamiltonian, list[int]]:
-        """PulseBackend._parse_hamiltonian_dict."""

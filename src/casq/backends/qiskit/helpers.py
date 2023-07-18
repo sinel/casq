@@ -23,6 +23,7 @@
 """Qiskit helper functions used by library."""
 from __future__ import annotations
 
+from datetime import datetime
 from typing import Optional, Union
 
 import numpy as np
@@ -152,8 +153,10 @@ def get_experiment_result(
         avg_iq_data.append(avg_iq_data_step)
     # noinspection PyTypeChecker
     data = ExperimentResultData(
-        counts=counts,
-        memory=samples,
+        counts=None,
+        memory=None,
+        counts_list=counts,
+        samples=samples,
         qubits=backend.options.subsystem_labels,
         times=solver_result.t,
         states=quantum_states,
@@ -162,9 +165,9 @@ def get_experiment_result(
         avg_iq_data=avg_iq_data,
     )
     if metadata is None:
-        metadata = {"casq": True}
+        metadata = {"casq": True, "timestamp": datetime.timestamp(datetime.now())}
     else:
-        metadata.update(casq=True)
+        metadata.update(casq=True, timestamp=datetime.timestamp(datetime.now()))
     return ExperimentResult(
         shots=backend.options.shots,
         success=True,

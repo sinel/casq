@@ -23,16 +23,12 @@
 """Pulse simulator."""
 from __future__ import annotations
 
-from typing import Any, Optional, Self, Union
+from typing import Optional, Self, Union
 
-import numpy as np
-from qiskit import QuantumCircuit
 from qiskit.providers import BackendV1, BackendV2
-from qiskit.pulse import Schedule, ScheduleBlock
 from qiskit.quantum_info import DensityMatrix, Statevector
 from qiskit_dynamics import RotatingFrame
 from qiskit_dynamics.array import Array
-from qiskit_dynamics.backend import parse_backend_hamiltonian_dict
 from qiskit_dynamics.solvers import Solver
 
 from casq.backends.pulse_backend import PulseBackend
@@ -42,6 +38,7 @@ from casq.backends.qiskit.dynamics_backend_patch import DynamicsBackendPatch
 from casq.backends.qiskit.helpers import get_experiment_result
 from casq.common import timer, trace
 from casq.gates.pulse_circuit import PulseCircuit
+from casq.models import HamiltonianModel, PulseBackendModel
 
 
 class QiskitPulseBackend(PulseBackend):
@@ -53,8 +50,9 @@ class QiskitPulseBackend(PulseBackend):
         cls,
         backend: Union[BackendV1, BackendV2],
         qubits: Optional[list[int]] = None,
-        rotating_frame: Union[Array, RotatingFrame, str] = "auto",
-        evaluation_mode: str = "dense",
+        rotating_frame: Optional[Union[Array, RotatingFrame]] = None,
+        in_frame_basis: bool = False,
+        evaluation_mode: Optional[HamiltonianModel.EvaluationMode] = None,
         rwa_cutoff_freq: Optional[float] = None,
         seed: Optional[int] = None,
     ) -> Self:
@@ -63,9 +61,11 @@ class QiskitPulseBackend(PulseBackend):
         Args:
             backend: The ``Backend`` instance to build the :class:`.DynamicsBackend` from.
             qubits: List of qubits to include from the backend.
-            rotating_frame: Rotating frame argument for the internal :class:`.Solver`. Defaults to
-                ``"auto"``, allowing this method to pick a rotating frame.
-            evaluation_mode: Evaluation mode argument for the internal :class:`.Solver`.
+            rotating_frame: Rotating frame argument for the internal :class:`.Solver`.
+                    Defaults to None, allowing this method to pick a rotating frame.
+            in_frame_basis: Whether to represent the model in the basis in which
+                            the rotating frame operator is diagonalized.
+            evaluation_mode: Evaluation mode to use by solver.
             rwa_cutoff_freq: Rotating wave approximation argument for the internal :class:`.Solver`.
             seed: Seed to use in random sampling. Defaults to None.
 
@@ -73,77 +73,51 @@ class QiskitPulseBackend(PulseBackend):
             QiskitPulseBackend
         """
         backend_characteristics = BackendCharacteristics(backend)
-        qubits = [0] if qubits is None else qubits
-        (
-            static_hamiltonian,
-            operators,
-            channels,
-            qubit_dims,
-        ) = parse_backend_hamiltonian_dict(backend_characteristics.hamiltonian, qubits)
-        instance: Self = cls(
+        hamiltonian = HamiltonianModel(
             hamiltonian_dict=backend_characteristics.hamiltonian,
             qubits=qubits,
-            dt=backend_characteristics.dt,
-            channel_carrier_freqs=backend_characteristics.get_channel_frequencies(
-                channels
-            ),
-            control_channel_map=backend_characteristics.get_control_channel_map(
-                channels
-            ),
             rotating_frame=rotating_frame,
+            in_frame_basis=in_frame_basis,
             evaluation_mode=evaluation_mode,
             rwa_cutoff_freq=rwa_cutoff_freq,
-            seed=seed,
         )
+        model = PulseBackendModel(
+            hamiltonian=hamiltonian,
+            dt=backend_characteristics.dt,
+            channel_carrier_freqs=backend_characteristics.get_channel_frequencies(
+                hamiltonian.channels
+            ),
+            control_channel_map=backend_characteristics.get_control_channel_map(
+                hamiltonian.channels
+            ),
+        )
+        instance: Self = cls(model, seed=seed)
         return instance
 
     @trace()
     def __init__(
         self,
-        hamiltonian_dict: dict,
-        qubits: list[int],
-        dt: Optional[float] = None,
-        channel_carrier_freqs: Optional[dict] = None,
-        control_channel_map: Optional[dict] = None,
-        rotating_frame: Union[Array, RotatingFrame, str] = "auto",
-        evaluation_mode: str = "dense",
-        rwa_cutoff_freq: Optional[float] = None,
+        model: PulseBackendModel,
         seed: Optional[int] = None,
     ):
         """Instantiate :class:`~casq.QiskitPulseBackend`.
 
         Args:
-            hamiltonian_dict: Pulse backend Hamiltonian dictionary.
-            qubits: List of qubits to include from the backend.
-            dt: Sampling interval.
-            channel_carrier_freqs: Dictionary mapping channel names to frequencies.
-            control_channel_map: A dictionary mapping control channel labels to indices.
-            rotating_frame: Rotating frame argument for the internal :class:`.Solver`. Defaults to
-                ``"auto"``, allowing this method to pick a rotating frame.
-            evaluation_mode: Evaluation mode argument for the internal :class:`.Solver`.
-            rwa_cutoff_freq: Rotating wave approximation argument for the internal :class:`.Solver`.
+            model: Pulse backend model.
             seed: Seed to use in random sampling. Defaults to None.
         """
-        self._dt = dt
-        self._channel_carrier_freqs = channel_carrier_freqs
-        self._control_channel_map = control_channel_map
-        self._rotating_frame = rotating_frame
-        self._evaluation_mode = evaluation_mode
-        self._rwa_cutoff_freq = rwa_cutoff_freq
-        super().__init__(
-            PulseBackend.NativeBackendType.QISKIT, hamiltonian_dict, qubits, seed
-        )
+        super().__init__(PulseBackend.NativeBackendType.QISKIT, model, seed)
 
     @trace()
     @timer()
     def run(
         self,
-        run_input: list[Union[PulseCircuit, QuantumCircuit, Schedule, ScheduleBlock]],
+        circuit: PulseCircuit,
         method: PulseBackend.ODESolverMethod,
         initial_state: Optional[Union[DensityMatrix, Statevector]] = None,
         shots: int = 1024,
         steps: Optional[int] = None,
-    ) -> dict[str, PulseSolution]:
+    ) -> PulseSolution:
         """QiskitPulseBackend.run."""
         options = DynamicsBackendPatch.Options(
             initial_state="ground_state" if initial_state is None else initial_state,
@@ -152,48 +126,32 @@ class QiskitPulseBackend(PulseBackend):
             solver_options={"method": method.value},
         )
         self._native_backend.steps = steps
-        result = self._native_backend.run(
-            run_input=run_input, **options.to_dict()
-        ).result()
-        result.header = {"casq": True}
-        results: dict[str, PulseSolution] = PulseSolution.from_qiskit(result)
-        return results
+        result = (
+            self._native_backend.run(run_input=circuit, **options.to_dict())
+            .result()
+            .results[0]
+        )
+        solution: PulseSolution = PulseSolution.from_qiskit(result)
+        return solution
 
     @trace()
     @timer()
     def _get_native_backend(self) -> DynamicsBackendPatch:
         """QiskitPulseBackend._get_native_backend."""
-        if self._rotating_frame == "auto":
-            if "dense" in self._evaluation_mode:
-                self._rotating_frame = self._hamiltonian.static
-            else:
-                self._rotating_frame = np.diag(self._hamiltonian.static)
+        hamiltonian = self.model.hamiltonian
         solver = Solver(
-            static_hamiltonian=self._hamiltonian.static,
-            hamiltonian_operators=self._hamiltonian.operators,
-            hamiltonian_channels=self._hamiltonian.channels,
-            channel_carrier_freqs=self._channel_carrier_freqs,
-            dt=self._dt,
-            rotating_frame=self._rotating_frame,
-            evaluation_mode=self._evaluation_mode,
-            rwa_cutoff_freq=self._rwa_cutoff_freq,
+            static_hamiltonian=hamiltonian.static_operator,
+            hamiltonian_operators=hamiltonian.operators,
+            hamiltonian_channels=hamiltonian.channels,
+            channel_carrier_freqs=self.model.channel_carrier_freqs,
+            dt=self.model.dt,
+            rotating_frame=hamiltonian.rotating_frame,
+            evaluation_mode=hamiltonian.evaluation_mode.name.lower(),
+            rwa_cutoff_freq=hamiltonian.rwa_cutoff_freq,
         )
         options = DynamicsBackendPatch.Options(
-            control_channel_map=self._control_channel_map,
+            control_channel_map=self.model.control_channel_map,
             seed_simulator=self._seed,
             experiment_result_function=get_experiment_result,
         )
         return DynamicsBackendPatch(solver, **options.to_dict())
-
-    @trace()
-    def _parse_hamiltonian_dict(self) -> tuple[PulseBackend.Hamiltonian, list[int]]:
-        """QiskitPulseBackend._parse_hamiltonian_dict."""
-        (
-            static_hamiltonian,
-            operators,
-            channels,
-            qubit_dims,
-        ) = parse_backend_hamiltonian_dict(self._hamiltonian_dict, self.qubits)
-        hamiltonian = PulseBackend.Hamiltonian(static_hamiltonian, operators, channels)
-        qubit_dims = [qubit_dims[idx] for idx in self.qubits]
-        return hamiltonian, qubit_dims
