@@ -25,6 +25,7 @@ from __future__ import annotations
 
 from typing import Optional, Self, Union
 
+import numpy.typing as npt
 from qiskit.providers import BackendV1, BackendV2
 from qiskit.quantum_info import DensityMatrix, Statevector
 from qiskit_dynamics import RotatingFrame
@@ -54,6 +55,9 @@ class QiskitPulseBackend(PulseBackend):
         in_frame_basis: bool = False,
         evaluation_mode: Optional[HamiltonianModel.EvaluationMode] = None,
         rwa_cutoff_freq: Optional[float] = None,
+        rwa_carrier_freqs: Optional[
+            Union[npt.NDArray, tuple[npt.NDArray, npt.NDArray]]
+        ] = None,
         seed: Optional[int] = None,
     ) -> Self:
         """Construct a QiskitPulseBackend instance from an existing backend instance.
@@ -66,7 +70,9 @@ class QiskitPulseBackend(PulseBackend):
             in_frame_basis: Whether to represent the model in the basis in which
                             the rotating frame operator is diagonalized.
             evaluation_mode: Evaluation mode to use by solver.
-            rwa_cutoff_freq: Rotating wave approximation argument for the internal :class:`.Solver`.
+            rwa_cutoff_freq: Rotating wave approximation cutoff frequency.
+                            If None, no approximation is made.
+            rwa_carrier_freqs: Carrier frequencies to use for rotating wave approximation.
             seed: Seed to use in random sampling. Defaults to None.
 
         Returns:
@@ -80,6 +86,7 @@ class QiskitPulseBackend(PulseBackend):
             in_frame_basis=in_frame_basis,
             evaluation_mode=evaluation_mode,
             rwa_cutoff_freq=rwa_cutoff_freq,
+            rwa_carrier_freqs=rwa_carrier_freqs,
         )
         model = PulseBackendModel(
             hamiltonian=hamiltonian,

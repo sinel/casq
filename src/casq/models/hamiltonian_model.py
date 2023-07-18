@@ -24,7 +24,7 @@
 from __future__ import annotations
 
 from enum import Enum
-from typing import Optional, Self
+from typing import Optional, Union
 
 import numpy as np
 import numpy.typing as npt
@@ -51,6 +51,9 @@ class HamiltonianModel:
         in_frame_basis: bool = False,
         evaluation_mode: EvaluationMode = EvaluationMode.DENSE,
         rwa_cutoff_freq: Optional[float] = None,
+        rwa_carrier_freqs: Optional[
+            Union[npt.NDArray, tuple[npt.NDArray, npt.NDArray]]
+        ] = None,
     ) -> None:
         """Initialize HamiltonianModel.
 
@@ -64,11 +67,14 @@ class HamiltonianModel:
             in_frame_basis: Whether to represent the model in the basis in which
                             the rotating frame operator is diagonalized.
             evaluation_mode: Evaluation mode to use.
-            rwa_cutoff_freq: Rotating wave approximation argument.
+            rwa_cutoff_freq: Rotating wave approximation cutoff frequency.
+                            If None, no approximation is made.
+            rwa_carrier_freqs: Carrier frequencies to use for rotating wave approximation.
         """
         self.hamiltonian_dict = hamiltonian_dict
-        self.qubits = [0] if qubits is None else qubits
         self.in_frame_basis = in_frame_basis
+        self.rwa_carrier_freqs = rwa_carrier_freqs
+        self.qubits = [0] if qubits is None else qubits
         self.evaluation_mode = (
             HamiltonianModel.EvaluationMode.DENSE
             if evaluation_mode is None
