@@ -16,7 +16,10 @@ Submodules
    :maxdepth: 1
 
    hamiltonian_model/index.rst
+   noise_model/index.rst
    pulse_backend_model/index.rst
+   transmon_model/index.rst
+   transmon_noise_model/index.rst
 
 
 Package Contents
@@ -28,12 +31,14 @@ Classes
 .. autoapisummary::
 
    casq.models.HamiltonianModel
+   casq.models.NoiseModel
    casq.models.PulseBackendModel
+   casq.models.TransmonModel
 
 
 
 
-.. py:class:: HamiltonianModel(hamiltonian_dict: dict, qubits: Optional[list[int]] = None, rotating_frame: Optional[numpy.typing.NDArray] = None, in_frame_basis: bool = False, evaluation_mode: EvaluationMode = EvaluationMode.DENSE, rwa_cutoff_freq: Optional[float] = None, rwa_carrier_freqs: Optional[Union[numpy.typing.NDArray, tuple[numpy.typing.NDArray, numpy.typing.NDArray]]] = None)
+.. py:class:: HamiltonianModel(hamiltonian_dict: dict, extracted_qubits: Optional[list[int]] = None, rotating_frame: Optional[numpy.typing.NDArray] = None, in_frame_basis: bool = False, evaluation_mode: EvaluationMode = EvaluationMode.DENSE, rwa_cutoff_freq: Optional[float] = None, rwa_carrier_freqs: Optional[Union[numpy.typing.NDArray, tuple[numpy.typing.NDArray, numpy.typing.NDArray]]] = None)
 
 
    HamiltonianModel class.
@@ -57,9 +62,48 @@ Classes
 
 
 
-.. py:class:: PulseBackendModel(hamiltonian: casq.models.hamiltonian_model.HamiltonianModel, dt: Optional[float] = None, channel_carrier_freqs: Optional[dict] = None, control_channel_map: Optional[dict] = None)
+.. py:class:: NoiseModel(static_dissipators: numpy.typing.NDArray, dissipator_operators: Optional[numpy.typing.NDArray] = None, dissipator_channels: Optional[list[str]] = None)
+
+
+   NoiseModel class.
+
+
+.. py:class:: PulseBackendModel(hamiltonian: casq.models.hamiltonian_model.HamiltonianModel, noise: Optional[casq.models.noise_model.NoiseModel] = None, dt: Optional[float] = None, channel_carrier_freqs: Optional[dict] = None, control_channel_map: Optional[dict] = None)
 
 
    PulseBackendModel class.
+
+
+.. py:class:: TransmonModel(qubit_map: dict[int, TransmonProperties], coupling_map: dict[tuple[int, int], float], extracted_qubits: Optional[list[int]] = None, rotating_frame: Optional[numpy.typing.NDArray] = None, in_frame_basis: bool = False, evaluation_mode: casq.models.hamiltonian_model.HamiltonianModel.EvaluationMode = HamiltonianModel.EvaluationMode.DENSE, rwa_cutoff_freq: Optional[float] = None, rwa_carrier_freqs: Optional[Union[numpy.typing.NDArray, tuple[numpy.typing.NDArray, numpy.typing.NDArray]]] = None)
+
+
+   Bases: :py:obj:`casq.models.hamiltonian_model.HamiltonianModel`
+
+   TransmonModel class.
+
+   .. py:class:: TransmonProperties
+
+
+      Transmon qubit properties.
+
+      .. py:attribute:: frequency
+         :type: float
+
+         
+
+      .. py:attribute:: anharmonicity
+         :type: float
+
+         
+
+      .. py:attribute:: drive
+         :type: float
+
+         
+
+
+   .. py:attribute:: MANILA
+
+      
 
 

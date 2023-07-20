@@ -5,7 +5,7 @@
 
 .. autoapi-nested-parse::
 
-   Pulse simulator.
+   Pulse backend model.
 
 
 
@@ -22,7 +22,7 @@ Classes
 
 
 
-.. py:class:: PulseBackendModel(hamiltonian: casq.models.hamiltonian_model.HamiltonianModel, dt: Optional[float] = None, channel_carrier_freqs: Optional[dict] = None, control_channel_map: Optional[dict] = None)
+.. py:class:: PulseBackendModel(hamiltonian: casq.models.hamiltonian_model.HamiltonianModel, noise: Optional[casq.models.noise_model.NoiseModel] = None, dt: Optional[float] = None, channel_carrier_freqs: Optional[dict] = None, control_channel_map: Optional[dict] = None)
 
 
    PulseBackendModel class.

@@ -310,7 +310,10 @@ document.write(`
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../models/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../models/hamiltonian_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models.hamiltonian_model</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../models/noise_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models.noise_model</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../models/pulse_backend_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models.pulse_backend_model</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../models/transmon_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models.transmon_model</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../models/transmon_noise_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models.transmon_noise_model</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../notebooks/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.notebooks</span></code></a></li>
@@ -883,8 +886,23 @@ based on a steps argument is now provided.</p>
 <dd></dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="casq.backends.DynamicsBackendPatch.Options.solver">
+<span class="sig-name descname"><span class="pre">solver</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">qiskit_dynamics.Solver</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#casq.backends.DynamicsBackendPatch.Options.solver" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="casq.backends.DynamicsBackendPatch.Options.solver_options">
 <span class="sig-name descname"><span class="pre">solver_options</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#casq.backends.DynamicsBackendPatch.Options.solver_options" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="casq.backends.DynamicsBackendPatch.Options.subsystem_labels">
+<span class="sig-name descname"><span class="pre">subsystem_labels</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#casq.backends.DynamicsBackendPatch.Options.subsystem_labels" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="casq.backends.DynamicsBackendPatch.Options.subsystem_dims">
+<span class="sig-name descname"><span class="pre">subsystem_dims</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#casq.backends.DynamicsBackendPatch.Options.subsystem_dims" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1205,7 +1223,10 @@ seed: Seed to use in random sampling. Defaults to None.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.DynamicsBackendPatch"><code class="docutils literal notranslate"><span class="pre">DynamicsBackendPatch</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.DynamicsBackendPatch.Options"><code class="docutils literal notranslate"><span class="pre">DynamicsBackendPatch.Options</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.DynamicsBackendPatch.Options.shots"><code class="docutils literal notranslate"><span class="pre">DynamicsBackendPatch.Options.shots</span></code></a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.DynamicsBackendPatch.Options.solver"><code class="docutils literal notranslate"><span class="pre">DynamicsBackendPatch.Options.solver</span></code></a></li>
 <li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.DynamicsBackendPatch.Options.solver_options"><code class="docutils literal notranslate"><span class="pre">DynamicsBackendPatch.Options.solver_options</span></code></a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.DynamicsBackendPatch.Options.subsystem_labels"><code class="docutils literal notranslate"><span class="pre">DynamicsBackendPatch.Options.subsystem_labels</span></code></a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.DynamicsBackendPatch.Options.subsystem_dims"><code class="docutils literal notranslate"><span class="pre">DynamicsBackendPatch.Options.subsystem_dims</span></code></a></li>
 <li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.DynamicsBackendPatch.Options.meas_map"><code class="docutils literal notranslate"><span class="pre">DynamicsBackendPatch.Options.meas_map</span></code></a></li>
 <li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.DynamicsBackendPatch.Options.control_channel_map"><code class="docutils literal notranslate"><span class="pre">DynamicsBackendPatch.Options.control_channel_map</span></code></a></li>
 <li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.DynamicsBackendPatch.Options.normalize_states"><code class="docutils literal notranslate"><span class="pre">DynamicsBackendPatch.Options.normalize_states</span></code></a></li>

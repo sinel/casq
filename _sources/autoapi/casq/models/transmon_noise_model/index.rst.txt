@@ -1,0 +1,32 @@
+:py:mod:`casq.models.transmon_noise_model`
+==========================================
+
+.. py:module:: casq.models.transmon_noise_model
+
+.. autoapi-nested-parse::
+
+   Transmon noise model.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   casq.models.transmon_noise_model.TransmonNoiseModel
+
+
+
+
+.. py:class:: TransmonNoiseModel(t1: float, t2: float)
+
+
+   Bases: :py:obj:`casq.models.noise_model.NoiseModel`
+
+   TransmonNoiseModel class.
+
+

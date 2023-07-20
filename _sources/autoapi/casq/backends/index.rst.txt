@@ -473,8 +473,23 @@ Functions
 
          
 
+      .. py:attribute:: solver
+         :type: Optional[qiskit_dynamics.Solver]
+
+         
+
       .. py:attribute:: solver_options
          :type: dict[str, Any]
+
+         
+
+      .. py:attribute:: subsystem_labels
+         :type: Optional[list[int]]
+
+         
+
+      .. py:attribute:: subsystem_dims
+         :type: Optional[list[int]]
 
          
 
