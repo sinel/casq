@@ -139,7 +139,9 @@ class PulseOptimizer:
             else fidelity_type
         )
         self.target_qubit = (
-            target_qubit if target_qubit else self.backend.model.hamiltonian.qubits[0]
+            target_qubit
+            if target_qubit
+            else self.backend.model.hamiltonian.extracted_qubits[0]
         )
         self.method = method
         self.use_jax = use_jax

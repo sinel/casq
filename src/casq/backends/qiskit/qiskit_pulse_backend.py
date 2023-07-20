@@ -81,7 +81,7 @@ class QiskitPulseBackend(PulseBackend):
         backend_characteristics = BackendCharacteristics(backend)
         hamiltonian = HamiltonianModel(
             hamiltonian_dict=backend_characteristics.hamiltonian,
-            qubits=qubits,
+            extracted_qubits=qubits,
             rotating_frame=rotating_frame,
             in_frame_basis=in_frame_basis,
             evaluation_mode=evaluation_mode,
@@ -146,16 +146,32 @@ class QiskitPulseBackend(PulseBackend):
     def _get_native_backend(self) -> DynamicsBackendPatch:
         """QiskitPulseBackend._get_native_backend."""
         hamiltonian = self.model.hamiltonian
-        solver = Solver(
-            static_hamiltonian=hamiltonian.static_operator,
-            hamiltonian_operators=hamiltonian.operators,
-            hamiltonian_channels=hamiltonian.channels,
-            channel_carrier_freqs=self.model.channel_carrier_freqs,
-            dt=self.model.dt,
-            rotating_frame=hamiltonian.rotating_frame,
-            evaluation_mode=hamiltonian.evaluation_mode.name.lower(),
-            rwa_cutoff_freq=hamiltonian.rwa_cutoff_freq,
-        )
+        noise = self.model.noise
+        if noise:
+            solver = Solver(
+                static_hamiltonian=hamiltonian.static_operator,
+                hamiltonian_operators=hamiltonian.operators,
+                hamiltonian_channels=hamiltonian.channels,
+                static_dissipators=Array(noise.static_dissipators),
+                dissipator_operators=noise.dissipator_operators,
+                dissipator_channels=noise.dissipator_channels,
+                channel_carrier_freqs=self.model.channel_carrier_freqs,
+                dt=self.model.dt,
+                rotating_frame=hamiltonian.rotating_frame,
+                evaluation_mode=hamiltonian.evaluation_mode.name.lower(),
+                rwa_cutoff_freq=hamiltonian.rwa_cutoff_freq,
+            )
+        else:
+            solver = Solver(
+                static_hamiltonian=hamiltonian.static_operator,
+                hamiltonian_operators=hamiltonian.operators,
+                hamiltonian_channels=hamiltonian.channels,
+                channel_carrier_freqs=self.model.channel_carrier_freqs,
+                dt=self.model.dt,
+                rotating_frame=hamiltonian.rotating_frame,
+                evaluation_mode=hamiltonian.evaluation_mode.name.lower(),
+                rwa_cutoff_freq=hamiltonian.rwa_cutoff_freq,
+            )
         options = DynamicsBackendPatch.Options(
             control_channel_map=self.model.control_channel_map,
             seed_simulator=self._seed,

@@ -20,7 +20,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  ********************************************************************************
-"""Pulse simulator."""
+"""Hamiltonian model."""
 from __future__ import annotations
 
 from enum import Enum
@@ -46,7 +46,7 @@ class HamiltonianModel:
     def __init__(
         self,
         hamiltonian_dict: dict,
-        qubits: Optional[list[int]] = None,
+        extracted_qubits: Optional[list[int]] = None,
         rotating_frame: Optional[npt.NDArray] = None,
         in_frame_basis: bool = False,
         evaluation_mode: EvaluationMode = EvaluationMode.DENSE,
@@ -59,7 +59,7 @@ class HamiltonianModel:
 
         Args:
             hamiltonian_dict: Dictionary representing Hamiltonian in string specification.
-            qubits: List of qubits to extract from the Hamiltonian.
+            extracted_qubits: List of qubits to extract from the Hamiltonian.
             rotating_frame: Rotating frame operator.
                             If specified with a 1d array, it is interpreted as the
                             diagonal of a diagonal matrix. Assumed to store
@@ -71,10 +71,12 @@ class HamiltonianModel:
                             If None, no approximation is made.
             rwa_carrier_freqs: Carrier frequencies to use for rotating wave approximation.
         """
+        # TO-DO: Using placeholder for noise model based on qiskit-dynamics example.
+        # Need to generalize this into full noise model specs based on LindbladModel.
         self.hamiltonian_dict = hamiltonian_dict
         self.in_frame_basis = in_frame_basis
         self.rwa_carrier_freqs = rwa_carrier_freqs
-        self.qubits = [0] if qubits is None else qubits
+        self.extracted_qubits = [0] if extracted_qubits is None else extracted_qubits
         self.evaluation_mode = (
             HamiltonianModel.EvaluationMode.DENSE
             if evaluation_mode is None
@@ -86,7 +88,7 @@ class HamiltonianModel:
             self.operators,
             self.channels,
             self.qubit_dims,
-        ) = parse_backend_hamiltonian_dict(hamiltonian_dict, qubits)
+        ) = parse_backend_hamiltonian_dict(hamiltonian_dict, extracted_qubits)
         if rotating_frame is None:
             if evaluation_mode is HamiltonianModel.EvaluationMode.DENSE:
                 self.rotating_frame = self.static_operator

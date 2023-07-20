@@ -60,7 +60,10 @@ class DynamicsBackendPatch(DynamicsBackend):
         """Qiskit dynamics backend options."""
 
         shots: int = 1024
+        solver: Optional[Solver] = None
         solver_options: dict[str, Any] = field(default_factory=dict)
+        subsystem_labels: Optional[list[int]] = None
+        subsystem_dims: Optional[list[int]] = None
         meas_map: Optional[dict] = None
         control_channel_map: Optional[dict] = None
         normalize_states: bool = True

@@ -20,39 +20,36 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  ********************************************************************************
-"""Pulse backend model."""
+"""Noise model."""
 from __future__ import annotations
 
 from typing import Optional
 
+import numpy.typing as npt
+
 from casq.common import trace
-from casq.models.hamiltonian_model import HamiltonianModel
-from casq.models.noise_model import NoiseModel
 
 
-class PulseBackendModel:
-    """PulseBackendModel class."""
+class NoiseModel:
+    """NoiseModel class."""
 
     @trace()
     def __init__(
         self,
-        hamiltonian: HamiltonianModel,
-        noise: Optional[NoiseModel] = None,
-        dt: Optional[float] = None,
-        channel_carrier_freqs: Optional[dict] = None,
-        control_channel_map: Optional[dict] = None,
+        static_dissipators: npt.NDArray,
+        dissipator_operators: Optional[npt.NDArray] = None,
+        dissipator_channels: Optional[list[str]] = None,
     ) -> None:
-        """Instantiate :class:`~casq.PulseSolution`.
+        """Initialize NoiseModel.
 
         Args:
-            hamiltonian: Hamiltonian model.
-            noise: Noise model.
-            dt: Sampling interval.
-            channel_carrier_freqs: Dictionary mapping channel names to frequencies.
-            control_channel_map: A dictionary mapping control channel labels to indices.
+            static_dissipators: Constant dissipation operators.
+            dissipator_operators: Dissipation operators with time-dependent coefficients.
+            dissipator_channels: List of channel names in pulse schedules
+                corresponding to dissipator operators.
         """
-        self.hamiltonian = hamiltonian
-        self.noise = noise
-        self.dt = dt
-        self.channel_carrier_freqs = channel_carrier_freqs
-        self.control_channel_map = control_channel_map
+        # TO-DO: Basically copy-paste from solver arguments for Lindblad model.
+        # Need to understand better and relate to noise/decoherence terms.
+        self.static_dissipators = static_dissipators
+        self.dissipator_operators = dissipator_operators
+        self.dissipator_channels = dissipator_channels
