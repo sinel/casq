@@ -11,6 +11,7 @@ homepage = "https://github.com/sinel/casq"
 # Need to fix jax to 0.4.6 since it is highest allowed by qiskit-dynamics 0.4.1
 jax = {extras = ["cpu"], version = "==0.4.6"}
 jupyter = "^1.0.0"
+jupyter-sphinx = "^0.4.0"
 loguru = "^0.7.0"
 matplotlib = "^3.7.0"
 opt-einsum = "^3.3.0"
@@ -19,21 +20,21 @@ pylatexenc = "^2.10"
 pyscf = "^2.2.1"
 python = "^3.11"
 qiskit = "^0.43.2"
-# Need to fix qiskit-aer to 0.21.1 since it is highest allowed by qiskit 0.43.2
-qiskit-aer = "==0.12.1"
-qiskit-dynamics = "^0.4.1"
+qiskit-aer = "^0.12.1"
+# Due to possible breaking API changes, need to update carefully.
+qiskit-dynamics = "==0.4.1"
 qiskit-experiments = "^0.5.2"
 qiskit-nature = "^0.6.0"
 qiskit-ibm-provider = "^0.6.1"
 qiskit-ibm-runtime = "^0.11.2"
 qutip = "^4.7.1"
+qutip-qip = "0.3.0"
 rustworkx = "^0.13.0"
 sparse = "^0.14.0"
 sphinx = "^7.0.1"
 sphinx-autoapi = "^2.1.1"
 sphinx-favicon = "^1.0.1"
 wonderwords = "^2.2.0"
-qutip-qip = "^0.2.3"
 
 [tool.poetry.group.dev.dependencies]
 black = {extras = ["jupyter"], version = "^23.3.0"}

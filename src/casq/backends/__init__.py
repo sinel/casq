@@ -29,9 +29,9 @@ from casq.backends.qiskit.helpers import get_experiment_result
 from casq.backends.qiskit.qiskit_pulse_backend import QiskitPulseBackend
 
 __all__ = [
-    "get_experiment_result",
-    "PulseBackend",
     "PulseSolution",
+    "PulseBackend",
+    "get_experiment_result",
     "BackendCharacteristics",
     "DynamicsBackendPatch",
     "QiskitPulseBackend",

@@ -29,8 +29,7 @@ from qiskit.pulse import Schedule
 
 from casq.backends import PulseBackend, PulseSolution, QiskitPulseBackend
 from casq.common import timer
-from casq.gates.gaussian_pulse_gate import GaussianPulseGate
-from casq.gates.pulse_circuit import PulseCircuit
+from casq.gates import GaussianPulseGate, PulseCircuit
 
 
 def test_from_backend(backend: BackendV1) -> None:

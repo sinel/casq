@@ -40,13 +40,15 @@ from scipy.optimize import (
     minimize,
 )
 
-from casq.backends.pulse_backend import PulseBackend
+from casq.backends import PulseBackend
 from casq.common import CasqError, timer, trace
-from casq.gates.drag_pulse_gate import DragPulseGate
-from casq.gates.gaussian_pulse_gate import GaussianPulseGate
-from casq.gates.gaussian_square_pulse_gate import GaussianSquarePulseGate
-from casq.gates.pulse_circuit import PulseCircuit
-from casq.gates.pulse_gate import PulseGate
+from casq.gates import (
+    DragPulseGate,
+    GaussianPulseGate,
+    GaussianSquarePulseGate,
+    PulseCircuit,
+    PulseGate,
+)
 
 
 class PulseOptimizer:

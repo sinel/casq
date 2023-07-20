@@ -23,12 +23,11 @@
 """Pulse gate tests."""
 from __future__ import annotations
 
-from loguru import logger
 from qiskit.providers import BackendV1
 from qiskit.pulse import Schedule
 from qiskit_dynamics.backend.dynamics_backend import DynamicsJob
 
-from casq.backends import DynamicsBackendPatch, PulseSolution, QiskitPulseBackend
+from casq.backends import DynamicsBackendPatch
 from casq.common import timer
 
 

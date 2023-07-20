@@ -28,7 +28,7 @@ from typing import Optional
 from qiskit.pulse.library import Gaussian, Pulse
 
 from casq.common import trace
-from casq.gates.pulse_gate import PulseGate
+from casq.gates import PulseGate
 
 
 class GaussianPulseGate(PulseGate):

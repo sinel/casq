@@ -28,9 +28,9 @@ from casq.gates.pulse_circuit import PulseCircuit
 from casq.gates.pulse_gate import PulseGate
 
 __all__ = [
+    "PulseGate",
+    "PulseCircuit",
     "DragPulseGate",
     "GaussianPulseGate",
     "GaussianSquarePulseGate",
-    "PulseGate",
-    "PulseCircuit",
 ]

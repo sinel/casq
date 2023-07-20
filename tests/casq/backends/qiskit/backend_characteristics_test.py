@@ -37,7 +37,7 @@ from qiskit.pulse.channels import (
     MemorySlot,
 )
 
-from casq.backends.qiskit.backend_characteristics import BackendCharacteristics
+from casq.backends import BackendCharacteristics
 from casq.common import CasqError
 
 

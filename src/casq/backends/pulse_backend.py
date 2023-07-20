@@ -24,16 +24,14 @@
 from __future__ import annotations
 
 from abc import abstractmethod
-from dataclasses import asdict, dataclass
 from enum import Enum
 from typing import Any, Optional, Union
 
-import numpy.typing as npt
 from qiskit.quantum_info import DensityMatrix, Statevector
 
-from casq.backends.pulse_solution import PulseSolution
-from casq.gates.pulse_circuit import PulseCircuit
-from casq.models import HamiltonianModel, PulseBackendModel
+from casq.backends import PulseSolution
+from casq.gates import PulseCircuit
+from casq.models import PulseBackendModel
 
 
 class PulseBackend:
