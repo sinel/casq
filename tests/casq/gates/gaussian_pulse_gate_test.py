@@ -26,7 +26,7 @@ from __future__ import annotations
 from qiskit import pulse
 from qiskit.pulse.library import ScalableSymbolicPulse
 
-from casq.gates import GaussianPulseGate
+from casq.gates.gaussian_pulse_gate import GaussianPulseGate
 
 
 def test_pulse_instruction() -> None:

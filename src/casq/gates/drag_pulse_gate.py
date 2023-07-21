@@ -27,8 +27,8 @@ from typing import Optional, Union
 
 from qiskit.pulse.library import Drag, Pulse
 
-from casq.common import trace
-from casq.gates import PulseGate
+from casq.common.decorators import trace
+from casq.gates.pulse_gate import PulseGate
 
 
 class DragPulseGate(PulseGate):

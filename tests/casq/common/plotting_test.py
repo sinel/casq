@@ -29,7 +29,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from qiskit.pulse import Schedule, ScheduleBlock
 
-from casq.common import (
+from casq.common.plotting import (
     LegendLocation,
     LegendStyle,
     LineConfig,

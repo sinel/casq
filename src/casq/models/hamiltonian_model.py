@@ -30,7 +30,7 @@ import numpy as np
 import numpy.typing as npt
 from qiskit_dynamics.backend import parse_backend_hamiltonian_dict
 
-from casq.common import trace
+from casq.common.decorators import trace
 
 
 class HamiltonianModel:

@@ -25,7 +25,7 @@ from __future__ import annotations
 
 from typing import Optional
 
-from casq.common import trace
+from casq.common.decorators import trace
 from casq.models.hamiltonian_model import HamiltonianModel
 from casq.models.noise_model import NoiseModel
 

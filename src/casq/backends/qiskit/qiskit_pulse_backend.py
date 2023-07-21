@@ -32,16 +32,15 @@ from qiskit_dynamics import RotatingFrame
 from qiskit_dynamics.array import Array
 from qiskit_dynamics.solvers import Solver
 
-from casq.backends import (
-    BackendCharacteristics,
-    DynamicsBackendPatch,
-    PulseBackend,
-    PulseSolution,
-    get_experiment_result,
-)
-from casq.common import timer, trace
-from casq.gates import PulseCircuit
-from casq.models import HamiltonianModel, PulseBackendModel
+from casq.backends.pulse_backend import PulseBackend
+from casq.backends.pulse_solution import PulseSolution
+from casq.backends.qiskit.backend_characteristics import BackendCharacteristics
+from casq.backends.qiskit.dynamics_backend_patch import DynamicsBackendPatch
+from casq.backends.qiskit.helpers import get_experiment_result
+from casq.common.decorators import timer, trace
+from casq.gates.pulse_circuit import PulseCircuit
+from casq.models.pulse_backend_model import PulseBackendModel
+from casq.models.hamiltonian_model import HamiltonianModel
 
 
 class QiskitPulseBackend(PulseBackend):

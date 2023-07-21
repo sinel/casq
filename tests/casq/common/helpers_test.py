@@ -28,7 +28,7 @@ from uuid import UUID
 
 from qiskit_dynamics.array import Array
 
-from casq.common import dbid, initialize_jax, ufid
+from casq.common.helpers import dbid, initialize_jax, ufid
 
 
 def test_dbid() -> None:

@@ -28,7 +28,7 @@ from datetime import datetime
 from matplotlib.figure import Figure
 from qiskit.quantum_info import Statevector
 
-from casq.backends import PulseSolution
+from casq.backends.pulse_solution import PulseSolution
 
 
 def mock_solution() -> PulseSolution:

@@ -23,13 +23,15 @@
 """Pulse gate tests."""
 from __future__ import annotations
 
-from loguru import logger
 from qiskit.providers import BackendV1
 from qiskit.pulse import Schedule
 
-from casq.backends import PulseBackend, PulseSolution, QiskitPulseBackend
-from casq.common import timer
-from casq.gates import GaussianPulseGate, PulseCircuit
+from casq.backends.pulse_backend import PulseBackend
+from casq.backends.pulse_solution import PulseSolution
+from casq.backends.qiskit.qiskit_pulse_backend import QiskitPulseBackend
+from casq.common.decorators import timer
+from casq.gates.pulse_circuit import PulseCircuit
+from casq.gates.gaussian_pulse_gate import GaussianPulseGate
 
 
 def test_from_backend(backend: BackendV1) -> None:

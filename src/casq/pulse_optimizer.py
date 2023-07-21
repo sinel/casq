@@ -40,7 +40,7 @@ from scipy.optimize import (
     minimize,
 )
 
-from casq.backends import PulseBackend
+from casq.backends.pulse_backend import PulseBackend
 from casq.common import CasqError, timer, trace
 from casq.gates import (
     DragPulseGate,
@@ -105,7 +105,7 @@ class PulseOptimizer:
     @trace()
     def __init__(
         self,
-        pulse_type: PulseType,
+        pulse_type: PulseOptimizer.PulseType,
         pulse_arguments: dict[str, Any],
         backend: PulseBackend,
         method: PulseBackend.ODESolverMethod,

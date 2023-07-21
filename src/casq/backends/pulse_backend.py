@@ -29,9 +29,9 @@ from typing import Any, Optional, Union
 
 from qiskit.quantum_info import DensityMatrix, Statevector
 
-from casq.backends import PulseSolution
-from casq.gates import PulseCircuit
-from casq.models import PulseBackendModel
+from casq.backends.pulse_solution import PulseSolution
+from casq.gates.pulse_circuit import PulseCircuit
+from casq.models.pulse_backend_model import PulseBackendModel
 
 
 class PulseBackend:

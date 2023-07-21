@@ -30,8 +30,9 @@ from matplotlib.figure import Figure
 from qiskit.quantum_info import DensityMatrix, Statevector, partial_trace
 from qiskit.result.models import ExperimentResult
 
-from casq.common import (
-    CasqError,
+from casq.common.decorators import trace
+from casq.common.exceptions import CasqError
+from casq.common.plotting import (
     LegendStyle,
     LineConfig,
     LineData,
@@ -39,7 +40,6 @@ from casq.common import (
     MarkerStyle,
     plot,
     plot_bloch,
-    trace,
 )
 
 

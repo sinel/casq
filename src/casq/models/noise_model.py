@@ -27,7 +27,7 @@ from typing import Optional
 
 import numpy.typing as npt
 
-from casq.common import trace
+from casq.common.decorators import trace
 
 
 class NoiseModel:

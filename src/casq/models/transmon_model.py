@@ -28,7 +28,7 @@ from typing import Optional, Union
 
 import numpy.typing as npt
 
-from casq.common import trace
+from casq.common.decorators import trace
 from casq.models.hamiltonian_model import HamiltonianModel
 
 

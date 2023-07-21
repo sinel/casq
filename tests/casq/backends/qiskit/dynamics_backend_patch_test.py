@@ -27,8 +27,8 @@ from qiskit.providers import BackendV1
 from qiskit.pulse import Schedule
 from qiskit_dynamics.backend.dynamics_backend import DynamicsJob
 
-from casq.backends import DynamicsBackendPatch
-from casq.common import timer
+from casq.backends.qiskit.dynamics_backend_patch import DynamicsBackendPatch
+from casq.common.decorators import timer
 
 
 def test_options_to_dict() -> None:

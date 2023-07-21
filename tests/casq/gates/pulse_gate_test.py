@@ -31,9 +31,9 @@ from qiskit.providers import BackendV1
 from qiskit.providers.fake_provider import FakeManila
 from qiskit_dynamics import Signal
 
-from casq.backends import BackendCharacteristics
-from casq.common import CasqError
-from casq.gates import PulseGate
+from casq.backends.qiskit.backend_characteristics import BackendCharacteristics
+from casq.common.exceptions import CasqError
+from casq.gates.pulse_gate import PulseGate
 
 
 class DummyPulseGate(PulseGate):

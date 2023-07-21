@@ -36,7 +36,8 @@ from qiskit.providers.models import (
 from qiskit.pulse.channels import Channel, ControlChannel, DriveChannel, MeasureChannel
 from qiskit_ibm_provider import IBMProvider
 
-from casq.common import CasqError, trace
+from casq.common.decorators import trace
+from casq.common.exceptions import CasqError
 
 
 class BackendCharacteristics:

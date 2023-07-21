@@ -37,8 +37,6 @@ from qiskit.pulse.transforms import block_to_schedule
 from qiskit_dynamics.pulse import InstructionToSignals
 import qutip
 
-from casq.common import CasqError
-
 plt.style.use("seaborn-v0_8-notebook")
 
 
