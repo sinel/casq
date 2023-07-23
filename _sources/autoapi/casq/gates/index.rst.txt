@@ -222,7 +222,7 @@ Classes
           or list of :py:class:`qiskit_dynamics.signals.Signal`
 
 
-   .. py:method:: draw_signal(qubit: int, dt: float, carrier_frequency: float, filename: Optional[str] = None, hidden: bool = False) -> matplotlib.figure.Figure
+   .. py:method:: draw_signal(qubit: int, dt: float, carrier_frequency: float, filename: Optional[str] = None, hidden: bool = False) -> None
 
       PulseGate.draw_signal method.
 

@@ -53,7 +53,7 @@ Functions
 
 
 
-.. py:class:: PulseBackend(native_backend_type: PulseBackend, model: casq.models.PulseBackendModel, seed: Optional[int] = None)
+.. py:class:: PulseBackend(native_backend_type: PulseBackend, model: casq.models.pulse_backend_model.PulseBackendModel, seed: Optional[int] = None)
 
 
    PulseBackend class.
@@ -182,7 +182,7 @@ Functions
           Pulse solution.
 
 
-   .. py:method:: plot_population(filename: Optional[str] = None, hidden: bool = False) -> matplotlib.figure.Figure
+   .. py:method:: plot_population(filename: Optional[str] = None, hidden: bool = False) -> None
 
       PulseSolution.plot_population method.
 
@@ -192,11 +192,8 @@ Functions
           filename: If filename is provided as path str, then figure is saved as png.
           hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
-      Returns:
-          :py:class:`matplotlib.figure.Figure`
 
-
-   .. py:method:: plot_iq(time_index: Optional[int] = None, filename: Optional[str] = None, hidden: bool = False) -> matplotlib.figure.Figure
+   .. py:method:: plot_iq(time_index: Optional[int] = None, filename: Optional[str] = None, hidden: bool = False) -> None
 
       PulseSolution.plot_iq method.
 
@@ -207,11 +204,8 @@ Functions
           filename: If filename is provided as path str, then figure is saved as png.
           hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
-      Returns:
-          :py:class:`matplotlib.figure.Figure`
 
-
-   .. py:method:: plot_iq_trajectory(filename: Optional[str] = None, hidden: bool = False) -> matplotlib.figure.Figure
+   .. py:method:: plot_iq_trajectory(filename: Optional[str] = None, hidden: bool = False) -> None
 
       PulseSolution.plot_iq_trajectory method.
 
@@ -221,11 +215,8 @@ Functions
           filename: If filename is provided as path str, then figure is saved as png.
           hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
-      Returns:
-          :py:class:`matplotlib.figure.Figure`
 
-
-   .. py:method:: plot_trajectory(qubit: int = 0, filename: Optional[str] = None, hidden: bool = False) -> matplotlib.figure.Figure
+   .. py:method:: plot_trajectory(qubit: int = 0, filename: Optional[str] = None, hidden: bool = False) -> None
 
       PulseSolution.plot_trajectory method.
 
@@ -236,11 +227,8 @@ Functions
           filename: If filename is provided as path str, then figure is saved as png.
           hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
-      Returns:
-          :py:class:`matplotlib.figure.Figure`
 
-
-   .. py:method:: plot_bloch_trajectory(qubit: int = 0, filename: Optional[str] = None, hidden: bool = False) -> matplotlib.figure.Figure
+   .. py:method:: plot_bloch_trajectory(qubit: int = 0, filename: Optional[str] = None, hidden: bool = False) -> None
 
       PulseSolution.plot_bloch_trajectory method.
 
@@ -250,9 +238,6 @@ Functions
           qubit: Qubit to plot trajectory of.
           filename: If filename is provided as path str, then figure is saved as png.
           hidden: If False, then plot is not displayed. Useful if method is used for saving only.
-
-      Returns:
-          :py:class:`matplotlib.figure.Figure`
 
 
    .. py:method:: _xyz(qubit: int = 0) -> tuple[list[float], list[float], list[float]]
@@ -638,14 +623,14 @@ Functions
        QiskitError: If a specified option is unsupported.
 
 
-.. py:class:: QiskitPulseBackend(model: casq.models.PulseBackendModel, seed: Optional[int] = None)
+.. py:class:: QiskitPulseBackend(model: casq.models.pulse_backend_model.PulseBackendModel, seed: Optional[int] = None)
 
 
    Bases: :py:obj:`casq.backends.pulse_backend.PulseBackend`
 
    QiskitPulseBackend class.
 
-   .. py:method:: from_backend(backend: Union[qiskit.providers.BackendV1, qiskit.providers.BackendV2], qubits: Optional[list[int]] = None, rotating_frame: Optional[Union[qiskit_dynamics.array.Array, qiskit_dynamics.RotatingFrame]] = None, in_frame_basis: bool = False, evaluation_mode: Optional[casq.models.HamiltonianModel.EvaluationMode] = None, rwa_cutoff_freq: Optional[float] = None, rwa_carrier_freqs: Optional[Union[numpy.typing.NDArray, tuple[numpy.typing.NDArray, numpy.typing.NDArray]]] = None, seed: Optional[int] = None) -> Self
+   .. py:method:: from_backend(backend: Union[qiskit.providers.BackendV1, qiskit.providers.BackendV2], qubits: Optional[list[int]] = None, rotating_frame: Optional[Union[qiskit_dynamics.array.Array, qiskit_dynamics.RotatingFrame]] = None, in_frame_basis: bool = False, evaluation_mode: Optional[casq.models.hamiltonian_model.HamiltonianModel.EvaluationMode] = None, rwa_cutoff_freq: Optional[float] = None, rwa_carrier_freqs: Optional[Union[numpy.typing.NDArray, tuple[numpy.typing.NDArray, numpy.typing.NDArray]]] = None, seed: Optional[int] = None) -> Self
       :classmethod:
 
       Construct a QiskitPulseBackend instance from an existing backend instance.

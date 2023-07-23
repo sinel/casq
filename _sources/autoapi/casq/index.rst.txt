@@ -44,7 +44,7 @@ Classes
 
 
 
-.. py:class:: PulseOptimizer(pulse_type: PulseType, pulse_arguments: dict[str, Any], backend: casq.backends.pulse_backend.PulseBackend, method: casq.backends.pulse_backend.PulseBackend.ODESolverMethod, target_measurement: Union[dict[str, float], qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector], fidelity_type: Optional[FidelityType] = None, target_qubit: Optional[int] = None, use_jax: bool = False, use_jit: bool = False)
+.. py:class:: PulseOptimizer(pulse_type: PulseOptimizer, pulse_arguments: dict[str, Any], backend: casq.backends.pulse_backend.PulseBackend, method: casq.backends.pulse_backend.PulseBackend.ODESolverMethod, target_measurement: Union[dict[str, float], qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector], fidelity_type: Optional[FidelityType] = None, target_qubit: Optional[int] = None, use_jax: bool = False, use_jit: bool = False)
 
 
    PulseOptimizer class.
@@ -214,12 +214,12 @@ Classes
          
 
       .. py:attribute:: gate
-         :type: casq.gates.pulse_gate.PulseGate
+         :type: casq.gates.PulseGate
 
          
 
       .. py:attribute:: circuit
-         :type: casq.gates.pulse_circuit.PulseCircuit
+         :type: casq.gates.PulseCircuit
 
          
 
@@ -274,7 +274,7 @@ Classes
           Objective function.
 
 
-   .. py:method:: _build_pulse_function() -> Callable[[numpy.typing.NDArray], casq.gates.pulse_gate.PulseGate]
+   .. py:method:: _build_pulse_function() -> Callable[[numpy.typing.NDArray], casq.gates.PulseGate]
 
       PulseOptimizer._build_pulse_function method.
 

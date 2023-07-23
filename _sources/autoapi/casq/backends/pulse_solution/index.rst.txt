@@ -41,7 +41,7 @@ Classes
           Pulse solution.
 
 
-   .. py:method:: plot_population(filename: Optional[str] = None, hidden: bool = False) -> matplotlib.figure.Figure
+   .. py:method:: plot_population(filename: Optional[str] = None, hidden: bool = False) -> None
 
       PulseSolution.plot_population method.
 
@@ -51,11 +51,8 @@ Classes
           filename: If filename is provided as path str, then figure is saved as png.
           hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
-      Returns:
-          :py:class:`matplotlib.figure.Figure`
 
-
-   .. py:method:: plot_iq(time_index: Optional[int] = None, filename: Optional[str] = None, hidden: bool = False) -> matplotlib.figure.Figure
+   .. py:method:: plot_iq(time_index: Optional[int] = None, filename: Optional[str] = None, hidden: bool = False) -> None
 
       PulseSolution.plot_iq method.
 
@@ -66,11 +63,8 @@ Classes
           filename: If filename is provided as path str, then figure is saved as png.
           hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
-      Returns:
-          :py:class:`matplotlib.figure.Figure`
 
-
-   .. py:method:: plot_iq_trajectory(filename: Optional[str] = None, hidden: bool = False) -> matplotlib.figure.Figure
+   .. py:method:: plot_iq_trajectory(filename: Optional[str] = None, hidden: bool = False) -> None
 
       PulseSolution.plot_iq_trajectory method.
 
@@ -80,11 +74,8 @@ Classes
           filename: If filename is provided as path str, then figure is saved as png.
           hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
-      Returns:
-          :py:class:`matplotlib.figure.Figure`
 
-
-   .. py:method:: plot_trajectory(qubit: int = 0, filename: Optional[str] = None, hidden: bool = False) -> matplotlib.figure.Figure
+   .. py:method:: plot_trajectory(qubit: int = 0, filename: Optional[str] = None, hidden: bool = False) -> None
 
       PulseSolution.plot_trajectory method.
 
@@ -95,11 +86,8 @@ Classes
           filename: If filename is provided as path str, then figure is saved as png.
           hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
-      Returns:
-          :py:class:`matplotlib.figure.Figure`
 
-
-   .. py:method:: plot_bloch_trajectory(qubit: int = 0, filename: Optional[str] = None, hidden: bool = False) -> matplotlib.figure.Figure
+   .. py:method:: plot_bloch_trajectory(qubit: int = 0, filename: Optional[str] = None, hidden: bool = False) -> None
 
       PulseSolution.plot_bloch_trajectory method.
 
@@ -109,9 +97,6 @@ Classes
           qubit: Qubit to plot trajectory of.
           filename: If filename is provided as path str, then figure is saved as png.
           hidden: If False, then plot is not displayed. Useful if method is used for saving only.
-
-      Returns:
-          :py:class:`matplotlib.figure.Figure`
 
 
    .. py:method:: _xyz(qubit: int = 0) -> tuple[list[float], list[float], list[float]]

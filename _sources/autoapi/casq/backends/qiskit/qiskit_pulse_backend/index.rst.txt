@@ -22,14 +22,14 @@ Classes
 
 
 
-.. py:class:: QiskitPulseBackend(model: casq.models.PulseBackendModel, seed: Optional[int] = None)
+.. py:class:: QiskitPulseBackend(model: casq.models.pulse_backend_model.PulseBackendModel, seed: Optional[int] = None)
 
 
    Bases: :py:obj:`casq.backends.pulse_backend.PulseBackend`
 
    QiskitPulseBackend class.
 
-   .. py:method:: from_backend(backend: Union[qiskit.providers.BackendV1, qiskit.providers.BackendV2], qubits: Optional[list[int]] = None, rotating_frame: Optional[Union[qiskit_dynamics.array.Array, qiskit_dynamics.RotatingFrame]] = None, in_frame_basis: bool = False, evaluation_mode: Optional[casq.models.HamiltonianModel.EvaluationMode] = None, rwa_cutoff_freq: Optional[float] = None, rwa_carrier_freqs: Optional[Union[numpy.typing.NDArray, tuple[numpy.typing.NDArray, numpy.typing.NDArray]]] = None, seed: Optional[int] = None) -> Self
+   .. py:method:: from_backend(backend: Union[qiskit.providers.BackendV1, qiskit.providers.BackendV2], qubits: Optional[list[int]] = None, rotating_frame: Optional[Union[qiskit_dynamics.array.Array, qiskit_dynamics.RotatingFrame]] = None, in_frame_basis: bool = False, evaluation_mode: Optional[casq.models.hamiltonian_model.HamiltonianModel.EvaluationMode] = None, rwa_cutoff_freq: Optional[float] = None, rwa_carrier_freqs: Optional[Union[numpy.typing.NDArray, tuple[numpy.typing.NDArray, numpy.typing.NDArray]]] = None, seed: Optional[int] = None) -> Self
       :classmethod:
 
       Construct a QiskitPulseBackend instance from an existing backend instance.

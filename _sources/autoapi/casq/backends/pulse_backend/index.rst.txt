@@ -22,7 +22,7 @@ Classes
 
 
 
-.. py:class:: PulseBackend(native_backend_type: PulseBackend, model: casq.models.PulseBackendModel, seed: Optional[int] = None)
+.. py:class:: PulseBackend(native_backend_type: PulseBackend, model: casq.models.pulse_backend_model.PulseBackendModel, seed: Optional[int] = None)
 
 
    PulseBackend class.

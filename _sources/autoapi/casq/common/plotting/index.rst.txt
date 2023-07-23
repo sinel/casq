@@ -482,7 +482,7 @@ Functions
        line_style: Line style.
 
 
-.. py:function:: plot(configs: Sequence[Union[LineConfig, LineCollectionConfig]], figure: Optional[matplotlib.figure.Figure] = None, hlines: Optional[list[tuple[float, Optional[str], LineStyle, Optional[matplotlib.axes.Axes]]]] = None, vlines: Optional[list[tuple[float, Optional[str], LineStyle, Optional[matplotlib.axes.Axes]]]] = None, title: Optional[str] = None, legend_style: Optional[LegendStyle] = None, show_grid: bool = False, filename: Optional[str] = None, hidden: bool = False) -> matplotlib.figure.Figure
+.. py:function:: plot(configs: Sequence[Union[LineConfig, LineCollectionConfig]], figure: Optional[matplotlib.figure.Figure] = None, hlines: Optional[list[tuple[float, Optional[str], LineStyle, Optional[matplotlib.axes.Axes]]]] = None, vlines: Optional[list[tuple[float, Optional[str], LineStyle, Optional[matplotlib.axes.Axes]]]] = None, title: Optional[str] = None, legend_style: Optional[LegendStyle] = None, show_grid: bool = False, filename: Optional[str] = None, hidden: bool = False) -> None
 
    Create and plot Matplotlib figure.
 
@@ -501,7 +501,7 @@ Functions
        Matplotlib Figure.
 
 
-.. py:function:: plot_bloch(x: Union[list[float], numpy.typing.NDArray], y: Union[list[float], numpy.typing.NDArray], z: Union[list[float], numpy.typing.NDArray], filename: Optional[str] = None, hidden: bool = False) -> matplotlib.figure.Figure
+.. py:function:: plot_bloch(x: Union[list[float], numpy.typing.NDArray], y: Union[list[float], numpy.typing.NDArray], z: Union[list[float], numpy.typing.NDArray], filename: Optional[str] = None, hidden: bool = False) -> None
 
    Create and plot Matplotlib figure.
 
@@ -516,7 +516,7 @@ Functions
        Matplotlib Figure.
 
 
-.. py:function:: plot_signal(schedule: Union[qiskit.pulse.Schedule, qiskit.pulse.ScheduleBlock], dt: float, channel: str, carrier_frequency: float, duration: float, number_of_samples: int = 10000, filename: Optional[str] = None, hidden: bool = False) -> matplotlib.figure.Figure
+.. py:function:: plot_signal(schedule: Union[qiskit.pulse.Schedule, qiskit.pulse.ScheduleBlock], dt: float, channel: str, carrier_frequency: float, duration: float, number_of_samples: int = 10000, filename: Optional[str] = None, hidden: bool = False) -> None
 
    Create and plot Matplotlib figure.
 
