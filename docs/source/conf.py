@@ -31,7 +31,7 @@ release = "0.1.0"
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ["autoapi.extension", "sphinx_favicon"]
+extensions = ["autoapi.extension", "jupyter_sphinx", "sphinx_favicon"]
 autoapi_dirs = ["../../src"]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -64,11 +64,13 @@ html_theme_options = {
         "image_dark": "_static/logo_title_dark_padding.png",
     },
     "primary_sidebar_end": ["indices.html"],
+    "navbar_align": "content",
+    "header_links_before_dropdown": 6,
     "footer_start": ["copyright"],
     "footer_end": [],
 }
 html_show_sourcelink = False
-html_title = "casq v0.1.0 documentation"
+html_title = "Casq v0.1.0 documentation"
 
 favicons = ["favicon.png"]
 

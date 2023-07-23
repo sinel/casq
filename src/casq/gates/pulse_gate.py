@@ -160,7 +160,7 @@ class PulseGate(Gate):
             dt,
             f"d{qubit}",
             carrier_frequency,
-            self.duration,
+            self.duration * dt,
             filename=filename,
             hidden=hidden,
         )
