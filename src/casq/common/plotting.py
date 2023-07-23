@@ -26,6 +26,7 @@ from __future__ import annotations
 from enum import Enum
 from typing import NamedTuple, Optional, Sequence, Union
 
+from loguru import logger
 from matplotlib.axes import Axes
 from matplotlib.collections import LineCollection
 from matplotlib.figure import Figure
@@ -299,7 +300,7 @@ def plot(
     show_grid: bool = False,
     filename: Optional[str] = None,
     hidden: bool = False,
-) -> Figure:
+) -> None:
     """Create and plot Matplotlib figure.
 
     Args:
@@ -396,7 +397,6 @@ def plot(
         plt.savefig(filename)  # pragma: no cover
     if not hidden:
         plt.show()  # pragma: no cover
-    return figure
 
 
 def plot_bloch(
@@ -405,7 +405,7 @@ def plot_bloch(
     z: Union[list[float], npt.NDArray],
     filename: Optional[str] = None,
     hidden: bool = False,
-) -> Figure:
+) -> None:
     """Create and plot Matplotlib figure.
 
     Args:
@@ -430,7 +430,6 @@ def plot_bloch(
         b.save(filename)  # pragma: no cover
     if not hidden:
         b.show()  # pragma: no cover
-    return b.fig
 
 
 def plot_signal(
@@ -442,7 +441,7 @@ def plot_signal(
     number_of_samples: int = 10000,
     filename: Optional[str] = None,
     hidden: bool = False,
-) -> Figure:
+) -> None:
     """Create and plot Matplotlib figure.
 
     Args:
@@ -464,8 +463,11 @@ def plot_signal(
         sched = schedule
     converter = InstructionToSignals(dt, carriers={channel: carrier_frequency})
     signal = converter.get_signals(sched)[0]
+    logger.error(signal)
     signal_times = np.linspace(0, duration, number_of_samples)
+    logger.error(signal_times)
     signal_samples = signal(signal_times)
+    logger.error(signal_samples)
     signal_envelope_abs = np.abs(signal.envelope(signal_times))
     signal_envelope_phase = np.angle(signal.envelope(signal_times))
     signal_envelope_real = np.real(signal.envelope(signal_times))
@@ -538,4 +540,3 @@ def plot_signal(
         filename=filename,
         hidden=hidden,
     )
-    return figure

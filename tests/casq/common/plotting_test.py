@@ -23,7 +23,6 @@
 """Base object tests."""
 from __future__ import annotations
 
-from matplotlib.figure import Figure
 from matplotlib.legend import Legend
 import matplotlib.pyplot as plt
 import numpy as np
@@ -141,7 +140,7 @@ def test_plot() -> None:
     )
     line_style = LineStyle(type=LineType.DASHED, color="blue", size=5)
     legend_style = LegendStyle(location=LegendLocation.CENTER, anchor=(0, 0))
-    figure = plot(
+    plot(
         [config],
         hlines=[(1, "hline_label", line_style, None)],
         vlines=[(1, "vline_label", line_style, None)],
@@ -150,11 +149,11 @@ def test_plot() -> None:
         title="figure_title",
         hidden=True,
     )
+    figure = plt.gcf()
     ax = figure.axes[0]
     legends = [child for child in ax.get_children() if isinstance(child, Legend)]
     hline_label = legends[0].get_texts()[0].get_text()
     vline_label = legends[0].get_texts()[1].get_text()
-    assert isinstance(figure, Figure)
     assert figure._suptitle.get_text() == "figure_title"
     assert hline_label == "hline_label"
     assert vline_label == "vline_label"
@@ -171,18 +170,14 @@ def test_plot() -> None:
 
 def test_plot_bloch() -> None:
     """Unit test for plot_bloch."""
-    vec = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
-    figure = plot_bloch([1, 0, 0], [0, 1, 0], [0, 0, 1], hidden=True)
-    assert isinstance(figure, Figure)
+    plot_bloch([1, 0, 0], [0, 1, 0], [0, 0, 1], hidden=True)
 
 
 def test_plot_schedule_signal(pulse_schedule: Schedule) -> None:
     """Unit test for plot_signal."""
-    figure = plot_signal(pulse_schedule, 1, "", 1, 1, hidden=True)
-    assert isinstance(figure, Figure)
+    plot_signal(pulse_schedule, 1, "", 1, 1, hidden=True)
 
 
 def test_plot_schedule_block_signal(pulse_schedule_block: ScheduleBlock) -> None:
     """Unit test for plot_signal."""
-    figure = plot_signal(pulse_schedule_block, 1, "", 1, 1, hidden=True)
-    assert isinstance(figure, Figure)
+    plot_signal(pulse_schedule_block, 1, "", 1, 1, hidden=True)

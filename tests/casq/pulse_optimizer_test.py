@@ -28,11 +28,11 @@ import numpy as np
 import pytest
 from qiskit.providers import BackendV1
 
-from casq.pulse_optimizer import PulseOptimizer
 from casq.backends.pulse_backend import PulseBackend
 from casq.backends.qiskit.qiskit_pulse_backend import QiskitPulseBackend
 from casq.common.decorators import timer
 from casq.common.exceptions import CasqError
+from casq.pulse_optimizer import PulseOptimizer
 
 
 def test_init_gaussian(backend: BackendV1) -> None:

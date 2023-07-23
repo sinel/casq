@@ -116,5 +116,4 @@ def test_discretized_schedule_with_missing_arguments() -> None:
 def test_draw_signal() -> None:
     """Unit test for draw_schedule method."""
     dummy = DummyPulseGate(1, 1)
-    figure = dummy.draw_signal(qubit=0, dt=1, carrier_frequency=1, hidden=True)
-    assert isinstance(figure, Figure)
+    dummy.draw_signal(qubit=0, dt=1, carrier_frequency=1, hidden=True)

@@ -67,6 +67,7 @@ src_paths = ["src", "tests"]
 
 [tool.mypy]
 mypy_path = "src"
+exclude = ["docs", "logo"]
 check_untyped_defs = true
 disallow_incomplete_defs = true
 disallow_untyped_defs = true

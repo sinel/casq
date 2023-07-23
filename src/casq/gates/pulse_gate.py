@@ -26,7 +26,6 @@ from __future__ import annotations
 from abc import abstractmethod
 from typing import Optional, Union
 
-from matplotlib.figure import Figure
 from qiskit.circuit import Gate
 from qiskit.providers import BackendV1
 from qiskit.pulse import DriveChannel, Schedule, align_sequential, build, measure, play
@@ -141,7 +140,7 @@ class PulseGate(Gate):
         carrier_frequency: float,
         filename: Optional[str] = None,
         hidden: bool = False,
-    ) -> Figure:
+    ) -> None:
         """PulseGate.draw_signal method.
 
         Draws pulse gate signal.
@@ -156,7 +155,7 @@ class PulseGate(Gate):
         Returns:
             :py:class:`qiskit.QuantumCircuit`
         """
-        figure = plot_signal(
+        plot_signal(
             self.schedule(qubit),
             dt,
             f"d{qubit}",
@@ -165,4 +164,3 @@ class PulseGate(Gate):
             filename=filename,
             hidden=hidden,
         )
-        return figure

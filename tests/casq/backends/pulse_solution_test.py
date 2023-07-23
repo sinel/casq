@@ -81,33 +81,28 @@ def test_pulse_solution_init() -> None:
 def test_plot_population() -> None:
     """Unit test for PulseSolution.plot_population."""
     solution = mock_solution()
-    figure = solution.plot_population(hidden=True)
-    assert isinstance(figure, Figure)
+    solution.plot_population(hidden=True)
 
 
 def test_plot_iq() -> None:
     """Unit test for PulseSolution.plot_iq."""
     solution = mock_solution()
-    figure = solution.plot_iq(hidden=True)
-    assert isinstance(figure, Figure)
+    solution.plot_iq(hidden=True)
 
 
 def test_plot_iq_trajectory() -> None:
     """Unit test for PulseSolution.plot_iq_trajectory."""
     solution = mock_solution()
-    figure = solution.plot_iq_trajectory(hidden=True)
-    assert isinstance(figure, Figure)
+    solution.plot_iq_trajectory(hidden=True)
 
 
 def test_plot_trajectory() -> None:
     """Unit test for PulseSolution.plot_trajectory."""
     solution = mock_solution()
-    figure = solution.plot_trajectory(hidden=True)
-    assert isinstance(figure, Figure)
+    solution.plot_trajectory(hidden=True)
 
 
 def test_plot_bloch_trajectory() -> None:
     """Unit test for PulseSolution.plot_bloch_trajectory."""
     solution = mock_solution()
-    figure = solution.plot_bloch_trajectory(hidden=True)
-    assert isinstance(figure, Figure)
+    solution.plot_bloch_trajectory(hidden=True)

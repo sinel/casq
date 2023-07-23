@@ -146,7 +146,7 @@ class PulseSolution:
 
     def plot_population(
         self, filename: Optional[str] = None, hidden: bool = False
-    ) -> Figure:
+    ) -> None:
         """PulseSolution.plot_population method.
 
         Plots populations from result.
@@ -154,9 +154,6 @@ class PulseSolution:
         Args:
             filename: If filename is provided as path str, then figure is saved as png.
             hidden: If False, then plot is not displayed. Useful if method is used for saving only.
-
-        Returns:
-            :py:class:`matplotlib.figure.Figure`
         """
         pops: dict[str, list[float]] = {}
         for key in self.populations[-1].keys():
@@ -175,7 +172,7 @@ class PulseSolution:
                 ytitle="Population",
             )
             configs.append(config)
-        return plot(
+        plot(
             configs=configs,
             legend_style=LegendStyle(),
             filename=filename,
@@ -187,7 +184,7 @@ class PulseSolution:
         time_index: Optional[int] = None,
         filename: Optional[str] = None,
         hidden: bool = False,
-    ) -> Figure:
+    ) -> None:
         """PulseSolution.plot_iq method.
 
         Plots IQ points from result.
@@ -196,9 +193,6 @@ class PulseSolution:
             time_index: Time at which to plot IQ points.
             filename: If filename is provided as path str, then figure is saved as png.
             hidden: If False, then plot is not displayed. Useful if method is used for saving only.
-
-        Returns:
-            :py:class:`matplotlib.figure.Figure`
         """
         i = time_index if time_index else -1
         x = []
@@ -209,11 +203,11 @@ class PulseSolution:
         config = LineConfig(
             data=LineData(x, y), marker_style=MarkerStyle(), xtitle="I", ytitle="Q"
         )
-        return plot(configs=[config], filename=filename, hidden=hidden)
+        plot(configs=[config], filename=filename, hidden=hidden)
 
     def plot_iq_trajectory(
         self, filename: Optional[str] = None, hidden: bool = False
-    ) -> Figure:
+    ) -> None:
         """PulseSolution.plot_iq_trajectory method.
 
         Plots trajectory of average IQ points from result.
@@ -221,9 +215,6 @@ class PulseSolution:
         Args:
             filename: If filename is provided as path str, then figure is saved as png.
             hidden: If False, then plot is not displayed. Useful if method is used for saving only.
-
-        Returns:
-            :py:class:`matplotlib.figure.Figure`
         """
         x = []
         y = []
@@ -233,14 +224,14 @@ class PulseSolution:
         config = LineConfig(
             data=LineData(x, y), marker_style=MarkerStyle(), xtitle="I", ytitle="Q"
         )
-        return plot(configs=[config], filename=filename, hidden=hidden)
+        plot(configs=[config], filename=filename, hidden=hidden)
 
     def plot_trajectory(
         self,
         qubit: int = 0,
         filename: Optional[str] = None,
         hidden: bool = False,
-    ) -> Figure:
+    ) -> None:
         """PulseSolution.plot_trajectory method.
 
         Plots statevector trajectory from result.
@@ -249,9 +240,6 @@ class PulseSolution:
             qubit: Qubit to plot trajectory of.
             filename: If filename is provided as path str, then figure is saved as png.
             hidden: If False, then plot is not displayed. Useful if method is used for saving only.
-
-        Returns:
-            :py:class:`matplotlib.figure.Figure`
         """
         x, y, z = self._xyz(qubit)
         x_config = LineConfig(
@@ -272,7 +260,7 @@ class PulseSolution:
             label="$\\langle Z \\rangle$",
             xtitle="$t$",
         )
-        return plot(
+        plot(
             configs=[x_config, y_config, z_config],
             legend_style=LegendStyle(),
             filename=filename,
@@ -284,7 +272,7 @@ class PulseSolution:
         qubit: int = 0,
         filename: Optional[str] = None,
         hidden: bool = False,
-    ) -> Figure:
+    ) -> None:
         """PulseSolution.plot_bloch_trajectory method.
 
         Plots statevector trajectory on Bloch sphere from result.
@@ -293,12 +281,9 @@ class PulseSolution:
             qubit: Qubit to plot trajectory of.
             filename: If filename is provided as path str, then figure is saved as png.
             hidden: If False, then plot is not displayed. Useful if method is used for saving only.
-
-        Returns:
-            :py:class:`matplotlib.figure.Figure`
         """
         x, y, z = self._xyz(qubit)
-        return plot_bloch(x, y, z, filename=filename, hidden=hidden)
+        plot_bloch(x, y, z, filename=filename, hidden=hidden)
 
     def _xyz(self, qubit: int = 0) -> tuple[list[float], list[float], list[float]]:
         """PulseSolution._xyz method.

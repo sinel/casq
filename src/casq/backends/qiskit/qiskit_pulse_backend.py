@@ -39,8 +39,8 @@ from casq.backends.qiskit.dynamics_backend_patch import DynamicsBackendPatch
 from casq.backends.qiskit.helpers import get_experiment_result
 from casq.common.decorators import timer, trace
 from casq.gates.pulse_circuit import PulseCircuit
-from casq.models.pulse_backend_model import PulseBackendModel
 from casq.models.hamiltonian_model import HamiltonianModel
+from casq.models.pulse_backend_model import PulseBackendModel
 
 
 class QiskitPulseBackend(PulseBackend):
