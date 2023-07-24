@@ -22,13 +22,15 @@
 #  ********************************************************************************
 """Collecting casq.models package imports in one place for convenient access."""
 from casq.models.hamiltonian_model import HamiltonianModel
+from casq.models.control_model import ControlModel
 from casq.models.noise_model import NoiseModel
-from casq.models.pulse_backend_model import PulseBackendModel
 from casq.models.transmon_model import TransmonModel
+from casq.models.transmon_noise_model import TransmonNoiseModel
 
 __all__ = [
     "HamiltonianModel",
+    "ControlModel",
     "NoiseModel",
-    "PulseBackendModel",
     "TransmonModel",
+    "TransmonNoiseModel",
 ]

@@ -20,39 +20,31 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  ********************************************************************************
-"""Pulse backend model."""
+"""Control model."""
 from __future__ import annotations
 
 from typing import Optional
 
 from casq.common.decorators import trace
-from casq.models.hamiltonian_model import HamiltonianModel
-from casq.models.noise_model import NoiseModel
 
 
-class PulseBackendModel:
-    """PulseBackendModel class."""
+class ControlModel:
+    """ControlModel class."""
 
     @trace()
     def __init__(
         self,
-        hamiltonian: HamiltonianModel,
-        noise: Optional[NoiseModel] = None,
-        dt: Optional[float] = None,
-        channel_carrier_freqs: Optional[dict] = None,
+        dt: float,
+        channel_carrier_freqs: dict,
         control_channel_map: Optional[dict] = None,
     ) -> None:
-        """Instantiate :class:`~casq.PulseSolution`.
+        """Initialize ControlModel.
 
         Args:
-            hamiltonian: Hamiltonian model.
-            noise: Noise model.
             dt: Sampling interval.
             channel_carrier_freqs: Dictionary mapping channel names to frequencies.
             control_channel_map: A dictionary mapping control channel labels to indices.
         """
-        self.hamiltonian = hamiltonian
-        self.noise = noise
         self.dt = dt
         self.channel_carrier_freqs = channel_carrier_freqs
         self.control_channel_map = control_channel_map

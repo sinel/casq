@@ -31,19 +31,13 @@ from qiskit.quantum_info import DensityMatrix, Statevector
 
 from casq.backends.pulse_solution import PulseSolution
 from casq.gates.pulse_circuit import PulseCircuit
-from casq.models.pulse_backend_model import PulseBackendModel
+from casq.models.hamiltonian_model import HamiltonianModel
+from casq.models.control_model import ControlModel
+from casq.models.noise_model import NoiseModel
 
 
 class PulseBackend:
     """PulseBackend class."""
-
-    class NativeBackendType(Enum):
-        """Native backend type."""
-
-        C3 = 0
-        QCTRL = 1
-        QISKIT = 2
-        QUTIP = 3
 
     class ODESolverMethod(str, Enum):
         """Solver methods."""
@@ -60,19 +54,22 @@ class PulseBackend:
 
     def __init__(
         self,
-        native_backend_type: PulseBackend.NativeBackendType,
-        model: PulseBackendModel,
+        hamiltonian: HamiltonianModel,
+        control: ControlModel,
+        noise: Optional[NoiseModel] = None,
         seed: Optional[int] = None,
     ):
         """Instantiate :class:`~casq.backends.PulseBackend`.
 
         Args:
-            native_backend_type: Native backend type.
-            model: Pulse backend model.
+            hamiltonian: Hamiltonian model.
+            control: Control model.
+            noise: Noise model.
             seed: Seed to use in random sampling. Defaults to None.
         """
-        self._native_backend_type = native_backend_type
-        self.model = model
+        self.hamiltonian = hamiltonian
+        self.control = control
+        self.noise = noise
         self._seed = seed
         self._native_backend = self._get_native_backend()
 
@@ -80,7 +77,7 @@ class PulseBackend:
     def run(
         self,
         circuit: PulseCircuit,
-        method: PulseBackend.ODESolverMethod,
+        method: ODESolverMethod,
         initial_state: Optional[Union[DensityMatrix, Statevector]] = None,
         shots: int = 1024,
         steps: Optional[int] = None,

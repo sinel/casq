@@ -23,8 +23,10 @@
 """Transmon noise model."""
 from __future__ import annotations
 
+from dataclasses import dataclass
+
 import numpy as np
-from qiskit.quantum_info import Operator
+from qiskit.quantum_info import Operator, Pauli
 
 from casq.common.decorators import trace
 from casq.models.noise_model import NoiseModel
@@ -33,23 +35,32 @@ from casq.models.noise_model import NoiseModel
 class TransmonNoiseModel(NoiseModel):
     """TransmonNoiseModel class."""
 
+    @dataclass
+    class TransmonNoiseProperties:
+        """Transmon qubit noise properties."""
+
+        t1: float
+        t2: float
+
     @trace()
-    def __init__(self, t1: float, t2: float) -> None:
+    def __init__(self, qubit_map: dict[int, TransmonNoiseProperties]) -> None:
         """Initialize TransmonNoiseModel.
 
         Args:
-            t1: T1 relaxation time.
-            t2: T2 relaxation time.
+            qubit_map: Dictionary mapping qubit indices to noise properties.
         """
-        # TO-DO: Temporary placeholder implementation as copy-paste from qiskit-dynamics tutorial.
-        self.t1 = t1
-        self.t2 = t2
-        sigma_x = Operator.from_label("X")
-        sigma_y = Operator.from_label("Y")
-        sigma_z = Operator.from_label("Z")
-        sigma_p = 0.5 * (sigma_x + 1j * sigma_y)
-        super().__init__(
-            static_dissipators=np.asarray(
-                [np.sqrt(1.0 / t1) * sigma_p, np.sqrt(1.0 / t2) * sigma_z]
-            )
-        )
+        # TO-DO: Temporary placeholder implementation as extended copy-paste from qiskit-dynamics tutorial.
+        self.qubit_map = qubit_map
+        qubits = qubit_map.keys()
+        num_qubits = len(qubits)
+        zeros = Operator(np.zeros((2 ** num_qubits, 2 ** num_qubits)))
+        static_dissipators = []
+        for q in qubits:
+            sigma_x = zeros + Pauli("X")(q)
+            sigma_y = zeros + Pauli("Y")(q)
+            sigma_z = zeros + Pauli("Z")(q)
+            sigma_p = 0.5 * (sigma_x + 1j * sigma_y)
+            op1 = np.sqrt(1.0 / qubit_map[q].t1) * sigma_p
+            op2 = np.sqrt(1.0 / qubit_map[q].t2) * sigma_z
+            static_dissipators.append(np.asarray([op1, op2]))
+        super().__init__(static_dissipators=np.asarray(static_dissipators))

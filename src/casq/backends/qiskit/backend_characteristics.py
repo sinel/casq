@@ -27,7 +27,7 @@ from typing import Any, NamedTuple, Union
 
 from loguru import logger
 import numpy as np
-from qiskit.providers import Backend, BackendV1, BackendV2
+from qiskit.providers import Backend
 from qiskit.providers.models import (
     BackendProperties,
     PulseBackendConfiguration,
@@ -35,7 +35,6 @@ from qiskit.providers.models import (
 )
 from qiskit.pulse.channels import Channel, ControlChannel, DriveChannel, MeasureChannel
 from qiskit_ibm_provider import IBMProvider
-from qiskit_ibm_runtime import IBMBackend
 
 from casq.common.decorators import trace
 from casq.common.exceptions import CasqError
