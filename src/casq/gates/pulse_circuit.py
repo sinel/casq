@@ -25,15 +25,17 @@ from __future__ import annotations
 
 from typing import Optional, Union
 
-from qiskit import QuantumCircuit
+from qiskit import schedule as build_schedule, QuantumCircuit
 from qiskit.circuit import Bit, Register
 from qiskit.circuit.parameterexpression import ParameterValueType
 from qiskit.circuit.quantumcircuit import InstructionSet
-from qiskit.providers import BackendV1
+from qiskit.providers import Backend
+from qiskit.pulse import Schedule
 
 from casq.common.decorators import trace
 from casq.common.helpers import dbid, ufid
 from casq.gates.pulse_gate import PulseGate
+from casq.backends.qiskit.backend_characteristics import BackendCharacteristics
 
 
 class PulseCircuit(QuantumCircuit):
@@ -47,21 +49,20 @@ class PulseCircuit(QuantumCircuit):
     """
 
     @staticmethod
-    def from_pulse(gate: PulseGate, backend: BackendV1, qubit: int = 0) -> PulseCircuit:
+    def from_pulse(gate: PulseGate, qubit: int = 0) -> PulseCircuit:
         """PulseCircuit.from_pulse method.
 
         Builds simple circuit for solitary usage or testing of pulse gate.
 
         Args:
             gate: Pulse gate.
-            backend: Qiskit backend.
             qubit: Qubit to attach gate to.
 
         Returns:
-            :py:class:`matplotlib.figure.Figure`
+            PulseCircuit
         """
         circuit: PulseCircuit = PulseCircuit(1, 1)
-        circuit.pulse(gate, backend, qubit)
+        circuit.pulse(gate, qubit)
         circuit.measure(qubit, qubit)
         return circuit
 
@@ -81,7 +82,7 @@ class PulseCircuit(QuantumCircuit):
         super().__init__(*regs, name=name, global_phase=global_phase, metadata=metadata)
 
     def pulse(
-        self, gate: PulseGate, backend: BackendV1, qubit: int = 0
+        self, gate: PulseGate, qubit: int = 0
     ) -> InstructionSet:  # pragma: no cover
         """PulseGate.gate method.
 
@@ -90,11 +91,30 @@ class PulseCircuit(QuantumCircuit):
         Args:
             gate: Pulse gate.
             qubit: Qubit to attach pulse gate to.
-            backend: Qiskit backend.
 
         Returns:
             :py:class:`qiskit.pulse.Instruction`
         """
         instructions = self.append(gate, [qubit])
-        self.add_calibration(gate.name, [qubit], gate.schedule(qubit, backend), [])
+        self.add_calibration(gate.name, [qubit], gate.schedule(qubit), [])
         return instructions
+
+    def to_schedule(self, backend: Backend) -> Schedule:
+        """PulseGate.to_schedule method.
+
+        Convert pulse circuit to schedule.
+
+        Args:
+            backend: Qiskit backend.
+
+        Returns:
+            Schedule
+        """
+        backend_characteristics = BackendCharacteristics(backend)
+        # See: https://github.com/Qiskit/qiskit-terra/issues/9488
+        # Need to specify extra info to avoid this error
+        return build_schedule(
+            self, backend, dt=backend_characteristics.dt,
+            inst_map=backend_characteristics.defaults.instruction_schedule_map,
+            meas_map=backend_characteristics.config.meas_map
+        )

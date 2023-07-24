@@ -84,6 +84,7 @@ class PulseBackend:
         initial_state: Optional[Union[DensityMatrix, Statevector]] = None,
         shots: int = 1024,
         steps: Optional[int] = None,
+        run_options: Optional[dict[str, Any]] = None
     ) -> PulseSolution:
         """PulseBackend.run.
 
@@ -97,6 +98,7 @@ class PulseBackend:
             shots: Number of shots per experiment. Defaults to 1024.
             steps: Number of steps at which to solve the system.
                 Used to automatically calculate an evenly-spaced t_eval range.
+            run_options: Options specific to native backend's run method.
         """
 
     @abstractmethod

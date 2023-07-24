@@ -23,7 +23,7 @@
 """Collecting casq.common package imports in one place for convenient access."""
 from casq.common.decorators import timer, trace
 from casq.common.exceptions import CasqError
-from casq.common.helpers import dbid, discretize, initialize_jax, ufid
+from casq.common.helpers import dbid, discretize, initialize_jax, ufid, SignalData, TimeUnit
 from casq.common.plotting import (
     LegendLocation,
     LegendStyle,
@@ -51,6 +51,8 @@ __all__ = [
     "discretize",
     "initialize_jax",
     "ufid",
+    "SignalData",
+    "TimeUnit",
     "LegendLocation",
     "LegendStyle",
     "LineCollectionConfig",

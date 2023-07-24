@@ -27,7 +27,7 @@ from typing import Any, NamedTuple, Union
 
 from loguru import logger
 import numpy as np
-from qiskit.providers import BackendV1
+from qiskit.providers import Backend, BackendV1, BackendV2
 from qiskit.providers.models import (
     BackendProperties,
     PulseBackendConfiguration,
@@ -35,6 +35,7 @@ from qiskit.providers.models import (
 )
 from qiskit.pulse.channels import Channel, ControlChannel, DriveChannel, MeasureChannel
 from qiskit_ibm_provider import IBMProvider
+from qiskit_ibm_runtime import IBMBackend
 
 from casq.common.decorators import trace
 from casq.common.exceptions import CasqError
@@ -74,7 +75,7 @@ class BackendCharacteristics:
         is_operational: bool
 
     @staticmethod
-    def get_backend(name: str) -> BackendV1:  # pragma: no cover
+    def get_backend(name: str) -> Backend:  # pragma: no cover
         """BackendCharacteristics._get_backend method.
 
         Returns:
@@ -84,7 +85,7 @@ class BackendCharacteristics:
         return provider.get_backend(name)
 
     @trace()
-    def __init__(self, backend: Union[str, BackendV1]):
+    def __init__(self, backend: Union[str, Backend]):
         """Initialize BackendCharacteristics."""
         if isinstance(backend, str):
             self.backend = BackendCharacteristics.get_backend(backend)
@@ -101,6 +102,8 @@ class BackendCharacteristics:
         self.control_channel_lo = self.config.u_channel_lo
         self.qubit_frequencies = self.defaults.qubit_freq_est
         self.measurement_frequencies = self.defaults.meas_freq_est
+        self.inst_map = self.defaults.instruction_schedule_map
+        self.meas_map = self.config.meas_map
 
     def get_qubit_properties(self, qubit: int) -> QubitProperties:
         """BackendCharacteristics.get_qubit_properties method.

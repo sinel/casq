@@ -23,7 +23,9 @@
 """Common helper functions used by library."""
 from __future__ import annotations
 
-from typing import Any
+from dataclasses import dataclass
+from enum import Enum
+from typing import Any, Optional
 from uuid import uuid4
 
 import jax
@@ -32,6 +34,15 @@ from qiskit_dynamics import Signal
 from qiskit_dynamics.array import Array
 from qiskit_dynamics.pulse import InstructionToSignals
 from wonderwords import RandomWord
+
+
+class TimeUnit(Enum):
+    SAMPLE = 0  # Sampling intervals
+    PICO_SEC = 1  # 10^-12
+    NANO_SEC = 2  # 10^-9
+    MICRO_SEC = 3  # 10^-6
+    MILLI_SEC = 4  # 10^-3
+    SEC = 5
 
 
 def dbid() -> str:
@@ -66,21 +77,39 @@ def initialize_jax() -> None:
     Array.set_default_backend("jax")
 
 
+@dataclass
+class SignalData:
+    name: str
+    dt: float
+    duration: float
+    signal: Signal
+    i_signal: Signal
+    q_signal: Signal
+    carrier: float
+
+
 def discretize(
-    schedule: Schedule, dt: float, channel_frequencies: dict[str, float]
-) -> list[Signal]:
+    schedule: Schedule, dt: float, channel_frequencies: dict[str, float], carrier_frequency: Optional[float] = None
+) -> list[SignalData]:
     """Discretizes pulse schedule into signals.
 
     Args:
         schedule: Pulse schedule.
         dt: Time interval.
         channel_frequencies: Channel frequencies.
+        carrier_frequency: Carrier frequency used for calculating IQ signal components.
+            If None, then corresponding channel frequencies are used.
 
     Returns:
-        List of :py:class:`qiskit_dynamics.signals.Signal`
+        List of SignalData.
     """
+    signals = []
     converter = InstructionToSignals(
         dt, carriers=channel_frequencies, channels=list(channel_frequencies.keys())
     )
-    signals: list[Signal] = converter.get_signals(schedule)
+    schedule_signals = converter.get_signals(schedule)
+    for signal in schedule_signals:
+        carrier = carrier_frequency if carrier_frequency else channel_frequencies[signal.name]
+        iq_signals = converter.get_awg_signals([signal], carrier)
+        signals.append(SignalData(signal.name, dt, signal.duration, signal, iq_signals[0], iq_signals[1], carrier))
     return signals

@@ -26,17 +26,15 @@ from __future__ import annotations
 from enum import Enum
 from typing import NamedTuple, Optional, Sequence, Union
 
-from loguru import logger
 from matplotlib.axes import Axes
 from matplotlib.collections import LineCollection
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 import numpy as np
 import numpy.typing as npt
-from qiskit.pulse import Schedule, ScheduleBlock
-from qiskit.pulse.transforms import block_to_schedule
-from qiskit_dynamics.pulse import InstructionToSignals
 import qutip
+
+from casq.common.helpers import SignalData, TimeUnit
 
 plt.style.use("seaborn-v0_8-notebook")
 
@@ -433,110 +431,112 @@ def plot_bloch(
 
 
 def plot_signal(
-    schedule: Union[Schedule, ScheduleBlock],
-    dt: float,
-    channel: str,
-    carrier_frequency: float,
-    duration: float,
-    number_of_samples: int = 10000,
+    signal_data: SignalData,
+    duration: Optional[int] = None,
+    start: int = 0,
+    number_of_samples: int = 1000,
+    time_unit: TimeUnit = TimeUnit.NANO_SEC,
     filename: Optional[str] = None,
     hidden: bool = False,
 ) -> None:
     """Create and plot Matplotlib figure.
 
     Args:
-        schedule: Qiskit pulse schedule.
-        dt: Sampling time interval.
-        channel: Qiskit pulse channel.
-        carrier_frequency: Carrier frequency used for signal.
-        duration: Total signal duration used for plotting.
+        signal_data: Signal data.
+        duration: Signal duration in number of dt intervals.
+        start: Start time in number of dt intervals.
         number_of_samples: Number of samples to use for plotting.
+        time_unit: Time unit used for scaling x-axis.
         filename: If filename is provided as path str, then figure is saved as png.
         hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
     Returns:
         Matplotlib Figure.
     """
-    if isinstance(schedule, ScheduleBlock):
-        sched = block_to_schedule(schedule)
+    duration = duration if duration else int(signal_data.duration)
+    signal_times = np.linspace(start*signal_data.dt, (start + duration)*signal_data.dt, number_of_samples)
+    signal_samples = signal_data.signal(signal_times)
+    if time_unit is TimeUnit.PICO_SEC:
+        plot_times = 1e12 * signal_times
+        xtitle = "Time (ps)"
+    elif time_unit is TimeUnit.NANO_SEC:
+        plot_times = 1e9 * signal_times
+        xtitle = "Time (ns)"
+    elif time_unit is TimeUnit.MICRO_SEC:
+        plot_times = 1e6 * signal_times
+        xtitle = "Time (us)"
+    elif time_unit is TimeUnit.MILLI_SEC:
+        plot_times = 1e3 * signal_times
+        xtitle = "Time (ms)"
+    elif time_unit is TimeUnit.SEC:
+        plot_times = signal_samples
+        xtitle = "Time (sec)"
     else:
-        sched = schedule
-    converter = InstructionToSignals(dt, carriers={channel: carrier_frequency})
-    signal = converter.get_signals(sched)[0]
-    logger.error(signal)
-    signal_times = np.linspace(0, duration, number_of_samples)
-    logger.error(signal_times)
-    signal_samples = signal(signal_times)
-    logger.error(signal_samples)
-    signal_envelope_abs = np.abs(signal.envelope(signal_times))
-    signal_envelope_phase = np.angle(signal.envelope(signal_times))
-    signal_envelope_real = np.real(signal.envelope(signal_times))
-    signal_envelope_img = np.imag(signal.envelope(signal_times))
-    amplitude_min = 1.1 * np.min(-signal_envelope_abs)
-    amplitude_max = 1.1 * np.max(signal_envelope_abs)
-    phase_min = 1.1 * np.min(-signal_envelope_phase)
-    phase_max = 1.1 * np.max(signal_envelope_phase)
-    figure, axs = plt.subplots(2, 2, sharex="all", sharey="all")
-    ax1 = plt.subplot2grid((2, 2), (0, 0), colspan=2)
-    ax2 = plt.subplot2grid((2, 2), (1, 0), colspan=2)
+        plot_times = range(len(signal_times))
+        xtitle = "Time (samples)"
+    start_time = plot_times[0]
+    end_time = plot_times[-1]
+    xlim = (start_time, end_time)
+    signal_samples_phase = np.angle(signal_data.signal(signal_times))
+    signal_envelope_abs = np.abs(signal_data.signal.envelope(signal_times))
+    i_signal_samples = signal_data.i_signal(signal_times)
+    q_signal_samples = signal_data.q_signal(signal_times)
+    figure, axs = plt.subplots(3, 2, sharex="all", sharey="all")
+    ax1 = plt.subplot2grid((3, 2), (0, 0), colspan=2)
+    ax2 = plt.subplot2grid((3, 2), (1, 0), colspan=2)
+    ax3 = plt.subplot2grid((3, 2), (2, 0), colspan=2)
     config1 = LineConfig(
-        data=LineData(signal_times, signal_samples),
+        data=LineData(plot_times, signal_samples),
         label="Signal",
-        xtitle="Time (ns)",
+        xtitle=xtitle,
         ytitle="Amplitude",
-        xlim=(0, duration),
-        ylim=(amplitude_min, amplitude_max),
-        line_style=LineStyle(size=0.1),
+        xlim=xlim,
+        line_style=LineStyle(color="r"),
         ax=ax1,
     )
     config2 = LineCollectionConfig(
         data=[
-            LineData(signal_times, signal_envelope_abs),
-            LineData(signal_times, -signal_envelope_abs),
+            LineData(plot_times, signal_envelope_abs),
+            LineData(plot_times, -signal_envelope_abs),
         ],
         label="Envelope",
-        xtitle="Time (ns)",
+        xtitle=xtitle,
         ytitle="Amplitude",
-        xlim=(0, duration),
-        ylim=(amplitude_min, amplitude_max),
-        line_style=LineStyle(color="black", size=1.5),
+        xlim=xlim,
+        line_style=LineStyle(size=1),
         ax=ax1,
     )
     config3 = LineConfig(
-        data=LineData(signal_times, signal_envelope_real),
-        label="Envelope (real)",
-        xtitle="Time (ns)",
-        ytitle="Amplitude",
-        xlim=(0, duration),
-        ylim=(amplitude_min, amplitude_max),
+        data=LineData(plot_times, signal_samples_phase),
+        label=None,
+        xtitle=xtitle,
+        ytitle="Phase (radians)",
+        xlim=xlim,
         line_style=LineStyle(size=1),
-        ax=ax1,
+        ax=ax2,
     )
     config4 = LineConfig(
-        data=LineData(signal_times, signal_envelope_img),
-        label="Envelope (imaginary)",
-        xtitle="Time (ns)",
+        data=LineData(plot_times, i_signal_samples),
+        label="I Component",
+        xtitle=xtitle,
         ytitle="Amplitude",
-        xlim=(0, duration),
-        ylim=(amplitude_min, amplitude_max),
+        xlim=xlim,
         line_style=LineStyle(size=1),
-        ax=ax1,
+        ax=ax3,
     )
-    ylim_phase = None if phase_min == phase_max else (phase_min, phase_max)
     config5 = LineConfig(
-        data=LineData(signal_times, signal_envelope_phase),
-        label=None,
-        xtitle="Time (ns)",
-        ytitle="Phase (radians)",
-        xlim=(0, duration),
-        ylim=ylim_phase,
-        line_style=LineStyle(color="black", size=1),
-        ax=ax2,
+        data=LineData(plot_times, q_signal_samples),
+        label="Q Component",
+        xtitle=xtitle,
+        ytitle="Amplitude",
+        xlim=xlim,
+        line_style=LineStyle(size=1),
+        ax=ax3,
     )
     plot(
         configs=[config1, config2, config3, config4, config5],
         figure=figure,
-        legend_style=LegendStyle(),
+        legend_style=LegendStyle(location=LegendLocation.UPPER_LEFT, anchor=(1, 1)),
         filename=filename,
         hidden=hidden,
     )

@@ -23,7 +23,7 @@
 """Pulse simulator."""
 from __future__ import annotations
 
-from typing import Optional, Self, Union
+from typing import Any, Optional, Self, Union
 
 import numpy.typing as npt
 from qiskit.providers import BackendV1, BackendV2
@@ -117,7 +117,7 @@ class QiskitPulseBackend(PulseBackend):
         super().__init__(PulseBackend.NativeBackendType.QISKIT, model, seed)
 
     @trace()
-    @timer()
+    @timer(unit="sec")
     def run(
         self,
         circuit: PulseCircuit,
@@ -125,13 +125,19 @@ class QiskitPulseBackend(PulseBackend):
         initial_state: Optional[Union[DensityMatrix, Statevector]] = None,
         shots: int = 1024,
         steps: Optional[int] = None,
+
+        run_options: Optional[dict[str, Any]] = None
     ) -> PulseSolution:
         """QiskitPulseBackend.run."""
+        if run_options:
+            run_options.update(method=method.value)
+        else:
+            run_options = {"method": method.value},
         options = DynamicsBackendPatch.Options(
             initial_state="ground_state" if initial_state is None else initial_state,
             experiment_result_function=get_experiment_result,
             shots=shots,
-            solver_options={"method": method.value},
+            solver_options=run_options
         )
         self._native_backend.steps = steps
         result = (

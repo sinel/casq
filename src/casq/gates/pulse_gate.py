@@ -27,11 +27,12 @@ from abc import abstractmethod
 from typing import Optional, Union
 
 from qiskit.circuit import Gate
-from qiskit.providers import BackendV1
-from qiskit.pulse import DriveChannel, Schedule, align_sequential, build, measure, play
+from qiskit.providers import Backend
+from qiskit.pulse import DriveChannel, Schedule, ScheduleBlock, align_sequential, build, measure, play
 from qiskit.pulse.library import Pulse
-from qiskit.pulse.transforms.canonicalization import block_to_schedule
+from qiskit.pulse.transforms import block_to_schedule
 from qiskit_dynamics import Signal
+from qiskit_dynamics.pulse import InstructionToSignals
 
 from casq.backends.qiskit.backend_characteristics import BackendCharacteristics
 from casq.common.decorators import trace
@@ -75,92 +76,19 @@ class PulseGate(Gate):
             :py:class:`qiskit.pulse.library.Pulse`
         """
 
-    def schedule(
-        self,
-        qubit: int,
-        backend: Optional[BackendV1] = None,
-        dt: Optional[float] = None,
-        channel_frequencies: Optional[dict[str, float]] = None,
-        measured: bool = False,
-        discretized: bool = False,
-    ) -> Union[Schedule, list[Signal]]:
+    def schedule(self, qubit: int) -> Schedule:
         """PulseGate.schedule method.
 
         Builds schedule to run pulse gate for testing or solitary optimization.
 
         Args:
             qubit: Qubit to attach gate instruction to.
-            backend: Optional IBMQ backend. Required if building a measured schedule.
-            dt: Optional time interval.
-            channel_frequencies: Optional channel frequencies.
-            measured: If True, convert schedule into discretized list of signals.
-            discretized: If True, convert schedule into discretized list of signals.
 
         Returns:
             :py:class:`qiskit.pulse.Schedule`
             or list of :py:class:`qiskit_dynamics.signals.Signal`
         """
         schedule_name = f"{self.name}Schedule"
-        if measured:
-            if backend:
-                with build(backend=backend, name=schedule_name) as sb:
-                    with align_sequential():
-                        play(self.pulse(), DriveChannel(qubit))
-                        measure(qubit)
-            else:
-                raise CasqError(
-                    "Backend is required for building schedules with measurements."
-                )
-        else:
-            with build(name=schedule_name) as sb:
-                play(self.pulse(), DriveChannel(qubit))
-        sched = block_to_schedule(sb)
-        if discretized:
-            if backend:
-                props = BackendCharacteristics(backend)
-                channel_frequencies_from_backend: dict[
-                    str, float
-                ] = props.get_channel_frequencies(list(sched.channels))
-                return discretize(sched, props.dt, channel_frequencies_from_backend)
-            elif dt and channel_frequencies:
-                return discretize(sched, dt, channel_frequencies)
-            else:
-                raise CasqError(
-                    "Cannot discretize pulse schedule if neither backend "
-                    "nor required properties (dt and channel frequencies) are provided."
-                )
-        else:
-            return sched
-
-    @trace()
-    def draw_signal(
-        self,
-        qubit: int,
-        dt: float,
-        carrier_frequency: float,
-        filename: Optional[str] = None,
-        hidden: bool = False,
-    ) -> None:
-        """PulseGate.draw_signal method.
-
-        Draws pulse gate signal.
-
-        Args:
-            qubit: Qubit to attach gate to.
-            dt: Sample time length.
-            carrier_frequency: Carrier frequency.
-            filename: Saves figure to specified path if provided.
-            hidden: Does not show figure if True.
-
-        Returns:
-            :py:class:`qiskit.QuantumCircuit`
-        """
-        plot_signal(
-            self.schedule(qubit),
-            dt,
-            f"d{qubit}",
-            carrier_frequency,
-            self.duration * dt,
-            filename=filename,
-            hidden=hidden,
-        )
+        with build(name=schedule_name) as sb:
+            play(self.pulse(), DriveChannel(qubit))
+        return block_to_schedule(sb)
