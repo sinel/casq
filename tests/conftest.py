@@ -34,6 +34,8 @@ from qiskit.providers.fake_provider import FakeManila
 from qiskit.pulse import Schedule, ScheduleBlock
 from qiskit.pulse.transforms.canonicalization import block_to_schedule
 
+from casq.common.helpers import discretize, SignalData
+
 
 @pytest.fixture
 def loguru_caplog(
@@ -83,3 +85,10 @@ def pulse_schedule_block(backend: BackendV1) -> ScheduleBlock:
 def pulse_schedule(pulse_schedule_block: ScheduleBlock) -> Schedule:
     """Fixture for building a test pulse schedule."""
     return block_to_schedule(pulse_schedule_block)
+
+
+@pytest.fixture
+def signal_data(pulse_schedule: Schedule) -> SignalData:
+    """Fixture for building test signals."""
+    signals = discretize(pulse_schedule, dt=0.22e-9, channel_frequencies={"d0": 5e9})
+    return signals[0]

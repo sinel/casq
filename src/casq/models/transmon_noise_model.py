@@ -27,6 +27,7 @@ from dataclasses import dataclass
 
 import numpy as np
 from qiskit.quantum_info import Operator, Pauli
+from qiskit_dynamics.array import Array
 
 from casq.common.decorators import trace
 from casq.models.noise_model import NoiseModel
@@ -62,5 +63,6 @@ class TransmonNoiseModel(NoiseModel):
             sigma_p = 0.5 * (sigma_x + 1j * sigma_y)
             op1 = np.sqrt(1.0 / qubit_map[q].t1) * sigma_p
             op2 = np.sqrt(1.0 / qubit_map[q].t2) * sigma_z
-            static_dissipators.append(np.asarray([op1, op2]))
-        super().__init__(static_dissipators=np.asarray(static_dissipators))
+            static_dissipators.append(op1)
+            static_dissipators.append(op2)
+        super().__init__(static_dissipators=static_dissipators)

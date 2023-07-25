@@ -129,14 +129,13 @@ class QiskitPulseBackend(PulseBackend):
         initial_state: Optional[Union[DensityMatrix, Statevector]] = None,
         shots: int = 1024,
         steps: Optional[int] = None,
-
         run_options: Optional[dict[str, Any]] = None
     ) -> PulseSolution:
         """QiskitPulseBackend.run."""
         if run_options:
             run_options.update(method=method.value)
         else:
-            run_options = {"method": method.value},
+            run_options = {"method": method.value}
         options = DynamicsBackendPatch.Options(
             initial_state="ground_state" if initial_state is None else initial_state,
             experiment_result_function=get_experiment_result,
@@ -153,7 +152,7 @@ class QiskitPulseBackend(PulseBackend):
         return solution
 
     @trace()
-    @timer()
+    @timer(unit="sec")
     def _get_native_backend(self) -> DynamicsBackendPatch:
         """QiskitPulseBackend._get_native_backend."""
         if self.noise:

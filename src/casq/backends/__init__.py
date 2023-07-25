@@ -27,10 +27,11 @@ from casq.backends.qiskit.backend_characteristics import BackendCharacteristics
 from casq.backends.qiskit.dynamics_backend_patch import DynamicsBackendPatch
 from casq.backends.qiskit.helpers import get_experiment_result
 from casq.backends.qiskit.qiskit_pulse_backend import QiskitPulseBackend
-from casq.backends.helpers import build, BackendLibrary
+from casq.backends.helpers import build, build_from_backend, BackendLibrary
 
 __all__ = [
     "build",
+    "build_from_backend",
     "PulseSolution",
     "PulseBackend",
     "get_experiment_result",

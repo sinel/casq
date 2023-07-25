@@ -26,6 +26,7 @@ from __future__ import annotations
 from typing import Optional
 
 import numpy.typing as npt
+from qiskit_dynamics.array import Array
 
 from casq.common.decorators import trace
 
@@ -36,8 +37,8 @@ class NoiseModel:
     @trace()
     def __init__(
         self,
-        static_dissipators: npt.NDArray,
-        dissipator_operators: Optional[npt.NDArray] = None,
+        static_dissipators: Array,
+        dissipator_operators: Optional[Array] = None,
         dissipator_channels: Optional[list[str]] = None,
     ) -> None:
         """Initialize NoiseModel.

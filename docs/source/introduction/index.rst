@@ -9,7 +9,6 @@ Introduction
    getting_started.rst
    pulse_gate.rst
    pulse_circuit.rst
-   pulse_model.rst
    pulse_backend.rst
    pulse_optimizer.rst
    roadmap.rst

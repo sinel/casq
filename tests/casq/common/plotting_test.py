@@ -28,6 +28,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from qiskit.pulse import Schedule, ScheduleBlock
 
+from casq.common.helpers import SignalData
 from casq.common.plotting import (
     LegendLocation,
     LegendStyle,
@@ -173,11 +174,6 @@ def test_plot_bloch() -> None:
     plot_bloch([1, 0, 0], [0, 1, 0], [0, 0, 1], hidden=True)
 
 
-def test_plot_schedule_signal(pulse_schedule: Schedule) -> None:
+def test_plot_schedule_signal(signal_data: SignalData) -> None:
     """Unit test for plot_signal."""
-    plot_signal(pulse_schedule, 1, "", 1, 1, hidden=True)
-
-
-def test_plot_schedule_block_signal(pulse_schedule_block: ScheduleBlock) -> None:
-    """Unit test for plot_signal."""
-    plot_signal(pulse_schedule_block, 1, "", 1, 1, hidden=True)
+    plot_signal(signal_data, hidden=True)

@@ -143,7 +143,7 @@ class PulseOptimizer:
         self.target_qubit = (
             target_qubit
             if target_qubit
-            else self.backend.model.hamiltonian.extracted_qubits[0]
+            else self.backend.hamiltonian.extracted_qubits[0]
         )
         self.method = method
         self.use_jax = use_jax
@@ -234,9 +234,7 @@ class PulseOptimizer:
         )
         gate = self.pulse_function(opt_results.x)
         # noinspection PyProtectedMember
-        circuit = PulseCircuit.from_pulse(
-            gate, self.backend._native_backend, self.target_qubit
-        )
+        circuit = PulseCircuit.from_pulse(gate, self.target_qubit)
         counts = self.backend.run(circuit, method=self.method).counts[-1]
         return PulseOptimizer.Solution(
             num_iterations=opt_results.nfev,
@@ -260,9 +258,7 @@ class PulseOptimizer:
         def objective(params: npt.NDArray) -> float:
             p = self.pulse_function(params)
             # noinspection PyProtectedMember
-            circuit = PulseCircuit.from_pulse(
-                p, self.backend._native_backend, self.target_qubit
-            )
+            circuit = PulseCircuit.from_pulse(p, self.target_qubit)
             solution = self.backend.run(circuit=circuit, method=self.method)
             counts = solution.counts[-1]
             fidelity = hellinger_fidelity(self.target_measurement, counts)

@@ -28,6 +28,7 @@ from typing import Optional, Union
 
 import numpy as np
 import numpy.typing as npt
+from qiskit_dynamics.array import Array
 from qiskit_dynamics.backend import parse_backend_hamiltonian_dict
 
 from casq.common.decorators import trace
@@ -47,7 +48,7 @@ class HamiltonianModel:
         self,
         hamiltonian_dict: dict,
         extracted_qubits: Optional[list[int]] = None,
-        rotating_frame: Optional[npt.NDArray] = None,
+        rotating_frame: Optional[Array] = None,
         in_frame_basis: bool = False,
         evaluation_mode: EvaluationMode = EvaluationMode.DENSE,
         rwa_cutoff_freq: Optional[float] = None,

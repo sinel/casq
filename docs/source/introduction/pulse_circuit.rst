@@ -16,14 +16,14 @@ Using the ``pulse`` method, adding a pulse gate to a circuit is as simple and in
     from casq.gates import DragPulseGate, PulseCircuit
 
     gate = DragPulseGate(duration=256, amplitude=1, sigma=128, beta=2)
-    circ = PulseCircuit(2, 2)
-    circ.h(0)
-    circ.cx(0, 1)
-    circ.pulse(gate, 1)
-    circ.h(0)
-    circ.measure(0, 0)
-    circ.measure(1, 1)
-    circ.draw('mpl')
+    circuit = PulseCircuit(2, 2)
+    circuit.h(0)
+    circuit.cx(0, 1)
+    circuit.pulse(gate, 1)
+    circuit.h(0)
+    circuit.measure(0, 0)
+    circuit.measure(1, 1)
+    circuit.draw('mpl')
 
 Building a single-gate pulse circuit
 ================================================================================
@@ -35,8 +35,8 @@ For optimizing single-gate pulses, we only need a simple circuit consisting of t
     from casq.gates import DragPulseGate, PulseCircuit
 
     gate = DragPulseGate(duration=256, amplitude=1, sigma=128, beta=2)
-    circ = PulseCircuit.from_pulse(gate)
-    circ.draw('mpl')
+    circuit = PulseCircuit.from_pulse(gate)
+    circuit.draw('mpl')
 
 Converting circuit into schedule
 ================================================================================
@@ -49,6 +49,6 @@ Converting a circuit into a schedule with measurement is a common operation done
     from casq.gates import DragPulseGate, PulseCircuit
 
     gate = DragPulseGate(duration=256, amplitude=1, sigma=128, beta=2)
-    circ = PulseCircuit.from_pulse(gate)
-    schedule = circ.to_schedule(backend=FakeManila())
+    circuit = PulseCircuit.from_pulse(gate)
+    schedule = circuit.to_schedule(backend=FakeManila())
     schedule.draw()
