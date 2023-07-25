@@ -52,7 +52,7 @@ class QiskitPulseBackend(PulseBackend):
     def from_backend(
         cls,
         backend: Backend,
-        qubits: Optional[list[int]] = None,
+        extracted_qubits: Optional[list[int]] = None,
         rotating_frame: Optional[Union[Array, RotatingFrame]] = None,
         in_frame_basis: bool = False,
         evaluation_mode: Optional[HamiltonianModel.EvaluationMode] = None,
@@ -66,7 +66,7 @@ class QiskitPulseBackend(PulseBackend):
 
         Args:
             backend: The ``Backend`` instance to build the :class:`.DynamicsBackend` from.
-            qubits: List of qubits to include from the backend.
+            extracted_qubits: List of qubits to extract from the Hamiltonian.
             rotating_frame: Rotating frame argument for the internal :class:`.Solver`.
                     Defaults to None, allowing this method to pick a rotating frame.
             in_frame_basis: Whether to represent the model in the basis in which
@@ -83,7 +83,7 @@ class QiskitPulseBackend(PulseBackend):
         backend_characteristics = BackendCharacteristics(backend)
         hamiltonian = HamiltonianModel(
             hamiltonian_dict=backend_characteristics.hamiltonian,
-            extracted_qubits=qubits,
+            extracted_qubits=extracted_qubits,
             rotating_frame=rotating_frame,
             in_frame_basis=in_frame_basis,
             evaluation_mode=evaluation_mode,

@@ -1,4 +1,4 @@
-.. _pulse-model:
+.. _pulse-backend:
 
 ################################################################################
 Pulse Backend
@@ -6,19 +6,22 @@ Pulse Backend
 
 The pulse backend is modeled in three parts: the `HamiltonianModel <../autoapi/casq/models/hamiltonian_model/index.html>`_ characterizing the quantum system, the `NoiseModel <../autoapi/casq/models/noise_model/index.html>`_ characterizing the interaction of the quantum system with the environment, and the `ControlModel <../autoapi/casq/models/control_model/index.html>`_ characterizing the physical system used to control the quantum system.
 
-.. jupyter-execute::
+.. note::
+    Let's first configure the environment to use Jax.
 
-    import jax
-    from qiskit_dynamics.array import Array
+    .. jupyter-execute::
 
-    jax.config.update("jax_enable_x64", True)
-    jax.config.update("jax_platform_name", "cpu")
-    Array.set_default_backend("jax")
+        from casq.common import initialize_jax
+
+        initialize_jax()
 
 Hamiltonian model
 ================================================================================
 
 The `HamiltonianModel <../autoapi/casq/models/hamiltonian_model/index.html>`_ contains all the static and time-dependent operators defining the Hamiltonian to be used for the Schrödinger equation defining the behavior of the quantum system as well as parameters specifying the rotating frame transformation and rotating wave approximation.
+
+.. note::
+    The Hamiltonian model is standardized around using the `Hamiltonian dictionary string specification by Qiskit <https://qiskit.org/ecosystem/dynamics/stubs/qiskit_dynamics.backend.parse_backend_hamiltonian_dict.html>`_. It is convenient to define a Hamiltonian in string format rather than Python code for intuitive input and construction of models. However, the Hamiltonian dictionary approach by Qiskit is useful yet awkward, and a more intuitive and easy-to-use DSL will be developed for specifying Hamiltonian's in the near future.
 
 There will be a growing library of pre-defined Hamiltonian models, but currently only the `TransmonModel <../autoapi/casq/models/transmon_model/index.html>`_ is provided to model superconducting quantum circuits consisting of **transmon** qubits. Hamiltonian models for **flux** and **unimon** qubits are planned in the near future.
 
@@ -64,10 +67,9 @@ For example, building a Hamiltonian model of a 5-qubit transmon quantum processo
     }
     hamiltonian = TransmonModel(
         qubit_map=qubit_map,
-        coupling_map=coupling_map
+        coupling_map=coupling_map,
+        extracted_qubits=[0]
     )
-    # View resulting Hamiltonian dictionary
-    print(json.dumps(hamiltonian.hamiltonian_dict, indent=2, default=str))
 
 Noise model
 ================================================================================
@@ -103,22 +105,14 @@ A library of pre-defined noise models matching each pre-defined Hamiltonian mode
         )
     }
     noise = TransmonNoiseModel(qubit_map=qubit_map)
-    # View resulting static dissipators for Lindblad equation
-    print(noise.static_dissipators)
 
 Control model
 ================================================================================
 
 The `ControlModel <../autoapi/casq/models/control_model/index.html>`_ defines the relevant properties of the physical system used for controlling the quantum system, such as the sampling interval used for digitizing microwave pulses, or channel frequencies used for applying drive, control, and measurement pulses.
 
-Running a circuit on the backend
-================================================================================
-
-One can then proceed to build a pulse backend using the above models as follows:
-
 .. jupyter-execute::
 
-    from casq.backends.helpers import build, BackendLibrary
     from casq.models import ControlModel
 
     control = ControlModel(
@@ -136,29 +130,34 @@ One can then proceed to build a pulse backend using the above models as follows:
             "u4": 4951300212.210368
         }
     )
-    backend = build(
+
+Running a circuit on the backend
+================================================================================
+
+One can then proceed to build a pulse backend using the above models as follows:
+
+.. jupyter-execute::
+
+    from casq.backends.helpers import build, BackendLibrary
+
+    pulse_backend = build(
         backend_library=BackendLibrary.QISKIT,
         hamiltonian=hamiltonian,
         control=control
     )
 
-The resulting pulse backend can then be used to simulate the execution of a circuit as follows:
+The resulting pulse backend can be used to simulate the execution of a circuit as follows:
 
 .. jupyter-execute::
 
     %%time
 
-    from qiskit.providers.fake_provider import FakeManila
-    from casq.backends import PulseBackend, build_from_backend
+    from casq.backends import PulseBackend
     from casq.gates import DragPulseGate, PulseCircuit
 
     gate = DragPulseGate(duration=256, amplitude=1, sigma=128, beta=2)
     circuit = PulseCircuit.from_pulse(gate)
-    backend = build_from_backend(
-        backend=FakeManila(),
-        qubits=[0],
-    )
-    solution = backend.run(
+    solution = pulse_backend.run(
         circuit,
         method=PulseBackend.ODESolverMethod.SCIPY_DOP853
     )
@@ -170,7 +169,29 @@ Run performance will significantly improve if a JAX solver is used.
 
     %%time
 
-    solution = backend.run(
+    solution = pulse_backend.run(
+        circuit,
+        method=PulseBackend.ODESolverMethod.QISKIT_DYNAMICS_JAX_ODEINT
+    )
+    print(solution.counts[-1])
+
+Using Qiskit backends
+================================================================================
+
+It is very simple to construct pulse backends based on model information provided by a Qiskit backend.
+
+.. jupyter-execute::
+
+    %%time
+
+    from qiskit.providers.fake_provider import FakeManila
+    from casq.backends import build_from_backend
+
+    qiskit_pulse_backend = build_from_backend(
+        backend=FakeManila(),
+        extracted_qubits=[0]
+    )
+    solution = qiskit_pulse_backend.run(
         circuit,
         method=PulseBackend.ODESolverMethod.QISKIT_DYNAMICS_JAX_ODEINT
     )
