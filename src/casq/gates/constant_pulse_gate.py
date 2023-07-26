@@ -25,14 +25,14 @@ from __future__ import annotations
 
 from typing import Optional
 
-from qiskit.pulse.library import Gaussian, ScalableSymbolicPulse
+from qiskit.pulse.library import Constant, ScalableSymbolicPulse
 
 from casq.common.decorators import trace
 from casq.gates.pulse_gate import PulseGate
 
 
-class GaussianPulseGate(PulseGate):
-    """GaussianPulseGate class.
+class ConstantPulseGate(PulseGate):
+    """ConstantPulseGate class.
 
     Note: Currently only single qubit gates are supported.
 
@@ -61,23 +61,18 @@ class GaussianPulseGate(PulseGate):
         self.limit_amplitude = limit_amplitude
 
     @trace()
-    def pulse(self, parameters: dict[str, float]) -> ScalableSymbolicPulse:
-        """GaussianPulseGate.pulse method.
+    def pulse(self) -> ScalableSymbolicPulse:
+        """ConstantPulseGate.pulse method.
 
         Builds pulse for pulse gate.
-
-        Args:
-        parameters: Dictionary of pulse parameters that defines the pulse envelope.
-            - sigma: A measure of how wide or narrow the Gaussian risefall is,i.e. its standard deviation.
 
         Returns:
             :py:class:`qiskit.pulse.library.Pulse`
         """
-        return Gaussian(
+        return Constant(
             duration=self.duration,
             amp=self.amplitude,
             angle=self.angle,
             limit_amplitude=self.limit_amplitude,
-            name=self.name,
-            **parameters
+            name=self.name
         )

@@ -23,9 +23,9 @@
 """Drag pulse gate."""
 from __future__ import annotations
 
-from typing import Optional, Union
+from typing import Optional
 
-from qiskit.pulse.library import Drag, Pulse
+from qiskit.pulse.library import Drag, ScalableSymbolicPulse
 
 from casq.common.decorators import trace
 from casq.gates.pulse_gate import PulseGate
@@ -39,9 +39,6 @@ class DragPulseGate(PulseGate):
     Args:
         duration: Pulse length in terms of the sampling period dt.
         amplitude: The magnitude of the amplitude of the Gaussian and square pulse.
-        sigma: A measure of how wide or narrow the Gaussian risefall is,
-            i.e. its standard deviation.
-        beta: The correction amplitude.
         angle: The angle of the complex amplitude of the pulse. Default value 0.
         limit_amplitude: If True, then limit the amplitude of the waveform to 1.
             The default is True and the amplitude is constrained to 1.
@@ -53,8 +50,6 @@ class DragPulseGate(PulseGate):
         self,
         duration: int,
         amplitude: float,
-        sigma: float,
-        beta: float,
         angle: Optional[float] = None,
         limit_amplitude: bool = True,
         name: Optional[str] = None,
@@ -62,26 +57,28 @@ class DragPulseGate(PulseGate):
         """Initialize DragPulseGate."""
         super().__init__(1, duration, name)
         self.amplitude = amplitude
-        self.sigma = sigma
-        self.beta = beta
         self.angle = angle
         self.limit_amplitude = limit_amplitude
 
     @trace()
-    def pulse(self) -> Pulse:
+    def pulse(self, parameters: dict[str, float]) -> ScalableSymbolicPulse:
         """DragPulseGate.pulse method.
 
         Builds pulse for pulse gate.
 
+        Args:
+        parameters: Dictionary of pulse parameters that defines the pulse envelope.
+            - sigma: A measure of how wide or narrow the Gaussian risefall is,i.e. its standard deviation.
+            - beta: The DRAG correction amplitude.
+
         Returns:
-            :py:class:`qiskit.pulse.library.Pulse`
+            :py:class:`qiskit.pulse.library.ScalableSymbolicPulse`
         """
         return Drag(
             duration=self.duration,
             amp=self.amplitude,
-            sigma=self.sigma,
-            beta=self.beta,
             angle=self.angle,
             limit_amplitude=self.limit_amplitude,
             name=self.name,
+            **parameters
         )

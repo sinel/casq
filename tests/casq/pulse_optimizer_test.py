@@ -26,7 +26,7 @@ from __future__ import annotations
 from loguru import logger
 import numpy as np
 import pytest
-from qiskit.providers import BackendV1
+from qiskit.providers import Backend
 
 from casq.backends.pulse_backend import PulseBackend
 from casq.backends.qiskit.qiskit_pulse_backend import QiskitPulseBackend
@@ -35,7 +35,7 @@ from casq.common.exceptions import CasqError
 from casq.pulse_optimizer import PulseOptimizer
 
 
-def test_init_gaussian(backend: BackendV1) -> None:
+def test_init_gaussian(backend: Backend) -> None:
     """Unit test for PulseSimulator initialization from backend."""
     pulse_backend = QiskitPulseBackend.from_backend(backend)
     optimizer = PulseOptimizer(
@@ -53,7 +53,7 @@ def test_init_gaussian(backend: BackendV1) -> None:
     assert isinstance(optimizer, PulseOptimizer)
 
 
-def test_init_gaussian_square(backend: BackendV1) -> None:
+def test_init_gaussian_square(backend: Backend) -> None:
     """Unit test for PulseSimulator initialization from backend."""
     pulse_backend = QiskitPulseBackend.from_backend(backend)
     optimizer = PulseOptimizer(
@@ -72,7 +72,7 @@ def test_init_gaussian_square(backend: BackendV1) -> None:
     assert isinstance(optimizer, PulseOptimizer)
 
 
-def test_init_drag(backend: BackendV1) -> None:
+def test_init_drag(backend: Backend) -> None:
     """Unit test for PulseSimulator initialization from backend."""
     pulse_backend = QiskitPulseBackend.from_backend(backend)
     optimizer = PulseOptimizer(
@@ -91,7 +91,7 @@ def test_init_drag(backend: BackendV1) -> None:
     assert isinstance(optimizer, PulseOptimizer)
 
 
-def test_init_jit(backend: BackendV1) -> None:
+def test_init_jit(backend: Backend) -> None:
     """Unit test for PulseSimulator initialization from backend."""
     pulse_backend = QiskitPulseBackend.from_backend(backend)
     optimizer = PulseOptimizer(
@@ -112,7 +112,7 @@ def test_init_jit(backend: BackendV1) -> None:
     assert isinstance(optimizer, PulseOptimizer)
 
 
-def test_jax_with_invalid_method(backend: BackendV1) -> None:
+def test_jax_with_invalid_method(backend: Backend) -> None:
     """Unit test for PulseSimulator initialization from backend."""
     pulse_backend = QiskitPulseBackend.from_backend(backend)
     with pytest.raises(CasqError) as e:
@@ -138,7 +138,7 @@ def test_jax_with_invalid_method(backend: BackendV1) -> None:
 
 
 @timer(unit="sec")
-def test_optimize(backend: BackendV1) -> None:
+def test_optimize(backend: Backend) -> None:
     """Unit test for PulseSimulator initialization from backend."""
     pulse_backend = QiskitPulseBackend.from_backend(backend)
     optimizer = PulseOptimizer(

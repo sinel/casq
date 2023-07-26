@@ -33,7 +33,6 @@ from casq.backends.pulse_solution import PulseSolution
 from casq.gates.pulse_circuit import PulseCircuit
 from casq.models.hamiltonian_model import HamiltonianModel
 from casq.models.control_model import ControlModel
-from casq.models.noise_model import NoiseModel
 
 
 class PulseBackend:
@@ -56,7 +55,6 @@ class PulseBackend:
         self,
         hamiltonian: HamiltonianModel,
         control: ControlModel,
-        noise: Optional[NoiseModel] = None,
         seed: Optional[int] = None,
     ):
         """Instantiate :class:`~casq.backends.PulseBackend`.
@@ -64,12 +62,10 @@ class PulseBackend:
         Args:
             hamiltonian: Hamiltonian model.
             control: Control model.
-            noise: Noise model.
             seed: Seed to use in random sampling. Defaults to None.
         """
         self.hamiltonian = hamiltonian
         self.control = control
-        self.noise = noise
         self._seed = seed
         self._native_backend = self._get_native_backend()
 

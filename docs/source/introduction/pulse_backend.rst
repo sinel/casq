@@ -4,10 +4,13 @@
 Pulse Backend
 ################################################################################
 
-The pulse backend is modeled in three parts: the `HamiltonianModel <../autoapi/casq/models/hamiltonian_model/index.html>`_ characterizing the quantum system, the `NoiseModel <../autoapi/casq/models/noise_model/index.html>`_ characterizing the interaction of the quantum system with the environment, and the `ControlModel <../autoapi/casq/models/control_model/index.html>`_ characterizing the physical system used to control the quantum system.
+The pulse backend is modeled in three parts: the `HamiltonianModel <../autoapi/casq/models/hamiltonian_model/index.html>`_ characterizing the quantum system, the NoiseModel characterizing the interaction of the quantum system with the environment, and the `ControlModel <../autoapi/casq/models/control_model/index.html>`_ characterizing the physical system used to control the quantum system.
+
+.. warning::
+    The NoiseModel is under construction. Need to better understand how to use Lindblad operators to characterize different types of noise. Also, can qiskit-dynamics Lindblad solver be combined with other ways to characterize/simulate noise? If not, how can this be combined with noise simulation approaches by other libraries to provide a higher-level abstraction?
 
 .. note::
-    Let's first configure the environment to use Jax.
+    Let's not forget to configure the environment to use Jax.
 
     .. jupyter-execute::
 
@@ -70,41 +73,6 @@ For example, building a Hamiltonian model of a 5-qubit transmon quantum processo
         coupling_map=coupling_map,
         extracted_qubits=[0]
     )
-
-Noise model
-================================================================================
-
-The `NoiseModel <../autoapi/casq/models/noise_model/index.html>`_ is still under early development, and more work is required to shape it into a more user-friendly structure. Currently, it simply consists of a few fields for defining the Lindblad master equation in terms of static and time-dependent operators.
-
-A library of pre-defined noise models matching each pre-defined Hamiltonian model is also under construction with the `TransmonNoiseModel <../autoapi/casq/models/transmon_noise_model/index.html>`_ as its first member. For example, adding noise to the model of a 5-qubit transmon quantum processor is as simple as:
-
-.. jupyter-execute::
-
-    from casq.models import TransmonNoiseModel
-
-    qubit_map = {
-        0: TransmonNoiseModel.TransmonNoiseProperties(
-            t1=0.00010918719287058488,
-            t2=5.077229750099717e-06
-        ),
-        1: TransmonNoiseModel.TransmonNoiseProperties(
-            t1=5.753535189181149e-05,
-            t2=6.165015600725496e-05
-        ),
-        2: TransmonNoiseModel.TransmonNoiseProperties(
-            t1=0.00018344197711073844,
-            t2=2.512378482362435e-05
-        ),
-        3: TransmonNoiseModel.TransmonNoiseProperties(
-            t1=0.00010961657783040683,
-            t2=5.7120186456626996e-05
-        ),
-        4: TransmonNoiseModel.TransmonNoiseProperties(
-            t1=0.00010247738825319845,
-            t2=3.722985261736209e-05
-        )
-    }
-    noise = TransmonNoiseModel(qubit_map=qubit_map)
 
 Control model
 ================================================================================
@@ -196,3 +164,6 @@ It is very simple to construct pulse backends based on model information provide
         method=PulseBackend.ODESolverMethod.QISKIT_DYNAMICS_JAX_ODEINT
     )
     print(solution.counts[-1])
+
+.. warning::
+    The parameters values for the pulse backend built via models are based on FakeManila. However, the resulting counts are significantly different than those obtained via building the pulse backend directly from FakeManila. Need to figure out why - is this a bug or is there some explanation for it?

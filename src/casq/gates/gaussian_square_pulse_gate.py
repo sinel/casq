@@ -23,9 +23,10 @@
 """Gaussian square pulse gate."""
 from __future__ import annotations
 
-from typing import Optional
+from typing import Any, Optional
 
-from qiskit.pulse.library import GaussianSquare, Pulse
+import numpy.typing as npt
+from qiskit.pulse.library import GaussianSquare, ScalableSymbolicPulse
 
 from casq.common.decorators import trace
 from casq.gates.pulse_gate import PulseGate
@@ -39,9 +40,6 @@ class GaussianSquarePulseGate(PulseGate):
     Args:
         duration: Pulse length in terms of the sampling period dt.
         amplitude: The magnitude of the amplitude of the Gaussian and square pulse.
-        sigma: A measure of how wide or narrow the Gaussian risefall is,
-            i.e. its standard deviation.
-        width: The duration of the embedded square pulse.
         angle: The angle of the complex amplitude of the pulse. Default value 0.
         risefall_sigma_ratio: The ratio of each risefall duration to sigma.
         limit_amplitude: If True, then limit the amplitude of the waveform to 1.
@@ -54,38 +52,52 @@ class GaussianSquarePulseGate(PulseGate):
         self,
         duration: int,
         amplitude: float,
-        sigma: float,
-        width: float,
         angle: float = 0,
         risefall_sigma_ratio: Optional[float] = None,
         limit_amplitude: bool = True,
         name: Optional[str] = None,
     ) -> None:
-        """Initialize GaussianPulseGate."""
+        """Initialize GaussianSquarePulseGate."""
         super().__init__(1, duration, name)
         self.amplitude = amplitude
-        self.sigma = sigma
-        self.width = width
         self.angle = angle
         self.risefall_sigma_ratio = risefall_sigma_ratio
         self.limit_amplitude = limit_amplitude
 
     @trace()
-    def pulse(self) -> Pulse:
+    def pulse(self, parameters: dict[str, float]) -> ScalableSymbolicPulse:
         """GaussianSquarePulseGate.pulse method.
 
         Builds pulse for pulse gate.
 
+        Args:
+        parameters: Dictionary of pulse parameters that defines the pulse envelope.
+            - sigma: A measure of how wide or narrow the Gaussian risefall is,i.e. its standard deviation.
+            - width: The duration of the embedded square pulse.
+
         Returns:
-            :py:class:`qiskit.pulse.library.Pulse`
+            :py:class:`qiskit.pulse.library.ScalableSymbolicPulse`
         """
         return GaussianSquare(
             duration=self.duration,
             amp=self.amplitude,
-            sigma=self.sigma,
-            width=self.width,
             angle=self.angle,
             risefall_sigma_ratio=self.risefall_sigma_ratio,
             limit_amplitude=self.limit_amplitude,
             name=self.name,
+            **parameters
         )
+
+    @trace()
+    def to_parameters_dict(self, parameters: npt.NDArray) -> dict[str, Any]:
+        """GaussianSquarePulseGate.to_parameters_dict method.
+
+        Builds parameter dictionary from array of parameter values.
+
+        Args:
+            parameters: Array of pulse parameter values in order [sigma, width].
+
+        Returns:
+            Dictionary of parameters.
+        """
+        return {"sigma": parameters[0], "width": parameters[1]}

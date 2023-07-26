@@ -34,7 +34,6 @@ from qiskit_dynamics.array import Array
 from casq.backends.qiskit.qiskit_pulse_backend import QiskitPulseBackend
 from casq.models.hamiltonian_model import HamiltonianModel
 from casq.models.control_model import ControlModel
-from casq.models.noise_model import NoiseModel
 
 
 class BackendLibrary(Enum):
@@ -49,7 +48,6 @@ def build(
         backend_library: BackendLibrary,
         hamiltonian: HamiltonianModel,
         control: ControlModel,
-        noise: Optional[NoiseModel] = None,
         seed: Optional[int] = None,
 ) -> QiskitPulseBackend:
     """Build PulseBackend.
@@ -60,14 +58,13 @@ def build(
         backend_library: Backend library.
         hamiltonian: Hamiltonian model.
         control: Control model.
-        noise: Noise model.
         seed: Seed to use in random sampling. Defaults to None.
 
         Returns:
             QiskitPulseBackend
     """
     if backend_library is BackendLibrary.QISKIT:
-        return QiskitPulseBackend(hamiltonian=hamiltonian, control=control, noise=noise, seed=seed)
+        return QiskitPulseBackend(hamiltonian=hamiltonian, control=control, seed=seed)
     else:
         raise ValueError(f"Unknown backend library: {backend_library.name}.")
 

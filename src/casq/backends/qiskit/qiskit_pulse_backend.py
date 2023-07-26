@@ -41,7 +41,6 @@ from casq.common.decorators import timer, trace
 from casq.gates.pulse_circuit import PulseCircuit
 from casq.models.hamiltonian_model import HamiltonianModel
 from casq.models.control_model import ControlModel
-from casq.models.noise_model import NoiseModel
 
 
 class QiskitPulseBackend(PulseBackend):
@@ -107,7 +106,6 @@ class QiskitPulseBackend(PulseBackend):
         self,
         hamiltonian: HamiltonianModel,
         control: ControlModel,
-        noise: Optional[NoiseModel] = None,
         seed: Optional[int] = None,
     ):
         """Instantiate :class:`~casq.QiskitPulseBackend`.
@@ -115,10 +113,9 @@ class QiskitPulseBackend(PulseBackend):
         Args:
             hamiltonian: Hamiltonian model.
             control: Control model.
-            noise: Noise model.
             seed: Seed to use in random sampling. Defaults to None.
         """
-        super().__init__(hamiltonian=hamiltonian, control=control, noise=noise, seed=seed)
+        super().__init__(hamiltonian=hamiltonian, control=control, seed=seed)
 
     @trace()
     @timer(unit="sec")
@@ -155,31 +152,16 @@ class QiskitPulseBackend(PulseBackend):
     @timer(unit="sec")
     def _get_native_backend(self) -> DynamicsBackendPatch:
         """QiskitPulseBackend._get_native_backend."""
-        if self.noise:
-            solver = Solver(
-                static_hamiltonian=self.hamiltonian.static_operator,
-                hamiltonian_operators=self.hamiltonian.operators,
-                hamiltonian_channels=self.hamiltonian.channels,
-                static_dissipators=Array(self.noise.static_dissipators),
-                dissipator_operators=self.noise.dissipator_operators,
-                dissipator_channels=self.noise.dissipator_channels,
-                channel_carrier_freqs=self.control.channel_carrier_freqs,
-                dt=self.control.dt,
-                rotating_frame=self.hamiltonian.rotating_frame,
-                evaluation_mode=self.hamiltonian.evaluation_mode.name.lower(),
-                rwa_cutoff_freq=self.hamiltonian.rwa_cutoff_freq,
-            )
-        else:
-            solver = Solver(
-                static_hamiltonian=self.hamiltonian.static_operator,
-                hamiltonian_operators=self.hamiltonian.operators,
-                hamiltonian_channels=self.hamiltonian.channels,
-                channel_carrier_freqs=self.control.channel_carrier_freqs,
-                dt=self.control.dt,
-                rotating_frame=self.hamiltonian.rotating_frame,
-                evaluation_mode=self.hamiltonian.evaluation_mode.name.lower(),
-                rwa_cutoff_freq=self.hamiltonian.rwa_cutoff_freq,
-            )
+        solver = Solver(
+            static_hamiltonian=self.hamiltonian.static_operator,
+            hamiltonian_operators=self.hamiltonian.operators,
+            hamiltonian_channels=self.hamiltonian.channels,
+            channel_carrier_freqs=self.control.channel_carrier_freqs,
+            dt=self.control.dt,
+            rotating_frame=self.hamiltonian.rotating_frame,
+            evaluation_mode=self.hamiltonian.evaluation_mode.name.lower(),
+            rwa_cutoff_freq=self.hamiltonian.rwa_cutoff_freq,
+        )
         options = DynamicsBackendPatch.Options(
             control_channel_map=self.control.control_channel_map,
             seed_simulator=self._seed,

@@ -23,7 +23,7 @@
 """Pulse circuit."""
 from __future__ import annotations
 
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from qiskit import schedule as build_schedule, QuantumCircuit
 from qiskit.circuit import Bit, Register
@@ -49,20 +49,21 @@ class PulseCircuit(QuantumCircuit):
     """
 
     @staticmethod
-    def from_pulse(gate: PulseGate, qubit: int = 0) -> PulseCircuit:
+    def from_pulse_gate(gate: PulseGate, parameters: dict[str, Any], qubit: int = 0) -> PulseCircuit:
         """PulseCircuit.from_pulse method.
 
         Builds simple circuit for solitary usage or testing of pulse gate.
 
         Args:
             gate: Pulse gate.
+            parameters: Dictionary of pulse parameters that defines the pulse envelope.
             qubit: Qubit to attach gate to.
 
         Returns:
             PulseCircuit
         """
         circuit: PulseCircuit = PulseCircuit(1, 1)
-        circuit.pulse(gate, qubit)
+        circuit.pulse_gate(gate, parameters, qubit)
         circuit.measure(qubit, qubit)
         return circuit
 
@@ -81,8 +82,8 @@ class PulseCircuit(QuantumCircuit):
             name = self.ufid
         super().__init__(*regs, name=name, global_phase=global_phase, metadata=metadata)
 
-    def pulse(
-        self, gate: PulseGate, qubit: int = 0
+    def pulse_gate(
+        self, gate: PulseGate, parameters: dict[str, Any], qubit: int = 0
     ) -> InstructionSet:  # pragma: no cover
         """PulseGate.gate method.
 
@@ -90,13 +91,14 @@ class PulseCircuit(QuantumCircuit):
 
         Args:
             gate: Pulse gate.
+            parameters: Dictionary of pulse parameters that defines the pulse envelope.
             qubit: Qubit to attach pulse gate to.
 
         Returns:
             :py:class:`qiskit.pulse.Instruction`
         """
         instructions = self.append(gate, [qubit])
-        self.add_calibration(gate.name, [qubit], gate.schedule(qubit), [])
+        self.add_calibration(gate.name, [qubit], gate.schedule(parameters, qubit), [])
         return instructions
 
     def to_schedule(self, backend: Backend) -> Schedule:

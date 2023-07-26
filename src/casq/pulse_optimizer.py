@@ -24,7 +24,6 @@
 from __future__ import annotations
 
 from enum import Enum
-from functools import partial
 from typing import Any, Callable, NamedTuple, Optional, Union
 
 from jax import jit, value_and_grad
@@ -41,7 +40,7 @@ from scipy.optimize import (
 )
 
 from casq.backends.pulse_backend import PulseBackend
-from casq.common import CasqError, timer, trace
+from casq.common import CasqError, is_jax_enabled, timer, trace
 from casq.gates import (
     DragPulseGate,
     GaussianPulseGate,
@@ -105,36 +104,32 @@ class PulseOptimizer:
     @trace()
     def __init__(
         self,
-        pulse_type: PulseOptimizer.PulseType,
-        pulse_arguments: dict[str, Any],
-        backend: PulseBackend,
+        pulse_gate: PulseGate,
+        pulse_backend: PulseBackend,
         method: PulseBackend.ODESolverMethod,
         target_measurement: Union[dict[str, float], DensityMatrix, Statevector],
+        method_options: Optional[dict[str, Any]] = None,
         fidelity_type: Optional[FidelityType] = None,
         target_qubit: Optional[int] = None,
-        use_jax: bool = False,
         use_jit: bool = False,
     ):
         """Instantiate :class:`~casq.PulseOptimizer`.
 
         Args:
-            pulse_type: Pulse type.
-            pulse_arguments: Dict containing pulse arguments.
-                Use None values for parameters,
-                and actual values for fixed arguments.
-            backend: Pulse backend.
+            pulse_gate: Pulse gate.
+            pulse_backend: Pulse backend.
+            method: ODE solver method.
             target_measurement: Target measurement against which fidelity will be calculated.
+            method_options: Options specific to method.
             fidelity_type: Fidelity type. Defaults to FidelityType.COUNTS.
             target_qubit: Qubit to drive with pulse. Defaults to first qubit in simulator.
-            method: ODE solver method.
-            use_jax: If True, then ODE solver method must be jax-compatible
-                and jax-compatible pulse is constructed.
             use_jit: If True, then jit and value_and_grad is applied to objective function.
         """
-        self.pulse_type = pulse_type
-        self.pulse_arguments = pulse_arguments
-        self.backend = backend
+        self.pulse_gate = pulse_gate
+        self.pulse_backend = pulse_backend
+        self.method = method
         self.target_measurement = target_measurement
+        self.method_options = method_options if method_options else {}
         self.fidelity_type = (
             PulseOptimizer.FidelityType.COUNTS
             if fidelity_type is None
@@ -143,25 +138,25 @@ class PulseOptimizer:
         self.target_qubit = (
             target_qubit
             if target_qubit
-            else self.backend.hamiltonian.extracted_qubits[0]
+            else self.pulse_backend.hamiltonian.extracted_qubits[0]
         )
-        self.method = method
-        self.use_jax = use_jax
         self.use_jit = use_jit
-        if self.use_jax and self.method not in [
+        if self.use_jit:
+            logger.warning(f"Due to issue ..., PulseOptimizer does not currently support jit.")
+            self.use_jit = False
+        if not is_jax_enabled() and self.method in [
             PulseBackend.ODESolverMethod.QISKIT_DYNAMICS_JAX_RK4,
             PulseBackend.ODESolverMethod.QISKIT_DYNAMICS_JAX_ODEINT,
         ]:
             raise CasqError(
-                f"If 'jax' is enabled, a jax-compatible ODE solver method is required."
+                f"Jax must be enabled for ODE solver method: {self.method.name}."
             )
-        self.pulse_function = self._build_pulse_function()
         self.objective_function = self._build_objective_function()
 
     @timer(unit="sec")
-    def optimize(
+    def run(
         self,
-        params: npt.NDArray,
+        initial_params: npt.NDArray,
         method: OptimizationMethod,
         jac: Optional[Union[bool, FiniteDifferenceScheme, Callable]] = None,
         hess: Optional[
@@ -192,7 +187,7 @@ class PulseOptimizer:
         https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html
 
         Args:
-            params: Pulse parameters.
+            initial_params: Pulse parameters.
             method: Optimization method.
             jac: Method for computing the gradient vector.
                 Only for CG, BFGS, Newton-CG, L-BFGS-B, TNC, SLSQP,
@@ -219,9 +214,27 @@ class PulseOptimizer:
         options: dict = {"disp": verbose}
         if maxiter:
             options.update(maxiter=maxiter)
+        if method not in [
+            PulseOptimizer.OptimizationMethod.SCIPY_COBYLA,
+            PulseOptimizer.OptimizationMethod.SCIPY_L_BFGS_B,
+            PulseOptimizer.OptimizationMethod.SCIPY_NELDER_MEAD,
+            PulseOptimizer.OptimizationMethod.SCIPY_POWELL,
+            PulseOptimizer.OptimizationMethod.SCIPY_SLSQP,
+            PulseOptimizer.OptimizationMethod.SCIPY_TNC,
+            PulseOptimizer.OptimizationMethod.SCIPY_TRUST_CONSTR,
+        ]:
+            logger.warning(f"Method {method.name} does not support bounds.")
+            bounds = None
+        if method not in [
+            PulseOptimizer.OptimizationMethod.SCIPY_COBYLA,
+            PulseOptimizer.OptimizationMethod.SCIPY_SLSQP,
+            PulseOptimizer.OptimizationMethod.SCIPY_TRUST_CONSTR,
+        ]:
+            logger.warning(f"Method {method.name} does not support constraints.")
+            constraints = None
         opt_results = minimize(
             fun=self.objective_function,
-            x0=params,
+            x0=initial_params,
             method=method,
             jac=jac,
             hess=hess,
@@ -232,21 +245,24 @@ class PulseOptimizer:
             options=options,
             callback=callback,
         )
-        gate = self.pulse_function(opt_results.x)
-        # noinspection PyProtectedMember
-        circuit = PulseCircuit.from_pulse(gate, self.target_qubit)
-        counts = self.backend.run(circuit, method=self.method).counts[-1]
+        parameters = self.pulse_gate.to_parameters_dict(opt_results.x)
+        circuit = PulseCircuit.from_pulse_gate(self.pulse_gate, parameters, self.target_qubit)
+        counts = self.pulse_backend.run(
+            circuit=circuit,
+            method=self.method,
+            run_options=self.method_options
+        ).counts[-1]
         return PulseOptimizer.Solution(
             num_iterations=opt_results.nfev,
             parameters=opt_results.x,
             measurement=counts,
             fidelity=1 - opt_results.fun,
-            gate=gate,
+            gate=self.pulse_gate,
             circuit=circuit,
             message=opt_results.message,
         )
 
-    def _build_objective_function(self) -> Callable[[npt.NDArray], float]:
+    def _build_objective_function(self) -> Callable[[npt.NDArray], Union[float, tuple[float, float]]]:
         """PulseOptimizer._build_objective_function method.
 
         Build objective function to minimize.
@@ -256,10 +272,13 @@ class PulseOptimizer:
         """
 
         def objective(params: npt.NDArray) -> float:
-            p = self.pulse_function(params)
-            # noinspection PyProtectedMember
-            circuit = PulseCircuit.from_pulse(p, self.target_qubit)
-            solution = self.backend.run(circuit=circuit, method=self.method)
+            parameters = self.pulse_gate.to_parameters_dict(params)
+            circuit = PulseCircuit.from_pulse_gate(self.pulse_gate, parameters, self.target_qubit)
+            solution = self.pulse_backend.run(
+                circuit=circuit,
+                method=self.method,
+                run_options=self.method_options
+            )
             counts = solution.counts[-1]
             fidelity = hellinger_fidelity(self.target_measurement, counts)
             infidelity = 1.0 - float(fidelity)
@@ -269,43 +288,9 @@ class PulseOptimizer:
             return infidelity
 
         if self.use_jit:
-            jit_objective: Callable[[npt.NDArray], float] = jit(
+            jit_objective: Callable[[npt.NDArray], tuple[float, float]] = jit(
                 value_and_grad(objective)
             )
             return jit_objective
         else:
             return objective
-
-    def _build_pulse_function(self) -> Callable[[npt.NDArray], PulseGate]:
-        """PulseOptimizer._build_pulse_function method.
-
-        Build pulse function to construct pulse gate.
-
-        Returns:
-            Pulse function.
-        """
-        fixed = {}
-        parameters = []
-        for key, value in self.pulse_arguments.items():
-            if value is None:
-                parameters.append(key)
-            else:
-                fixed[key] = value
-        logger.debug(
-            f"Building pulse with parameters = {parameters} and fixed arguments = {fixed}"
-        )
-        if self.pulse_type is PulseOptimizer.PulseType.DRAG:
-            gate = partial(DragPulseGate, **fixed)
-        elif self.pulse_type is PulseOptimizer.PulseType.GAUSSIAN_SQUARE:
-            gate = partial(GaussianSquarePulseGate, **fixed)
-        else:
-            gate = partial(GaussianPulseGate, **fixed)
-
-        def pulse(params: npt.NDArray) -> PulseGate:
-            args = {}
-            for i, name in enumerate(parameters):
-                args[name] = params[i]
-            pulse_gate: PulseGate = gate(**args)
-            return pulse_gate
-
-        return pulse

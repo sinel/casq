@@ -24,21 +24,16 @@
 from __future__ import annotations
 
 from abc import abstractmethod
-from typing import Optional, Union
+from typing import Any, Optional
 
+import numpy.typing as npt
 from qiskit.circuit import Gate
-from qiskit.providers import Backend
-from qiskit.pulse import DriveChannel, Schedule, ScheduleBlock, align_sequential, build, measure, play
+from qiskit.pulse import DriveChannel, Schedule, build, play
 from qiskit.pulse.library import Pulse
 from qiskit.pulse.transforms import block_to_schedule
-from qiskit_dynamics import Signal
-from qiskit_dynamics.pulse import InstructionToSignals
 
-from casq.backends.qiskit.backend_characteristics import BackendCharacteristics
 from casq.common.decorators import trace
-from casq.common.exceptions import CasqError
-from casq.common.helpers import dbid, discretize, ufid
-from casq.common.plotting import plot_signal
+from casq.common.helpers import dbid, ufid
 
 
 class PulseGate(Gate):
@@ -67,7 +62,7 @@ class PulseGate(Gate):
         self.duration = duration
 
     @abstractmethod
-    def pulse(self) -> Pulse:
+    def pulse(self, params: dict[str, Any]) -> Pulse:
         """PulseGate.pulse method.
 
         Builds pulse for pulse gate.
@@ -76,12 +71,26 @@ class PulseGate(Gate):
             :py:class:`qiskit.pulse.library.Pulse`
         """
 
-    def schedule(self, qubit: int) -> Schedule:
+    @abstractmethod
+    def to_parameters_dict(self, parameters: npt.NDArray) -> dict[str, Any]:
+        """GaussianSquarePulseGate.to_parameters_dict method.
+
+        Builds parameter dictionary from array of parameter values.
+
+        Args:
+            parameters: Array of pulse parameter values in order [sigma, width].
+
+        Returns:
+            Dictionary of parameters.
+        """
+
+    def schedule(self, parameters: dict[str, Any], qubit: int) -> Schedule:
         """PulseGate.schedule method.
 
         Builds schedule to run pulse gate for testing or solitary optimization.
 
         Args:
+            parameters: Dictionary of pulse parameters that defines the pulse envelope.
             qubit: Qubit to attach gate instruction to.
 
         Returns:
@@ -90,5 +99,5 @@ class PulseGate(Gate):
         """
         schedule_name = f"{self.name}Schedule"
         with build(name=schedule_name) as sb:
-            play(self.pulse(), DriveChannel(qubit))
+            play(self.pulse(parameters), DriveChannel(qubit))
         return block_to_schedule(sb)

@@ -77,6 +77,11 @@ def initialize_jax() -> None:
     Array.set_default_backend("jax")
 
 
+def is_jax_enabled() -> bool:
+    """Checks if jax is enabled or not."""
+    return Array.default_backend() == "jax"
+
+
 @dataclass
 class SignalData:
     name: str

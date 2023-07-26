@@ -29,7 +29,7 @@ from typing import Generator
 from loguru import logger
 import pytest
 from qiskit import pulse
-from qiskit.providers.backend import BackendV1
+from qiskit.providers.backend import Backend
 from qiskit.providers.fake_provider import FakeManila
 from qiskit.pulse import Schedule, ScheduleBlock
 from qiskit.pulse.transforms.canonicalization import block_to_schedule
@@ -64,13 +64,13 @@ def loguru_caplog(
 
 
 @pytest.fixture
-def backend() -> BackendV1:
+def backend() -> Backend:
     """Mock IBMQ backend."""
     return FakeManila()
 
 
 @pytest.fixture
-def pulse_schedule_block(backend: BackendV1) -> ScheduleBlock:
+def pulse_schedule_block(backend: Backend) -> ScheduleBlock:
     """Fixture for building a test pulse schedule."""
     gaussian = pulse.library.Gaussian(4, 1, 2, name="Gaussian")
     with pulse.build(backend, name="test") as sb:
