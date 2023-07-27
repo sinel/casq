@@ -78,7 +78,7 @@ jobs:
           rm -rf gh-pages
           mkdir gh-pages
           touch gh-pages/.nojekyll
-          poetry run sphinx-build -b html docs/source docs/build
+          poetry run sphinx-build -M html docs/source docs/build
           cp -r docs/build/* gh-pages/
       #--------------------------------------------------
       # deploy docs
