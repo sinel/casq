@@ -27,8 +27,8 @@ For example, creating a Drag pulse gate and viewing the corresponding parametric
 
     from casq.gates import DragPulseGate
 
-    gate = DragPulseGate(duration=256, amplitude=1, sigma=128, beta=2)
-    gate.pulse().draw()
+    gate = DragPulseGate(duration=256, amplitude=1)
+    gate.pulse({"sigma": 128, "beta": 2}).draw()
 
 The pulse gate can easily be used as part of a Qiskit QuantumGate.
 
@@ -39,9 +39,9 @@ The pulse gate can easily be used as part of a Qiskit QuantumGate.
     from casq.common import discretize, plot_signal
     from casq.gates import DragPulseGate
 
-    gate = DragPulseGate(duration=256, amplitude=1, sigma=128, beta=2)
+    gate = DragPulseGate(duration=256, amplitude=1)
     with build() as sb:
-        play(gate.pulse(), DriveChannel(0))
+        play(gate.pulse({"sigma": 128, "beta": 2}), DriveChannel(0))
     schedule = block_to_schedule(sb)
     signals = discretize(schedule, dt=0.22e-9, channel_frequencies={"d0": 5e9})
     plot_signal(signals[0], number_of_samples=100)

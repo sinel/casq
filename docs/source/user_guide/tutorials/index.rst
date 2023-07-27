@@ -6,7 +6,8 @@ Tutorials
    :maxdepth: 1
    :glob:
 
-   pulse_optimization.rst
+   single_qubit.rst
+   two_qubit.rst
 
 
 .. Hiding - Indices and tables

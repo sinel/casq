@@ -11,9 +11,11 @@ Accessing underlying waveform
 
 The ``pulse`` method returns a parametric representation of the underlying waveform corresponding to the `PulseGate <../autoapi/casq/gates/pulse_gate/index.html>`_ type. Currently, the following waveforms from the Qiskit pulse library are supported:
 
-* `Gaussian <https://qiskit.org/documentation/stubs/qiskit.pulse.library.Gaussian_class.rst.html#qiskit.pulse.library.Gaussian>`_
+* `Constant <https://qiskit.org/documentation/stubs/qiskit.pulse.library.Constant.html#qiskit.pulse.library.Constant>`_
+* `Gaussian <https://qiskit.org/documentation/stubs/qiskit.pulse.library.Gaussian.html#qiskit.pulse.library.Gaussian>`_
 * `GaussianSquare <https://qiskit.org/documentation/stubs/qiskit.pulse.library.GaussianSquare.html#qiskit.pulse.library.GaussianSquare>`_
-* `Drag <https://qiskit.org/documentation/stubs/qiskit.pulse.library.Drag_class.rst.html#qiskit.pulse.library.Drag>`_
+* `Drag <https://qiskit.org/documentation/stubs/qiskit.pulse.library.Drag.html#qiskit.pulse.library.Drag>`_
+* `GaussianSquareDrag <https://qiskit.org/documentation/stubs/qiskit.pulse.library.GaussianSquareDrag.html#qiskit.pulse.library.GaussianSquareDrag>`_
 
 The remainder of the Qiskit pulse library will be supported in the near future. Since Qiskit is used as the common API for pulse-, gate- and circuit-level objects, conversion methods from Qiskit to other supported libraries (e.g. Qutip, C3) will also be provided in the future.
 
@@ -25,8 +27,8 @@ For example, creating a `DragPulseGate <../autoapi/casq/gates/drag_pulse_gate/in
 
     from casq.gates import DragPulseGate
 
-    gate = DragPulseGate(duration=256, amplitude=1, sigma=128, beta=2)
-    gate.pulse().draw()
+    gate = DragPulseGate(duration=256, amplitude=1)
+    gate.pulse({"sigma": 128, "beta": 2}).draw()
 
 Wrapping within a schedule
 ================================================================================
@@ -35,8 +37,5 @@ The ``schedule`` method embeds the pulse gate within a schedule. It is embedded 
 
 .. jupyter-execute::
 
-    from casq.gates import DragPulseGate
-
-    gate = DragPulseGate(duration=256, amplitude=1, sigma=128, beta=2)
-    schedule = gate.schedule(qubit=0)
+    schedule = gate.schedule({"sigma": 128, "beta": 2}, qubit=0)
     schedule.draw()

@@ -25,6 +25,7 @@ from __future__ import annotations
 
 from typing import Any, Optional
 
+from loguru import logger
 import numpy.typing as npt
 from qiskit.pulse.library import GaussianSquare, ScalableSymbolicPulse
 
@@ -41,7 +42,6 @@ class GaussianSquarePulseGate(PulseGate):
         duration: Pulse length in terms of the sampling period dt.
         amplitude: The magnitude of the amplitude of the Gaussian and square pulse.
         angle: The angle of the complex amplitude of the pulse. Default value 0.
-        risefall_sigma_ratio: The ratio of each risefall duration to sigma.
         limit_amplitude: If True, then limit the amplitude of the waveform to 1.
             The default is True and the amplitude is constrained to 1.
         name: Optional display name for the pulse gate.
@@ -53,16 +53,11 @@ class GaussianSquarePulseGate(PulseGate):
         duration: int,
         amplitude: float,
         angle: float = 0,
-        risefall_sigma_ratio: Optional[float] = None,
         limit_amplitude: bool = True,
         name: Optional[str] = None,
     ) -> None:
         """Initialize GaussianSquarePulseGate."""
-        super().__init__(1, duration, name)
-        self.amplitude = amplitude
-        self.angle = angle
-        self.risefall_sigma_ratio = risefall_sigma_ratio
-        self.limit_amplitude = limit_amplitude
+        super().__init__(1, duration, amplitude, angle, limit_amplitude, name)
 
     @trace()
     def pulse(self, parameters: dict[str, float]) -> ScalableSymbolicPulse:
@@ -82,10 +77,9 @@ class GaussianSquarePulseGate(PulseGate):
             duration=self.duration,
             amp=self.amplitude,
             angle=self.angle,
-            risefall_sigma_ratio=self.risefall_sigma_ratio,
             limit_amplitude=self.limit_amplitude,
             name=self.name,
-            **parameters
+            **parameters,
         )
 
     @trace()

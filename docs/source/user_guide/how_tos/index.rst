@@ -12,8 +12,7 @@ How to...
     :maxdepth: 1
     :glob:
 
-    jax.rst
-    qiskit.rst
+    awg.rst
 
 
 .. Hiding - Indices and tables

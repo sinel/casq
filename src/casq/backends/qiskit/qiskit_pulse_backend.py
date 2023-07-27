@@ -33,14 +33,13 @@ from qiskit_dynamics.array import Array
 from qiskit_dynamics.solvers import Solver
 
 from casq.backends.pulse_backend import PulseBackend
-from casq.backends.pulse_solution import PulseSolution
 from casq.backends.qiskit.backend_characteristics import BackendCharacteristics
 from casq.backends.qiskit.dynamics_backend_patch import DynamicsBackendPatch
-from casq.backends.qiskit.helpers import get_experiment_result
+from casq.backends.qiskit.helpers import convert_to_solution, get_experiment_result
 from casq.common.decorators import timer, trace
 from casq.gates.pulse_circuit import PulseCircuit
-from casq.models.hamiltonian_model import HamiltonianModel
 from casq.models.control_model import ControlModel
+from casq.models.hamiltonian_model import HamiltonianModel
 
 
 class QiskitPulseBackend(PulseBackend):
@@ -119,15 +118,15 @@ class QiskitPulseBackend(PulseBackend):
 
     @trace()
     @timer(unit="sec")
-    def run(
+    def solve(
         self,
         circuit: PulseCircuit,
         method: PulseBackend.ODESolverMethod,
         initial_state: Optional[Union[DensityMatrix, Statevector]] = None,
         shots: int = 1024,
         steps: Optional[int] = None,
-        run_options: Optional[dict[str, Any]] = None
-    ) -> PulseSolution:
+        run_options: Optional[dict[str, Any]] = None,
+    ) -> PulseBackend.PulseSolution:
         """QiskitPulseBackend.run."""
         if run_options:
             run_options.update(method=method.value)
@@ -137,7 +136,7 @@ class QiskitPulseBackend(PulseBackend):
             initial_state="ground_state" if initial_state is None else initial_state,
             experiment_result_function=get_experiment_result,
             shots=shots,
-            solver_options=run_options
+            solver_options=run_options,
         )
         self._native_backend.steps = steps
         result = (
@@ -145,7 +144,7 @@ class QiskitPulseBackend(PulseBackend):
             .result()
             .results[0]
         )
-        solution: PulseSolution = PulseSolution.from_qiskit(result)
+        solution: PulseBackend.PulseSolution = convert_to_solution(result)
         return solution
 
     @trace()

@@ -27,138 +27,81 @@ from loguru import logger
 import numpy as np
 import pytest
 from qiskit.providers import Backend
+from qiskit_dynamics.array import Array
 
+from casq.backends.helpers import build_from_backend
 from casq.backends.pulse_backend import PulseBackend
 from casq.backends.qiskit.qiskit_pulse_backend import QiskitPulseBackend
 from casq.common.decorators import timer
 from casq.common.exceptions import CasqError
+from casq.common.helpers import initialize_jax
+from casq.gates.constant_pulse_gate import ConstantPulseGate
 from casq.pulse_optimizer import PulseOptimizer
 
+initialize_jax()
 
-def test_init_gaussian(backend: Backend) -> None:
-    """Unit test for PulseSimulator initialization from backend."""
-    pulse_backend = QiskitPulseBackend.from_backend(backend)
+
+def test_init(backend: Backend) -> None:
+    """Unit test for PulseOptimizer initialization."""
     optimizer = PulseOptimizer(
-        pulse_type=PulseOptimizer.PulseType.GAUSSIAN,
-        pulse_arguments={
-            "duration": 230,
-            "amplitude": 1,
-            "name": "x",
-            "sigma": None,
-        },
-        backend=pulse_backend,
+        pulse_gate=ConstantPulseGate(duration=1, amplitude=1),
+        pulse_backend=build_from_backend(backend),
         method=PulseBackend.ODESolverMethod.SCIPY_DOP853,
         target_measurement={"0": 0, "1": 1024},
     )
     assert isinstance(optimizer, PulseOptimizer)
 
 
-def test_init_gaussian_square(backend: Backend) -> None:
-    """Unit test for PulseSimulator initialization from backend."""
-    pulse_backend = QiskitPulseBackend.from_backend(backend)
+def test_init_jax_enabled(backend: Backend) -> None:
+    """Unit test for PulseOptimizer initialization with jax."""
     optimizer = PulseOptimizer(
-        pulse_type=PulseOptimizer.PulseType.GAUSSIAN_SQUARE,
-        pulse_arguments={
-            "duration": 230,
-            "amplitude": 1,
-            "name": "x",
-            "sigma": None,
-            "width": None,
-        },
-        backend=pulse_backend,
-        method=PulseBackend.ODESolverMethod.SCIPY_DOP853,
-        target_measurement={"0": 0, "1": 1024},
-    )
-    assert isinstance(optimizer, PulseOptimizer)
-
-
-def test_init_drag(backend: Backend) -> None:
-    """Unit test for PulseSimulator initialization from backend."""
-    pulse_backend = QiskitPulseBackend.from_backend(backend)
-    optimizer = PulseOptimizer(
-        pulse_type=PulseOptimizer.PulseType.DRAG,
-        pulse_arguments={
-            "duration": 230,
-            "amplitude": 1,
-            "name": "x",
-            "sigma": None,
-            "beta": None,
-        },
-        backend=pulse_backend,
-        method=PulseBackend.ODESolverMethod.SCIPY_DOP853,
-        target_measurement={"0": 0, "1": 1024},
-    )
-    assert isinstance(optimizer, PulseOptimizer)
-
-
-def test_init_jit(backend: Backend) -> None:
-    """Unit test for PulseSimulator initialization from backend."""
-    pulse_backend = QiskitPulseBackend.from_backend(backend)
-    optimizer = PulseOptimizer(
-        pulse_type=PulseOptimizer.PulseType.GAUSSIAN_SQUARE,
-        pulse_arguments={
-            "duration": 230,
-            "amplitude": 1,
-            "name": "x",
-            "sigma": None,
-            "width": None,
-        },
-        backend=pulse_backend,
+        pulse_gate=ConstantPulseGate(duration=1, amplitude=1),
+        pulse_backend=build_from_backend(backend),
         method=PulseBackend.ODESolverMethod.QISKIT_DYNAMICS_JAX_ODEINT,
         target_measurement={"0": 0, "1": 1024},
-        use_jax=True,
-        use_jit=True,
     )
     assert isinstance(optimizer, PulseOptimizer)
 
 
-def test_jax_with_invalid_method(backend: Backend) -> None:
+def test_init_jax_disabled(backend: Backend) -> None:
     """Unit test for PulseSimulator initialization from backend."""
-    pulse_backend = QiskitPulseBackend.from_backend(backend)
+    Array.set_default_backend("numpy")
     with pytest.raises(CasqError) as e:
-        PulseOptimizer(
-            pulse_type=PulseOptimizer.PulseType.GAUSSIAN_SQUARE,
-            pulse_arguments={
-                "duration": 230,
-                "amplitude": 1,
-                "name": "x",
-                "sigma": None,
-                "width": None,
-            },
-            backend=pulse_backend,
-            method=PulseBackend.ODESolverMethod.SCIPY_DOP853,
+        optimizer = PulseOptimizer(
+            pulse_gate=ConstantPulseGate(duration=1, amplitude=1),
+            pulse_backend=build_from_backend(backend),
+            method=PulseBackend.ODESolverMethod.QISKIT_DYNAMICS_JAX_ODEINT,
             target_measurement={"0": 0, "1": 1024},
-            use_jax=True,
         )
     assert isinstance(e.value, CasqError)
     assert (
         e.value.message
-        == "If 'jax' is enabled, a jax-compatible ODE solver method is required."
+        == "Jax must be enabled for ODE solver method: QISKIT_DYNAMICS_JAX_ODEINT."
     )
+    Array.set_default_backend("jax")
 
 
 @timer(unit="sec")
 def test_optimize(backend: Backend) -> None:
     """Unit test for PulseSimulator initialization from backend."""
-    pulse_backend = QiskitPulseBackend.from_backend(backend)
     optimizer = PulseOptimizer(
-        pulse_type=PulseOptimizer.PulseType.GAUSSIAN_SQUARE,
-        pulse_arguments={
-            "duration": 4,
-            "amplitude": 1,
-            "name": "x",
-            "sigma": None,
-            "width": None,
-        },
-        backend=pulse_backend,
-        method=PulseBackend.ODESolverMethod.SCIPY_DOP853,
+        pulse_gate=ConstantPulseGate(duration=4, amplitude=1),
+        pulse_backend=build_from_backend(backend),
+        method=PulseBackend.ODESolverMethod.QISKIT_DYNAMICS_JAX_ODEINT,
         target_measurement={"0": 0, "1": 1024},
+        fidelity_type=PulseOptimizer.FidelityType.COUNTS,
+        target_qubit=0,
     )
-    initial_params = np.array([1.0, 1.0])
-    solution = optimizer.optimize(
-        initial_params,
+    solution = optimizer.solve(
+        initial_params=np.array([1.0, 1.0]),
         method=PulseOptimizer.OptimizationMethod.SCIPY_NELDER_MEAD,
-        tol=1.0,
+        constraints=[
+            {"type": "ineq", "fun": lambda x: x[0]},
+            {"type": "ineq", "fun": lambda x: 4 - x[0]},
+            {"type": "ineq", "fun": lambda x: x[1]},
+            {"type": "ineq", "fun": lambda x: 4 - x[1]},
+        ],
+        tol=1,
         maxiter=10,
     )
     logger.debug(solution)

@@ -24,8 +24,8 @@
 from casq.gates.constant_pulse_gate import ConstantPulseGate
 from casq.gates.drag_pulse_gate import DragPulseGate
 from casq.gates.gaussian_pulse_gate import GaussianPulseGate
-from casq.gates.gaussian_square_pulse_gate import GaussianSquarePulseGate
 from casq.gates.gaussian_square_drag_pulse_gate import GaussianSquareDragPulseGate
+from casq.gates.gaussian_square_pulse_gate import GaussianSquarePulseGate
 from casq.gates.pulse_circuit import PulseCircuit
 from casq.gates.pulse_gate import PulseGate
 

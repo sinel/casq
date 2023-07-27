@@ -24,17 +24,15 @@
 from __future__ import annotations
 
 import jax
-from loguru import logger
 from qiskit.providers import BackendV1
 from qiskit_dynamics.array import Array
 
+from casq.backends.helpers import build_from_backend
 from casq.backends.pulse_backend import PulseBackend
-from casq.backends.pulse_solution import PulseSolution
 from casq.backends.qiskit.qiskit_pulse_backend import QiskitPulseBackend
 from casq.common.decorators import timer
 from casq.gates.gaussian_pulse_gate import GaussianPulseGate
 from casq.gates.pulse_circuit import PulseCircuit
-from casq.backends.helpers import build_from_backend
 
 jax.config.update("jax_enable_x64", True)
 jax.config.update("jax_platform_name", "cpu")
@@ -58,23 +56,21 @@ def test_seed_option(backend: BackendV1) -> None:
 def test_run(backend: BackendV1) -> None:
     """Unit test for QiskitPulseBackend run."""
     pulse_backend = build_from_backend(backend, extracted_qubits=[0])
-    gate = GaussianPulseGate(256, 1, 128)
-    circuit = PulseCircuit.from_pulse(gate, 0)
-    solution = pulse_backend.run(
+    gate = GaussianPulseGate(16, 1)
+    circuit = PulseCircuit.from_pulse_gate(gate, {"sigma": 8})
+    solution = pulse_backend.solve(
         circuit, method=PulseBackend.ODESolverMethod.SCIPY_DOP853
     )
-    assert isinstance(solution, PulseSolution)
-    logger.debug(solution.counts[-1])
+    assert isinstance(solution, PulseBackend.PulseSolution)
 
 
 @timer(unit="sec")
 def test_jax_run(backend: BackendV1) -> None:
     """Unit test for QiskitPulseBackend run using jax."""
     pulse_backend = build_from_backend(backend, extracted_qubits=[0])
-    gate = GaussianPulseGate(256, 1, 128)
-    circuit = PulseCircuit.from_pulse(gate, 0)
-    solution = pulse_backend.run(
+    gate = GaussianPulseGate(16, 1)
+    circuit = PulseCircuit.from_pulse_gate(gate, {"sigma": 8})
+    solution = pulse_backend.solve(
         circuit, method=PulseBackend.ODESolverMethod.QISKIT_DYNAMICS_JAX_ODEINT
     )
-    assert isinstance(solution, PulseSolution)
-    logger.debug(solution.counts[-1])
+    assert isinstance(solution, PulseBackend.PulseSolution)

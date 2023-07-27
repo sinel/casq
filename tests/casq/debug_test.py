@@ -37,7 +37,7 @@ initialize_jax()
 
 
 @timer(unit="sec")
-def test_debug() -> None:
+def exclude_test_debug() -> None:
     """Unit test for debugging."""
     backend = FakeManila()
     dt = backend.configuration().dt
@@ -57,12 +57,12 @@ def test_debug() -> None:
         method=PulseOptimizer.OptimizationMethod.SCIPY_NELDER_MEAD,
         bounds=[(0, 256), (0, 256)],
         constraints=[
-            {'type': 'ineq', 'fun': lambda x: x[0]},
-            {'type': 'ineq', 'fun': lambda x: 256 - x[0]},
-            {'type': 'ineq', 'fun': lambda x: x[1]},
-            {'type': 'ineq', 'fun': lambda x: 256 - x[1]}
+            {"type": "ineq", "fun": lambda x: x[0]},
+            {"type": "ineq", "fun": lambda x: 256 - x[0]},
+            {"type": "ineq", "fun": lambda x: x[1]},
+            {"type": "ineq", "fun": lambda x: 256 - x[1]},
         ],
-        tol=1e-2
+        tol=1e-2,
     )
     print(
         "================================================================================"

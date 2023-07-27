@@ -24,10 +24,8 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
-import json
 from typing import Any, Callable, Optional, Union
 
-from loguru import logger
 import numpy as np
 from qiskit.providers import BackendV1, BackendV2
 from qiskit.providers.models import PulseBackendConfiguration, PulseDefaults
@@ -178,7 +176,6 @@ class DynamicsBackendPatch(DynamicsBackend):
             auto_t_eval[0] = t_span[0][0]
             auto_t_eval[-1] = t_span[0][1]
             self.options.solver_options.update(t_eval=auto_t_eval)
-        logger.debug(json.dumps(self.options, indent=2, default=str))
         return super()._run(
             job_id,
             t_span,

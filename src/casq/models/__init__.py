@@ -21,8 +21,8 @@
 #  limitations under the License.
 #  ********************************************************************************
 """Collecting casq.models package imports in one place for convenient access."""
-from casq.models.hamiltonian_model import HamiltonianModel
 from casq.models.control_model import ControlModel
+from casq.models.hamiltonian_model import HamiltonianModel
 from casq.models.transmon_model import TransmonModel
 
 __all__ = [

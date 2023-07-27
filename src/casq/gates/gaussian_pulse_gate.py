@@ -23,8 +23,9 @@
 """Gaussian pulse gate."""
 from __future__ import annotations
 
-from typing import Optional
+from typing import Any, Optional
 
+import numpy.typing as npt
 from qiskit.pulse.library import Gaussian, ScalableSymbolicPulse
 
 from casq.common.decorators import trace
@@ -55,10 +56,7 @@ class GaussianPulseGate(PulseGate):
         name: Optional[str] = None,
     ) -> None:
         """Initialize GaussianPulseGate."""
-        super().__init__(1, duration, name)
-        self.amplitude = amplitude
-        self.angle = angle
-        self.limit_amplitude = limit_amplitude
+        super().__init__(1, duration, amplitude, angle, limit_amplitude, name)
 
     @trace()
     def pulse(self, parameters: dict[str, float]) -> ScalableSymbolicPulse:
@@ -79,5 +77,19 @@ class GaussianPulseGate(PulseGate):
             angle=self.angle,
             limit_amplitude=self.limit_amplitude,
             name=self.name,
-            **parameters
+            **parameters,
         )
+
+    @trace()
+    def to_parameters_dict(self, parameters: npt.NDArray) -> dict[str, Any]:
+        """GaussianSquarePulseGate.to_parameters_dict method.
+
+        Builds parameter dictionary from array of parameter values.
+
+        Args:
+            parameters: Array of pulse parameter values in order [sigma, width].
+
+        Returns:
+            Dictionary of parameters.
+        """
+        return {"sigma": parameters[0]}

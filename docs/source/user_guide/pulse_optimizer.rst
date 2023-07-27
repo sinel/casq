@@ -36,34 +36,31 @@ For example, building a Hamiltonian model of a 5-qubit transmon quantum processo
 
     from casq import PulseOptimizer
     from casq.backends import build_from_backend, PulseBackend
+    from casq.gates import GaussianSquarePulseGate
 
-    pulse_backend = build_from_backend(
-        backend=FakeManila(),
-        extracted_qubits=[0]
-    )
+    pulse_gate=GaussianSquarePulseGate(duration=256, amplitude=1, name="x")
+    backend = FakeManila()
+    dt = backend.configuration().dt
+    pulse_backend = build_from_backend(backend, extracted_qubits=[0])
     optimizer = PulseOptimizer(
-        pulse_type=PulseOptimizer.PulseType.GAUSSIAN_SQUARE,
-        pulse_arguments={
-            "duration": 256,
-            "amplitude": 1,
-            "name": "x",
-            "sigma": None,
-            "width": None,
-        },
-        backend=pulse_backend,
+        pulse_gate=pulse_gate,
+        pulse_backend=pulse_backend,
         method=PulseBackend.ODESolverMethod.QISKIT_DYNAMICS_JAX_ODEINT,
+        method_options={"method": "jax_odeint", "atol": 1e-6, "rtol": 1e-8, "hmax": dt},
         target_measurement={"0": 0, "1": 1024},
         fidelity_type=PulseOptimizer.FidelityType.COUNTS,
-        target_qubit=0,
-        use_jax=True,
-        # use_jit=True,
+        target_qubit=0
     )
-    solution = optimizer.optimize(
-        params=np.array([10.0, 10.0]),
+    solution = optimizer.solve(
+        initial_params=np.array([10.0, 10.0]),
         method=PulseOptimizer.OptimizationMethod.SCIPY_NELDER_MEAD,
-        # jac=True,
-        tol=1e-2,
-        # maxiter=10
+        constraints=[
+            {"type": "ineq", "fun": lambda x: x[0]},
+            {"type": "ineq", "fun": lambda x: 256 - x[0]},
+            {"type": "ineq", "fun": lambda x: x[1]},
+            {"type": "ineq", "fun": lambda x: 256 - x[1]},
+        ],
+        tol=1e-2
     )
     print(
         "================================================================================"
@@ -80,3 +77,15 @@ For example, building a Hamiltonian model of a 5-qubit transmon quantum processo
     print(
         "================================================================================"
     )
+
+As a result, the initial pulse
+
+.. jupyter-execute::
+
+    solution.initial_pulse.draw()
+
+has been optimized into:
+
+.. jupyter-execute::
+
+    solution.pulse.draw()

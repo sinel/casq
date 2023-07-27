@@ -454,7 +454,9 @@ def plot_signal(
         Matplotlib Figure.
     """
     duration = duration if duration else int(signal_data.duration)
-    signal_times = np.linspace(start*signal_data.dt, (start + duration)*signal_data.dt, number_of_samples)
+    signal_times = np.linspace(
+        start * signal_data.dt, (start + duration) * signal_data.dt, number_of_samples
+    )
     signal_samples = signal_data.signal(signal_times)
     if time_unit is TimeUnit.PICO_SEC:
         plot_times = 1e12 * signal_times
@@ -472,7 +474,7 @@ def plot_signal(
         plot_times = signal_samples
         xtitle = "Time (sec)"
     else:
-        plot_times = range(len(signal_times))
+        plot_times = np.asarray(range(len(signal_times)))
         xtitle = "Time (samples)"
     start_time = plot_times[0]
     end_time = plot_times[-1]

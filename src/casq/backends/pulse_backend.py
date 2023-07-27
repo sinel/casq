@@ -24,15 +24,25 @@
 from __future__ import annotations
 
 from abc import abstractmethod
+from datetime import datetime
 from enum import Enum
 from typing import Any, Optional, Union
 
-from qiskit.quantum_info import DensityMatrix, Statevector
+from qiskit.quantum_info import DensityMatrix, Statevector, partial_trace
 
-from casq.backends.pulse_solution import PulseSolution
+from casq.common.decorators import trace
+from casq.common.plotting import (
+    LegendStyle,
+    LineConfig,
+    LineData,
+    LineStyle,
+    MarkerStyle,
+    plot,
+    plot_bloch,
+)
 from casq.gates.pulse_circuit import PulseCircuit
-from casq.models.hamiltonian_model import HamiltonianModel
 from casq.models.control_model import ControlModel
+from casq.models.hamiltonian_model import HamiltonianModel
 
 
 class PulseBackend:
@@ -50,6 +60,250 @@ class PulseBackend:
         SCIPY_RADAU = "Radau"
         SCIPY_RK23 = "RK23"
         SCIPY_RK45 = "RK45"
+
+    class PulseSolution:
+        """PulseSolution class."""
+
+        @trace()
+        def __init__(
+            self,
+            circuit_name: str,
+            qubits: list[int],
+            times: list[float],
+            samples: list[list[int]],
+            counts: list[dict[str, int]],
+            populations: list[dict[str, float]],
+            states: list[Union[DensityMatrix, Statevector]],
+            iq_data: list[list[tuple[float, float]]],
+            avg_iq_data: list[tuple[float, float]],
+            shots: int = 1024,
+            seed: Optional[int] = None,
+            is_success: bool = True,
+            timestamp: float = datetime.timestamp(datetime.now()),
+        ) -> None:
+            """Instantiate :class:`~casq.PulseSolution`.
+
+            Args:
+                circuit_name: Pulse circuit name.
+                times: Time at which pulse backend was solved.
+                qubits: Integer labels for selected qubits from system. Defaults to [0].
+                times: ...
+                samples: ...
+                counts: ...
+                populations: ...
+                states: ...
+                iq_data: ...
+                avg_iq_data: ...
+                shots: Number of shots per experiment. Defaults to 1024.
+                seed: Seed to use in random sampling. Defaults to None.
+                is_success: ...
+                timestamp: Posix timestamp.
+            """
+            self.circuit_name = circuit_name
+            self.times = times
+            self.qubits = qubits
+            self.samples = samples
+            self.counts = counts
+            self.populations = populations
+            self.states = states
+            self.iq_data = iq_data
+            self.avg_iq_data = avg_iq_data
+            self.shots = shots
+            self.seed = seed
+            self.is_success = is_success
+            self.timestamp = timestamp
+
+        def plot_population(
+            self, filename: Optional[str] = None, hidden: bool = False
+        ) -> None:
+            """PulseSolution.plot_population method.
+
+            Plots populations from result.
+
+            Args:
+                filename: If filename is provided as path str, then figure is saved as png.
+                hidden: If False, then plot is not displayed. Useful if method is used for saving only.
+            """
+            pops: dict[str, list[float]] = {}
+            for key in self.populations[-1].keys():
+                pops[key] = []
+            for p in self.populations:
+                for key in pops.keys():
+                    value = p.get(key, 0)
+                    pops[key].append(value)
+            configs = []
+            for key, values in pops.items():
+                config = LineConfig(
+                    data=LineData(self.times, values),
+                    label=f"Population in |{key}>",
+                    line_style=LineStyle(),
+                    xtitle="Time (ns)",
+                    ytitle="Population",
+                )
+                configs.append(config)
+            plot(
+                configs=configs,
+                legend_style=LegendStyle(),
+                filename=filename,
+                hidden=hidden,
+            )
+
+        def plot_iq(
+            self,
+            time_index: Optional[int] = None,
+            filename: Optional[str] = None,
+            hidden: bool = False,
+        ) -> None:
+            """PulseSolution.plot_iq method.
+
+            Plots IQ points from result.
+
+            Args:
+                time_index: Time at which to plot IQ points.
+                filename: If filename is provided as path str, then figure is saved as png.
+                hidden: If False, then plot is not displayed. Useful if method is used for saving only.
+            """
+            i = time_index if time_index else -1
+            x = []
+            y = []
+            for iq in self.iq_data[i]:
+                x.append(iq[0])
+                y.append(iq[1])
+            config = LineConfig(
+                data=LineData(x, y), marker_style=MarkerStyle(), xtitle="I", ytitle="Q"
+            )
+            plot(configs=[config], filename=filename, hidden=hidden)
+
+        def plot_iq_trajectory(
+            self, filename: Optional[str] = None, hidden: bool = False
+        ) -> None:
+            """PulseSolution.plot_iq_trajectory method.
+
+            Plots trajectory of average IQ points from result.
+
+            Args:
+                filename: If filename is provided as path str, then figure is saved as png.
+                hidden: If False, then plot is not displayed. Useful if method is used for saving only.
+            """
+            x = []
+            y = []
+            for iq in self.avg_iq_data:
+                x.append(iq[0])
+                y.append(iq[1])
+            config = LineConfig(
+                data=LineData(x, y), marker_style=MarkerStyle(), xtitle="I", ytitle="Q"
+            )
+            plot(configs=[config], filename=filename, hidden=hidden)
+
+        def plot_trajectory(
+            self,
+            qubit: int = 0,
+            filename: Optional[str] = None,
+            hidden: bool = False,
+        ) -> None:
+            """PulseSolution.plot_trajectory method.
+
+            Plots statevector trajectory from result.
+
+            Args:
+                qubit: Qubit to plot trajectory of.
+                filename: If filename is provided as path str, then figure is saved as png.
+                hidden: If False, then plot is not displayed. Useful if method is used for saving only.
+            """
+            x, y, z = self._xyz(qubit)
+            x_config = LineConfig(
+                data=LineData(self.times, x),
+                line_style=LineStyle(),
+                label="$\\langle X \\rangle$",
+                xtitle="$t$",
+            )
+            y_config = LineConfig(
+                data=LineData(self.times, y),
+                line_style=LineStyle(),
+                label="$\\langle Y \\rangle$",
+                xtitle="$t$",
+            )
+            z_config = LineConfig(
+                data=LineData(self.times, z),
+                line_style=LineStyle(),
+                label="$\\langle Z \\rangle$",
+                xtitle="$t$",
+            )
+            plot(
+                configs=[x_config, y_config, z_config],
+                legend_style=LegendStyle(),
+                filename=filename,
+                hidden=hidden,
+            )
+
+        def plot_bloch_trajectory(
+            self,
+            qubit: int = 0,
+            filename: Optional[str] = None,
+            hidden: bool = False,
+        ) -> None:
+            """PulseSolution.plot_bloch_trajectory method.
+
+            Plots statevector trajectory on Bloch sphere from result.
+
+            Args:
+                qubit: Qubit to plot trajectory of.
+                filename: If filename is provided as path str, then figure is saved as png.
+                hidden: If False, then plot is not displayed. Useful if method is used for saving only.
+            """
+            x, y, z = self._xyz(qubit)
+            plot_bloch(x, y, z, filename=filename, hidden=hidden)
+
+        def _xyz(self, qubit: int = 0) -> tuple[list[float], list[float], list[float]]:
+            """PulseSolution._xyz method.
+
+            Transforms statevectors into 3D trajectory from result.
+
+            Returns:
+                XYZ data lists or dict of lists.
+            """
+            if len(self.qubits) > 1:
+                xq: dict[int, list[float]] = {}
+                yq: dict[int, list[float]] = {}
+                zq: dict[int, list[float]] = {}
+                for q in self.qubits:
+                    xq[q] = []
+                    yq[q] = []
+                    zq[q] = []
+                    for sv in self.states:
+                        traced_sv = self._trace(sv, q)
+                        xp, yp, zp = traced_sv.data.real
+                        xq[q].append(xp)
+                        yq[q].append(yp)
+                        zq[q].append(zp)
+                return xq[qubit], yq[qubit], zq[qubit]
+            else:
+                xsv: list[float] = []
+                ysv: list[float] = []
+                zsv: list[float] = []
+                for sv in self.states:
+                    xp, yp, zp = sv.data.real
+                    xsv.append(xp)
+                    ysv.append(yp)
+                    zsv.append(zp)
+                return xsv, ysv, zsv
+
+        def _trace(self, state: Statevector, qubit: int) -> Statevector:
+            """PulseSolution._trace method.
+
+            Generate partial trace of statevector for specified qubit.
+
+            Args:
+                state: System state given as statevector.
+                qubit: Qubit to trace out.
+
+            Returns:
+                Reduced statevector.
+            """
+            traced_over_qubits = self.qubits
+            traced_over_qubits.remove(qubit)
+            partial_density_matrix = partial_trace(state, traced_over_qubits)
+            return partial_density_matrix.to_statevector()
 
     def __init__(
         self,
@@ -70,14 +324,14 @@ class PulseBackend:
         self._native_backend = self._get_native_backend()
 
     @abstractmethod
-    def run(
+    def solve(
         self,
         circuit: PulseCircuit,
         method: ODESolverMethod,
         initial_state: Optional[Union[DensityMatrix, Statevector]] = None,
         shots: int = 1024,
         steps: Optional[int] = None,
-        run_options: Optional[dict[str, Any]] = None
+        run_options: Optional[dict[str, Any]] = None,
     ) -> PulseSolution:
         """PulseBackend.run.
 

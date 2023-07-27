@@ -23,8 +23,9 @@
 """Gaussian square pulse gate."""
 from __future__ import annotations
 
-from typing import Optional
+from typing import Any, Optional
 
+import numpy.typing as npt
 from qiskit.pulse.library import GaussianSquareDrag, ScalableSymbolicPulse
 
 from casq.common.decorators import trace
@@ -40,7 +41,6 @@ class GaussianSquareDragPulseGate(PulseGate):
         duration: Pulse length in terms of the sampling period dt.
         amplitude: The magnitude of the amplitude of the Gaussian and square pulse.
         angle: The angle of the complex amplitude of the pulse. Default value 0.
-        risefall_sigma_ratio: The ratio of each risefall duration to sigma.
         limit_amplitude: If True, then limit the amplitude of the waveform to 1.
             The default is True and the amplitude is constrained to 1.
         name: Optional display name for the pulse gate.
@@ -52,16 +52,11 @@ class GaussianSquareDragPulseGate(PulseGate):
         duration: int,
         amplitude: float,
         angle: float = 0,
-        risefall_sigma_ratio: Optional[float] = None,
         limit_amplitude: bool = True,
         name: Optional[str] = None,
     ) -> None:
         """Initialize GaussianSquareDragPulseGate."""
-        super().__init__(1, duration, name)
-        self.amplitude = amplitude
-        self.angle = angle
-        self.risefall_sigma_ratio = risefall_sigma_ratio,
-        self.limit_amplitude = limit_amplitude
+        super().__init__(1, duration, amplitude, angle, limit_amplitude, name)
 
     @trace()
     def pulse(self, parameters: dict[str, float]) -> ScalableSymbolicPulse:
@@ -82,8 +77,21 @@ class GaussianSquareDragPulseGate(PulseGate):
             duration=self.duration,
             amp=self.amplitude,
             angle=self.angle,
-            risefall_sigma_ratio=self.risefall_sigma_ratio,
             limit_amplitude=self.limit_amplitude,
             name=self.name,
-            **parameters
+            **parameters,
         )
+
+    @trace()
+    def to_parameters_dict(self, parameters: npt.NDArray) -> dict[str, Any]:
+        """GaussianSquarePulseGate.to_parameters_dict method.
+
+        Builds parameter dictionary from array of parameter values.
+
+        Args:
+            parameters: Array of pulse parameter values in order [sigma, width, beta].
+
+        Returns:
+            Dictionary of parameters.
+        """
+        return {"sigma": parameters[0], "width": parameters[1], "beta": parameters[1]}

@@ -7,8 +7,8 @@
                   /_/  
 ```
 
-[![License](https://badgen.net/badge/license/Apache/blue)](https://opensource.org/licenses/Apache-2.0)
+[![License](https://badgen.net/badge/license/Apache/blue?label=Apache-%202.0)](https://opensource.org/licenses/Apache-2.0)
 
-**casq** is a Python toolkit for **c**control and **a**nalysis of **s**uperconducting **q**ubits.
+**casq** is a Python toolkit for **c**ontrol and **a**nalysis of **s**uperconducting **q**ubits.
 
 Copyright (c) 2023 Sinan Inel <sinan.inel@aalto.fi>

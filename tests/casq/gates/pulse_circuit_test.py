@@ -31,9 +31,9 @@ from casq.gates.pulse_circuit import PulseCircuit
 
 def test_pulse_instruction() -> None:
     """Unit test for PulseCircuit.pulse."""
-    gate = GaussianPulseGate(1, 1, 1)
+    gate = GaussianPulseGate(1, 1)
     circuit = PulseCircuit(1)
-    instruction = circuit.pulse(gate, 0).instructions[0]
+    instruction = circuit.pulse_gate(gate, {"sigma": 1}, 0).instructions[0]
     assert instruction.name == gate.name
     assert instruction.num_qubits == 1
     assert instruction.num_clbits == 0
@@ -41,8 +41,8 @@ def test_pulse_instruction() -> None:
 
 def test_from_pulse() -> None:
     """Unit test for PulseCircuit.from_pulse."""
-    gate = GaussianPulseGate(1, 1, 1)
-    circuit = PulseCircuit.from_pulse(gate, 0)
+    gate = GaussianPulseGate(1, 1)
+    circuit = PulseCircuit.from_pulse_gate(gate, {"sigma": 1})
     assert circuit.data[0].operation.name == gate.name
     assert len(circuit.data[0].qubits) == 1
     assert len(circuit.data[0].clbits) == 0

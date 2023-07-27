@@ -123,9 +123,9 @@ The resulting pulse backend can be used to simulate the execution of a circuit a
     from casq.backends import PulseBackend
     from casq.gates import DragPulseGate, PulseCircuit
 
-    gate = DragPulseGate(duration=256, amplitude=1, sigma=128, beta=2)
-    circuit = PulseCircuit.from_pulse(gate)
-    solution = pulse_backend.run(
+    gate = DragPulseGate(duration=256, amplitude=1)
+    circuit = PulseCircuit.from_pulse_gate(gate, {"sigma": 128, "beta": 2})
+    solution = pulse_backend.solve(
         circuit,
         method=PulseBackend.ODESolverMethod.SCIPY_DOP853
     )
@@ -137,11 +137,17 @@ Run performance will significantly improve if a JAX solver is used.
 
     %%time
 
-    solution = pulse_backend.run(
+    solution = pulse_backend.solve(
         circuit,
         method=PulseBackend.ODESolverMethod.QISKIT_DYNAMICS_JAX_ODEINT
     )
     print(solution.counts[-1])
+
+It is easy to visualize the results. For example, one can view the resulting IQ points as follows.
+
+.. jupyter-execute::
+
+    solution.plot_iq()
 
 Using Qiskit backends
 ================================================================================
@@ -159,7 +165,7 @@ It is very simple to construct pulse backends based on model information provide
         backend=FakeManila(),
         extracted_qubits=[0]
     )
-    solution = qiskit_pulse_backend.run(
+    solution = qiskit_pulse_backend.solve(
         circuit,
         method=PulseBackend.ODESolverMethod.QISKIT_DYNAMICS_JAX_ODEINT
     )
@@ -167,3 +173,36 @@ It is very simple to construct pulse backends based on model information provide
 
 .. warning::
     The parameters values for the pulse backend built via models are based on FakeManila. However, the resulting counts are significantly different than those obtained via building the pulse backend directly from FakeManila. Need to figure out why - is this a bug or is there some explanation for it?
+
+Time evolution
+================================================================================
+
+Using the ``steps`` argument, the pulse backend can be executed to return the results of intermediate steps to solve for the time evolution of the circuit execution.
+
+.. jupyter-execute::
+
+    %%time
+
+    solution = qiskit_pulse_backend.solve(
+        circuit,
+        method=PulseBackend.ODESolverMethod.QISKIT_DYNAMICS_JAX_ODEINT,
+        steps=100
+    )
+
+Using the resulting solution, the time trajectory of the Pauli vectors can easily be viewed.
+
+.. jupyter-execute::
+
+    solution.plot_trajectory()
+
+Similarly, the time trajectory of the Bloch vector can also be viewed.
+
+.. jupyter-execute::
+
+    solution.plot_bloch_trajectory()
+
+Or how the qubit populations vary in time.
+
+.. jupyter-execute::
+
+    solution.plot_population()

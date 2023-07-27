@@ -29,7 +29,7 @@ from typing import Any, Optional
 import numpy.typing as npt
 from qiskit.circuit import Gate
 from qiskit.pulse import DriveChannel, Schedule, build, play
-from qiskit.pulse.library import Pulse
+from qiskit.pulse.library import ScalableSymbolicPulse
 from qiskit.pulse.transforms import block_to_schedule
 
 from casq.common.decorators import trace
@@ -53,6 +53,9 @@ class PulseGate(Gate):
         self,
         num_qubits: int,
         duration: int,
+        amplitude: float,
+        angle: float = 0,
+        limit_amplitude: bool = True,
         name: Optional[str] = None,
     ) -> None:
         """Initialize PulseGate."""
@@ -60,9 +63,12 @@ class PulseGate(Gate):
         self.ufid = name if name else ufid(self)
         super().__init__(self.ufid, num_qubits, [], self.ufid)
         self.duration = duration
+        self.amplitude = amplitude
+        self.angle = angle
+        self.limit_amplitude = limit_amplitude
 
     @abstractmethod
-    def pulse(self, params: dict[str, Any]) -> Pulse:
+    def pulse(self, params: dict[str, Any]) -> ScalableSymbolicPulse:
         """PulseGate.pulse method.
 
         Builds pulse for pulse gate.

@@ -35,9 +35,10 @@ def test_pulse_instruction() -> None:
     duration = 256
     amplitude = 1
     sigma = 128
-    dummy = GaussianPulseGate(duration, amplitude, sigma)
-    assert isinstance(dummy.pulse(), ScalableSymbolicPulse)
-    schedule = dummy.schedule(qubit)
+    params = {"sigma": sigma}
+    dummy = GaussianPulseGate(duration, amplitude)
+    assert isinstance(dummy.pulse(params), ScalableSymbolicPulse)
+    schedule = dummy.schedule(params, qubit)
     # noinspection PyTypeChecker
     instruction: pulse.Play = schedule.instructions[0][1]
     assert instruction.pulse.pulse_type == "Gaussian"

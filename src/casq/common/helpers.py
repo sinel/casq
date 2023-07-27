@@ -37,6 +37,8 @@ from wonderwords import RandomWord
 
 
 class TimeUnit(Enum):
+    """Time units."""
+
     SAMPLE = 0  # Sampling intervals
     PICO_SEC = 1  # 10^-12
     NANO_SEC = 2  # 10^-9
@@ -79,11 +81,14 @@ def initialize_jax() -> None:
 
 def is_jax_enabled() -> bool:
     """Checks if jax is enabled or not."""
-    return Array.default_backend() == "jax"
+    is_enabled: bool = Array.default_backend() == "jax"
+    return is_enabled
 
 
 @dataclass
 class SignalData:
+    """Signal data."""
+
     name: str
     dt: float
     duration: float
@@ -94,7 +99,10 @@ class SignalData:
 
 
 def discretize(
-    schedule: Schedule, dt: float, channel_frequencies: dict[str, float], carrier_frequency: Optional[float] = None
+    schedule: Schedule,
+    dt: float,
+    channel_frequencies: dict[str, float],
+    carrier_frequency: Optional[float] = None,
 ) -> list[SignalData]:
     """Discretizes pulse schedule into signals.
 
@@ -114,7 +122,19 @@ def discretize(
     )
     schedule_signals = converter.get_signals(schedule)
     for signal in schedule_signals:
-        carrier = carrier_frequency if carrier_frequency else channel_frequencies[signal.name]
+        carrier = (
+            carrier_frequency if carrier_frequency else channel_frequencies[signal.name]
+        )
         iq_signals = converter.get_awg_signals([signal], carrier)
-        signals.append(SignalData(signal.name, dt, signal.duration, signal, iq_signals[0], iq_signals[1], carrier))
+        signals.append(
+            SignalData(
+                signal.name,
+                dt,
+                signal.duration,
+                signal,
+                iq_signals[0],
+                iq_signals[1],
+                carrier,
+            )
+        )
     return signals

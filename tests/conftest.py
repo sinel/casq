@@ -34,7 +34,7 @@ from qiskit.providers.fake_provider import FakeManila
 from qiskit.pulse import Schedule, ScheduleBlock
 from qiskit.pulse.transforms.canonicalization import block_to_schedule
 
-from casq.common.helpers import discretize, SignalData
+from casq.common.helpers import SignalData, discretize
 
 
 @pytest.fixture

@@ -25,15 +25,14 @@ from __future__ import annotations
 
 from datetime import datetime
 
-from matplotlib.figure import Figure
 from qiskit.quantum_info import Statevector
 
-from casq.backends.pulse_solution import PulseSolution
+from casq.backends.pulse_backend import PulseBackend
 
 
-def mock_solution() -> PulseSolution:
+def mock_solution() -> PulseBackend.PulseSolution:
     """Mock pulse backend solution."""
-    instance: PulseSolution = PulseSolution(
+    instance: PulseBackend.PulseSolution = PulseBackend.PulseSolution(
         "test",
         [0],
         times=[0, 1],

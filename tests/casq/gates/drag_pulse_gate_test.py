@@ -36,9 +36,10 @@ def test_pulse_instruction() -> None:
     amplitude = 1
     sigma = 128
     beta = 0.75
-    dummy = DragPulseGate(duration, amplitude, sigma, beta)
-    assert isinstance(dummy.pulse(), ScalableSymbolicPulse)
-    schedule = dummy.schedule(qubit)
+    params = {"sigma": sigma, "beta": beta}
+    dummy = DragPulseGate(duration, amplitude)
+    assert isinstance(dummy.pulse(params), ScalableSymbolicPulse)
+    schedule = dummy.schedule(params, qubit)
     # noinspection PyTypeChecker
     instruction: pulse.Play = schedule.instructions[0][1]
     assert instruction.pulse.pulse_type == "Drag"

@@ -29,6 +29,7 @@ from typing import Any, Callable, NamedTuple, Optional, Union
 from jax import jit, value_and_grad
 from loguru import logger
 import numpy.typing as npt
+from qiskit.pulse import ScalableSymbolicPulse
 from qiskit.quantum_info import DensityMatrix, Statevector
 from qiskit.quantum_info.analysis import hellinger_fidelity
 from scipy.optimize import (
@@ -41,13 +42,7 @@ from scipy.optimize import (
 
 from casq.backends.pulse_backend import PulseBackend
 from casq.common import CasqError, is_jax_enabled, timer, trace
-from casq.gates import (
-    DragPulseGate,
-    GaussianPulseGate,
-    GaussianSquarePulseGate,
-    PulseCircuit,
-    PulseGate,
-)
+from casq.gates import PulseCircuit, PulseGate
 
 
 class PulseOptimizer:
@@ -93,10 +88,13 @@ class PulseOptimizer:
     class Solution(NamedTuple):
         """Pulse optimizer solution."""
 
+        initial_parameters: dict[str, Any]
+        initial_pulse: ScalableSymbolicPulse
         num_iterations: int
-        parameters: list[float]
+        parameters: dict[str, Any]
         measurement: Union[dict[str, float], DensityMatrix, Statevector]
         fidelity: float
+        pulse: ScalableSymbolicPulse
         gate: PulseGate
         circuit: PulseCircuit
         message: str
@@ -142,7 +140,9 @@ class PulseOptimizer:
         )
         self.use_jit = use_jit
         if self.use_jit:
-            logger.warning(f"Due to issue ..., PulseOptimizer does not currently support jit.")
+            logger.warning(
+                f"Due to issue ..., PulseOptimizer does not currently support jit."
+            )
             self.use_jit = False
         if not is_jax_enabled() and self.method in [
             PulseBackend.ODESolverMethod.QISKIT_DYNAMICS_JAX_RK4,
@@ -154,7 +154,7 @@ class PulseOptimizer:
         self.objective_function = self._build_objective_function()
 
     @timer(unit="sec")
-    def run(
+    def solve(
         self,
         initial_params: npt.NDArray,
         method: OptimizationMethod,
@@ -245,24 +245,30 @@ class PulseOptimizer:
             options=options,
             callback=callback,
         )
+        initial_parameters = self.pulse_gate.to_parameters_dict(initial_params)
+        initial_pulse = self.pulse_gate.pulse(initial_parameters)
         parameters = self.pulse_gate.to_parameters_dict(opt_results.x)
-        circuit = PulseCircuit.from_pulse_gate(self.pulse_gate, parameters, self.target_qubit)
-        counts = self.pulse_backend.run(
-            circuit=circuit,
-            method=self.method,
-            run_options=self.method_options
+        opt_pulse = self.pulse_gate.pulse(parameters)
+        opt_circuit = PulseCircuit.from_pulse_gate(self.pulse_gate, parameters)
+        counts = self.pulse_backend.solve(
+            circuit=opt_circuit, method=self.method, run_options=self.method_options
         ).counts[-1]
         return PulseOptimizer.Solution(
+            initial_parameters=initial_parameters,
+            initial_pulse=initial_pulse,
             num_iterations=opt_results.nfev,
-            parameters=opt_results.x,
+            parameters=parameters,
             measurement=counts,
             fidelity=1 - opt_results.fun,
             gate=self.pulse_gate,
-            circuit=circuit,
+            pulse=opt_pulse,
+            circuit=opt_circuit,
             message=opt_results.message,
         )
 
-    def _build_objective_function(self) -> Callable[[npt.NDArray], Union[float, tuple[float, float]]]:
+    def _build_objective_function(
+        self,
+    ) -> Callable[[npt.NDArray], Union[float, tuple[float, float]]]:
         """PulseOptimizer._build_objective_function method.
 
         Build objective function to minimize.
@@ -273,11 +279,9 @@ class PulseOptimizer:
 
         def objective(params: npt.NDArray) -> float:
             parameters = self.pulse_gate.to_parameters_dict(params)
-            circuit = PulseCircuit.from_pulse_gate(self.pulse_gate, parameters, self.target_qubit)
-            solution = self.pulse_backend.run(
-                circuit=circuit,
-                method=self.method,
-                run_options=self.method_options
+            circuit = PulseCircuit.from_pulse_gate(self.pulse_gate, parameters)
+            solution = self.pulse_backend.solve(
+                circuit=circuit, method=self.method, run_options=self.method_options
             )
             counts = solution.counts[-1]
             fidelity = hellinger_fidelity(self.target_measurement, counts)

@@ -25,17 +25,18 @@ from __future__ import annotations
 
 from typing import Any, Optional, Union
 
-from qiskit import schedule as build_schedule, QuantumCircuit
+from qiskit import QuantumCircuit
+from qiskit import schedule as build_schedule
 from qiskit.circuit import Bit, Register
 from qiskit.circuit.parameterexpression import ParameterValueType
 from qiskit.circuit.quantumcircuit import InstructionSet
 from qiskit.providers import Backend
 from qiskit.pulse import Schedule
 
+from casq.backends.qiskit.backend_characteristics import BackendCharacteristics
 from casq.common.decorators import trace
 from casq.common.helpers import dbid, ufid
 from casq.gates.pulse_gate import PulseGate
-from casq.backends.qiskit.backend_characteristics import BackendCharacteristics
 
 
 class PulseCircuit(QuantumCircuit):
@@ -49,7 +50,7 @@ class PulseCircuit(QuantumCircuit):
     """
 
     @staticmethod
-    def from_pulse_gate(gate: PulseGate, parameters: dict[str, Any], qubit: int = 0) -> PulseCircuit:
+    def from_pulse_gate(gate: PulseGate, parameters: dict[str, Any]) -> PulseCircuit:
         """PulseCircuit.from_pulse method.
 
         Builds simple circuit for solitary usage or testing of pulse gate.
@@ -57,14 +58,13 @@ class PulseCircuit(QuantumCircuit):
         Args:
             gate: Pulse gate.
             parameters: Dictionary of pulse parameters that defines the pulse envelope.
-            qubit: Qubit to attach gate to.
 
         Returns:
             PulseCircuit
         """
         circuit: PulseCircuit = PulseCircuit(1, 1)
-        circuit.pulse_gate(gate, parameters, qubit)
-        circuit.measure(qubit, qubit)
+        circuit.pulse_gate(gate, parameters, 0)
+        circuit.measure(0, 0)
         return circuit
 
     @trace()
@@ -116,7 +116,9 @@ class PulseCircuit(QuantumCircuit):
         # See: https://github.com/Qiskit/qiskit-terra/issues/9488
         # Need to specify extra info to avoid this error
         return build_schedule(
-            self, backend, dt=backend_characteristics.dt,
+            self,
+            backend,
+            dt=backend_characteristics.dt,
             inst_map=backend_characteristics.defaults.instruction_schedule_map,
-            meas_map=backend_characteristics.config.meas_map
+            meas_map=backend_characteristics.config.meas_map,
         )

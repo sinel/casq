@@ -5,13 +5,13 @@ Introduction
 .. toctree::
    :maxdepth: 1
 
-   overview.rst
    getting_started.rst
    pulse_gate.rst
    pulse_circuit.rst
    pulse_backend.rst
    pulse_optimizer.rst
-   roadmap.rst
+   Tutorials <tutorials/index>
+   How-Tos <how_tos/index>
 
 
 .. Hiding - Indices and tables
