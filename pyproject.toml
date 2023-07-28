@@ -6,7 +6,7 @@ authors = ["Sinan Inel <sinan.inel@aalto.fi>"]
 license = "Apache 2.0 License"
 readme = "README.md"
 homepage = "https://github.com/sinel/casq"
-packages = [{ include = "src" }]
+packages = [{ include = "src/casq" }]
 
 [tool.poetry.dependencies]
 # Need to fix jax to 0.4.6 since it is highest allowed by qiskit-dynamics 0.4.1
