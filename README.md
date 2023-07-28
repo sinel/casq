@@ -7,7 +7,9 @@
                   /_/  
 ```
 
-[![License](https://badgen.net/badge/license/Apache/blue?label=Apache-%202.0)](https://opensource.org/licenses/Apache-2.0)
+[![License](https://flat.badgen.net/github/license/sinel/casq)](https://opensource.org/licenses/Apache-2.0)
+[![License](https://flat.badgen.net/github/commits/sinel/casq)](https://github.com/sinel/casq/commits/main)
+[![License](https://flat.badgen.net/github/issues/sinel/casq)](https://github.com/sinel/casq/issues)
 
 **casq** is a Python toolkit for **c**ontrol and **a**nalysis of **s**uperconducting **q**ubits.
 
