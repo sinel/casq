@@ -12,8 +12,6 @@
 Roadmap
 ################################################################################
 
-.. _roadmap-release-0.1.0:
-
 v0.1.0 (prototype)
 ================================================================================
 
@@ -30,13 +28,12 @@ v0.1.0 (prototype)
 * |check| Single-qubit gate optimization
 * |uncheck| Two-qubit gate optimization
 
-.. _roadmap-release-0.2.0:
-
 v0.2.0 (functionality & verification)
 ================================================================================
 
 * |uncheck| Noise model
 * |uncheck| Additional Hamiltonian models
+* |uncheck| Model builder DSL - now or later?
 * |uncheck| Additional fidelity functions
 * |uncheck| Improved plotting & reporting
 * |uncheck| Verification
@@ -44,7 +41,7 @@ v0.2.0 (functionality & verification)
 v0.3.0 (library support: qutip)
 ================================================================================
 
-* |uncheck| Support for QuTiP (GRAPE, CRAB)
+* |uncheck| Support for QuTiP (qutip-qip, qutip-qtrl, qutip-jax, GRAPE, CRAB)
 * |uncheck| Improve pulse backend & model abstraction
 
 v0.4.0 (library support: c3)
@@ -84,5 +81,6 @@ v1.0.0 (ui & packaging)
 
 * |uncheck| UI
 * |uncheck| Configuration
+* |uncheck| Batch jobs for sweeping and comparative analysis
 * |uncheck| Semantic versioning
 * |uncheck| PyPI
