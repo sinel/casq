@@ -97,7 +97,8 @@ jobs:
           rm -rf gh-pages
           mkdir gh-pages
           touch gh-pages/.nojekyll
-          poetry run sphinx-build -T -P -v -b html docs/source docs/build
+          source .venv/bin/activate
+          sphinx-build -T -P -v -b html docs/source docs/build
           cp -r docs/build/* gh-pages/
       #--------------------------------------------------
       # deploy docs
