@@ -13,4 +13,6 @@
 
 **casq** is a Python toolkit for **c**ontrol and **a**nalysis of **s**uperconducting **q**ubits.
 
+For more details on how to use Casq, you can refer to the [documentation](https://sinaninel.com/casq/index.html).
+
 Copyright (c) 2023 Sinan Inel <sinan.inel@aalto.fi>
