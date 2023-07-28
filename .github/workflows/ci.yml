@@ -11,10 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       #--------------------------------------------------
-      # check-out repo and set-up python
+      # check-out repo
       #--------------------------------------------------
       - name: Check out repository
         uses: actions/checkout@v3
+      #--------------------------------------------------
+      # set-up python
+      #--------------------------------------------------
       - name: Set up python
         id: setup-python
         uses: actions/setup-python@v4
@@ -25,6 +28,10 @@ jobs:
       #--------------------------------------------------
       - name: Install Poetry
         uses: snok/install-poetry@v1
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+          installer-parallel: true
       #--------------------------------------------------
       # load cached venv if cache exists
       #--------------------------------------------------
@@ -39,6 +46,12 @@ jobs:
       #--------------------------------------------------
       - name: Install dependencies
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: poetry install --no-interaction --no-root
+      #----------------------------------------------
+      # install root project,
+      # required for sphinx jupyter-execute
+      #----------------------------------------------
+      - name: Install project
         run: poetry install --no-interaction
       #--------------------------------------------------
       # run black
@@ -64,6 +77,12 @@ jobs:
       - name: mypy
         run: |
           poetry run mypy src
+      #--------------------------------------------------
+      # run unit tests
+      #--------------------------------------------------
+      - name: pytest
+        run: |
+          poetry run pytest
       #--------------------------------------------------
       # run tox
       #--------------------------------------------------
