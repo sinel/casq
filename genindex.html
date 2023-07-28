@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Index &#8212; casq v0.1.0 documentation</title>
+    <title>Index &#8212; Casq v0.1.0 documentation</title>
   
   
   
@@ -29,6 +29,9 @@
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
@@ -37,6 +40,9 @@
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'genindex';</script>
     <link rel="index" title="Index" href="#" />
     <link rel="search" title="Search" href="search.html" />
@@ -128,8 +134,36 @@
   <ul class="bd-navbar-elements navbar-nav">
     
                     <li class="nav-item">
+                      <a class="nav-link nav-internal" href="overview.html">
+                        Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="developer_guide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="autoapi/index.html">
                         API Reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="roadmap.html">
+                        Roadmap
                       </a>
                     </li>
                 
@@ -223,8 +257,36 @@ document.write(`
   <ul class="bd-navbar-elements navbar-nav">
     
                     <li class="nav-item">
+                      <a class="nav-link nav-internal" href="overview.html">
+                        Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="developer_guide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="autoapi/index.html">
                         API Reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="roadmap.html">
+                        Roadmap
                       </a>
                     </li>
                 
@@ -321,7 +383,6 @@ document.write(`
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
- | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#Q"><strong>Q</strong></a>
  | <a href="#R"><strong>R</strong></a>
@@ -346,12 +407,6 @@ document.write(`
 
       <ul>
         <li><a href="autoapi/casq/index.html#casq.PulseOptimizer._build_objective_function">(casq.PulseOptimizer method)</a>
-</li>
-      </ul></li>
-      <li><a href="autoapi/casq/pulse_optimizer/index.html#casq.pulse_optimizer.PulseOptimizer._build_pulse_function">_build_pulse_function() (casq.pulse_optimizer.PulseOptimizer method)</a>
-
-      <ul>
-        <li><a href="autoapi/casq/index.html#casq.PulseOptimizer._build_pulse_function">(casq.PulseOptimizer method)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/casq/backends/index.html#casq.backends.BackendCharacteristics._get_config">_get_config() (casq.backends.BackendCharacteristics method)</a>
@@ -390,16 +445,16 @@ document.write(`
         <li><a href="autoapi/casq/backends/qiskit/dynamics_backend_patch/index.html#casq.backends.qiskit.dynamics_backend_patch.DynamicsBackendPatch._run">(casq.backends.qiskit.dynamics_backend_patch.DynamicsBackendPatch method)</a>
 </li>
       </ul></li>
-      <li><a href="autoapi/casq/backends/pulse_solution/index.html#casq.backends.pulse_solution.PulseSolution._trace">_trace() (casq.backends.pulse_solution.PulseSolution method)</a>
+      <li><a href="autoapi/casq/backends/pulse_backend/index.html#casq.backends.pulse_backend.PulseBackend.PulseSolution._trace">_trace() (casq.backends.pulse_backend.PulseBackend.PulseSolution method)</a>
 
       <ul>
-        <li><a href="autoapi/casq/backends/index.html#casq.backends.PulseSolution._trace">(casq.backends.PulseSolution method)</a>
+        <li><a href="autoapi/casq/backends/index.html#casq.backends.PulseBackend.PulseSolution._trace">(casq.backends.PulseBackend.PulseSolution method)</a>
 </li>
       </ul></li>
-      <li><a href="autoapi/casq/backends/pulse_solution/index.html#casq.backends.pulse_solution.PulseSolution._xyz">_xyz() (casq.backends.pulse_solution.PulseSolution method)</a>
+      <li><a href="autoapi/casq/backends/pulse_backend/index.html#casq.backends.pulse_backend.PulseBackend.PulseSolution._xyz">_xyz() (casq.backends.pulse_backend.PulseBackend.PulseSolution method)</a>
 
       <ul>
-        <li><a href="autoapi/casq/backends/index.html#casq.backends.PulseSolution._xyz">(casq.backends.PulseSolution method)</a>
+        <li><a href="autoapi/casq/backends/index.html#casq.backends.PulseBackend.PulseSolution._xyz">(casq.backends.PulseBackend.PulseSolution method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -408,6 +463,8 @@ document.write(`
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/casq/about/index.html#casq.about.about">about() (in module casq.about)</a>
+</li>
       <li><a href="autoapi/casq/common/index.html#casq.common.add_horizontal_line">add_horizontal_line() (in module casq.common)</a>
 
       <ul>
@@ -474,18 +531,36 @@ document.write(`
         <li><a href="autoapi/casq/backends/qiskit/backend_characteristics/index.html#casq.backends.qiskit.backend_characteristics.BackendCharacteristics.GateProperties">(class in casq.backends.qiskit.backend_characteristics)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/casq/backends/index.html#casq.backends.BackendCharacteristics.QubitProperties">BackendCharacteristics.QubitProperties (class in casq.backends)</a>
 
       <ul>
         <li><a href="autoapi/casq/backends/qiskit/backend_characteristics/index.html#casq.backends.qiskit.backend_characteristics.BackendCharacteristics.QubitProperties">(class in casq.backends.qiskit.backend_characteristics)</a>
 </li>
       </ul></li>
+      <li><a href="autoapi/casq/backends/index.html#casq.backends.BackendLibrary">BackendLibrary (class in casq.backends)</a>
+
+      <ul>
+        <li><a href="autoapi/casq/backends/helpers/index.html#casq.backends.helpers.BackendLibrary">(class in casq.backends.helpers)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/casq/common/index.html#casq.common.LegendLocation.BEST">BEST (casq.common.LegendLocation attribute)</a>
 
       <ul>
         <li><a href="autoapi/casq/common/plotting/index.html#casq.common.plotting.LegendLocation.BEST">(casq.common.plotting.LegendLocation attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/casq/backends/index.html#casq.backends.build">build() (in module casq.backends)</a>
+
+      <ul>
+        <li><a href="autoapi/casq/backends/helpers/index.html#casq.backends.helpers.build">(in module casq.backends.helpers)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/casq/backends/index.html#casq.backends.build_from_backend">build_from_backend() (in module casq.backends)</a>
+
+      <ul>
+        <li><a href="autoapi/casq/backends/helpers/index.html#casq.backends.helpers.build_from_backend">(in module casq.backends.helpers)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -494,10 +569,16 @@ document.write(`
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="autoapi/casq/backends/pulse_backend/index.html#casq.backends.pulse_backend.PulseBackend.NativeBackendType.C3">C3 (casq.backends.pulse_backend.PulseBackend.NativeBackendType attribute)</a>
+      <li><a href="autoapi/casq/backends/index.html#casq.backends.BackendLibrary.C3">C3 (casq.backends.BackendLibrary attribute)</a>
 
       <ul>
-        <li><a href="autoapi/casq/backends/index.html#casq.backends.PulseBackend.NativeBackendType.C3">(casq.backends.PulseBackend.NativeBackendType attribute)</a>
+        <li><a href="autoapi/casq/backends/helpers/index.html#casq.backends.helpers.BackendLibrary.C3">(casq.backends.helpers.BackendLibrary attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/casq/common/helpers/index.html#casq.common.helpers.SignalData.carrier">carrier (casq.common.helpers.SignalData attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/casq/common/index.html#casq.common.SignalData.carrier">(casq.common.SignalData attribute)</a>
 </li>
       </ul></li>
       <li>
@@ -508,6 +589,13 @@ document.write(`
 </li>
       </ul></li>
       <li>
+    casq.about
+
+      <ul>
+        <li><a href="autoapi/casq/about/index.html#module-casq.about">module</a>
+</li>
+      </ul></li>
+      <li>
     casq.backends
 
       <ul>
@@ -515,17 +603,17 @@ document.write(`
 </li>
       </ul></li>
       <li>
+    casq.backends.helpers
+
+      <ul>
+        <li><a href="autoapi/casq/backends/helpers/index.html#module-casq.backends.helpers">module</a>
+</li>
+      </ul></li>
+      <li>
     casq.backends.pulse_backend
 
       <ul>
         <li><a href="autoapi/casq/backends/pulse_backend/index.html#module-casq.backends.pulse_backend">module</a>
-</li>
-      </ul></li>
-      <li>
-    casq.backends.pulse_solution
-
-      <ul>
-        <li><a href="autoapi/casq/backends/pulse_solution/index.html#module-casq.backends.pulse_solution">module</a>
 </li>
       </ul></li>
       <li>
@@ -606,6 +694,13 @@ document.write(`
 </li>
       </ul></li>
       <li>
+    casq.gates.constant_pulse_gate
+
+      <ul>
+        <li><a href="autoapi/casq/gates/constant_pulse_gate/index.html#module-casq.gates.constant_pulse_gate">module</a>
+</li>
+      </ul></li>
+      <li>
     casq.gates.drag_pulse_gate
 
       <ul>
@@ -620,12 +715,21 @@ document.write(`
 </li>
       </ul></li>
       <li>
+    casq.gates.gaussian_square_drag_pulse_gate
+
+      <ul>
+        <li><a href="autoapi/casq/gates/gaussian_square_drag_pulse_gate/index.html#module-casq.gates.gaussian_square_drag_pulse_gate">module</a>
+</li>
+      </ul></li>
+      <li>
     casq.gates.gaussian_square_pulse_gate
 
       <ul>
         <li><a href="autoapi/casq/gates/gaussian_square_pulse_gate/index.html#module-casq.gates.gaussian_square_pulse_gate">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     casq.gates.pulse_circuit
 
@@ -633,8 +737,6 @@ document.write(`
         <li><a href="autoapi/casq/gates/pulse_circuit/index.html#module-casq.gates.pulse_circuit">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     casq.gates.pulse_gate
 
@@ -650,6 +752,13 @@ document.write(`
 </li>
       </ul></li>
       <li>
+    casq.models.control_model
+
+      <ul>
+        <li><a href="autoapi/casq/models/control_model/index.html#module-casq.models.control_model">module</a>
+</li>
+      </ul></li>
+      <li>
     casq.models.hamiltonian_model
 
       <ul>
@@ -657,31 +766,10 @@ document.write(`
 </li>
       </ul></li>
       <li>
-    casq.models.noise_model
-
-      <ul>
-        <li><a href="autoapi/casq/models/noise_model/index.html#module-casq.models.noise_model">module</a>
-</li>
-      </ul></li>
-      <li>
-    casq.models.pulse_backend_model
-
-      <ul>
-        <li><a href="autoapi/casq/models/pulse_backend_model/index.html#module-casq.models.pulse_backend_model">module</a>
-</li>
-      </ul></li>
-      <li>
     casq.models.transmon_model
 
       <ul>
         <li><a href="autoapi/casq/models/transmon_model/index.html#module-casq.models.transmon_model">module</a>
-</li>
-      </ul></li>
-      <li>
-    casq.models.transmon_noise_model
-
-      <ul>
-        <li><a href="autoapi/casq/models/transmon_noise_model/index.html#module-casq.models.transmon_noise_model">module</a>
 </li>
       </ul></li>
       <li>
@@ -746,10 +834,28 @@ document.write(`
         <li><a href="autoapi/casq/backends/qiskit/dynamics_backend_patch/index.html#casq.backends.qiskit.dynamics_backend_patch.DynamicsBackendPatch.Options.configuration">(casq.backends.qiskit.dynamics_backend_patch.DynamicsBackendPatch.Options attribute)</a>
 </li>
       </ul></li>
+      <li><a href="autoapi/casq/gates/index.html#casq.gates.ConstantPulseGate">ConstantPulseGate (class in casq.gates)</a>
+
+      <ul>
+        <li><a href="autoapi/casq/gates/constant_pulse_gate/index.html#casq.gates.constant_pulse_gate.ConstantPulseGate">(class in casq.gates.constant_pulse_gate)</a>
+</li>
+      </ul></li>
       <li><a href="autoapi/casq/backends/index.html#casq.backends.DynamicsBackendPatch.Options.control_channel_map">control_channel_map (casq.backends.DynamicsBackendPatch.Options attribute)</a>
 
       <ul>
         <li><a href="autoapi/casq/backends/qiskit/dynamics_backend_patch/index.html#casq.backends.qiskit.dynamics_backend_patch.DynamicsBackendPatch.Options.control_channel_map">(casq.backends.qiskit.dynamics_backend_patch.DynamicsBackendPatch.Options attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/casq/models/index.html#casq.models.ControlModel">ControlModel (class in casq.models)</a>
+
+      <ul>
+        <li><a href="autoapi/casq/models/control_model/index.html#casq.models.control_model.ControlModel">(class in casq.models.control_model)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/casq/backends/index.html#casq.backends.convert_to_solution">convert_to_solution() (in module casq.backends)</a>
+
+      <ul>
+        <li><a href="autoapi/casq/backends/qiskit/helpers/index.html#casq.backends.qiskit.helpers.convert_to_solution">(in module casq.backends.qiskit.helpers)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/casq/pulse_optimizer/index.html#casq.pulse_optimizer.PulseOptimizer.FidelityType.COUNTS">COUNTS (casq.pulse_optimizer.PulseOptimizer.FidelityType attribute)</a>
@@ -816,14 +922,14 @@ document.write(`
         <li><a href="autoapi/casq/common/plotting/index.html#casq.common.plotting.MarkerType.DIAMOND">(casq.common.plotting.MarkerType attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/casq/common/index.html#casq.common.discretize">discretize() (in module casq.common)</a>
 
       <ul>
         <li><a href="autoapi/casq/common/helpers/index.html#casq.common.helpers.discretize">(in module casq.common.helpers)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/casq/common/index.html#casq.common.LineType.DOTTED">DOTTED (casq.common.LineType attribute)</a>
 
       <ul>
@@ -842,16 +948,22 @@ document.write(`
         <li><a href="autoapi/casq/gates/drag_pulse_gate/index.html#casq.gates.drag_pulse_gate.DragPulseGate">(class in casq.gates.drag_pulse_gate)</a>
 </li>
       </ul></li>
-      <li><a href="autoapi/casq/gates/pulse_gate/index.html#casq.gates.pulse_gate.PulseGate.draw_signal">draw_signal() (casq.gates.pulse_gate.PulseGate method)</a>
-
-      <ul>
-        <li><a href="autoapi/casq/gates/index.html#casq.gates.PulseGate.draw_signal">(casq.gates.PulseGate method)</a>
-</li>
-      </ul></li>
       <li><a href="autoapi/casq/models/transmon_model/index.html#casq.models.transmon_model.TransmonModel.TransmonProperties.drive">drive (casq.models.transmon_model.TransmonModel.TransmonProperties attribute)</a>
 
       <ul>
         <li><a href="autoapi/casq/models/index.html#casq.models.TransmonModel.TransmonProperties.drive">(casq.models.TransmonModel.TransmonProperties attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/casq/common/helpers/index.html#casq.common.helpers.SignalData.dt">dt (casq.common.helpers.SignalData attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/casq/common/index.html#casq.common.SignalData.dt">(casq.common.SignalData attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/casq/common/helpers/index.html#casq.common.helpers.SignalData.duration">duration (casq.common.helpers.SignalData attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/casq/common/index.html#casq.common.SignalData.duration">(casq.common.SignalData attribute)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/casq/backends/index.html#casq.backends.DynamicsBackendPatch">DynamicsBackendPatch (class in casq.backends)</a>
@@ -900,6 +1012,8 @@ document.write(`
         <li><a href="autoapi/casq/models/index.html#casq.models.TransmonModel.TransmonProperties.frequency">(casq.models.TransmonModel.TransmonProperties attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/casq/backends/index.html#casq.backends.DynamicsBackendPatch.from_backend">from_backend() (casq.backends.DynamicsBackendPatch class method)</a>
 
       <ul>
@@ -910,18 +1024,10 @@ document.write(`
         <li><a href="autoapi/casq/backends/index.html#casq.backends.QiskitPulseBackend.from_backend">(casq.backends.QiskitPulseBackend class method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="autoapi/casq/gates/pulse_circuit/index.html#casq.gates.pulse_circuit.PulseCircuit.from_pulse">from_pulse() (casq.gates.pulse_circuit.PulseCircuit static method)</a>
+      <li><a href="autoapi/casq/gates/pulse_circuit/index.html#casq.gates.pulse_circuit.PulseCircuit.from_pulse_gate">from_pulse_gate() (casq.gates.pulse_circuit.PulseCircuit static method)</a>
 
       <ul>
-        <li><a href="autoapi/casq/gates/index.html#casq.gates.PulseCircuit.from_pulse">(casq.gates.PulseCircuit static method)</a>
-</li>
-      </ul></li>
-      <li><a href="autoapi/casq/backends/pulse_solution/index.html#casq.backends.pulse_solution.PulseSolution.from_qiskit">from_qiskit() (casq.backends.pulse_solution.PulseSolution class method)</a>
-
-      <ul>
-        <li><a href="autoapi/casq/backends/index.html#casq.backends.PulseSolution.from_qiskit">(casq.backends.PulseSolution class method)</a>
+        <li><a href="autoapi/casq/gates/index.html#casq.gates.PulseCircuit.from_pulse_gate">(casq.gates.PulseCircuit static method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -966,14 +1072,20 @@ document.write(`
         <li><a href="autoapi/casq/gates/gaussian_pulse_gate/index.html#casq.gates.gaussian_pulse_gate.GaussianPulseGate">(class in casq.gates.gaussian_pulse_gate)</a>
 </li>
       </ul></li>
+      <li><a href="autoapi/casq/gates/index.html#casq.gates.GaussianSquareDragPulseGate">GaussianSquareDragPulseGate (class in casq.gates)</a>
+
+      <ul>
+        <li><a href="autoapi/casq/gates/gaussian_square_drag_pulse_gate/index.html#casq.gates.gaussian_square_drag_pulse_gate.GaussianSquareDragPulseGate">(class in casq.gates.gaussian_square_drag_pulse_gate)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/casq/gates/index.html#casq.gates.GaussianSquarePulseGate">GaussianSquarePulseGate (class in casq.gates)</a>
 
       <ul>
         <li><a href="autoapi/casq/gates/gaussian_square_pulse_gate/index.html#casq.gates.gaussian_square_pulse_gate.GaussianSquarePulseGate">(class in casq.gates.gaussian_square_pulse_gate)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/casq/backends/index.html#casq.backends.BackendCharacteristics.get_backend">get_backend() (casq.backends.BackendCharacteristics static method)</a>
 
       <ul>
@@ -1048,6 +1160,24 @@ document.write(`
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/casq/common/helpers/index.html#casq.common.helpers.SignalData.i_signal">i_signal (casq.common.helpers.SignalData attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/casq/common/index.html#casq.common.SignalData.i_signal">(casq.common.SignalData attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/casq/pulse_optimizer/index.html#casq.pulse_optimizer.PulseOptimizer.Solution.initial_parameters">initial_parameters (casq.pulse_optimizer.PulseOptimizer.Solution attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/casq/index.html#casq.PulseOptimizer.Solution.initial_parameters">(casq.PulseOptimizer.Solution attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/casq/pulse_optimizer/index.html#casq.pulse_optimizer.PulseOptimizer.Solution.initial_pulse">initial_pulse (casq.pulse_optimizer.PulseOptimizer.Solution attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/casq/index.html#casq.PulseOptimizer.Solution.initial_pulse">(casq.PulseOptimizer.Solution attribute)</a>
+</li>
+      </ul></li>
       <li><a href="autoapi/casq/backends/index.html#casq.backends.DynamicsBackendPatch.Options.initial_state">initial_state (casq.backends.DynamicsBackendPatch.Options attribute)</a>
 
       <ul>
@@ -1060,18 +1190,24 @@ document.write(`
         <li><a href="autoapi/casq/common/helpers/index.html#casq.common.helpers.initialize_jax">(in module casq.common.helpers)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/casq/backends/index.html#casq.backends.DynamicsBackendPatch.Options.iq_centers">iq_centers (casq.backends.DynamicsBackendPatch.Options attribute)</a>
 
       <ul>
         <li><a href="autoapi/casq/backends/qiskit/dynamics_backend_patch/index.html#casq.backends.qiskit.dynamics_backend_patch.DynamicsBackendPatch.Options.iq_centers">(casq.backends.qiskit.dynamics_backend_patch.DynamicsBackendPatch.Options attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/casq/backends/index.html#casq.backends.DynamicsBackendPatch.Options.iq_width">iq_width (casq.backends.DynamicsBackendPatch.Options attribute)</a>
 
       <ul>
         <li><a href="autoapi/casq/backends/qiskit/dynamics_backend_patch/index.html#casq.backends.qiskit.dynamics_backend_patch.DynamicsBackendPatch.Options.iq_width">(casq.backends.qiskit.dynamics_backend_patch.DynamicsBackendPatch.Options attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/casq/common/index.html#casq.common.is_jax_enabled">is_jax_enabled() (in module casq.common)</a>
+
+      <ul>
+        <li><a href="autoapi/casq/common/helpers/index.html#casq.common.helpers.is_jax_enabled">(in module casq.common.helpers)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/casq/backends/index.html#casq.backends.BackendCharacteristics.GateProperties.is_operational">is_operational (casq.backends.BackendCharacteristics.GateProperties attribute)</a>
@@ -1250,17 +1386,31 @@ document.write(`
         <li><a href="autoapi/casq/index.html#casq.PulseOptimizer.Solution.message">(casq.PulseOptimizer.Solution attribute)</a>
 </li>
       </ul></li>
+      <li><a href="autoapi/casq/common/helpers/index.html#casq.common.helpers.TimeUnit.MICRO_SEC">MICRO_SEC (casq.common.helpers.TimeUnit attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/casq/common/index.html#casq.common.TimeUnit.MICRO_SEC">(casq.common.TimeUnit attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/casq/common/helpers/index.html#casq.common.helpers.TimeUnit.MILLI_SEC">MILLI_SEC (casq.common.helpers.TimeUnit attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/casq/common/index.html#casq.common.TimeUnit.MILLI_SEC">(casq.common.TimeUnit attribute)</a>
+</li>
+      </ul></li>
       <li>
     module
 
       <ul>
         <li><a href="autoapi/casq/index.html#module-casq">casq</a>
 </li>
+        <li><a href="autoapi/casq/about/index.html#module-casq.about">casq.about</a>
+</li>
         <li><a href="autoapi/casq/backends/index.html#module-casq.backends">casq.backends</a>
 </li>
-        <li><a href="autoapi/casq/backends/pulse_backend/index.html#module-casq.backends.pulse_backend">casq.backends.pulse_backend</a>
+        <li><a href="autoapi/casq/backends/helpers/index.html#module-casq.backends.helpers">casq.backends.helpers</a>
 </li>
-        <li><a href="autoapi/casq/backends/pulse_solution/index.html#module-casq.backends.pulse_solution">casq.backends.pulse_solution</a>
+        <li><a href="autoapi/casq/backends/pulse_backend/index.html#module-casq.backends.pulse_backend">casq.backends.pulse_backend</a>
 </li>
         <li><a href="autoapi/casq/backends/qiskit/index.html#module-casq.backends.qiskit">casq.backends.qiskit</a>
 </li>
@@ -1284,9 +1434,13 @@ document.write(`
 </li>
         <li><a href="autoapi/casq/gates/index.html#module-casq.gates">casq.gates</a>
 </li>
+        <li><a href="autoapi/casq/gates/constant_pulse_gate/index.html#module-casq.gates.constant_pulse_gate">casq.gates.constant_pulse_gate</a>
+</li>
         <li><a href="autoapi/casq/gates/drag_pulse_gate/index.html#module-casq.gates.drag_pulse_gate">casq.gates.drag_pulse_gate</a>
 </li>
         <li><a href="autoapi/casq/gates/gaussian_pulse_gate/index.html#module-casq.gates.gaussian_pulse_gate">casq.gates.gaussian_pulse_gate</a>
+</li>
+        <li><a href="autoapi/casq/gates/gaussian_square_drag_pulse_gate/index.html#module-casq.gates.gaussian_square_drag_pulse_gate">casq.gates.gaussian_square_drag_pulse_gate</a>
 </li>
         <li><a href="autoapi/casq/gates/gaussian_square_pulse_gate/index.html#module-casq.gates.gaussian_square_pulse_gate">casq.gates.gaussian_square_pulse_gate</a>
 </li>
@@ -1296,15 +1450,11 @@ document.write(`
 </li>
         <li><a href="autoapi/casq/models/index.html#module-casq.models">casq.models</a>
 </li>
+        <li><a href="autoapi/casq/models/control_model/index.html#module-casq.models.control_model">casq.models.control_model</a>
+</li>
         <li><a href="autoapi/casq/models/hamiltonian_model/index.html#module-casq.models.hamiltonian_model">casq.models.hamiltonian_model</a>
 </li>
-        <li><a href="autoapi/casq/models/noise_model/index.html#module-casq.models.noise_model">casq.models.noise_model</a>
-</li>
-        <li><a href="autoapi/casq/models/pulse_backend_model/index.html#module-casq.models.pulse_backend_model">casq.models.pulse_backend_model</a>
-</li>
         <li><a href="autoapi/casq/models/transmon_model/index.html#module-casq.models.transmon_model">casq.models.transmon_model</a>
-</li>
-        <li><a href="autoapi/casq/models/transmon_noise_model/index.html#module-casq.models.transmon_noise_model">casq.models.transmon_noise_model</a>
 </li>
         <li><a href="autoapi/casq/notebooks/index.html#module-casq.notebooks">casq.notebooks</a>
 </li>
@@ -1317,36 +1467,30 @@ document.write(`
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="autoapi/casq/models/index.html#casq.models.NoiseModel">NoiseModel (class in casq.models)</a>
+      <li><a href="autoapi/casq/common/helpers/index.html#casq.common.helpers.SignalData.name">name (casq.common.helpers.SignalData attribute)</a>
 
       <ul>
-        <li><a href="autoapi/casq/models/noise_model/index.html#casq.models.noise_model.NoiseModel">(class in casq.models.noise_model)</a>
+        <li><a href="autoapi/casq/common/index.html#casq.common.SignalData.name">(casq.common.SignalData attribute)</a>
 </li>
       </ul></li>
+      <li><a href="autoapi/casq/common/helpers/index.html#casq.common.helpers.TimeUnit.NANO_SEC">NANO_SEC (casq.common.helpers.TimeUnit attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/casq/common/index.html#casq.common.TimeUnit.NANO_SEC">(casq.common.TimeUnit attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/casq/backends/index.html#casq.backends.DynamicsBackendPatch.Options.normalize_states">normalize_states (casq.backends.DynamicsBackendPatch.Options attribute)</a>
 
       <ul>
         <li><a href="autoapi/casq/backends/qiskit/dynamics_backend_patch/index.html#casq.backends.qiskit.dynamics_backend_patch.DynamicsBackendPatch.Options.normalize_states">(casq.backends.qiskit.dynamics_backend_patch.DynamicsBackendPatch.Options attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/casq/pulse_optimizer/index.html#casq.pulse_optimizer.PulseOptimizer.Solution.num_iterations">num_iterations (casq.pulse_optimizer.PulseOptimizer.Solution attribute)</a>
 
       <ul>
         <li><a href="autoapi/casq/index.html#casq.PulseOptimizer.Solution.num_iterations">(casq.PulseOptimizer.Solution attribute)</a>
-</li>
-      </ul></li>
-  </ul></td>
-</tr></table>
-
-<h2 id="O">O</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="autoapi/casq/pulse_optimizer/index.html#casq.pulse_optimizer.PulseOptimizer.optimize">optimize() (casq.pulse_optimizer.PulseOptimizer method)</a>
-
-      <ul>
-        <li><a href="autoapi/casq/index.html#casq.PulseOptimizer.optimize">(casq.PulseOptimizer method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -1371,6 +1515,12 @@ document.write(`
         <li><a href="autoapi/casq/common/plotting/index.html#casq.common.plotting.MarkerType.PENTAGON">(casq.common.plotting.MarkerType attribute)</a>
 </li>
       </ul></li>
+      <li><a href="autoapi/casq/common/helpers/index.html#casq.common.helpers.TimeUnit.PICO_SEC">PICO_SEC (casq.common.helpers.TimeUnit attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/casq/common/index.html#casq.common.TimeUnit.PICO_SEC">(casq.common.TimeUnit attribute)</a>
+</li>
+      </ul></li>
       <li><a href="autoapi/casq/common/index.html#casq.common.MarkerType.PIXEL">PIXEL (casq.common.MarkerType attribute)</a>
 
       <ul>
@@ -1389,28 +1539,28 @@ document.write(`
         <li><a href="autoapi/casq/common/plotting/index.html#casq.common.plotting.plot_bloch">(in module casq.common.plotting)</a>
 </li>
       </ul></li>
-      <li><a href="autoapi/casq/backends/pulse_solution/index.html#casq.backends.pulse_solution.PulseSolution.plot_bloch_trajectory">plot_bloch_trajectory() (casq.backends.pulse_solution.PulseSolution method)</a>
+      <li><a href="autoapi/casq/backends/pulse_backend/index.html#casq.backends.pulse_backend.PulseBackend.PulseSolution.plot_bloch_trajectory">plot_bloch_trajectory() (casq.backends.pulse_backend.PulseBackend.PulseSolution method)</a>
 
       <ul>
-        <li><a href="autoapi/casq/backends/index.html#casq.backends.PulseSolution.plot_bloch_trajectory">(casq.backends.PulseSolution method)</a>
+        <li><a href="autoapi/casq/backends/index.html#casq.backends.PulseBackend.PulseSolution.plot_bloch_trajectory">(casq.backends.PulseBackend.PulseSolution method)</a>
 </li>
       </ul></li>
-      <li><a href="autoapi/casq/backends/pulse_solution/index.html#casq.backends.pulse_solution.PulseSolution.plot_iq">plot_iq() (casq.backends.pulse_solution.PulseSolution method)</a>
+      <li><a href="autoapi/casq/backends/pulse_backend/index.html#casq.backends.pulse_backend.PulseBackend.PulseSolution.plot_iq">plot_iq() (casq.backends.pulse_backend.PulseBackend.PulseSolution method)</a>
 
       <ul>
-        <li><a href="autoapi/casq/backends/index.html#casq.backends.PulseSolution.plot_iq">(casq.backends.PulseSolution method)</a>
+        <li><a href="autoapi/casq/backends/index.html#casq.backends.PulseBackend.PulseSolution.plot_iq">(casq.backends.PulseBackend.PulseSolution method)</a>
 </li>
       </ul></li>
-      <li><a href="autoapi/casq/backends/pulse_solution/index.html#casq.backends.pulse_solution.PulseSolution.plot_iq_trajectory">plot_iq_trajectory() (casq.backends.pulse_solution.PulseSolution method)</a>
+      <li><a href="autoapi/casq/backends/pulse_backend/index.html#casq.backends.pulse_backend.PulseBackend.PulseSolution.plot_iq_trajectory">plot_iq_trajectory() (casq.backends.pulse_backend.PulseBackend.PulseSolution method)</a>
 
       <ul>
-        <li><a href="autoapi/casq/backends/index.html#casq.backends.PulseSolution.plot_iq_trajectory">(casq.backends.PulseSolution method)</a>
+        <li><a href="autoapi/casq/backends/index.html#casq.backends.PulseBackend.PulseSolution.plot_iq_trajectory">(casq.backends.PulseBackend.PulseSolution method)</a>
 </li>
       </ul></li>
-      <li><a href="autoapi/casq/backends/pulse_solution/index.html#casq.backends.pulse_solution.PulseSolution.plot_population">plot_population() (casq.backends.pulse_solution.PulseSolution method)</a>
+      <li><a href="autoapi/casq/backends/pulse_backend/index.html#casq.backends.pulse_backend.PulseBackend.PulseSolution.plot_population">plot_population() (casq.backends.pulse_backend.PulseBackend.PulseSolution method)</a>
 
       <ul>
-        <li><a href="autoapi/casq/backends/index.html#casq.backends.PulseSolution.plot_population">(casq.backends.PulseSolution method)</a>
+        <li><a href="autoapi/casq/backends/index.html#casq.backends.PulseBackend.PulseSolution.plot_population">(casq.backends.PulseBackend.PulseSolution method)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/casq/common/index.html#casq.common.plot_signal">plot_signal() (in module casq.common)</a>
@@ -1419,10 +1569,10 @@ document.write(`
         <li><a href="autoapi/casq/common/plotting/index.html#casq.common.plotting.plot_signal">(in module casq.common.plotting)</a>
 </li>
       </ul></li>
-      <li><a href="autoapi/casq/backends/pulse_solution/index.html#casq.backends.pulse_solution.PulseSolution.plot_trajectory">plot_trajectory() (casq.backends.pulse_solution.PulseSolution method)</a>
+      <li><a href="autoapi/casq/backends/pulse_backend/index.html#casq.backends.pulse_backend.PulseBackend.PulseSolution.plot_trajectory">plot_trajectory() (casq.backends.pulse_backend.PulseBackend.PulseSolution method)</a>
 
       <ul>
-        <li><a href="autoapi/casq/backends/index.html#casq.backends.PulseSolution.plot_trajectory">(casq.backends.PulseSolution method)</a>
+        <li><a href="autoapi/casq/backends/index.html#casq.backends.PulseBackend.PulseSolution.plot_trajectory">(casq.backends.PulseBackend.PulseSolution method)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/casq/common/index.html#casq.common.MarkerType.PLUS">PLUS (casq.common.MarkerType attribute)</a>
@@ -1443,40 +1593,50 @@ document.write(`
         <li><a href="autoapi/casq/common/plotting/index.html#casq.common.plotting.MarkerType.POINT">(casq.common.plotting.MarkerType attribute)</a>
 </li>
       </ul></li>
-      <li><a href="autoapi/casq/gates/drag_pulse_gate/index.html#casq.gates.drag_pulse_gate.DragPulseGate.pulse">pulse() (casq.gates.drag_pulse_gate.DragPulseGate method)</a>
+      <li><a href="autoapi/casq/pulse_optimizer/index.html#casq.pulse_optimizer.PulseOptimizer.Solution.pulse">pulse (casq.pulse_optimizer.PulseOptimizer.Solution attribute)</a>
 
       <ul>
+        <li><a href="autoapi/casq/index.html#casq.PulseOptimizer.Solution.pulse">(casq.PulseOptimizer.Solution attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/casq/gates/constant_pulse_gate/index.html#casq.gates.constant_pulse_gate.ConstantPulseGate.pulse">pulse() (casq.gates.constant_pulse_gate.ConstantPulseGate method)</a>
+
+      <ul>
+        <li><a href="autoapi/casq/gates/index.html#casq.gates.ConstantPulseGate.pulse">(casq.gates.ConstantPulseGate method)</a>
+</li>
+        <li><a href="autoapi/casq/gates/drag_pulse_gate/index.html#casq.gates.drag_pulse_gate.DragPulseGate.pulse">(casq.gates.drag_pulse_gate.DragPulseGate method)</a>
+</li>
         <li><a href="autoapi/casq/gates/index.html#casq.gates.DragPulseGate.pulse">(casq.gates.DragPulseGate method)</a>
 </li>
         <li><a href="autoapi/casq/gates/gaussian_pulse_gate/index.html#casq.gates.gaussian_pulse_gate.GaussianPulseGate.pulse">(casq.gates.gaussian_pulse_gate.GaussianPulseGate method)</a>
+</li>
+        <li><a href="autoapi/casq/gates/gaussian_square_drag_pulse_gate/index.html#casq.gates.gaussian_square_drag_pulse_gate.GaussianSquareDragPulseGate.pulse">(casq.gates.gaussian_square_drag_pulse_gate.GaussianSquareDragPulseGate method)</a>
 </li>
         <li><a href="autoapi/casq/gates/gaussian_square_pulse_gate/index.html#casq.gates.gaussian_square_pulse_gate.GaussianSquarePulseGate.pulse">(casq.gates.gaussian_square_pulse_gate.GaussianSquarePulseGate method)</a>
 </li>
         <li><a href="autoapi/casq/gates/index.html#casq.gates.GaussianPulseGate.pulse">(casq.gates.GaussianPulseGate method)</a>
 </li>
+        <li><a href="autoapi/casq/gates/index.html#casq.gates.GaussianSquareDragPulseGate.pulse">(casq.gates.GaussianSquareDragPulseGate method)</a>
+</li>
         <li><a href="autoapi/casq/gates/index.html#casq.gates.GaussianSquarePulseGate.pulse">(casq.gates.GaussianSquarePulseGate method)</a>
 </li>
-        <li><a href="autoapi/casq/gates/pulse_circuit/index.html#casq.gates.pulse_circuit.PulseCircuit.pulse">(casq.gates.pulse_circuit.PulseCircuit method)</a>
-</li>
         <li><a href="autoapi/casq/gates/pulse_gate/index.html#casq.gates.pulse_gate.PulseGate.pulse">(casq.gates.pulse_gate.PulseGate method)</a>
-</li>
-        <li><a href="autoapi/casq/gates/index.html#casq.gates.PulseCircuit.pulse">(casq.gates.PulseCircuit method)</a>
 </li>
         <li><a href="autoapi/casq/gates/index.html#casq.gates.PulseGate.pulse">(casq.gates.PulseGate method)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/casq/gates/pulse_circuit/index.html#casq.gates.pulse_circuit.PulseCircuit.pulse_gate">pulse_gate() (casq.gates.pulse_circuit.PulseCircuit method)</a>
+
+      <ul>
+        <li><a href="autoapi/casq/gates/index.html#casq.gates.PulseCircuit.pulse_gate">(casq.gates.PulseCircuit method)</a>
+</li>
+      </ul></li>
       <li><a href="autoapi/casq/backends/index.html#casq.backends.PulseBackend">PulseBackend (class in casq.backends)</a>
 
       <ul>
         <li><a href="autoapi/casq/backends/pulse_backend/index.html#casq.backends.pulse_backend.PulseBackend">(class in casq.backends.pulse_backend)</a>
-</li>
-      </ul></li>
-      <li><a href="autoapi/casq/backends/index.html#casq.backends.PulseBackend.NativeBackendType">PulseBackend.NativeBackendType (class in casq.backends)</a>
-
-      <ul>
-        <li><a href="autoapi/casq/backends/pulse_backend/index.html#casq.backends.pulse_backend.PulseBackend.NativeBackendType">(class in casq.backends.pulse_backend)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/casq/backends/index.html#casq.backends.PulseBackend.ODESolverMethod">PulseBackend.ODESolverMethod (class in casq.backends)</a>
@@ -1485,10 +1645,10 @@ document.write(`
         <li><a href="autoapi/casq/backends/pulse_backend/index.html#casq.backends.pulse_backend.PulseBackend.ODESolverMethod">(class in casq.backends.pulse_backend)</a>
 </li>
       </ul></li>
-      <li><a href="autoapi/casq/models/index.html#casq.models.PulseBackendModel">PulseBackendModel (class in casq.models)</a>
+      <li><a href="autoapi/casq/backends/index.html#casq.backends.PulseBackend.PulseSolution">PulseBackend.PulseSolution (class in casq.backends)</a>
 
       <ul>
-        <li><a href="autoapi/casq/models/pulse_backend_model/index.html#casq.models.pulse_backend_model.PulseBackendModel">(class in casq.models.pulse_backend_model)</a>
+        <li><a href="autoapi/casq/backends/pulse_backend/index.html#casq.backends.pulse_backend.PulseBackend.PulseSolution">(class in casq.backends.pulse_backend)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/casq/gates/index.html#casq.gates.PulseCircuit">PulseCircuit (class in casq.gates)</a>
@@ -1539,28 +1699,22 @@ document.write(`
         <li><a href="autoapi/casq/pulse_optimizer/index.html#casq.pulse_optimizer.PulseOptimizer.Solution">(class in casq.pulse_optimizer)</a>
 </li>
       </ul></li>
-      <li><a href="autoapi/casq/backends/index.html#casq.backends.PulseSolution">PulseSolution (class in casq.backends)</a>
-
-      <ul>
-        <li><a href="autoapi/casq/backends/pulse_solution/index.html#casq.backends.pulse_solution.PulseSolution">(class in casq.backends.pulse_solution)</a>
-</li>
-      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="Q">Q</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="autoapi/casq/backends/pulse_backend/index.html#casq.backends.pulse_backend.PulseBackend.NativeBackendType.QCTRL">QCTRL (casq.backends.pulse_backend.PulseBackend.NativeBackendType attribute)</a>
+      <li><a href="autoapi/casq/common/helpers/index.html#casq.common.helpers.SignalData.q_signal">q_signal (casq.common.helpers.SignalData attribute)</a>
 
       <ul>
-        <li><a href="autoapi/casq/backends/index.html#casq.backends.PulseBackend.NativeBackendType.QCTRL">(casq.backends.PulseBackend.NativeBackendType attribute)</a>
+        <li><a href="autoapi/casq/common/index.html#casq.common.SignalData.q_signal">(casq.common.SignalData attribute)</a>
 </li>
       </ul></li>
-      <li><a href="autoapi/casq/backends/pulse_backend/index.html#casq.backends.pulse_backend.PulseBackend.NativeBackendType.QISKIT">QISKIT (casq.backends.pulse_backend.PulseBackend.NativeBackendType attribute)</a>
+      <li><a href="autoapi/casq/backends/index.html#casq.backends.BackendLibrary.QISKIT">QISKIT (casq.backends.BackendLibrary attribute)</a>
 
       <ul>
-        <li><a href="autoapi/casq/backends/index.html#casq.backends.PulseBackend.NativeBackendType.QISKIT">(casq.backends.PulseBackend.NativeBackendType attribute)</a>
+        <li><a href="autoapi/casq/backends/helpers/index.html#casq.backends.helpers.BackendLibrary.QISKIT">(casq.backends.helpers.BackendLibrary attribute)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/casq/backends/pulse_backend/index.html#casq.backends.pulse_backend.PulseBackend.ODESolverMethod.QISKIT_DYNAMICS_JAX_ODEINT">QISKIT_DYNAMICS_JAX_ODEINT (casq.backends.pulse_backend.PulseBackend.ODESolverMethod attribute)</a>
@@ -1595,10 +1749,10 @@ document.write(`
         <li><a href="autoapi/casq/backends/qiskit/backend_characteristics/index.html#casq.backends.qiskit.backend_characteristics.BackendCharacteristics.GateProperties.qubits">(casq.backends.qiskit.backend_characteristics.BackendCharacteristics.GateProperties attribute)</a>
 </li>
       </ul></li>
-      <li><a href="autoapi/casq/backends/pulse_backend/index.html#casq.backends.pulse_backend.PulseBackend.NativeBackendType.QUTIP">QUTIP (casq.backends.pulse_backend.PulseBackend.NativeBackendType attribute)</a>
+      <li><a href="autoapi/casq/backends/index.html#casq.backends.BackendLibrary.QUTIP">QUTIP (casq.backends.BackendLibrary attribute)</a>
 
       <ul>
-        <li><a href="autoapi/casq/backends/index.html#casq.backends.PulseBackend.NativeBackendType.QUTIP">(casq.backends.PulseBackend.NativeBackendType attribute)</a>
+        <li><a href="autoapi/casq/backends/helpers/index.html#casq.backends.helpers.BackendLibrary.QUTIP">(casq.backends.helpers.BackendLibrary attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -1613,22 +1767,12 @@ document.write(`
         <li><a href="autoapi/casq/backends/qiskit/backend_characteristics/index.html#casq.backends.qiskit.backend_characteristics.BackendCharacteristics.QubitProperties.readout_error">(casq.backends.qiskit.backend_characteristics.BackendCharacteristics.QubitProperties attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/casq/backends/index.html#casq.backends.BackendCharacteristics.QubitProperties.readout_length">readout_length (casq.backends.BackendCharacteristics.QubitProperties attribute)</a>
 
       <ul>
         <li><a href="autoapi/casq/backends/qiskit/backend_characteristics/index.html#casq.backends.qiskit.backend_characteristics.BackendCharacteristics.QubitProperties.readout_length">(casq.backends.qiskit.backend_characteristics.BackendCharacteristics.QubitProperties attribute)</a>
-</li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="autoapi/casq/backends/pulse_backend/index.html#casq.backends.pulse_backend.PulseBackend.run">run() (casq.backends.pulse_backend.PulseBackend method)</a>
-
-      <ul>
-        <li><a href="autoapi/casq/backends/index.html#casq.backends.PulseBackend.run">(casq.backends.PulseBackend method)</a>
-</li>
-        <li><a href="autoapi/casq/backends/qiskit/qiskit_pulse_backend/index.html#casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend.run">(casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend method)</a>
-</li>
-        <li><a href="autoapi/casq/backends/index.html#casq.backends.QiskitPulseBackend.run">(casq.backends.QiskitPulseBackend method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -1637,6 +1781,12 @@ document.write(`
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/casq/common/helpers/index.html#casq.common.helpers.TimeUnit.SAMPLE">SAMPLE (casq.common.helpers.TimeUnit attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/casq/common/index.html#casq.common.TimeUnit.SAMPLE">(casq.common.TimeUnit attribute)</a>
+</li>
+      </ul></li>
       <li><a href="autoapi/casq/gates/pulse_gate/index.html#casq.gates.pulse_gate.PulseGate.schedule">schedule() (casq.gates.pulse_gate.PulseGate method)</a>
 
       <ul>
@@ -1739,8 +1889,6 @@ document.write(`
         <li><a href="autoapi/casq/index.html#casq.PulseOptimizer.OptimizationMethod.SCIPY_TNC">(casq.PulseOptimizer.OptimizationMethod attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/casq/pulse_optimizer/index.html#casq.pulse_optimizer.PulseOptimizer.OptimizationMethod.SCIPY_TRUST_CONSTR">SCIPY_TRUST_CONSTR (casq.pulse_optimizer.PulseOptimizer.OptimizationMethod attribute)</a>
 
       <ul>
@@ -1753,6 +1901,8 @@ document.write(`
         <li><a href="autoapi/casq/index.html#casq.PulseOptimizer.OptimizationMethod.SCIPY_TRUST_EXACT">(casq.PulseOptimizer.OptimizationMethod attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/casq/pulse_optimizer/index.html#casq.pulse_optimizer.PulseOptimizer.OptimizationMethod.SCIPY_TRUST_KRYLOV">SCIPY_TRUST_KRYLOV (casq.pulse_optimizer.PulseOptimizer.OptimizationMethod attribute)</a>
 
       <ul>
@@ -1765,6 +1915,12 @@ document.write(`
         <li><a href="autoapi/casq/index.html#casq.PulseOptimizer.OptimizationMethod.SCIPY_TRUST_NCG">(casq.PulseOptimizer.OptimizationMethod attribute)</a>
 </li>
       </ul></li>
+      <li><a href="autoapi/casq/common/helpers/index.html#casq.common.helpers.TimeUnit.SEC">SEC (casq.common.helpers.TimeUnit attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/casq/common/index.html#casq.common.TimeUnit.SEC">(casq.common.TimeUnit attribute)</a>
+</li>
+      </ul></li>
       <li><a href="autoapi/casq/backends/index.html#casq.backends.DynamicsBackendPatch.Options.seed_simulator">seed_simulator (casq.backends.DynamicsBackendPatch.Options attribute)</a>
 
       <ul>
@@ -1775,6 +1931,18 @@ document.write(`
 
       <ul>
         <li><a href="autoapi/casq/backends/qiskit/dynamics_backend_patch/index.html#casq.backends.qiskit.dynamics_backend_patch.DynamicsBackendPatch.Options.shots">(casq.backends.qiskit.dynamics_backend_patch.DynamicsBackendPatch.Options attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/casq/common/helpers/index.html#casq.common.helpers.SignalData.signal">signal (casq.common.helpers.SignalData attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/casq/common/index.html#casq.common.SignalData.signal">(casq.common.SignalData attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/casq/common/index.html#casq.common.SignalData">SignalData (class in casq.common)</a>
+
+      <ul>
+        <li><a href="autoapi/casq/common/helpers/index.html#casq.common.helpers.SignalData">(class in casq.common.helpers)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/casq/common/index.html#casq.common.LineStyle.size">size (casq.common.LineStyle attribute)</a>
@@ -1791,6 +1959,20 @@ document.write(`
 
       <ul>
         <li><a href="autoapi/casq/common/plotting/index.html#casq.common.plotting.LineType.SOLID">(casq.common.plotting.LineType attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/casq/backends/pulse_backend/index.html#casq.backends.pulse_backend.PulseBackend.solve">solve() (casq.backends.pulse_backend.PulseBackend method)</a>
+
+      <ul>
+        <li><a href="autoapi/casq/backends/index.html#casq.backends.PulseBackend.solve">(casq.backends.PulseBackend method)</a>
+</li>
+        <li><a href="autoapi/casq/backends/qiskit/qiskit_pulse_backend/index.html#casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend.solve">(casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend method)</a>
+</li>
+        <li><a href="autoapi/casq/backends/index.html#casq.backends.QiskitPulseBackend.solve">(casq.backends.QiskitPulseBackend method)</a>
+</li>
+        <li><a href="autoapi/casq/pulse_optimizer/index.html#casq.pulse_optimizer.PulseOptimizer.solve">(casq.pulse_optimizer.PulseOptimizer method)</a>
+</li>
+        <li><a href="autoapi/casq/index.html#casq.PulseOptimizer.solve">(casq.PulseOptimizer method)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/casq/backends/index.html#casq.backends.DynamicsBackendPatch.Options.solver">solver (casq.backends.DynamicsBackendPatch.Options attribute)</a>
@@ -1865,10 +2047,50 @@ document.write(`
         <li><a href="autoapi/casq/common/decorators/index.html#casq.common.decorators.timer">(in module casq.common.decorators)</a>
 </li>
       </ul></li>
+      <li><a href="autoapi/casq/common/index.html#casq.common.TimeUnit">TimeUnit (class in casq.common)</a>
+
+      <ul>
+        <li><a href="autoapi/casq/common/helpers/index.html#casq.common.helpers.TimeUnit">(class in casq.common.helpers)</a>
+</li>
+      </ul></li>
       <li><a href="autoapi/casq/backends/index.html#casq.backends.DynamicsBackendPatch.Options.to_dict">to_dict() (casq.backends.DynamicsBackendPatch.Options method)</a>
 
       <ul>
         <li><a href="autoapi/casq/backends/qiskit/dynamics_backend_patch/index.html#casq.backends.qiskit.dynamics_backend_patch.DynamicsBackendPatch.Options.to_dict">(casq.backends.qiskit.dynamics_backend_patch.DynamicsBackendPatch.Options method)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/casq/gates/constant_pulse_gate/index.html#casq.gates.constant_pulse_gate.ConstantPulseGate.to_parameters_dict">to_parameters_dict() (casq.gates.constant_pulse_gate.ConstantPulseGate method)</a>
+
+      <ul>
+        <li><a href="autoapi/casq/gates/index.html#casq.gates.ConstantPulseGate.to_parameters_dict">(casq.gates.ConstantPulseGate method)</a>
+</li>
+        <li><a href="autoapi/casq/gates/drag_pulse_gate/index.html#casq.gates.drag_pulse_gate.DragPulseGate.to_parameters_dict">(casq.gates.drag_pulse_gate.DragPulseGate method)</a>
+</li>
+        <li><a href="autoapi/casq/gates/index.html#casq.gates.DragPulseGate.to_parameters_dict">(casq.gates.DragPulseGate method)</a>
+</li>
+        <li><a href="autoapi/casq/gates/gaussian_pulse_gate/index.html#casq.gates.gaussian_pulse_gate.GaussianPulseGate.to_parameters_dict">(casq.gates.gaussian_pulse_gate.GaussianPulseGate method)</a>
+</li>
+        <li><a href="autoapi/casq/gates/gaussian_square_drag_pulse_gate/index.html#casq.gates.gaussian_square_drag_pulse_gate.GaussianSquareDragPulseGate.to_parameters_dict">(casq.gates.gaussian_square_drag_pulse_gate.GaussianSquareDragPulseGate method)</a>
+</li>
+        <li><a href="autoapi/casq/gates/gaussian_square_pulse_gate/index.html#casq.gates.gaussian_square_pulse_gate.GaussianSquarePulseGate.to_parameters_dict">(casq.gates.gaussian_square_pulse_gate.GaussianSquarePulseGate method)</a>
+</li>
+        <li><a href="autoapi/casq/gates/index.html#casq.gates.GaussianPulseGate.to_parameters_dict">(casq.gates.GaussianPulseGate method)</a>
+</li>
+        <li><a href="autoapi/casq/gates/index.html#casq.gates.GaussianSquareDragPulseGate.to_parameters_dict">(casq.gates.GaussianSquareDragPulseGate method)</a>
+</li>
+        <li><a href="autoapi/casq/gates/index.html#casq.gates.GaussianSquarePulseGate.to_parameters_dict">(casq.gates.GaussianSquarePulseGate method)</a>
+</li>
+        <li><a href="autoapi/casq/gates/pulse_gate/index.html#casq.gates.pulse_gate.PulseGate.to_parameters_dict">(casq.gates.pulse_gate.PulseGate method)</a>
+</li>
+        <li><a href="autoapi/casq/gates/index.html#casq.gates.PulseGate.to_parameters_dict">(casq.gates.PulseGate method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/casq/gates/pulse_circuit/index.html#casq.gates.pulse_circuit.PulseCircuit.to_schedule">to_schedule() (casq.gates.pulse_circuit.PulseCircuit method)</a>
+
+      <ul>
+        <li><a href="autoapi/casq/gates/index.html#casq.gates.PulseCircuit.to_schedule">(casq.gates.PulseCircuit method)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/casq/common/index.html#casq.common.trace">trace() (in module casq.common)</a>
@@ -1889,10 +2111,6 @@ document.write(`
         <li><a href="autoapi/casq/models/transmon_model/index.html#casq.models.transmon_model.TransmonModel.TransmonProperties">(class in casq.models.transmon_model)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="autoapi/casq/models/transmon_noise_model/index.html#casq.models.transmon_noise_model.TransmonNoiseModel">TransmonNoiseModel (class in casq.models.transmon_noise_model)</a>
-</li>
       <li><a href="autoapi/casq/common/index.html#casq.common.MarkerType.TRIANGLE_DOWN">TRIANGLE_DOWN (casq.common.MarkerType attribute)</a>
 
       <ul>

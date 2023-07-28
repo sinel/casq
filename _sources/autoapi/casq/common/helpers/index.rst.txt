@@ -12,6 +12,15 @@
 Module Contents
 ---------------
 
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   casq.common.helpers.TimeUnit
+   casq.common.helpers.SignalData
+
+
 
 Functions
 ~~~~~~~~~
@@ -21,8 +30,47 @@ Functions
    casq.common.helpers.dbid
    casq.common.helpers.ufid
    casq.common.helpers.initialize_jax
+   casq.common.helpers.is_jax_enabled
    casq.common.helpers.discretize
 
+
+
+.. py:class:: TimeUnit(*args, **kwds)
+
+
+   Bases: :py:obj:`enum.Enum`
+
+   Time units.
+
+   .. py:attribute:: SAMPLE
+      :value: 0
+
+      
+
+   .. py:attribute:: PICO_SEC
+      :value: 1
+
+      
+
+   .. py:attribute:: NANO_SEC
+      :value: 2
+
+      
+
+   .. py:attribute:: MICRO_SEC
+      :value: 3
+
+      
+
+   .. py:attribute:: MILLI_SEC
+      :value: 4
+
+      
+
+   .. py:attribute:: SEC
+      :value: 5
+
+      
 
 
 .. py:function:: dbid() -> str
@@ -49,7 +97,53 @@ Functions
    Initializes jax to use CPU in 64-bit mode.
 
 
-.. py:function:: discretize(schedule: qiskit.pulse.Schedule, dt: float, channel_frequencies: dict[str, float]) -> list[qiskit_dynamics.Signal]
+.. py:function:: is_jax_enabled() -> bool
+
+   Checks if jax is enabled or not.
+
+
+.. py:class:: SignalData
+
+
+   Signal data.
+
+   .. py:attribute:: name
+      :type: str
+
+      
+
+   .. py:attribute:: dt
+      :type: float
+
+      
+
+   .. py:attribute:: duration
+      :type: float
+
+      
+
+   .. py:attribute:: signal
+      :type: qiskit_dynamics.Signal
+
+      
+
+   .. py:attribute:: i_signal
+      :type: qiskit_dynamics.Signal
+
+      
+
+   .. py:attribute:: q_signal
+      :type: qiskit_dynamics.Signal
+
+      
+
+   .. py:attribute:: carrier
+      :type: float
+
+      
+
+
+.. py:function:: discretize(schedule: qiskit.pulse.Schedule, dt: float, channel_frequencies: dict[str, float], carrier_frequency: Optional[float] = None) -> list[SignalData]
 
    Discretizes pulse schedule into signals.
 
@@ -57,8 +151,10 @@ Functions
        schedule: Pulse schedule.
        dt: Time interval.
        channel_frequencies: Channel frequencies.
+       carrier_frequency: Carrier frequency used for calculating IQ signal components.
+           If None, then corresponding channel frequencies are used.
 
    Returns:
-       List of :py:class:`qiskit_dynamics.signals.Signal`
+       List of SignalData.
 
 

@@ -22,7 +22,7 @@ Classes
 
 
 
-.. py:class:: BackendCharacteristics(backend: Union[str, qiskit.providers.BackendV1])
+.. py:class:: BackendCharacteristics(backend: Union[str, qiskit.providers.Backend])
 
 
    BackendCharacteristics class.
@@ -108,7 +108,7 @@ Classes
          
 
 
-   .. py:method:: get_backend(name: str) -> qiskit.providers.BackendV1
+   .. py:method:: get_backend(name: str) -> qiskit.providers.Backend
       :staticmethod:
 
       BackendCharacteristics._get_backend method.

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="../../../../../_static/favicon.png" sizes="100x100" rel="icon" type="image/png">
-    <title>casq.backends.qiskit.qiskit_pulse_backend &#8212; casq v0.1.0 documentation</title>
+    <title>casq.backends.qiskit.qiskit_pulse_backend &#8212; Casq v0.1.0 documentation</title>
   
   
   
@@ -30,6 +30,9 @@
 
     <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/css/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
@@ -38,10 +41,13 @@
     <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
     <script src="../../../../../_static/doctools.js"></script>
     <script src="../../../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../../../_static/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'autoapi/casq/backends/qiskit/qiskit_pulse_backend/index';</script>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" />
-    <link rel="next" title="casq.backends.pulse_backend" href="../../pulse_backend/index.html" />
+    <link rel="next" title="casq.backends.helpers" href="../../helpers/index.html" />
     <link rel="prev" title="casq.backends.qiskit.helpers" href="../helpers/index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -130,9 +136,37 @@
   </p>
   <ul class="bd-navbar-elements navbar-nav">
     
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../overview.html">
+                        Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../developer_guide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="../../../../index.html">
                         API Reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../roadmap.html">
+                        Roadmap
                       </a>
                     </li>
                 
@@ -229,9 +263,37 @@ document.write(`
   </p>
   <ul class="bd-navbar-elements navbar-nav">
     
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../overview.html">
+                        Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../developer_guide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="../../../../index.html">
                         API Reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../roadmap.html">
+                        Roadmap
                       </a>
                     </li>
                 
@@ -289,8 +351,8 @@ document.write(`
 <li class="toctree-l4 current active"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.backends.qiskit.qiskit_pulse_backend</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../../helpers/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.backends.helpers</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../pulse_backend/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.backends.pulse_backend</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../pulse_solution/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.backends.pulse_solution</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../common/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.common</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -301,22 +363,23 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../gates/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.gates</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../gates/constant_pulse_gate/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.gates.constant_pulse_gate</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../gates/drag_pulse_gate/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.gates.drag_pulse_gate</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../gates/gaussian_pulse_gate/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.gates.gaussian_pulse_gate</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../gates/gaussian_square_drag_pulse_gate/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.gates.gaussian_square_drag_pulse_gate</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../gates/gaussian_square_pulse_gate/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.gates.gaussian_square_pulse_gate</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../gates/pulse_circuit/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.gates.pulse_circuit</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../gates/pulse_gate/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.gates.pulse_gate</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../models/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../models/control_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models.control_model</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../models/hamiltonian_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models.hamiltonian_model</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../models/noise_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models.noise_model</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../models/pulse_backend_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models.pulse_backend_model</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../models/transmon_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models.transmon_model</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../models/transmon_noise_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models.transmon_noise_model</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../notebooks/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.notebooks</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../about/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.about</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../pulse_optimizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.pulse_optimizer</span></code></a></li>
 </ul>
 </li>
@@ -414,16 +477,16 @@ document.write(`
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.backends.qiskit.qiskit_pulse_backend.</span></span><span class="sig-name descname"><span class="pre">QiskitPulseBackend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../../models/pulse_backend_model/index.html#casq.models.pulse_backend_model.PulseBackendModel" title="casq.models.pulse_backend_model.PulseBackendModel"><span class="pre">casq.models.pulse_backend_model.PulseBackendModel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.backends.qiskit.qiskit_pulse_backend.</span></span><span class="sig-name descname"><span class="pre">QiskitPulseBackend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hamiltonian</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../../models/hamiltonian_model/index.html#casq.models.hamiltonian_model.HamiltonianModel" title="casq.models.hamiltonian_model.HamiltonianModel"><span class="pre">casq.models.hamiltonian_model.HamiltonianModel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">control</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../../models/control_model/index.html#casq.models.control_model.ControlModel" title="casq.models.control_model.ControlModel"><span class="pre">casq.models.control_model.ControlModel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../../pulse_backend/index.html#casq.backends.pulse_backend.PulseBackend" title="casq.backends.pulse_backend.PulseBackend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">casq.backends.pulse_backend.PulseBackend</span></code></a></p>
 <p>QiskitPulseBackend class.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend.from_backend">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_backend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qiskit.providers.BackendV1</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">qiskit.providers.BackendV2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotating_frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qiskit_dynamics.array.Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">qiskit_dynamics.RotatingFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_frame_basis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../../models/hamiltonian_model/index.html#casq.models.hamiltonian_model.HamiltonianModel.EvaluationMode" title="casq.models.hamiltonian_model.HamiltonianModel.EvaluationMode"><span class="pre">casq.models.hamiltonian_model.HamiltonianModel.EvaluationMode</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rwa_cutoff_freq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rwa_carrier_freqs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.typing.NDArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.typing.NDArray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.typing.NDArray</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend.from_backend" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_backend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qiskit.providers.Backend</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extracted_qubits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotating_frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qiskit_dynamics.array.Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">qiskit_dynamics.RotatingFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_frame_basis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../../models/hamiltonian_model/index.html#casq.models.hamiltonian_model.HamiltonianModel.EvaluationMode" title="casq.models.hamiltonian_model.HamiltonianModel.EvaluationMode"><span class="pre">casq.models.hamiltonian_model.HamiltonianModel.EvaluationMode</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rwa_cutoff_freq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rwa_carrier_freqs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.typing.NDArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.typing.NDArray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.typing.NDArray</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend.from_backend" title="Permalink to this definition">#</a></dt>
 <dd><p>Construct a QiskitPulseBackend instance from an existing backend instance.</p>
 <dl>
 <dt>Args:</dt><dd><p>backend: The <code class="docutils literal notranslate"><span class="pre">Backend</span></code> instance to build the <code class="xref py py-class docutils literal notranslate"><span class="pre">DynamicsBackend</span></code> from.
-qubits: List of qubits to include from the backend.
+extracted_qubits: List of qubits to extract from the Hamiltonian.
 rotating_frame: Rotating frame argument for the internal <code class="xref py py-class docutils literal notranslate"><span class="pre">Solver</span></code>.</p>
 <blockquote>
 <div><p>Defaults to None, allowing this method to pick a rotating frame.</p>
@@ -446,8 +509,8 @@ seed: Seed to use in random sampling. Defaults to None.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">circuit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../../gates/pulse_circuit/index.html#casq.gates.pulse_circuit.PulseCircuit" title="casq.gates.pulse_circuit.PulseCircuit"><span class="pre">casq.gates.pulse_circuit.PulseCircuit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../pulse_backend/index.html#casq.backends.pulse_backend.PulseBackend.ODESolverMethod" title="casq.backends.pulse_backend.PulseBackend.ODESolverMethod"><span class="pre">casq.backends.pulse_backend.PulseBackend.ODESolverMethod</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qiskit.quantum_info.DensityMatrix</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">qiskit.quantum_info.Statevector</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1024</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../../pulse_solution/index.html#casq.backends.pulse_solution.PulseSolution" title="casq.backends.pulse_solution.PulseSolution"><span class="pre">casq.backends.pulse_solution.PulseSolution</span></a></span></span><a class="headerlink" href="#casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend.run" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend.solve">
+<span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">circuit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../../gates/pulse_circuit/index.html#casq.gates.pulse_circuit.PulseCircuit" title="casq.gates.pulse_circuit.PulseCircuit"><span class="pre">casq.gates.pulse_circuit.PulseCircuit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../pulse_backend/index.html#casq.backends.pulse_backend.PulseBackend.ODESolverMethod" title="casq.backends.pulse_backend.PulseBackend.ODESolverMethod"><span class="pre">casq.backends.pulse_backend.PulseBackend.ODESolverMethod</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qiskit.quantum_info.DensityMatrix</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">qiskit.quantum_info.Statevector</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1024</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../../pulse_backend/index.html#casq.backends.pulse_backend.PulseBackend.PulseSolution" title="casq.backends.pulse_backend.PulseBackend.PulseSolution"><span class="pre">casq.backends.pulse_backend.PulseBackend.PulseSolution</span></a></span></span><a class="headerlink" href="#casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend.solve" title="Permalink to this definition">#</a></dt>
 <dd><p>QiskitPulseBackend.run.</p>
 </dd></dl>
 
@@ -484,11 +547,11 @@ seed: Seed to use in random sampling. Defaults to None.</p>
       </div>
     </a>
     <a class="right-next"
-       href="../../pulse_backend/index.html"
+       href="../../helpers/index.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.backends.pulse_backend</span></code></p>
+        <p class="prev-next-title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.backends.helpers</span></code></p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -514,7 +577,7 @@ seed: Seed to use in random sampling. Defaults to None.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend"><code class="docutils literal notranslate"><span class="pre">QiskitPulseBackend</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend.from_backend"><code class="docutils literal notranslate"><span class="pre">QiskitPulseBackend.from_backend()</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend.run"><code class="docutils literal notranslate"><span class="pre">QiskitPulseBackend.run()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend.solve"><code class="docutils literal notranslate"><span class="pre">QiskitPulseBackend.solve()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend._get_native_backend"><code class="docutils literal notranslate"><span class="pre">QiskitPulseBackend._get_native_backend()</span></code></a></li>
 </ul>
 </li>

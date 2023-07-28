@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="../../../../_static/favicon.png" sizes="100x100" rel="icon" type="image/png">
-    <title>casq.gates.drag_pulse_gate &#8212; casq v0.1.0 documentation</title>
+    <title>casq.gates.drag_pulse_gate &#8212; Casq v0.1.0 documentation</title>
   
   
   
@@ -30,6 +30,9 @@
 
     <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
@@ -38,11 +41,14 @@
     <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
     <script src="../../../../_static/doctools.js"></script>
     <script src="../../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../../_static/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'autoapi/casq/gates/drag_pulse_gate/index';</script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
     <link rel="next" title="casq.gates.gaussian_pulse_gate" href="../gaussian_pulse_gate/index.html" />
-    <link rel="prev" title="casq.gates" href="../index.html" />
+    <link rel="prev" title="casq.gates.constant_pulse_gate" href="../constant_pulse_gate/index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -130,9 +136,37 @@
   </p>
   <ul class="bd-navbar-elements navbar-nav">
     
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../overview.html">
+                        Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../developer_guide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="../../../index.html">
                         API Reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../roadmap.html">
+                        Roadmap
                       </a>
                     </li>
                 
@@ -229,9 +263,37 @@ document.write(`
   </p>
   <ul class="bd-navbar-elements navbar-nav">
     
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../overview.html">
+                        Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../developer_guide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="../../../index.html">
                         API Reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../roadmap.html">
+                        Roadmap
                       </a>
                     </li>
                 
@@ -289,8 +351,8 @@ document.write(`
 <li class="toctree-l4"><a class="reference internal" href="../../backends/qiskit/qiskit_pulse_backend/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.backends.qiskit.qiskit_pulse_backend</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../../backends/helpers/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.backends.helpers</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../backends/pulse_backend/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.backends.pulse_backend</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../backends/pulse_solution/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.backends.pulse_solution</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../common/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.common</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -301,22 +363,23 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.gates</span></code></a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../constant_pulse_gate/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.gates.constant_pulse_gate</span></code></a></li>
 <li class="toctree-l3 current active"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.gates.drag_pulse_gate</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../gaussian_pulse_gate/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.gates.gaussian_pulse_gate</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gaussian_square_drag_pulse_gate/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.gates.gaussian_square_drag_pulse_gate</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../gaussian_square_pulse_gate/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.gates.gaussian_square_pulse_gate</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../pulse_circuit/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.gates.pulse_circuit</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../pulse_gate/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.gates.pulse_gate</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../models/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../models/control_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models.control_model</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../models/hamiltonian_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models.hamiltonian_model</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../models/noise_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models.noise_model</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../models/pulse_backend_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models.pulse_backend_model</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../models/transmon_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models.transmon_model</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../models/transmon_noise_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models.transmon_noise_model</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../notebooks/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.notebooks</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../about/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.about</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../pulse_optimizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.pulse_optimizer</span></code></a></li>
 </ul>
 </li>
@@ -414,18 +477,13 @@ document.write(`
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="casq.gates.drag_pulse_gate.DragPulseGate">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.gates.drag_pulse_gate.</span></span><span class="sig-name descname"><span class="pre">DragPulseGate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amplitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit_amplitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.gates.drag_pulse_gate.DragPulseGate" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.gates.drag_pulse_gate.</span></span><span class="sig-name descname"><span class="pre">DragPulseGate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amplitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit_amplitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.gates.drag_pulse_gate.DragPulseGate" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../pulse_gate/index.html#casq.gates.pulse_gate.PulseGate" title="casq.gates.pulse_gate.PulseGate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">casq.gates.pulse_gate.PulseGate</span></code></a></p>
 <p>DragPulseGate class.</p>
 <p>Note: Currently only single qubit gates are supported.</p>
 <dl>
 <dt>Args:</dt><dd><p>duration: Pulse length in terms of the sampling period dt.
 amplitude: The magnitude of the amplitude of the Gaussian and square pulse.
-sigma: A measure of how wide or narrow the Gaussian risefall is,</p>
-<blockquote>
-<div><p>i.e. its standard deviation.</p>
-</div></blockquote>
-<p>beta: The correction amplitude.
 angle: The angle of the complex amplitude of the pulse. Default value 0.
 limit_amplitude: If True, then limit the amplitude of the waveform to 1.</p>
 <blockquote>
@@ -436,11 +494,32 @@ limit_amplitude: If True, then limit the amplitude of the waveform to 1.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.gates.drag_pulse_gate.DragPulseGate.pulse">
-<span class="sig-name descname"><span class="pre">pulse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">qiskit.pulse.library.Pulse</span></span></span><a class="headerlink" href="#casq.gates.drag_pulse_gate.DragPulseGate.pulse" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">pulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">qiskit.pulse.library.ScalableSymbolicPulse</span></span></span><a class="headerlink" href="#casq.gates.drag_pulse_gate.DragPulseGate.pulse" title="Permalink to this definition">#</a></dt>
 <dd><p>DragPulseGate.pulse method.</p>
 <p>Builds pulse for pulse gate.</p>
+<p>Args:
+parameters: Dictionary of pulse parameters that defines the pulse envelope.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>sigma: A measure of how wide or narrow the Gaussian risefall is,i.e. its standard deviation.</p></li>
+<li><p>beta: The DRAG correction amplitude.</p></li>
+</ul>
+</div></blockquote>
 <dl class="simple">
-<dt>Returns:</dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">qiskit.pulse.library.Pulse</span></code></p>
+<dt>Returns:</dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">qiskit.pulse.library.ScalableSymbolicPulse</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="casq.gates.drag_pulse_gate.DragPulseGate.to_parameters_dict">
+<span class="sig-name descname"><span class="pre">to_parameters_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.typing.NDArray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#casq.gates.drag_pulse_gate.DragPulseGate.to_parameters_dict" title="Permalink to this definition">#</a></dt>
+<dd><p>GaussianSquarePulseGate.to_parameters_dict method.</p>
+<p>Builds parameter dictionary from array of parameter values.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>parameters: Array of pulse parameter values in order [sigma, beta].</p>
+</dd>
+<dt>Returns:</dt><dd><p>Dictionary of parameters.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -463,12 +542,12 @@ limit_amplitude: If True, then limit the amplitude of the waveform to 1.</p>
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../index.html"
+       href="../constant_pulse_gate/index.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.gates</span></code></p>
+        <p class="prev-next-title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.gates.constant_pulse_gate</span></code></p>
       </div>
     </a>
     <a class="right-next"
@@ -502,6 +581,7 @@ limit_amplitude: If True, then limit the amplitude of the waveform to 1.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.gates.drag_pulse_gate.DragPulseGate"><code class="docutils literal notranslate"><span class="pre">DragPulseGate</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.gates.drag_pulse_gate.DragPulseGate.pulse"><code class="docutils literal notranslate"><span class="pre">DragPulseGate.pulse()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.gates.drag_pulse_gate.DragPulseGate.to_parameters_dict"><code class="docutils literal notranslate"><span class="pre">DragPulseGate.to_parameters_dict()</span></code></a></li>
 </ul>
 </li>
 </ul>

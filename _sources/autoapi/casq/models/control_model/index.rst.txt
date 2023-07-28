@@ -1,0 +1,30 @@
+:py:mod:`casq.models.control_model`
+===================================
+
+.. py:module:: casq.models.control_model
+
+.. autoapi-nested-parse::
+
+   Control model.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   casq.models.control_model.ControlModel
+
+
+
+
+.. py:class:: ControlModel(dt: float, channel_carrier_freqs: dict, control_channel_map: Optional[dict] = None)
+
+
+   ControlModel class.
+
+

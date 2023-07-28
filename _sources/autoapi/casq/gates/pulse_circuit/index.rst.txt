@@ -35,7 +35,7 @@ Classes
    Args:
        name: Optional user-friendly name for pulse gate.
 
-   .. py:method:: from_pulse(gate: casq.gates.pulse_gate.PulseGate, backend: qiskit.providers.BackendV1, qubit: int = 0) -> PulseCircuit
+   .. py:method:: from_pulse_gate(gate: casq.gates.pulse_gate.PulseGate, parameters: dict[str, Any]) -> PulseCircuit
       :staticmethod:
 
       PulseCircuit.from_pulse method.
@@ -44,14 +44,13 @@ Classes
 
       Args:
           gate: Pulse gate.
-          backend: Qiskit backend.
-          qubit: Qubit to attach gate to.
+          parameters: Dictionary of pulse parameters that defines the pulse envelope.
 
       Returns:
-          :py:class:`matplotlib.figure.Figure`
+          PulseCircuit
 
 
-   .. py:method:: pulse(gate: casq.gates.pulse_gate.PulseGate, backend: qiskit.providers.BackendV1, qubit: int = 0) -> qiskit.circuit.quantumcircuit.InstructionSet
+   .. py:method:: pulse_gate(gate: casq.gates.pulse_gate.PulseGate, parameters: dict[str, Any], qubit: int = 0) -> qiskit.circuit.quantumcircuit.InstructionSet
 
       PulseGate.gate method.
 
@@ -59,11 +58,24 @@ Classes
 
       Args:
           gate: Pulse gate.
+          parameters: Dictionary of pulse parameters that defines the pulse envelope.
           qubit: Qubit to attach pulse gate to.
-          backend: Qiskit backend.
 
       Returns:
           :py:class:`qiskit.pulse.Instruction`
+
+
+   .. py:method:: to_schedule(backend: qiskit.providers.Backend) -> qiskit.pulse.Schedule
+
+      PulseGate.to_schedule method.
+
+      Convert pulse circuit to schedule.
+
+      Args:
+          backend: Qiskit backend.
+
+      Returns:
+          Schedule
 
 
 

@@ -1,0 +1,95 @@
+:py:mod:`casq.backends.helpers`
+===============================
+
+.. py:module:: casq.backends.helpers
+
+.. autoapi-nested-parse::
+
+   Backend helper functions used by library.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   casq.backends.helpers.BackendLibrary
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   casq.backends.helpers.build
+   casq.backends.helpers.build_from_backend
+
+
+
+.. py:class:: BackendLibrary(*args, **kwds)
+
+
+   Bases: :py:obj:`enum.Enum`
+
+   Backend library.
+
+   .. py:attribute:: C3
+      :value: 0
+
+      
+
+   .. py:attribute:: QISKIT
+      :value: 1
+
+      
+
+   .. py:attribute:: QUTIP
+      :value: 2
+
+      
+
+
+.. py:function:: build(backend_library: BackendLibrary, hamiltonian: casq.models.hamiltonian_model.HamiltonianModel, control: casq.models.control_model.ControlModel, seed: Optional[int] = None) -> casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend
+
+   Build PulseBackend.
+
+       Currently, only supports Qiskit.
+
+   Args:
+       backend_library: Backend library.
+       hamiltonian: Hamiltonian model.
+       control: Control model.
+       seed: Seed to use in random sampling. Defaults to None.
+
+   Returns:
+       QiskitPulseBackend
+
+
+.. py:function:: build_from_backend(backend: qiskit.providers.Backend, extracted_qubits: Optional[list[int]] = None, rotating_frame: Optional[Union[qiskit_dynamics.array.Array, qiskit_dynamics.RotatingFrame]] = None, in_frame_basis: bool = False, evaluation_mode: Optional[casq.models.hamiltonian_model.HamiltonianModel.EvaluationMode] = None, rwa_cutoff_freq: Optional[float] = None, rwa_carrier_freqs: Optional[Union[numpy.typing.NDArray, tuple[numpy.typing.NDArray, numpy.typing.NDArray]]] = None, seed: Optional[int] = None) -> casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend
+
+   Build PulseBackend from library-specific backend.
+
+   Currently, only supports Qiskit.
+
+   Args:
+       backend: The ``Backend`` instance to build the :class:`.DynamicsBackend` from.
+       extracted_qubits: List of qubits to extract from the Hamiltonian.
+       rotating_frame: Rotating frame argument for the internal :class:`.Solver`.
+               Defaults to None, allowing this method to pick a rotating frame.
+       in_frame_basis: Whether to represent the model in the basis in which
+                       the rotating frame operator is diagonalized.
+       evaluation_mode: Evaluation mode to use by solver.
+       rwa_cutoff_freq: Rotating wave approximation cutoff frequency.
+                       If None, no approximation is made.
+       rwa_carrier_freqs: Carrier frequencies to use for rotating wave approximation.
+       seed: Seed to use in random sampling. Defaults to None.
+
+   Returns:
+       QiskitPulseBackend
+
+

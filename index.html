@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="_static/favicon.png" sizes="100x100" rel="icon" type="image/png">
-    <title>casq &#8212; casq v0.1.0 documentation</title>
+    <title>Casq Documentation &#8212; Casq v0.1.0 documentation</title>
   
   
   
@@ -30,6 +30,9 @@
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
@@ -38,10 +41,13 @@
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'index';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="API Reference" href="autoapi/index.html" />
+    <link rel="next" title="Overview" href="overview.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -130,8 +136,36 @@
   <ul class="bd-navbar-elements navbar-nav">
     
                     <li class="nav-item">
+                      <a class="nav-link nav-internal" href="overview.html">
+                        Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="developer_guide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="autoapi/index.html">
                         API Reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="roadmap.html">
+                        Roadmap
                       </a>
                     </li>
                 
@@ -225,8 +259,36 @@ document.write(`
   <ul class="bd-navbar-elements navbar-nav">
     
                     <li class="nav-item">
+                      <a class="nav-link nav-internal" href="overview.html">
+                        Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="developer_guide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="autoapi/index.html">
                         API Reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="roadmap.html">
+                        Roadmap
                       </a>
                     </li>
                 
@@ -306,15 +368,21 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="casq">
-<h1>casq<a class="headerlink" href="#casq" title="Permalink to this heading">#</a></h1>
+  <section id="casq-documentation">
+<h1>Casq Documentation<a class="headerlink" href="#casq-documentation" title="Permalink to this heading">#</a></h1>
+<p>Casq is an open-source Python toolkit for controlling and analyzing quantum computing processor units based on superconducting qubits.</p>
+<p>The goal of Casq is to provide a common interface for different quantum control libraries, such as <a class="reference external" href="https://qiskit.org/ecosystem/dynamics/index.html">Qiskit Dynamics</a>, <a class="reference external" href="https://qutip.org/docs/latest/index.html">QuTiP</a>, and <a class="reference external" href="https://c3-toolset.readthedocs.io/en/master/index.html">C3</a>, as well as extending their functionality with respect to pulse optimization and related analysis/visualization.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This package is still in the early stages of development, and hence, the current API will frequently be subject to breaking API changes.</p>
+</div>
 <div class="toctree-wrapper compound">
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="autoapi/index.html">API Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="autoapi/casq/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide/index.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer_guide/index.html">Developer Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autoapi/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="roadmap.html">Roadmap</a></li>
 </ul>
 </div>
 </section>
@@ -331,11 +399,11 @@ document.write(`
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="right-next"
-       href="autoapi/index.html"
+       href="overview.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">API Reference</p>
+        <p class="prev-next-title">Overview</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

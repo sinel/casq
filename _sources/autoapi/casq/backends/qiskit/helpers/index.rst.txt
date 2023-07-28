@@ -19,6 +19,7 @@ Functions
 .. autoapisummary::
 
    casq.backends.qiskit.helpers.get_experiment_result
+   casq.backends.qiskit.helpers.convert_to_solution
 
 
 
@@ -46,5 +47,16 @@ Functions
 
    Raises:
        QiskitError: If a specified option is unsupported.
+
+
+.. py:function:: convert_to_solution(result: qiskit.result.models.ExperimentResult) -> casq.backends.pulse_backend.PulseBackend.PulseSolution
+
+   Converts Qiskit result to pulse backend solution.
+
+   Args:
+       result: Qiskit experiment result.
+
+   Returns:
+       Pulse solution.
 
 

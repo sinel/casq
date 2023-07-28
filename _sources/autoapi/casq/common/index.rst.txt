@@ -29,6 +29,8 @@ Classes
 
 .. autoapisummary::
 
+   casq.common.SignalData
+   casq.common.TimeUnit
    casq.common.LegendLocation
    casq.common.LegendStyle
    casq.common.LineCollectionConfig
@@ -51,6 +53,7 @@ Functions
    casq.common.dbid
    casq.common.discretize
    casq.common.initialize_jax
+   casq.common.is_jax_enabled
    casq.common.ufid
    casq.common.add_horizontal_line
    casq.common.add_line
@@ -100,6 +103,85 @@ Functions
 
 
 
+.. py:class:: SignalData
+
+
+   Signal data.
+
+   .. py:attribute:: name
+      :type: str
+
+      
+
+   .. py:attribute:: dt
+      :type: float
+
+      
+
+   .. py:attribute:: duration
+      :type: float
+
+      
+
+   .. py:attribute:: signal
+      :type: qiskit_dynamics.Signal
+
+      
+
+   .. py:attribute:: i_signal
+      :type: qiskit_dynamics.Signal
+
+      
+
+   .. py:attribute:: q_signal
+      :type: qiskit_dynamics.Signal
+
+      
+
+   .. py:attribute:: carrier
+      :type: float
+
+      
+
+
+.. py:class:: TimeUnit(*args, **kwds)
+
+
+   Bases: :py:obj:`enum.Enum`
+
+   Time units.
+
+   .. py:attribute:: SAMPLE
+      :value: 0
+
+      
+
+   .. py:attribute:: PICO_SEC
+      :value: 1
+
+      
+
+   .. py:attribute:: NANO_SEC
+      :value: 2
+
+      
+
+   .. py:attribute:: MICRO_SEC
+      :value: 3
+
+      
+
+   .. py:attribute:: MILLI_SEC
+      :value: 4
+
+      
+
+   .. py:attribute:: SEC
+      :value: 5
+
+      
+
+
 .. py:function:: dbid() -> str
 
    Generates database identifier for object.
@@ -108,7 +190,7 @@ Functions
        Database identifier.
 
 
-.. py:function:: discretize(schedule: qiskit.pulse.Schedule, dt: float, channel_frequencies: dict[str, float]) -> list[qiskit_dynamics.Signal]
+.. py:function:: discretize(schedule: qiskit.pulse.Schedule, dt: float, channel_frequencies: dict[str, float], carrier_frequency: Optional[float] = None) -> list[SignalData]
 
    Discretizes pulse schedule into signals.
 
@@ -116,14 +198,21 @@ Functions
        schedule: Pulse schedule.
        dt: Time interval.
        channel_frequencies: Channel frequencies.
+       carrier_frequency: Carrier frequency used for calculating IQ signal components.
+           If None, then corresponding channel frequencies are used.
 
    Returns:
-       List of :py:class:`qiskit_dynamics.signals.Signal`
+       List of SignalData.
 
 
 .. py:function:: initialize_jax() -> None
 
    Initializes jax to use CPU in 64-bit mode.
+
+
+.. py:function:: is_jax_enabled() -> bool
+
+   Checks if jax is enabled or not.
 
 
 .. py:function:: ufid(obj: Any) -> str
@@ -609,17 +698,16 @@ Functions
        Matplotlib Figure.
 
 
-.. py:function:: plot_signal(schedule: Union[qiskit.pulse.Schedule, qiskit.pulse.ScheduleBlock], dt: float, channel: str, carrier_frequency: float, duration: float, number_of_samples: int = 10000, filename: Optional[str] = None, hidden: bool = False) -> None
+.. py:function:: plot_signal(signal_data: casq.common.helpers.SignalData, duration: Optional[int] = None, start: int = 0, number_of_samples: int = 1000, time_unit: casq.common.helpers.TimeUnit = TimeUnit.NANO_SEC, filename: Optional[str] = None, hidden: bool = False) -> None
 
    Create and plot Matplotlib figure.
 
    Args:
-       schedule: Qiskit pulse schedule.
-       dt: Sampling time interval.
-       channel: Qiskit pulse channel.
-       carrier_frequency: Carrier frequency used for signal.
-       duration: Total signal duration used for plotting.
+       signal_data: Signal data.
+       duration: Signal duration in number of dt intervals.
+       start: Start time in number of dt intervals.
        number_of_samples: Number of samples to use for plotting.
+       time_unit: Time unit used for scaling x-axis.
        filename: If filename is provided as path str, then figure is saved as png.
        hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 

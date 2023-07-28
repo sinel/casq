@@ -1,0 +1,29 @@
+:py:mod:`casq.about`
+====================
+
+.. py:module:: casq.about
+
+.. autoapi-nested-parse::
+
+   Command line output of information about Casq.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   casq.about.about
+
+
+
+.. py:function:: about() -> None
+
+   Provides information about Casq.
+
+

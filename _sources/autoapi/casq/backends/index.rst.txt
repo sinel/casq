@@ -24,8 +24,8 @@ Submodules
    :titlesonly:
    :maxdepth: 1
 
+   helpers/index.rst
    pulse_backend/index.rst
-   pulse_solution/index.rst
 
 
 Package Contents
@@ -36,8 +36,8 @@ Classes
 
 .. autoapisummary::
 
+   casq.backends.BackendLibrary
    casq.backends.PulseBackend
-   casq.backends.PulseSolution
    casq.backends.BackendCharacteristics
    casq.backends.DynamicsBackendPatch
    casq.backends.QiskitPulseBackend
@@ -49,42 +49,79 @@ Functions
 
 .. autoapisummary::
 
+   casq.backends.build
+   casq.backends.build_from_backend
+   casq.backends.convert_to_solution
    casq.backends.get_experiment_result
 
 
 
-.. py:class:: PulseBackend(native_backend_type: PulseBackend, model: casq.models.pulse_backend_model.PulseBackendModel, seed: Optional[int] = None)
+.. py:class:: BackendLibrary(*args, **kwds)
+
+
+   Bases: :py:obj:`enum.Enum`
+
+   Backend library.
+
+   .. py:attribute:: C3
+      :value: 0
+
+      
+
+   .. py:attribute:: QISKIT
+      :value: 1
+
+      
+
+   .. py:attribute:: QUTIP
+      :value: 2
+
+      
+
+
+.. py:function:: build(backend_library: BackendLibrary, hamiltonian: casq.models.hamiltonian_model.HamiltonianModel, control: casq.models.control_model.ControlModel, seed: Optional[int] = None) -> casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend
+
+   Build PulseBackend.
+
+       Currently, only supports Qiskit.
+
+   Args:
+       backend_library: Backend library.
+       hamiltonian: Hamiltonian model.
+       control: Control model.
+       seed: Seed to use in random sampling. Defaults to None.
+
+   Returns:
+       QiskitPulseBackend
+
+
+.. py:function:: build_from_backend(backend: qiskit.providers.Backend, extracted_qubits: Optional[list[int]] = None, rotating_frame: Optional[Union[qiskit_dynamics.array.Array, qiskit_dynamics.RotatingFrame]] = None, in_frame_basis: bool = False, evaluation_mode: Optional[casq.models.hamiltonian_model.HamiltonianModel.EvaluationMode] = None, rwa_cutoff_freq: Optional[float] = None, rwa_carrier_freqs: Optional[Union[numpy.typing.NDArray, tuple[numpy.typing.NDArray, numpy.typing.NDArray]]] = None, seed: Optional[int] = None) -> casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend
+
+   Build PulseBackend from library-specific backend.
+
+   Currently, only supports Qiskit.
+
+   Args:
+       backend: The ``Backend`` instance to build the :class:`.DynamicsBackend` from.
+       extracted_qubits: List of qubits to extract from the Hamiltonian.
+       rotating_frame: Rotating frame argument for the internal :class:`.Solver`.
+               Defaults to None, allowing this method to pick a rotating frame.
+       in_frame_basis: Whether to represent the model in the basis in which
+                       the rotating frame operator is diagonalized.
+       evaluation_mode: Evaluation mode to use by solver.
+       rwa_cutoff_freq: Rotating wave approximation cutoff frequency.
+                       If None, no approximation is made.
+       rwa_carrier_freqs: Carrier frequencies to use for rotating wave approximation.
+       seed: Seed to use in random sampling. Defaults to None.
+
+   Returns:
+       QiskitPulseBackend
+
+
+.. py:class:: PulseBackend(hamiltonian: casq.models.hamiltonian_model.HamiltonianModel, control: casq.models.control_model.ControlModel, seed: Optional[int] = None)
 
 
    PulseBackend class.
-
-   .. py:class:: NativeBackendType(*args, **kwds)
-
-
-      Bases: :py:obj:`enum.Enum`
-
-      Native backend type.
-
-      .. py:attribute:: C3
-         :value: 0
-
-         
-
-      .. py:attribute:: QCTRL
-         :value: 1
-
-         
-
-      .. py:attribute:: QISKIT
-         :value: 2
-
-         
-
-      .. py:attribute:: QUTIP
-         :value: 3
-
-         
-
 
    .. py:class:: ODESolverMethod
 
@@ -139,7 +176,95 @@ Functions
          
 
 
-   .. py:method:: run(circuit: casq.gates.pulse_circuit.PulseCircuit, method: PulseBackend, initial_state: Optional[Union[qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector]] = None, shots: int = 1024, steps: Optional[int] = None) -> casq.backends.pulse_solution.PulseSolution
+   .. py:class:: PulseSolution(circuit_name: str, qubits: list[int], times: list[float], samples: list[list[int]], counts: list[dict[str, int]], populations: list[dict[str, float]], states: list[Union[qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector]], iq_data: list[list[tuple[float, float]]], avg_iq_data: list[tuple[float, float]], shots: int = 1024, seed: Optional[int] = None, is_success: bool = True, timestamp: float = datetime.timestamp(datetime.now()))
+
+
+      PulseSolution class.
+
+      .. py:method:: plot_population(filename: Optional[str] = None, hidden: bool = False) -> None
+
+         PulseSolution.plot_population method.
+
+         Plots populations from result.
+
+         Args:
+             filename: If filename is provided as path str, then figure is saved as png.
+             hidden: If False, then plot is not displayed. Useful if method is used for saving only.
+
+
+      .. py:method:: plot_iq(time_index: Optional[int] = None, filename: Optional[str] = None, hidden: bool = False) -> None
+
+         PulseSolution.plot_iq method.
+
+         Plots IQ points from result.
+
+         Args:
+             time_index: Time at which to plot IQ points.
+             filename: If filename is provided as path str, then figure is saved as png.
+             hidden: If False, then plot is not displayed. Useful if method is used for saving only.
+
+
+      .. py:method:: plot_iq_trajectory(filename: Optional[str] = None, hidden: bool = False) -> None
+
+         PulseSolution.plot_iq_trajectory method.
+
+         Plots trajectory of average IQ points from result.
+
+         Args:
+             filename: If filename is provided as path str, then figure is saved as png.
+             hidden: If False, then plot is not displayed. Useful if method is used for saving only.
+
+
+      .. py:method:: plot_trajectory(qubit: int = 0, filename: Optional[str] = None, hidden: bool = False) -> None
+
+         PulseSolution.plot_trajectory method.
+
+         Plots statevector trajectory from result.
+
+         Args:
+             qubit: Qubit to plot trajectory of.
+             filename: If filename is provided as path str, then figure is saved as png.
+             hidden: If False, then plot is not displayed. Useful if method is used for saving only.
+
+
+      .. py:method:: plot_bloch_trajectory(qubit: int = 0, filename: Optional[str] = None, hidden: bool = False) -> None
+
+         PulseSolution.plot_bloch_trajectory method.
+
+         Plots statevector trajectory on Bloch sphere from result.
+
+         Args:
+             qubit: Qubit to plot trajectory of.
+             filename: If filename is provided as path str, then figure is saved as png.
+             hidden: If False, then plot is not displayed. Useful if method is used for saving only.
+
+
+      .. py:method:: _xyz(qubit: int = 0) -> tuple[list[float], list[float], list[float]]
+
+         PulseSolution._xyz method.
+
+         Transforms statevectors into 3D trajectory from result.
+
+         Returns:
+             XYZ data lists or dict of lists.
+
+
+      .. py:method:: _trace(state: qiskit.quantum_info.Statevector, qubit: int) -> qiskit.quantum_info.Statevector
+
+         PulseSolution._trace method.
+
+         Generate partial trace of statevector for specified qubit.
+
+         Args:
+             state: System state given as statevector.
+             qubit: Qubit to trace out.
+
+         Returns:
+             Reduced statevector.
+
+
+
+   .. py:method:: solve(circuit: casq.gates.pulse_circuit.PulseCircuit, method: ODESolverMethod, initial_state: Optional[Union[qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector]] = None, shots: int = 1024, steps: Optional[int] = None, run_options: Optional[dict[str, Any]] = None) -> PulseSolution
       :abstractmethod:
 
       PulseBackend.run.
@@ -154,6 +279,7 @@ Functions
           shots: Number of shots per experiment. Defaults to 1024.
           steps: Number of steps at which to solve the system.
               Used to automatically calculate an evenly-spaced t_eval range.
+          run_options: Options specific to native backend's run method.
 
 
    .. py:method:: _get_native_backend() -> Any
@@ -163,109 +289,7 @@ Functions
 
 
 
-.. py:class:: PulseSolution(circuit_name: str, qubits: list[int], times: list[float], samples: list[list[int]], counts: list[dict[str, int]], populations: list[dict[str, float]], states: list[Union[qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector]], iq_data: list[list[tuple[float, float]]], avg_iq_data: list[tuple[float, float]], shots: int = 1024, seed: Optional[int] = None, is_success: bool = True, timestamp: float = datetime.timestamp(datetime.now()))
-
-
-   PulseSolution class.
-
-   .. py:method:: from_qiskit(result: qiskit.result.models.ExperimentResult) -> PulseSolution
-      :classmethod:
-
-      PulseSolution.from_qiskit method.
-
-      Transforms Qiskit result into pulse backend solution.
-
-      Args:
-          result: Qiskit experiment result.
-
-      Returns:
-          Pulse solution.
-
-
-   .. py:method:: plot_population(filename: Optional[str] = None, hidden: bool = False) -> None
-
-      PulseSolution.plot_population method.
-
-      Plots populations from result.
-
-      Args:
-          filename: If filename is provided as path str, then figure is saved as png.
-          hidden: If False, then plot is not displayed. Useful if method is used for saving only.
-
-
-   .. py:method:: plot_iq(time_index: Optional[int] = None, filename: Optional[str] = None, hidden: bool = False) -> None
-
-      PulseSolution.plot_iq method.
-
-      Plots IQ points from result.
-
-      Args:
-          time_index: Time at which to plot IQ points.
-          filename: If filename is provided as path str, then figure is saved as png.
-          hidden: If False, then plot is not displayed. Useful if method is used for saving only.
-
-
-   .. py:method:: plot_iq_trajectory(filename: Optional[str] = None, hidden: bool = False) -> None
-
-      PulseSolution.plot_iq_trajectory method.
-
-      Plots trajectory of average IQ points from result.
-
-      Args:
-          filename: If filename is provided as path str, then figure is saved as png.
-          hidden: If False, then plot is not displayed. Useful if method is used for saving only.
-
-
-   .. py:method:: plot_trajectory(qubit: int = 0, filename: Optional[str] = None, hidden: bool = False) -> None
-
-      PulseSolution.plot_trajectory method.
-
-      Plots statevector trajectory from result.
-
-      Args:
-          qubit: Qubit to plot trajectory of.
-          filename: If filename is provided as path str, then figure is saved as png.
-          hidden: If False, then plot is not displayed. Useful if method is used for saving only.
-
-
-   .. py:method:: plot_bloch_trajectory(qubit: int = 0, filename: Optional[str] = None, hidden: bool = False) -> None
-
-      PulseSolution.plot_bloch_trajectory method.
-
-      Plots statevector trajectory on Bloch sphere from result.
-
-      Args:
-          qubit: Qubit to plot trajectory of.
-          filename: If filename is provided as path str, then figure is saved as png.
-          hidden: If False, then plot is not displayed. Useful if method is used for saving only.
-
-
-   .. py:method:: _xyz(qubit: int = 0) -> tuple[list[float], list[float], list[float]]
-
-      PulseSolution._xyz method.
-
-      Transforms statevectors into 3D trajectory from result.
-
-      Returns:
-          XYZ data lists or dict of lists.
-
-
-   .. py:method:: _trace(state: qiskit.quantum_info.Statevector, qubit: int) -> qiskit.quantum_info.Statevector
-
-      PulseSolution._trace method.
-
-      Generate partial trace of statevector for specified qubit.
-
-      Args:
-          state: System state given as statevector.
-          qubit: Qubit to trace out.
-
-      Returns:
-          Reduced statevector.
-
-
-
-.. py:class:: BackendCharacteristics(backend: Union[str, qiskit.providers.BackendV1])
+.. py:class:: BackendCharacteristics(backend: Union[str, qiskit.providers.Backend])
 
 
    BackendCharacteristics class.
@@ -351,7 +375,7 @@ Functions
          
 
 
-   .. py:method:: get_backend(name: str) -> qiskit.providers.BackendV1
+   .. py:method:: get_backend(name: str) -> qiskit.providers.Backend
       :staticmethod:
 
       BackendCharacteristics._get_backend method.
@@ -597,6 +621,17 @@ Functions
 
 
 
+.. py:function:: convert_to_solution(result: qiskit.result.models.ExperimentResult) -> casq.backends.pulse_backend.PulseBackend.PulseSolution
+
+   Converts Qiskit result to pulse backend solution.
+
+   Args:
+       result: Qiskit experiment result.
+
+   Returns:
+       Pulse solution.
+
+
 .. py:function:: get_experiment_result(experiment_name: str, solver_result: scipy.integrate._ivp.ivp.OdeResult, measurement_subsystems: list[int], memory_slot_indices: list[int], num_memory_slots: Union[None, int], backend: qiskit_dynamics.backend.DynamicsBackend, seed: Optional[int] = None, metadata: Optional[dict] = None) -> qiskit.result.models.ExperimentResult
 
    Generates ExperimentResult objects from solver result.
@@ -623,21 +658,21 @@ Functions
        QiskitError: If a specified option is unsupported.
 
 
-.. py:class:: QiskitPulseBackend(model: casq.models.pulse_backend_model.PulseBackendModel, seed: Optional[int] = None)
+.. py:class:: QiskitPulseBackend(hamiltonian: casq.models.hamiltonian_model.HamiltonianModel, control: casq.models.control_model.ControlModel, seed: Optional[int] = None)
 
 
    Bases: :py:obj:`casq.backends.pulse_backend.PulseBackend`
 
    QiskitPulseBackend class.
 
-   .. py:method:: from_backend(backend: Union[qiskit.providers.BackendV1, qiskit.providers.BackendV2], qubits: Optional[list[int]] = None, rotating_frame: Optional[Union[qiskit_dynamics.array.Array, qiskit_dynamics.RotatingFrame]] = None, in_frame_basis: bool = False, evaluation_mode: Optional[casq.models.hamiltonian_model.HamiltonianModel.EvaluationMode] = None, rwa_cutoff_freq: Optional[float] = None, rwa_carrier_freqs: Optional[Union[numpy.typing.NDArray, tuple[numpy.typing.NDArray, numpy.typing.NDArray]]] = None, seed: Optional[int] = None) -> Self
+   .. py:method:: from_backend(backend: qiskit.providers.Backend, extracted_qubits: Optional[list[int]] = None, rotating_frame: Optional[Union[qiskit_dynamics.array.Array, qiskit_dynamics.RotatingFrame]] = None, in_frame_basis: bool = False, evaluation_mode: Optional[casq.models.hamiltonian_model.HamiltonianModel.EvaluationMode] = None, rwa_cutoff_freq: Optional[float] = None, rwa_carrier_freqs: Optional[Union[numpy.typing.NDArray, tuple[numpy.typing.NDArray, numpy.typing.NDArray]]] = None, seed: Optional[int] = None) -> Self
       :classmethod:
 
       Construct a QiskitPulseBackend instance from an existing backend instance.
 
       Args:
           backend: The ``Backend`` instance to build the :class:`.DynamicsBackend` from.
-          qubits: List of qubits to include from the backend.
+          extracted_qubits: List of qubits to extract from the Hamiltonian.
           rotating_frame: Rotating frame argument for the internal :class:`.Solver`.
                   Defaults to None, allowing this method to pick a rotating frame.
           in_frame_basis: Whether to represent the model in the basis in which
@@ -652,7 +687,7 @@ Functions
           QiskitPulseBackend
 
 
-   .. py:method:: run(circuit: casq.gates.pulse_circuit.PulseCircuit, method: casq.backends.pulse_backend.PulseBackend.ODESolverMethod, initial_state: Optional[Union[qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector]] = None, shots: int = 1024, steps: Optional[int] = None) -> casq.backends.pulse_solution.PulseSolution
+   .. py:method:: solve(circuit: casq.gates.pulse_circuit.PulseCircuit, method: casq.backends.pulse_backend.PulseBackend.ODESolverMethod, initial_state: Optional[Union[qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector]] = None, shots: int = 1024, steps: Optional[int] = None, run_options: Optional[dict[str, Any]] = None) -> casq.backends.pulse_backend.PulseBackend.PulseSolution
 
       QiskitPulseBackend.run.
 

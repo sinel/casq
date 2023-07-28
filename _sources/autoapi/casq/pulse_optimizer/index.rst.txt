@@ -22,7 +22,7 @@ Classes
 
 
 
-.. py:class:: PulseOptimizer(pulse_type: PulseOptimizer, pulse_arguments: dict[str, Any], backend: casq.backends.pulse_backend.PulseBackend, method: casq.backends.pulse_backend.PulseBackend.ODESolverMethod, target_measurement: Union[dict[str, float], qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector], fidelity_type: Optional[FidelityType] = None, target_qubit: Optional[int] = None, use_jax: bool = False, use_jit: bool = False)
+.. py:class:: PulseOptimizer(pulse_gate: casq.gates.PulseGate, pulse_backend: casq.backends.pulse_backend.PulseBackend, method: casq.backends.pulse_backend.PulseBackend.ODESolverMethod, target_measurement: Union[dict[str, float], qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector], method_options: Optional[dict[str, Any]] = None, fidelity_type: Optional[FidelityType] = None, target_qubit: Optional[int] = None, use_jit: bool = False)
 
 
    PulseOptimizer class.
@@ -171,13 +171,23 @@ Classes
 
       Pulse optimizer solution.
 
+      .. py:attribute:: initial_parameters
+         :type: dict[str, Any]
+
+         
+
+      .. py:attribute:: initial_pulse
+         :type: qiskit.pulse.ScalableSymbolicPulse
+
+         
+
       .. py:attribute:: num_iterations
          :type: int
 
          
 
       .. py:attribute:: parameters
-         :type: list[float]
+         :type: dict[str, Any]
 
          
 
@@ -188,6 +198,11 @@ Classes
 
       .. py:attribute:: fidelity
          :type: float
+
+         
+
+      .. py:attribute:: pulse
+         :type: qiskit.pulse.ScalableSymbolicPulse
 
          
 
@@ -207,7 +222,7 @@ Classes
          
 
 
-   .. py:method:: optimize(params: numpy.typing.NDArray, method: OptimizationMethod, jac: Optional[Union[bool, FiniteDifferenceScheme, Callable]] = None, hess: Optional[Union[FiniteDifferenceScheme, scipy.optimize.HessianUpdateStrategy, Callable]] = None, hessp: Optional[Callable] = None, bounds: Optional[Union[list, scipy.optimize.Bounds]] = None, constraints: Optional[Union[dict, list[dict], scipy.optimize.LinearConstraint, list[scipy.optimize.LinearConstraint], scipy.optimize.NonlinearConstraint, list[scipy.optimize.NonlinearConstraint]]] = None, tol: Optional[float] = None, maxiter: Optional[int] = None, verbose: bool = True, callback: Optional[Callable] = None) -> PulseOptimizer
+   .. py:method:: solve(initial_params: numpy.typing.NDArray, method: OptimizationMethod, jac: Optional[Union[bool, FiniteDifferenceScheme, Callable]] = None, hess: Optional[Union[FiniteDifferenceScheme, scipy.optimize.HessianUpdateStrategy, Callable]] = None, hessp: Optional[Callable] = None, bounds: Optional[Union[list, scipy.optimize.Bounds]] = None, constraints: Optional[Union[dict, list[dict], scipy.optimize.LinearConstraint, list[scipy.optimize.LinearConstraint], scipy.optimize.NonlinearConstraint, list[scipy.optimize.NonlinearConstraint]]] = None, tol: Optional[float] = None, maxiter: Optional[int] = None, verbose: bool = True, callback: Optional[Callable] = None) -> PulseOptimizer
 
       PulseOptimizer.optimize method.
 
@@ -217,7 +232,7 @@ Classes
       https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html
 
       Args:
-          params: Pulse parameters.
+          initial_params: Pulse parameters.
           method: Optimization method.
           jac: Method for computing the gradient vector.
               Only for CG, BFGS, Newton-CG, L-BFGS-B, TNC, SLSQP,
@@ -242,7 +257,7 @@ Classes
           :py:class:`casq.PulseOptimizer.Solution`
 
 
-   .. py:method:: _build_objective_function() -> Callable[[numpy.typing.NDArray], float]
+   .. py:method:: _build_objective_function() -> Callable[[numpy.typing.NDArray], Union[float, tuple[float, float]]]
 
       PulseOptimizer._build_objective_function method.
 
@@ -250,16 +265,6 @@ Classes
 
       Returns:
           Objective function.
-
-
-   .. py:method:: _build_pulse_function() -> Callable[[numpy.typing.NDArray], casq.gates.PulseGate]
-
-      PulseOptimizer._build_pulse_function method.
-
-      Build pulse function to construct pulse gate.
-
-      Returns:
-          Pulse function.
 
 
 

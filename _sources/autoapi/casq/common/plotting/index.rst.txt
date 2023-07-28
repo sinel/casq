@@ -516,17 +516,16 @@ Functions
        Matplotlib Figure.
 
 
-.. py:function:: plot_signal(schedule: Union[qiskit.pulse.Schedule, qiskit.pulse.ScheduleBlock], dt: float, channel: str, carrier_frequency: float, duration: float, number_of_samples: int = 10000, filename: Optional[str] = None, hidden: bool = False) -> None
+.. py:function:: plot_signal(signal_data: casq.common.helpers.SignalData, duration: Optional[int] = None, start: int = 0, number_of_samples: int = 1000, time_unit: casq.common.helpers.TimeUnit = TimeUnit.NANO_SEC, filename: Optional[str] = None, hidden: bool = False) -> None
 
    Create and plot Matplotlib figure.
 
    Args:
-       schedule: Qiskit pulse schedule.
-       dt: Sampling time interval.
-       channel: Qiskit pulse channel.
-       carrier_frequency: Carrier frequency used for signal.
-       duration: Total signal duration used for plotting.
+       signal_data: Signal data.
+       duration: Signal duration in number of dt intervals.
+       start: Start time in number of dt intervals.
        number_of_samples: Number of samples to use for plotting.
+       time_unit: Time unit used for scaling x-axis.
        filename: If filename is provided as path str, then figure is saved as png.
        hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 

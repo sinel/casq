@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="../../../_static/favicon.png" sizes="100x100" rel="icon" type="image/png">
-    <title>casq.common &#8212; casq v0.1.0 documentation</title>
+    <title>casq.common &#8212; Casq v0.1.0 documentation</title>
   
   
   
@@ -30,6 +30,9 @@
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
@@ -38,11 +41,14 @@
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/doctools.js"></script>
     <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'autoapi/casq/common/index';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="casq.common.decorators" href="decorators/index.html" />
-    <link rel="prev" title="casq.backends.pulse_solution" href="../backends/pulse_solution/index.html" />
+    <link rel="prev" title="casq.backends.pulse_backend" href="../backends/pulse_backend/index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -130,9 +136,37 @@
   </p>
   <ul class="bd-navbar-elements navbar-nav">
     
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../overview.html">
+                        Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../developer_guide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="../../index.html">
                         API Reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../roadmap.html">
+                        Roadmap
                       </a>
                     </li>
                 
@@ -229,9 +263,37 @@ document.write(`
   </p>
   <ul class="bd-navbar-elements navbar-nav">
     
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../overview.html">
+                        Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../developer_guide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="../../index.html">
                         API Reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../roadmap.html">
+                        Roadmap
                       </a>
                     </li>
                 
@@ -289,8 +351,8 @@ document.write(`
 <li class="toctree-l4"><a class="reference internal" href="../backends/qiskit/qiskit_pulse_backend/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.backends.qiskit.qiskit_pulse_backend</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../backends/helpers/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.backends.helpers</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../backends/pulse_backend/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.backends.pulse_backend</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../backends/pulse_solution/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.backends.pulse_solution</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2 current active has-children"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.common</span></code></a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -301,22 +363,23 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../gates/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.gates</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../gates/constant_pulse_gate/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.gates.constant_pulse_gate</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../gates/drag_pulse_gate/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.gates.drag_pulse_gate</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../gates/gaussian_pulse_gate/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.gates.gaussian_pulse_gate</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gates/gaussian_square_drag_pulse_gate/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.gates.gaussian_square_drag_pulse_gate</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../gates/gaussian_square_pulse_gate/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.gates.gaussian_square_pulse_gate</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../gates/pulse_circuit/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.gates.pulse_circuit</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../gates/pulse_gate/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.gates.pulse_gate</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../models/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../models/control_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models.control_model</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../models/hamiltonian_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models.hamiltonian_model</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../models/noise_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models.noise_model</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../models/pulse_backend_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models.pulse_backend_model</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../models/transmon_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models.transmon_model</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../models/transmon_noise_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models.transmon_noise_model</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../notebooks/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.notebooks</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../about/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.about</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../pulse_optimizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.pulse_optimizer</span></code></a></li>
 </ul>
 </li>
@@ -413,6 +476,12 @@ document.write(`
 <h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">#</a></h3>
 <table class="autosummary longtable table autosummary">
 <tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#casq.common.SignalData" title="casq.common.SignalData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SignalData</span></code></a></p></td>
+<td><p>Signal data.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#casq.common.TimeUnit" title="casq.common.TimeUnit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TimeUnit</span></code></a></p></td>
+<td><p>Time units.</p></td>
+</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#casq.common.LegendLocation" title="casq.common.LegendLocation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LegendLocation</span></code></a></p></td>
 <td><p>Matplotlib legend locations.</p></td>
 </tr>
@@ -456,34 +525,37 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="#casq.common.dbid" title="casq.common.dbid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dbid</span></code></a>(→ str)</p></td>
 <td><p>Generates database identifier for object.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#casq.common.discretize" title="casq.common.discretize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">discretize</span></code></a>(→ list[qiskit_dynamics.Signal])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#casq.common.discretize" title="casq.common.discretize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">discretize</span></code></a>(→ list[SignalData])</p></td>
 <td><p>Discretizes pulse schedule into signals.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#casq.common.initialize_jax" title="casq.common.initialize_jax"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize_jax</span></code></a>(→ None)</p></td>
 <td><p>Initializes jax to use CPU in 64-bit mode.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#casq.common.ufid" title="casq.common.ufid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ufid</span></code></a>(→ str)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#casq.common.is_jax_enabled" title="casq.common.is_jax_enabled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_jax_enabled</span></code></a>(→ bool)</p></td>
+<td><p>Checks if jax is enabled or not.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#casq.common.ufid" title="casq.common.ufid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ufid</span></code></a>(→ str)</p></td>
 <td><p>Generates user-friendly identifier for object.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#casq.common.add_horizontal_line" title="casq.common.add_horizontal_line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_horizontal_line</span></code></a>(→ None)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#casq.common.add_horizontal_line" title="casq.common.add_horizontal_line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_horizontal_line</span></code></a>(→ None)</p></td>
 <td><p>Add horizontal line to Matplotlib axes.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#casq.common.add_line" title="casq.common.add_line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_line</span></code></a>(→ None)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#casq.common.add_line" title="casq.common.add_line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_line</span></code></a>(→ None)</p></td>
 <td><p>Add line to Matplotlib axes.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#casq.common.add_line_collection" title="casq.common.add_line_collection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_line_collection</span></code></a>(→ None)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#casq.common.add_line_collection" title="casq.common.add_line_collection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_line_collection</span></code></a>(→ None)</p></td>
 <td><p>Add line collection to Matplotlib axes.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#casq.common.add_vertical_line" title="casq.common.add_vertical_line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_vertical_line</span></code></a>(→ None)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#casq.common.add_vertical_line" title="casq.common.add_vertical_line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_vertical_line</span></code></a>(→ None)</p></td>
 <td><p>Add vertical line to Matplotlib axes.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#casq.common.plot" title="casq.common.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(→ None)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#casq.common.plot" title="casq.common.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(→ None)</p></td>
 <td><p>Create and plot Matplotlib figure.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#casq.common.plot_bloch" title="casq.common.plot_bloch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_bloch</span></code></a>(→ None)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#casq.common.plot_bloch" title="casq.common.plot_bloch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_bloch</span></code></a>(→ None)</p></td>
 <td><p>Create and plot Matplotlib figure.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#casq.common.plot_signal" title="casq.common.plot_signal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_signal</span></code></a>(→ None)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#casq.common.plot_signal" title="casq.common.plot_signal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_signal</span></code></a>(→ None)</p></td>
 <td><p>Create and plot Matplotlib figure.</p></td>
 </tr>
 </tbody>
@@ -528,6 +600,84 @@ level: Log level. Default is TRACE.</p>
 
 </dd></dl>
 
+<dl class="py class">
+<dt class="sig sig-object py" id="casq.common.SignalData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.common.</span></span><span class="sig-name descname"><span class="pre">SignalData</span></span><a class="headerlink" href="#casq.common.SignalData" title="Permalink to this definition">#</a></dt>
+<dd><p>Signal data.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="casq.common.SignalData.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#casq.common.SignalData.name" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="casq.common.SignalData.dt">
+<span class="sig-name descname"><span class="pre">dt</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#casq.common.SignalData.dt" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="casq.common.SignalData.duration">
+<span class="sig-name descname"><span class="pre">duration</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#casq.common.SignalData.duration" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="casq.common.SignalData.signal">
+<span class="sig-name descname"><span class="pre">signal</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">qiskit_dynamics.Signal</span></em><a class="headerlink" href="#casq.common.SignalData.signal" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="casq.common.SignalData.i_signal">
+<span class="sig-name descname"><span class="pre">i_signal</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">qiskit_dynamics.Signal</span></em><a class="headerlink" href="#casq.common.SignalData.i_signal" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="casq.common.SignalData.q_signal">
+<span class="sig-name descname"><span class="pre">q_signal</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">qiskit_dynamics.Signal</span></em><a class="headerlink" href="#casq.common.SignalData.q_signal" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="casq.common.SignalData.carrier">
+<span class="sig-name descname"><span class="pre">carrier</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#casq.common.SignalData.carrier" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="casq.common.TimeUnit">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.common.</span></span><span class="sig-name descname"><span class="pre">TimeUnit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.common.TimeUnit" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>Time units.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="casq.common.TimeUnit.SAMPLE">
+<span class="sig-name descname"><span class="pre">SAMPLE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#casq.common.TimeUnit.SAMPLE" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="casq.common.TimeUnit.PICO_SEC">
+<span class="sig-name descname"><span class="pre">PICO_SEC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#casq.common.TimeUnit.PICO_SEC" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="casq.common.TimeUnit.NANO_SEC">
+<span class="sig-name descname"><span class="pre">NANO_SEC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#casq.common.TimeUnit.NANO_SEC" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="casq.common.TimeUnit.MICRO_SEC">
+<span class="sig-name descname"><span class="pre">MICRO_SEC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#casq.common.TimeUnit.MICRO_SEC" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="casq.common.TimeUnit.MILLI_SEC">
+<span class="sig-name descname"><span class="pre">MILLI_SEC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#casq.common.TimeUnit.MILLI_SEC" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="casq.common.TimeUnit.SEC">
+<span class="sig-name descname"><span class="pre">SEC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></em><a class="headerlink" href="#casq.common.TimeUnit.SEC" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="casq.common.dbid">
 <span class="sig-prename descclassname"><span class="pre">casq.common.</span></span><span class="sig-name descname"><span class="pre">dbid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#casq.common.dbid" title="Permalink to this definition">#</a></dt>
@@ -540,14 +690,18 @@ level: Log level. Default is TRACE.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="casq.common.discretize">
-<span class="sig-prename descclassname"><span class="pre">casq.common.</span></span><span class="sig-name descname"><span class="pre">discretize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schedule</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qiskit.pulse.Schedule</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_frequencies</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">qiskit_dynamics.Signal</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#casq.common.discretize" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">casq.common.</span></span><span class="sig-name descname"><span class="pre">discretize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schedule</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qiskit.pulse.Schedule</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_frequencies</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">carrier_frequency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#casq.common.SignalData" title="casq.common.SignalData"><span class="pre">SignalData</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#casq.common.discretize" title="Permalink to this definition">#</a></dt>
 <dd><p>Discretizes pulse schedule into signals.</p>
-<dl class="simple">
+<dl>
 <dt>Args:</dt><dd><p>schedule: Pulse schedule.
 dt: Time interval.
-channel_frequencies: Channel frequencies.</p>
+channel_frequencies: Channel frequencies.
+carrier_frequency: Carrier frequency used for calculating IQ signal components.</p>
+<blockquote>
+<div><p>If None, then corresponding channel frequencies are used.</p>
+</div></blockquote>
 </dd>
-<dt>Returns:</dt><dd><p>List of <code class="xref py py-class docutils literal notranslate"><span class="pre">qiskit_dynamics.signals.Signal</span></code></p>
+<dt>Returns:</dt><dd><p>List of SignalData.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -556,6 +710,12 @@ channel_frequencies: Channel frequencies.</p>
 <dt class="sig sig-object py" id="casq.common.initialize_jax">
 <span class="sig-prename descclassname"><span class="pre">casq.common.</span></span><span class="sig-name descname"><span class="pre">initialize_jax</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#casq.common.initialize_jax" title="Permalink to this definition">#</a></dt>
 <dd><p>Initializes jax to use CPU in 64-bit mode.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="casq.common.is_jax_enabled">
+<span class="sig-prename descclassname"><span class="pre">casq.common.</span></span><span class="sig-name descname"><span class="pre">is_jax_enabled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#casq.common.is_jax_enabled" title="Permalink to this definition">#</a></dt>
+<dd><p>Checks if jax is enabled or not.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -1042,15 +1202,14 @@ hidden: If False, then plot is not displayed. Useful if method is used for savin
 
 <dl class="py function">
 <dt class="sig sig-object py" id="casq.common.plot_signal">
-<span class="sig-prename descclassname"><span class="pre">casq.common.</span></span><span class="sig-name descname"><span class="pre">plot_signal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schedule</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qiskit.pulse.Schedule</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">qiskit.pulse.ScheduleBlock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">carrier_frequency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#casq.common.plot_signal" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">casq.common.</span></span><span class="sig-name descname"><span class="pre">plot_signal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="helpers/index.html#casq.common.helpers.SignalData" title="casq.common.helpers.SignalData"><span class="pre">casq.common.helpers.SignalData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="helpers/index.html#casq.common.helpers.TimeUnit" title="casq.common.helpers.TimeUnit"><span class="pre">casq.common.helpers.TimeUnit</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">TimeUnit.NANO_SEC</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#casq.common.plot_signal" title="Permalink to this definition">#</a></dt>
 <dd><p>Create and plot Matplotlib figure.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><p>schedule: Qiskit pulse schedule.
-dt: Sampling time interval.
-channel: Qiskit pulse channel.
-carrier_frequency: Carrier frequency used for signal.
-duration: Total signal duration used for plotting.
+<dt>Args:</dt><dd><p>signal_data: Signal data.
+duration: Signal duration in number of dt intervals.
+start: Start time in number of dt intervals.
 number_of_samples: Number of samples to use for plotting.
+time_unit: Time unit used for scaling x-axis.
 filename: If filename is provided as path str, then figure is saved as png.
 hidden: If False, then plot is not displayed. Useful if method is used for saving only.</p>
 </dd>
@@ -1075,12 +1234,12 @@ hidden: If False, then plot is not displayed. Useful if method is used for savin
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../backends/pulse_solution/index.html"
+       href="../backends/pulse_backend/index.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.backends.pulse_solution</span></code></p>
+        <p class="prev-next-title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.backends.pulse_backend</span></code></p>
       </div>
     </a>
     <a class="right-next"
@@ -1120,9 +1279,29 @@ hidden: If False, then plot is not displayed. Useful if method is used for savin
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.common.CasqError.__str__"><code class="docutils literal notranslate"><span class="pre">CasqError.__str__()</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.common.SignalData"><code class="docutils literal notranslate"><span class="pre">SignalData</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.common.SignalData.name"><code class="docutils literal notranslate"><span class="pre">SignalData.name</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.common.SignalData.dt"><code class="docutils literal notranslate"><span class="pre">SignalData.dt</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.common.SignalData.duration"><code class="docutils literal notranslate"><span class="pre">SignalData.duration</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.common.SignalData.signal"><code class="docutils literal notranslate"><span class="pre">SignalData.signal</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.common.SignalData.i_signal"><code class="docutils literal notranslate"><span class="pre">SignalData.i_signal</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.common.SignalData.q_signal"><code class="docutils literal notranslate"><span class="pre">SignalData.q_signal</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.common.SignalData.carrier"><code class="docutils literal notranslate"><span class="pre">SignalData.carrier</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.common.TimeUnit"><code class="docutils literal notranslate"><span class="pre">TimeUnit</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.common.TimeUnit.SAMPLE"><code class="docutils literal notranslate"><span class="pre">TimeUnit.SAMPLE</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.common.TimeUnit.PICO_SEC"><code class="docutils literal notranslate"><span class="pre">TimeUnit.PICO_SEC</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.common.TimeUnit.NANO_SEC"><code class="docutils literal notranslate"><span class="pre">TimeUnit.NANO_SEC</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.common.TimeUnit.MICRO_SEC"><code class="docutils literal notranslate"><span class="pre">TimeUnit.MICRO_SEC</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.common.TimeUnit.MILLI_SEC"><code class="docutils literal notranslate"><span class="pre">TimeUnit.MILLI_SEC</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.common.TimeUnit.SEC"><code class="docutils literal notranslate"><span class="pre">TimeUnit.SEC</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.common.dbid"><code class="docutils literal notranslate"><span class="pre">dbid()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.common.discretize"><code class="docutils literal notranslate"><span class="pre">discretize()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.common.initialize_jax"><code class="docutils literal notranslate"><span class="pre">initialize_jax()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.common.is_jax_enabled"><code class="docutils literal notranslate"><span class="pre">is_jax_enabled()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.common.ufid"><code class="docutils literal notranslate"><span class="pre">ufid()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.common.LegendLocation"><code class="docutils literal notranslate"><span class="pre">LegendLocation</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.common.LegendLocation.BEST"><code class="docutils literal notranslate"><span class="pre">LegendLocation.BEST</span></code></a></li>
