@@ -17,3 +17,5 @@ Server-side
 ================================================================================
 
 Additionally, a Github Actions workflow is setup to run on the server-side following every push. In addition to performing all of the hooks executed by pre-commit, this workflow also runs all unit tests using ``tox`` as well as building and deploying the documentation for viewing at https://sinaninel.com/casq/.
+
+It is highly recommended to use a tool such as `act <https://github.com/nektos/act>`_ to test your GitHub Actions workflow locally. Using ``tox`` locally may also help in identifying any potential server-side issues related to testing or building documentation.

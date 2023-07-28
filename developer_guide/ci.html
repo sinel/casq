@@ -429,6 +429,7 @@ document.write(`
 <section id="server-side">
 <h2>Server-side<a class="headerlink" href="#server-side" title="Permalink to this heading">#</a></h2>
 <p>Additionally, a Github Actions workflow is setup to run on the server-side following every push. In addition to performing all of the hooks executed by pre-commit, this workflow also runs all unit tests using <code class="docutils literal notranslate"><span class="pre">tox</span></code> as well as building and deploying the documentation for viewing at <a class="reference external" href="https://sinaninel.com/casq/">https://sinaninel.com/casq/</a>.</p>
+<p>It is highly recommended to use a tool such as <a class="reference external" href="https://github.com/nektos/act">act</a> to test your GitHub Actions workflow locally. Using <code class="docutils literal notranslate"><span class="pre">tox</span></code> locally may also help in identifying any potential server-side issues related to testing or building documentation.</p>
 </section>
 </section>
 
