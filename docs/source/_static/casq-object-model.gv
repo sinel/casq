@@ -1,0 +1,37 @@
+# Place the cursor inside "graph" to get some refactoring options
+
+digraph G {
+
+  subgraph cluster_0 {
+    PulseAgent -> PulseOptimizer -> PulseBackend -> PulseCircuit -> PulseGate;
+    PulseBackend -> ControlModel;
+    PulseBackend -> HamiltonianModel;
+    PulseBackend -> NoiseModel;
+    label = "casq";
+  }
+
+  subgraph cluster_1 {
+    Backend -> QuantumCircuit -> Gate -> Pulse;
+    label = "qiskit";
+  }
+
+  subgraph cluster_2 {
+    DynamicsBackend -> Solver;
+    label = "qiskit-dynamics";
+  }
+
+  subgraph cluster_3 {
+    jax;
+    scipy;
+    label = "external libraries";
+  }
+
+  PulseGate -> Gate;
+  PulseCircuit -> QuantumCircuit;
+  PulseBackend -> Backend;
+  PulseBackend -> DynamicsBackend;
+  PulseOptimizer -> jax;
+  PulseOptimizer -> scipy;
+  Solver -> jax;
+  Solver -> scipy;
+}
