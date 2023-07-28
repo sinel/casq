@@ -233,6 +233,10 @@ document.write(`
   
 
   
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
 </div>
 
     </nav>
@@ -394,8 +398,91 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="roadmap">
-<span id="id1"></span><h1>Roadmap<a class="headerlink" href="#roadmap" title="Permalink to this heading">#</a></h1>
+  <span class="target" id="roadmap"></span><section id="id1">
+<h1>Roadmap<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h1>
+<section id="v0-1-0-prototype">
+<span id="roadmap-release-0-1-0"></span><h2>v0.1.0 (prototype)<a class="headerlink" href="#v0-1-0-prototype" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><dl class="simple">
+<dt><input checked="" type="checkbox"> Skeleton</dt><dd><ul>
+<li><p><input checked="" type="checkbox"> Local testing, linting &amp; formatting</p></li>
+<li><p><input checked="" type="checkbox"> Documentation</p></li>
+<li><p><input type="checkbox"> Notebook support</p></li>
+<li><p><input checked="" type="checkbox"> Continuous integration</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p><input checked="" type="checkbox"> Qiskit foundation</p></li>
+<li><p><input checked="" type="checkbox"> Support for Qiskit dynamics</p></li>
+<li><p><input checked="" type="checkbox"> Pulse gates &amp; circuit</p></li>
+<li><p><input checked="" type="checkbox"> Pulse backend &amp; models</p></li>
+<li><p><input checked="" type="checkbox"> Pulse optimizer</p></li>
+<li><p><input checked="" type="checkbox"> Single-qubit gate optimization</p></li>
+<li><p><input type="checkbox"> Two-qubit gate optimization</p></li>
+</ul>
+</section>
+<section id="v0-2-0-functionality-verification">
+<span id="roadmap-release-0-2-0"></span><h2>v0.2.0 (functionality &amp; verification)<a class="headerlink" href="#v0-2-0-functionality-verification" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><input type="checkbox"> Noise model</p></li>
+<li><p><input type="checkbox"> Additional Hamiltonian models</p></li>
+<li><p><input type="checkbox"> Additional fidelity functions</p></li>
+<li><p><input type="checkbox"> Improved plotting &amp; reporting</p></li>
+<li><p><input type="checkbox"> Verification</p></li>
+</ul>
+</section>
+<section id="v0-3-0-library-support-qutip">
+<h2>v0.3.0 (library support: qutip)<a class="headerlink" href="#v0-3-0-library-support-qutip" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><input type="checkbox"> Support for QuTiP (GRAPE, CRAB)</p></li>
+<li><p><input type="checkbox"> Improve pulse backend &amp; model abstraction</p></li>
+</ul>
+</section>
+<section id="v0-4-0-library-support-c3">
+<h2>v0.4.0 (library support: c3)<a class="headerlink" href="#v0-4-0-library-support-c3" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><input type="checkbox"> Support for C3 (CMA-ES)</p></li>
+<li><p><input type="checkbox"> Improve pulse backend &amp; model abstraction</p></li>
+</ul>
+</section>
+<section id="v0-5-0-ode-solvers">
+<h2>v0.5.0 (ode solvers)<a class="headerlink" href="#v0-5-0-ode-solvers" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><input type="checkbox"> Support for diffrax (jax)</p></li>
+<li><p><input type="checkbox"> Support for SciPy ODE solvers (jax?)</p></li>
+<li><p><input type="checkbox"> TensorFlow as alternative for performance and automatic differentiation?</p></li>
+<li><p><input type="checkbox"> Bayesian algorithms (scikit-optimize, bayes_opt, hyperopt)</p></li>
+<li><p><input type="checkbox"> Evolutionary algorithms (leap, pygad, pymoo, pycma)</p></li>
+<li><p><input type="checkbox"> KROTOV (<a class="github reference external" href="https://github.com/qucontrol/krotov">qucontrol/krotov</a>)</p></li>
+<li><p><input type="checkbox"> GOAT (<a class="github reference external" href="https://github.com/pmarkus-github/goat-quantumcontrol">pmarkus-github/goat-quantumcontrol</a>)</p></li>
+<li><p><input type="checkbox"> COCOA (code?)</p></li>
+<li><p><input type="checkbox"> Grid sweep for landscape</p></li>
+</ul>
+</section>
+<section id="v0-6-0-optimization">
+<h2>v0.6.0 (optimization)<a class="headerlink" href="#v0-6-0-optimization" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><input type="checkbox"> Support for SciPy minimize (with jax)</p></li>
+<li><p><input type="checkbox"> Support for Google jaxopt</p></li>
+<li><p><input type="checkbox"> TensorFlow as alternative for performance and automatic differentiation?</p></li>
+<li><p><input type="checkbox"> Bayesian algorithms (scikit-optimize, bayes_opt, hyperopt)</p></li>
+<li><p><input type="checkbox"> Evolutionary algorithms (leap, pygad, pymoo, pycma)</p></li>
+<li><p><input type="checkbox"> KROTOV (<a class="github reference external" href="https://github.com/qucontrol/krotov">qucontrol/krotov</a>)</p></li>
+<li><p><input type="checkbox"> GOAT (<a class="github reference external" href="https://github.com/pmarkus-github/goat-quantumcontrol">pmarkus-github/goat-quantumcontrol</a>)</p></li>
+<li><p><input type="checkbox"> COCOA (code?)</p></li>
+<li><p><input type="checkbox"> Grid sweep for landscape</p></li>
+</ul>
+</section>
+<section id="v1-0-0-ui-packaging">
+<h2>v1.0.0 (ui &amp; packaging)<a class="headerlink" href="#v1-0-0-ui-packaging" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><input type="checkbox"> UI</p></li>
+<li><p><input type="checkbox"> Configuration</p></li>
+<li><p><input type="checkbox"> Semantic versioning</p></li>
+<li><p><input type="checkbox"> PyPI</p></li>
+</ul>
+</section>
 </section>
 
 
@@ -427,6 +514,26 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#v0-1-0-prototype">v0.1.0 (prototype)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#v0-2-0-functionality-verification">v0.2.0 (functionality &amp; verification)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#v0-3-0-library-support-qutip">v0.3.0 (library support: qutip)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#v0-4-0-library-support-c3">v0.4.0 (library support: c3)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#v0-5-0-ode-solvers">v0.5.0 (ode solvers)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#v0-6-0-optimization">v0.6.0 (optimization)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#v1-0-0-ui-packaging">v1.0.0 (ui &amp; packaging)</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
