@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link href="../../../../_static/favicon.png" sizes="100x100" rel="icon" type="image/png">
+    <link href="../../../../_static/images/favicon.png" sizes="100x100" rel="icon" type="image/png">
     <title>casq.common.helpers &#8212; Casq v0.1.0 documentation</title>
   
   
@@ -32,6 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/jupyter-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/css/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -42,6 +43,8 @@
     <script src="../../../../_static/doctools.js"></script>
     <script src="../../../../_static/sphinx_highlight.js"></script>
     <script src="../../../../_static/thebelab-helper.js"></script>
+    <script src="../../../../_static/clipboard.min.js"></script>
+    <script src="../../../../_static/copybutton.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'autoapi/casq/common/helpers/index';</script>
@@ -490,19 +493,19 @@ document.write(`
 <h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">#</a></h3>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#casq.common.helpers.dbid" title="casq.common.helpers.dbid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dbid</span></code></a>(→ str)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#casq.common.helpers.dbid" title="casq.common.helpers.dbid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dbid</span></code></a>()</p></td>
 <td><p>Generates database identifier for object.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#casq.common.helpers.ufid" title="casq.common.helpers.ufid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ufid</span></code></a>(→ str)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#casq.common.helpers.ufid" title="casq.common.helpers.ufid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ufid</span></code></a>(obj)</p></td>
 <td><p>Generates user-friendly identifier for object.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#casq.common.helpers.initialize_jax" title="casq.common.helpers.initialize_jax"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize_jax</span></code></a>(→ None)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#casq.common.helpers.initialize_jax" title="casq.common.helpers.initialize_jax"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize_jax</span></code></a>()</p></td>
 <td><p>Initializes jax to use CPU in 64-bit mode.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#casq.common.helpers.is_jax_enabled" title="casq.common.helpers.is_jax_enabled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_jax_enabled</span></code></a>(→ bool)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#casq.common.helpers.is_jax_enabled" title="casq.common.helpers.is_jax_enabled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_jax_enabled</span></code></a>()</p></td>
 <td><p>Checks if jax is enabled or not.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#casq.common.helpers.discretize" title="casq.common.helpers.discretize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">discretize</span></code></a>(→ list[SignalData])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#casq.common.helpers.discretize" title="casq.common.helpers.discretize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">discretize</span></code></a>(schedule, dt, channel_frequencies[, ...])</p></td>
 <td><p>Discretizes pulse schedule into signals.</p></td>
 </tr>
 </tbody>
@@ -546,17 +549,22 @@ document.write(`
 
 <dl class="py function">
 <dt class="sig sig-object py" id="casq.common.helpers.dbid">
-<span class="sig-prename descclassname"><span class="pre">casq.common.helpers.</span></span><span class="sig-name descname"><span class="pre">dbid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#casq.common.helpers.dbid" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">casq.common.helpers.</span></span><span class="sig-name descname"><span class="pre">dbid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casq.common.helpers.dbid" title="Permalink to this definition">#</a></dt>
 <dd><p>Generates database identifier for object.</p>
 <dl class="simple">
 <dt>Returns:</dt><dd><p>Database identifier.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="casq.common.helpers.ufid">
-<span class="sig-prename descclassname"><span class="pre">casq.common.helpers.</span></span><span class="sig-name descname"><span class="pre">ufid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#casq.common.helpers.ufid" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">casq.common.helpers.</span></span><span class="sig-name descname"><span class="pre">ufid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.common.helpers.ufid" title="Permalink to this definition">#</a></dt>
 <dd><p>Generates user-friendly identifier for object.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>obj: Object.</p>
@@ -564,18 +572,36 @@ document.write(`
 <dt>Returns:</dt><dd><p>User-friendly identifier.</p>
 </dd>
 </dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>obj</strong> (<em>Any</em>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="casq.common.helpers.initialize_jax">
-<span class="sig-prename descclassname"><span class="pre">casq.common.helpers.</span></span><span class="sig-name descname"><span class="pre">initialize_jax</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#casq.common.helpers.initialize_jax" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">casq.common.helpers.</span></span><span class="sig-name descname"><span class="pre">initialize_jax</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casq.common.helpers.initialize_jax" title="Permalink to this definition">#</a></dt>
 <dd><p>Initializes jax to use CPU in 64-bit mode.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="casq.common.helpers.is_jax_enabled">
-<span class="sig-prename descclassname"><span class="pre">casq.common.helpers.</span></span><span class="sig-name descname"><span class="pre">is_jax_enabled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#casq.common.helpers.is_jax_enabled" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">casq.common.helpers.</span></span><span class="sig-name descname"><span class="pre">is_jax_enabled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casq.common.helpers.is_jax_enabled" title="Permalink to this definition">#</a></dt>
 <dd><p>Checks if jax is enabled or not.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py class">
@@ -621,7 +647,7 @@ document.write(`
 
 <dl class="py function">
 <dt class="sig sig-object py" id="casq.common.helpers.discretize">
-<span class="sig-prename descclassname"><span class="pre">casq.common.helpers.</span></span><span class="sig-name descname"><span class="pre">discretize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schedule</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qiskit.pulse.Schedule</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_frequencies</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">carrier_frequency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#casq.common.helpers.SignalData" title="casq.common.helpers.SignalData"><span class="pre">SignalData</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#casq.common.helpers.discretize" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">casq.common.helpers.</span></span><span class="sig-name descname"><span class="pre">discretize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schedule</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_frequencies</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">carrier_frequency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.common.helpers.discretize" title="Permalink to this definition">#</a></dt>
 <dd><p>Discretizes pulse schedule into signals.</p>
 <dl>
 <dt>Args:</dt><dd><p>schedule: Pulse schedule.
@@ -633,6 +659,19 @@ carrier_frequency: Carrier frequency used for calculating IQ signal components.<
 </div></blockquote>
 </dd>
 <dt>Returns:</dt><dd><p>List of SignalData.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>schedule</strong> (<em>qiskit.pulse.Schedule</em>) – </p></li>
+<li><p><strong>dt</strong> (<em>float</em>) – </p></li>
+<li><p><strong>channel_frequencies</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>float</em><em>]</em>) – </p></li>
+<li><p><strong>carrier_frequency</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[<a class="reference internal" href="#casq.common.helpers.SignalData" title="casq.common.helpers.SignalData">SignalData</a>]</p>
 </dd>
 </dl>
 </dd></dl>

@@ -22,7 +22,7 @@ Classes
 
 
 
-.. py:class:: BackendCharacteristics(backend: Union[str, qiskit.providers.Backend])
+.. py:class:: BackendCharacteristics(backend)
 
 
    BackendCharacteristics class.
@@ -108,7 +108,7 @@ Classes
          
 
 
-   .. py:method:: get_backend(name: str) -> qiskit.providers.Backend
+   .. py:method:: get_backend(name)
       :staticmethod:
 
       BackendCharacteristics._get_backend method.
@@ -117,7 +117,7 @@ Classes
           :py:class:`qiskit.providers.Backend`
 
 
-   .. py:method:: get_qubit_properties(qubit: int) -> QubitProperties
+   .. py:method:: get_qubit_properties(qubit)
 
       BackendCharacteristics.get_qubit_properties method.
 
@@ -128,7 +128,7 @@ Classes
           :py:class:`casq.backends.qiskit.BackendCharacteristics.QubitProperties`
 
 
-   .. py:method:: get_gate_properties(gate_name: str) -> GateProperties
+   .. py:method:: get_gate_properties(gate_name)
 
       BackendCharacteristics.get_gate_properties method.
 
@@ -139,7 +139,7 @@ Classes
           :py:class:`casq.backends.qiskit.BackendCharacteristics.GateProperties`
 
 
-   .. py:method:: _get_config() -> qiskit.providers.models.PulseBackendConfiguration
+   .. py:method:: _get_config()
 
       BackendCharacteristics._get_config method.
 
@@ -147,7 +147,7 @@ Classes
           :py:class:`qiskit.providers.models.PulseBackendConfiguration`
 
 
-   .. py:method:: _get_defaults() -> qiskit.providers.models.PulseDefaults
+   .. py:method:: _get_defaults()
 
       BackendCharacteristics._get_defaults method.
 
@@ -155,7 +155,7 @@ Classes
           :py:class:`qiskit.providers.models.PulseDefaults`
 
 
-   .. py:method:: _get_properties() -> qiskit.providers.models.BackendProperties
+   .. py:method:: _get_properties()
 
       BackendCharacteristics._get_properties method.
 
@@ -163,7 +163,7 @@ Classes
           :py:class:`qiskit.providers.models.BackendProperties`
 
 
-   .. py:method:: get_channel_frequencies(channels: Union[list[str], list[qiskit.pulse.channels.Channel]]) -> dict[str, float]
+   .. py:method:: get_channel_frequencies(channels)
 
       Discretizes pulse schedule into signals.
 
@@ -174,7 +174,7 @@ Classes
           List of :py:class:`qiskit_dynamics.signals.Signal`
 
 
-   .. py:method:: get_control_channel_map(channels_filter: list[str]) -> dict[tuple[int, Ellipsis], int]
+   .. py:method:: get_control_channel_map(channels_filter)
 
       Get control channel map from backend configuration.
 

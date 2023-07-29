@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link href="../../../../../_static/favicon.png" sizes="100x100" rel="icon" type="image/png">
+    <link href="../../../../../_static/images/favicon.png" sizes="100x100" rel="icon" type="image/png">
     <title>casq.backends.qiskit.backend_characteristics &#8212; Casq v0.1.0 documentation</title>
   
   
@@ -32,6 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/jupyter-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/css/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -42,6 +43,8 @@
     <script src="../../../../../_static/doctools.js"></script>
     <script src="../../../../../_static/sphinx_highlight.js"></script>
     <script src="../../../../../_static/thebelab-helper.js"></script>
+    <script src="../../../../../_static/clipboard.min.js"></script>
+    <script src="../../../../../_static/copybutton.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'autoapi/casq/backends/qiskit/backend_characteristics/index';</script>
@@ -484,7 +487,7 @@ document.write(`
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="casq.backends.qiskit.backend_characteristics.BackendCharacteristics">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.backends.qiskit.backend_characteristics.</span></span><span class="sig-name descname"><span class="pre">BackendCharacteristics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">qiskit.providers.Backend</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.qiskit.backend_characteristics.BackendCharacteristics" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.backends.qiskit.backend_characteristics.</span></span><span class="sig-name descname"><span class="pre">BackendCharacteristics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">backend</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.qiskit.backend_characteristics.BackendCharacteristics" title="Permalink to this definition">#</a></dt>
 <dd><p>BackendCharacteristics class.</p>
 <p>Extracts IBMQ backend characteristics needed by various casq classes and methods.
 Requires PulseBackendConfiguration with valid configuration, properties, and defaults.</p>
@@ -493,6 +496,11 @@ that may be utilized by a PulseBackend.
 However, this may change in future Qiskit versions.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>backend: IBMQ backend compatible with BackendV1.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>backend</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>qiskit.providers.Backend</em><em>]</em>) – </p>
 </dd>
 </dl>
 <dl class="py class">
@@ -566,17 +574,25 @@ However, this may change in future Qiskit versions.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.backends.qiskit.backend_characteristics.BackendCharacteristics.get_backend">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_backend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">qiskit.providers.Backend</span></span></span><a class="headerlink" href="#casq.backends.qiskit.backend_characteristics.BackendCharacteristics.get_backend" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_backend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.qiskit.backend_characteristics.BackendCharacteristics.get_backend" title="Permalink to this definition">#</a></dt>
 <dd><p>BackendCharacteristics._get_backend method.</p>
 <dl class="simple">
 <dt>Returns:</dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">qiskit.providers.Backend</span></code></p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>qiskit.providers.Backend</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.backends.qiskit.backend_characteristics.BackendCharacteristics.get_qubit_properties">
-<span class="sig-name descname"><span class="pre">get_qubit_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#casq.backends.qiskit.backend_characteristics.BackendCharacteristics.QubitProperties" title="casq.backends.qiskit.backend_characteristics.BackendCharacteristics.QubitProperties"><span class="pre">QubitProperties</span></a></span></span><a class="headerlink" href="#casq.backends.qiskit.backend_characteristics.BackendCharacteristics.get_qubit_properties" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_qubit_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.qiskit.backend_characteristics.BackendCharacteristics.get_qubit_properties" title="Permalink to this definition">#</a></dt>
 <dd><p>BackendCharacteristics.get_qubit_properties method.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>qubit: Qubit to attach gate to.</p>
@@ -584,11 +600,19 @@ However, this may change in future Qiskit versions.</p>
 <dt>Returns:</dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">casq.backends.qiskit.BackendCharacteristics.QubitProperties</span></code></p>
 </dd>
 </dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>qubit</strong> (<em>int</em>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#casq.backends.qiskit.backend_characteristics.BackendCharacteristics.QubitProperties" title="casq.backends.qiskit.backend_characteristics.BackendCharacteristics.QubitProperties">QubitProperties</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.backends.qiskit.backend_characteristics.BackendCharacteristics.get_gate_properties">
-<span class="sig-name descname"><span class="pre">get_gate_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#casq.backends.qiskit.backend_characteristics.BackendCharacteristics.GateProperties" title="casq.backends.qiskit.backend_characteristics.BackendCharacteristics.GateProperties"><span class="pre">GateProperties</span></a></span></span><a class="headerlink" href="#casq.backends.qiskit.backend_characteristics.BackendCharacteristics.get_gate_properties" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_gate_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.qiskit.backend_characteristics.BackendCharacteristics.get_gate_properties" title="Permalink to this definition">#</a></dt>
 <dd><p>BackendCharacteristics.get_gate_properties method.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>gate_name: Gate name.</p>
@@ -596,41 +620,64 @@ However, this may change in future Qiskit versions.</p>
 <dt>Returns:</dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">casq.backends.qiskit.BackendCharacteristics.GateProperties</span></code></p>
 </dd>
 </dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>gate_name</strong> (<em>str</em>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#casq.backends.qiskit.backend_characteristics.BackendCharacteristics.GateProperties" title="casq.backends.qiskit.backend_characteristics.BackendCharacteristics.GateProperties">GateProperties</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.backends.qiskit.backend_characteristics.BackendCharacteristics._get_config">
-<span class="sig-name descname"><span class="pre">_get_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">qiskit.providers.models.PulseBackendConfiguration</span></span></span><a class="headerlink" href="#casq.backends.qiskit.backend_characteristics.BackendCharacteristics._get_config" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">_get_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.qiskit.backend_characteristics.BackendCharacteristics._get_config" title="Permalink to this definition">#</a></dt>
 <dd><p>BackendCharacteristics._get_config method.</p>
 <dl class="simple">
 <dt>Returns:</dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">qiskit.providers.models.PulseBackendConfiguration</span></code></p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>qiskit.providers.models.PulseBackendConfiguration</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.backends.qiskit.backend_characteristics.BackendCharacteristics._get_defaults">
-<span class="sig-name descname"><span class="pre">_get_defaults</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">qiskit.providers.models.PulseDefaults</span></span></span><a class="headerlink" href="#casq.backends.qiskit.backend_characteristics.BackendCharacteristics._get_defaults" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">_get_defaults</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.qiskit.backend_characteristics.BackendCharacteristics._get_defaults" title="Permalink to this definition">#</a></dt>
 <dd><p>BackendCharacteristics._get_defaults method.</p>
 <dl class="simple">
 <dt>Returns:</dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">qiskit.providers.models.PulseDefaults</span></code></p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>qiskit.providers.models.PulseDefaults</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.backends.qiskit.backend_characteristics.BackendCharacteristics._get_properties">
-<span class="sig-name descname"><span class="pre">_get_properties</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">qiskit.providers.models.BackendProperties</span></span></span><a class="headerlink" href="#casq.backends.qiskit.backend_characteristics.BackendCharacteristics._get_properties" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">_get_properties</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.qiskit.backend_characteristics.BackendCharacteristics._get_properties" title="Permalink to this definition">#</a></dt>
 <dd><p>BackendCharacteristics._get_properties method.</p>
 <dl class="simple">
 <dt>Returns:</dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">qiskit.providers.models.BackendProperties</span></code></p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>qiskit.providers.models.BackendProperties</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.backends.qiskit.backend_characteristics.BackendCharacteristics.get_channel_frequencies">
-<span class="sig-name descname"><span class="pre">get_channel_frequencies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">qiskit.pulse.channels.Channel</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#casq.backends.qiskit.backend_characteristics.BackendCharacteristics.get_channel_frequencies" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_channel_frequencies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channels</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.qiskit.backend_characteristics.BackendCharacteristics.get_channel_frequencies" title="Permalink to this definition">#</a></dt>
 <dd><p>Discretizes pulse schedule into signals.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>channels: List of channel names or channel instances.</p>
@@ -638,16 +685,32 @@ However, this may change in future Qiskit versions.</p>
 <dt>Returns:</dt><dd><p>List of <code class="xref py py-class docutils literal notranslate"><span class="pre">qiskit_dynamics.signals.Signal</span></code></p>
 </dd>
 </dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>channels</strong> (<em>Union</em><em>[</em><em>list</em><em>[</em><em>str</em><em>]</em><em>, </em><em>list</em><em>[</em><em>qiskit.pulse.channels.Channel</em><em>]</em><em>]</em>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict[str, float]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.backends.qiskit.backend_characteristics.BackendCharacteristics.get_control_channel_map">
-<span class="sig-name descname"><span class="pre">get_control_channel_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channels_filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Ellipsis</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#casq.backends.qiskit.backend_characteristics.BackendCharacteristics.get_control_channel_map" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_control_channel_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channels_filter</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.qiskit.backend_characteristics.BackendCharacteristics.get_control_channel_map" title="Permalink to this definition">#</a></dt>
 <dd><p>Get control channel map from backend configuration.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>channels_filter: List of channel names to filter by.</p>
 </dd>
 <dt>Returns:</dt><dd><p>Dictionary mapping qubits to control channels.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>channels_filter</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict[tuple[int, Ellipsis], int]</p>
 </dd>
 </dl>
 </dd></dl>

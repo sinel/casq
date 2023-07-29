@@ -65,7 +65,7 @@ Functions
 
 
 
-.. py:function:: timer(*, level: str = 'DEBUG', unit: str = 'msec') -> Any
+.. py:function:: timer(*, level = 'DEBUG', unit = 'msec')
 
    Decorator for timing the execution of a function.
 
@@ -77,7 +77,7 @@ Functions
        Wrapper function for decorator.
 
 
-.. py:function:: trace(*, log_entry: bool = True, log_exit: bool = True, level: str = 'TRACE') -> Any
+.. py:function:: trace(*, log_entry = True, log_exit = True, level = 'TRACE')
 
    Decorator for tracing entry to and exit from a function.
 
@@ -90,14 +90,14 @@ Functions
        Wrapper function for decorator.
 
 
-.. py:exception:: CasqError(*message: str)
+.. py:exception:: CasqError(*message)
 
 
    Bases: :py:obj:`Exception`
 
    Base class for errors raised by casq.
 
-   .. py:method:: __str__() -> str
+   .. py:method:: __str__()
 
       Return the message.
 
@@ -182,7 +182,7 @@ Functions
       
 
 
-.. py:function:: dbid() -> str
+.. py:function:: dbid()
 
    Generates database identifier for object.
 
@@ -190,7 +190,7 @@ Functions
        Database identifier.
 
 
-.. py:function:: discretize(schedule: qiskit.pulse.Schedule, dt: float, channel_frequencies: dict[str, float], carrier_frequency: Optional[float] = None) -> list[SignalData]
+.. py:function:: discretize(schedule, dt, channel_frequencies, carrier_frequency = None)
 
    Discretizes pulse schedule into signals.
 
@@ -205,17 +205,17 @@ Functions
        List of SignalData.
 
 
-.. py:function:: initialize_jax() -> None
+.. py:function:: initialize_jax()
 
    Initializes jax to use CPU in 64-bit mode.
 
 
-.. py:function:: is_jax_enabled() -> bool
+.. py:function:: is_jax_enabled()
 
    Checks if jax is enabled or not.
 
 
-.. py:function:: ufid(obj: Any) -> str
+.. py:function:: ufid(obj)
 
    Generates user-friendly identifier for object.
 
@@ -619,7 +619,7 @@ Functions
       
 
 
-.. py:function:: add_horizontal_line(ax: matplotlib.axes.Axes, y: float, label: Optional[str] = None, line_style: Optional[LineStyle] = None) -> None
+.. py:function:: add_horizontal_line(ax, y, label = None, line_style = None)
 
    Add horizontal line to Matplotlib axes.
 
@@ -630,7 +630,7 @@ Functions
        line_style: Line style.
 
 
-.. py:function:: add_line(ax: matplotlib.axes.Axes, data: LineData, label: Optional[str] = None, line_style: Optional[LineStyle] = None, marker_style: Optional[MarkerStyle] = None) -> None
+.. py:function:: add_line(ax, data, label = None, line_style = None, marker_style = None)
 
    Add line to Matplotlib axes.
 
@@ -642,7 +642,7 @@ Functions
        marker_style: Marker style.
 
 
-.. py:function:: add_line_collection(ax: matplotlib.axes.Axes, data: list[LineData], label: Optional[str] = None, line_style: Optional[LineStyle] = None) -> None
+.. py:function:: add_line_collection(ax, data, label = None, line_style = None)
 
    Add line collection to Matplotlib axes.
 
@@ -653,7 +653,7 @@ Functions
        line_style: Line style.
 
 
-.. py:function:: add_vertical_line(ax: matplotlib.axes.Axes, x: float, label: Optional[str] = None, line_style: Optional[LineStyle] = None) -> None
+.. py:function:: add_vertical_line(ax, x, label = None, line_style = None)
 
    Add vertical line to Matplotlib axes.
 
@@ -664,7 +664,7 @@ Functions
        line_style: Line style.
 
 
-.. py:function:: plot(configs: Sequence[Union[LineConfig, LineCollectionConfig]], figure: Optional[matplotlib.figure.Figure] = None, hlines: Optional[list[tuple[float, Optional[str], LineStyle, Optional[matplotlib.axes.Axes]]]] = None, vlines: Optional[list[tuple[float, Optional[str], LineStyle, Optional[matplotlib.axes.Axes]]]] = None, title: Optional[str] = None, legend_style: Optional[LegendStyle] = None, show_grid: bool = False, filename: Optional[str] = None, hidden: bool = False) -> None
+.. py:function:: plot(configs, figure = None, hlines = None, vlines = None, title = None, legend_style = None, show_grid = False, filename = None, hidden = False)
 
    Create and plot Matplotlib figure.
 
@@ -683,7 +683,7 @@ Functions
        Matplotlib Figure.
 
 
-.. py:function:: plot_bloch(x: Union[list[float], numpy.typing.NDArray], y: Union[list[float], numpy.typing.NDArray], z: Union[list[float], numpy.typing.NDArray], filename: Optional[str] = None, hidden: bool = False) -> None
+.. py:function:: plot_bloch(x, y, z, filename = None, hidden = False)
 
    Create and plot Matplotlib figure.
 
@@ -698,7 +698,7 @@ Functions
        Matplotlib Figure.
 
 
-.. py:function:: plot_signal(signal_data: casq.common.helpers.SignalData, duration: Optional[int] = None, start: int = 0, number_of_samples: int = 1000, time_unit: casq.common.helpers.TimeUnit = TimeUnit.NANO_SEC, filename: Optional[str] = None, hidden: bool = False) -> None
+.. py:function:: plot_signal(signal_data, duration = None, start = 0, number_of_samples = 1000, time_unit = TimeUnit.NANO_SEC, filename = None, hidden = False)
 
    Create and plot Matplotlib figure.
 

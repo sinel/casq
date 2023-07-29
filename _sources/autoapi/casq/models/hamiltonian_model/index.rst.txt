@@ -22,7 +22,7 @@ Classes
 
 
 
-.. py:class:: HamiltonianModel(hamiltonian_dict: dict, extracted_qubits: Optional[list[int]] = None, rotating_frame: Optional[qiskit_dynamics.array.Array] = None, in_frame_basis: bool = False, evaluation_mode: EvaluationMode = EvaluationMode.DENSE, rwa_cutoff_freq: Optional[float] = None, rwa_carrier_freqs: Optional[Union[numpy.typing.NDArray, tuple[numpy.typing.NDArray, numpy.typing.NDArray]]] = None)
+.. py:class:: HamiltonianModel(hamiltonian_dict, extracted_qubits = None, rotating_frame = None, in_frame_basis = False, evaluation_mode = EvaluationMode.DENSE, rwa_cutoff_freq = None, rwa_carrier_freqs = None)
 
 
    HamiltonianModel class.

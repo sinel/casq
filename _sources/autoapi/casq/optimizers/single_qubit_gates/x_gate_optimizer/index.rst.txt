@@ -22,7 +22,7 @@ Classes
 
 
 
-.. py:class:: XGateOptimizer(pulse_gate: casq.gates.PulseGate, pulse_backend: casq.backends.pulse_backend.PulseBackend, method: casq.backends.pulse_backend.PulseBackend.ODESolverMethod, method_options: Optional[dict[str, Any]] = None, fidelity_type: Optional[XGateOptimizer] = None, use_jit: bool = False)
+.. py:class:: XGateOptimizer(pulse_gate, pulse_backend, method, method_options = None, fidelity_type = None, use_jit = False)
 
 
    Bases: :py:obj:`casq.optimizers.single_qubit_gates.single_qubit_gate_optimizer.SingleQubitGateOptimizer`

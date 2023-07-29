@@ -22,7 +22,7 @@ Functions
 
 
 
-.. py:function:: about() -> None
+.. py:function:: about()
 
    Provides information about Casq.
 

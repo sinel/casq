@@ -12,14 +12,14 @@
 Module Contents
 ---------------
 
-.. py:exception:: CasqError(*message: str)
+.. py:exception:: CasqError(*message)
 
 
    Bases: :py:obj:`Exception`
 
    Base class for errors raised by casq.
 
-   .. py:method:: __str__() -> str
+   .. py:method:: __str__()
 
       Return the message.
 

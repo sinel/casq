@@ -73,7 +73,7 @@ Functions
       
 
 
-.. py:function:: dbid() -> str
+.. py:function:: dbid()
 
    Generates database identifier for object.
 
@@ -81,7 +81,7 @@ Functions
        Database identifier.
 
 
-.. py:function:: ufid(obj: Any) -> str
+.. py:function:: ufid(obj)
 
    Generates user-friendly identifier for object.
 
@@ -92,12 +92,12 @@ Functions
        User-friendly identifier.
 
 
-.. py:function:: initialize_jax() -> None
+.. py:function:: initialize_jax()
 
    Initializes jax to use CPU in 64-bit mode.
 
 
-.. py:function:: is_jax_enabled() -> bool
+.. py:function:: is_jax_enabled()
 
    Checks if jax is enabled or not.
 
@@ -143,7 +143,7 @@ Functions
       
 
 
-.. py:function:: discretize(schedule: qiskit.pulse.Schedule, dt: float, channel_frequencies: dict[str, float], carrier_frequency: Optional[float] = None) -> list[SignalData]
+.. py:function:: discretize(schedule, dt, channel_frequencies, carrier_frequency = None)
 
    Discretizes pulse schedule into signals.
 

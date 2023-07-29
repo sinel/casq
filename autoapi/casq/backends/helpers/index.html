@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link href="../../../../_static/favicon.png" sizes="100x100" rel="icon" type="image/png">
+    <link href="../../../../_static/images/favicon.png" sizes="100x100" rel="icon" type="image/png">
     <title>casq.backends.helpers &#8212; Casq v0.1.0 documentation</title>
   
   
@@ -32,6 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/jupyter-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/css/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -42,6 +43,8 @@
     <script src="../../../../_static/doctools.js"></script>
     <script src="../../../../_static/sphinx_highlight.js"></script>
     <script src="../../../../_static/thebelab-helper.js"></script>
+    <script src="../../../../_static/clipboard.min.js"></script>
+    <script src="../../../../_static/copybutton.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'autoapi/casq/backends/helpers/index';</script>
@@ -487,10 +490,10 @@ document.write(`
 <h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">#</a></h3>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#casq.backends.helpers.build" title="casq.backends.helpers.build"><code class="xref py py-obj docutils literal notranslate"><span class="pre">build</span></code></a>(...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#casq.backends.helpers.build" title="casq.backends.helpers.build"><code class="xref py py-obj docutils literal notranslate"><span class="pre">build</span></code></a>(backend_library, hamiltonian, control[, seed])</p></td>
 <td><p>Build PulseBackend.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#casq.backends.helpers.build_from_backend" title="casq.backends.helpers.build_from_backend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_from_backend</span></code></a>(...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#casq.backends.helpers.build_from_backend" title="casq.backends.helpers.build_from_backend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_from_backend</span></code></a>(backend[, extracted_qubits, ...])</p></td>
 <td><p>Build PulseBackend from library-specific backend.</p></td>
 </tr>
 </tbody>
@@ -519,7 +522,7 @@ document.write(`
 
 <dl class="py function">
 <dt class="sig sig-object py" id="casq.backends.helpers.build">
-<span class="sig-prename descclassname"><span class="pre">casq.backends.helpers.</span></span><span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">backend_library</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#casq.backends.helpers.BackendLibrary" title="casq.backends.helpers.BackendLibrary"><span class="pre">BackendLibrary</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">hamiltonian</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../models/hamiltonian_model/index.html#casq.models.hamiltonian_model.HamiltonianModel" title="casq.models.hamiltonian_model.HamiltonianModel"><span class="pre">casq.models.hamiltonian_model.HamiltonianModel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">control</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../models/control_model/index.html#casq.models.control_model.ControlModel" title="casq.models.control_model.ControlModel"><span class="pre">casq.models.control_model.ControlModel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../qiskit/qiskit_pulse_backend/index.html#casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend" title="casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend"><span class="pre">casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend</span></a></span></span><a class="headerlink" href="#casq.backends.helpers.build" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">casq.backends.helpers.</span></span><span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">backend_library</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hamiltonian</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">control</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.helpers.build" title="Permalink to this definition">#</a></dt>
 <dd><p>Build PulseBackend.</p>
 <blockquote>
 <div><p>Currently, only supports Qiskit.</p>
@@ -533,11 +536,24 @@ seed: Seed to use in random sampling. Defaults to None.</p>
 <dt>Returns:</dt><dd><p>QiskitPulseBackend</p>
 </dd>
 </dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>backend_library</strong> (<a class="reference internal" href="#casq.backends.helpers.BackendLibrary" title="casq.backends.helpers.BackendLibrary"><em>BackendLibrary</em></a>) – </p></li>
+<li><p><strong>hamiltonian</strong> (<a class="reference internal" href="../../models/hamiltonian_model/index.html#casq.models.hamiltonian_model.HamiltonianModel" title="casq.models.hamiltonian_model.HamiltonianModel"><em>casq.models.hamiltonian_model.HamiltonianModel</em></a>) – </p></li>
+<li><p><strong>control</strong> (<a class="reference internal" href="../../models/control_model/index.html#casq.models.control_model.ControlModel" title="casq.models.control_model.ControlModel"><em>casq.models.control_model.ControlModel</em></a>) – </p></li>
+<li><p><strong>seed</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="../qiskit/qiskit_pulse_backend/index.html#casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend" title="casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend">casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="casq.backends.helpers.build_from_backend">
-<span class="sig-prename descclassname"><span class="pre">casq.backends.helpers.</span></span><span class="sig-name descname"><span class="pre">build_from_backend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qiskit.providers.Backend</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extracted_qubits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotating_frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qiskit_dynamics.array.Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">qiskit_dynamics.RotatingFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_frame_basis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../models/hamiltonian_model/index.html#casq.models.hamiltonian_model.HamiltonianModel.EvaluationMode" title="casq.models.hamiltonian_model.HamiltonianModel.EvaluationMode"><span class="pre">casq.models.hamiltonian_model.HamiltonianModel.EvaluationMode</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rwa_cutoff_freq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rwa_carrier_freqs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.typing.NDArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.typing.NDArray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.typing.NDArray</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../qiskit/qiskit_pulse_backend/index.html#casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend" title="casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend"><span class="pre">casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend</span></a></span></span><a class="headerlink" href="#casq.backends.helpers.build_from_backend" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">casq.backends.helpers.</span></span><span class="sig-name descname"><span class="pre">build_from_backend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">backend</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extracted_qubits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotating_frame</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_frame_basis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rwa_cutoff_freq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rwa_carrier_freqs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.helpers.build_from_backend" title="Permalink to this definition">#</a></dt>
 <dd><p>Build PulseBackend from library-specific backend.</p>
 <p>Currently, only supports Qiskit.</p>
 <dl>
@@ -560,6 +576,23 @@ rwa_cutoff_freq: Rotating wave approximation cutoff frequency.</p>
 seed: Seed to use in random sampling. Defaults to None.</p>
 </dd>
 <dt>Returns:</dt><dd><p>QiskitPulseBackend</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>backend</strong> (<em>qiskit.providers.Backend</em>) – </p></li>
+<li><p><strong>extracted_qubits</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>int</em><em>]</em><em>]</em>) – </p></li>
+<li><p><strong>rotating_frame</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><em>qiskit_dynamics.array.Array</em><em>, </em><em>qiskit_dynamics.RotatingFrame</em><em>]</em><em>]</em>) – </p></li>
+<li><p><strong>in_frame_basis</strong> (<em>bool</em>) – </p></li>
+<li><p><strong>evaluation_mode</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="../../models/hamiltonian_model/index.html#casq.models.hamiltonian_model.HamiltonianModel.EvaluationMode" title="casq.models.hamiltonian_model.HamiltonianModel.EvaluationMode"><em>casq.models.hamiltonian_model.HamiltonianModel.EvaluationMode</em></a><em>]</em>) – </p></li>
+<li><p><strong>rwa_cutoff_freq</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – </p></li>
+<li><p><strong>rwa_carrier_freqs</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><em>numpy.typing.NDArray</em><em>, </em><em>tuple</em><em>[</em><em>numpy.typing.NDArray</em><em>, </em><em>numpy.typing.NDArray</em><em>]</em><em>]</em><em>]</em>) – </p></li>
+<li><p><strong>seed</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="../qiskit/qiskit_pulse_backend/index.html#casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend" title="casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend">casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend</a></p>
 </dd>
 </dl>
 </dd></dl>

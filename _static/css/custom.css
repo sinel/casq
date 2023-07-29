@@ -1,4 +1,12 @@
 
+html {
+    --pst-font-size-h1: 1.75rem;
+    --pst-font-size-h2: 1.5rem;
+    --pst-font-size-h3: 1.4rem;
+    --pst-font-size-h4: 1.3rem;
+    --pst-font-size-h5: 1.2rem;
+}
+
 .sidebar-primary-items__end {
     margin-bottom: 0 !important;
     margin-top: 0 !important;

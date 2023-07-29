@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link href="../../../../_static/favicon.png" sizes="100x100" rel="icon" type="image/png">
+    <link href="../../../../_static/images/favicon.png" sizes="100x100" rel="icon" type="image/png">
     <title>casq.gates.pulse_circuit &#8212; Casq v0.1.0 documentation</title>
   
   
@@ -32,6 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/jupyter-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/css/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -42,6 +43,8 @@
     <script src="../../../../_static/doctools.js"></script>
     <script src="../../../../_static/sphinx_highlight.js"></script>
     <script src="../../../../_static/thebelab-helper.js"></script>
+    <script src="../../../../_static/clipboard.min.js"></script>
+    <script src="../../../../_static/copybutton.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'autoapi/casq/gates/pulse_circuit/index';</script>
@@ -484,7 +487,7 @@ document.write(`
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="casq.gates.pulse_circuit.PulseCircuit">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.gates.pulse_circuit.</span></span><span class="sig-name descname"><span class="pre">PulseCircuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">regs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qiskit.circuit.Register</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">qiskit.circuit.Bit</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">global_phase</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qiskit.circuit.parameterexpression.ParameterValueType</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.gates.pulse_circuit.PulseCircuit" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.gates.pulse_circuit.</span></span><span class="sig-name descname"><span class="pre">PulseCircuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">regs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">global_phase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.gates.pulse_circuit.PulseCircuit" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">qiskit.QuantumCircuit</span></code></p>
 <p>PulseCircuit class.</p>
 <p>Extends Qiskit QuantumCircuit class
@@ -493,9 +496,19 @@ with helper methods for adding pulse gates and plotting.</p>
 <dt>Args:</dt><dd><p>name: Optional user-friendly name for pulse gate.</p>
 </dd>
 </dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>regs</strong> (<em>Union</em><em>[</em><em>qiskit.circuit.Register</em><em>, </em><em>int</em><em>, </em><em>list</em><em>[</em><em>qiskit.circuit.Bit</em><em>]</em><em>]</em>) – </p></li>
+<li><p><strong>name</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – </p></li>
+<li><p><strong>global_phase</strong> (<em>qiskit.circuit.parameterexpression.ParameterValueType</em>) – </p></li>
+<li><p><strong>metadata</strong> (<em>Optional</em><em>[</em><em>dict</em><em>]</em>) – </p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.gates.pulse_circuit.PulseCircuit.from_pulse_gate">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_pulse_gate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../pulse_gate/index.html#casq.gates.pulse_gate.PulseGate" title="casq.gates.pulse_gate.PulseGate"><span class="pre">casq.gates.pulse_gate.PulseGate</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#casq.gates.pulse_circuit.PulseCircuit" title="casq.gates.pulse_circuit.PulseCircuit"><span class="pre">PulseCircuit</span></a></span></span><a class="headerlink" href="#casq.gates.pulse_circuit.PulseCircuit.from_pulse_gate" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_pulse_gate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.gates.pulse_circuit.PulseCircuit.from_pulse_gate" title="Permalink to this definition">#</a></dt>
 <dd><p>PulseCircuit.from_pulse method.</p>
 <p>Builds simple circuit for solitary usage or testing of pulse gate.</p>
 <dl class="simple">
@@ -505,11 +518,22 @@ parameters: Dictionary of pulse parameters that defines the pulse envelope.</p>
 <dt>Returns:</dt><dd><p>PulseCircuit</p>
 </dd>
 </dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gate</strong> (<a class="reference internal" href="../pulse_gate/index.html#casq.gates.pulse_gate.PulseGate" title="casq.gates.pulse_gate.PulseGate"><em>casq.gates.pulse_gate.PulseGate</em></a>) – </p></li>
+<li><p><strong>parameters</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#casq.gates.pulse_circuit.PulseCircuit" title="casq.gates.pulse_circuit.PulseCircuit">PulseCircuit</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.gates.pulse_circuit.PulseCircuit.pulse_gate">
-<span class="sig-name descname"><span class="pre">pulse_gate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../pulse_gate/index.html#casq.gates.pulse_gate.PulseGate" title="casq.gates.pulse_gate.PulseGate"><span class="pre">casq.gates.pulse_gate.PulseGate</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">qiskit.circuit.quantumcircuit.InstructionSet</span></span></span><a class="headerlink" href="#casq.gates.pulse_circuit.PulseCircuit.pulse_gate" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">pulse_gate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.gates.pulse_circuit.PulseCircuit.pulse_gate" title="Permalink to this definition">#</a></dt>
 <dd><p>PulseGate.gate method.</p>
 <p>Append pulse gate to circuit.</p>
 <dl class="simple">
@@ -518,6 +542,18 @@ parameters: Dictionary of pulse parameters that defines the pulse envelope.
 qubit: Qubit to attach pulse gate to.</p>
 </dd>
 <dt>Returns:</dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">qiskit.pulse.Instruction</span></code></p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gate</strong> (<a class="reference internal" href="../pulse_gate/index.html#casq.gates.pulse_gate.PulseGate" title="casq.gates.pulse_gate.PulseGate"><em>casq.gates.pulse_gate.PulseGate</em></a>) – </p></li>
+<li><p><strong>parameters</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – </p></li>
+<li><p><strong>qubit</strong> (<em>int</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>qiskit.circuit.quantumcircuit.InstructionSet</p>
 </dd>
 </dl>
 </dd></dl>

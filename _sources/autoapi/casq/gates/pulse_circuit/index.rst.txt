@@ -22,7 +22,7 @@ Classes
 
 
 
-.. py:class:: PulseCircuit(*regs: Union[qiskit.circuit.Register, int, list[qiskit.circuit.Bit]], name: Optional[str] = None, global_phase: qiskit.circuit.parameterexpression.ParameterValueType = 0, metadata: Optional[dict] = None)
+.. py:class:: PulseCircuit(*regs, name = None, global_phase = 0, metadata = None)
 
 
    Bases: :py:obj:`qiskit.QuantumCircuit`
@@ -35,7 +35,7 @@ Classes
    Args:
        name: Optional user-friendly name for pulse gate.
 
-   .. py:method:: from_pulse_gate(gate: casq.gates.pulse_gate.PulseGate, parameters: dict[str, Any]) -> PulseCircuit
+   .. py:method:: from_pulse_gate(gate, parameters)
       :staticmethod:
 
       PulseCircuit.from_pulse method.
@@ -50,7 +50,7 @@ Classes
           PulseCircuit
 
 
-   .. py:method:: pulse_gate(gate: casq.gates.pulse_gate.PulseGate, parameters: dict[str, Any], qubit: int = 0) -> qiskit.circuit.quantumcircuit.InstructionSet
+   .. py:method:: pulse_gate(gate, parameters, qubit = 0)
 
       PulseGate.gate method.
 

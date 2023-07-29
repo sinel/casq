@@ -22,7 +22,7 @@ Classes
 
 
 
-.. py:class:: PulseGate(num_qubits: int, duration: int, amplitude: float, angle: float = 0, limit_amplitude: bool = True, name: Optional[str] = None)
+.. py:class:: PulseGate(num_qubits, duration, amplitude, angle = 0, limit_amplitude = True, name = None)
 
 
    Bases: :py:obj:`qiskit.circuit.Gate`
@@ -37,7 +37,7 @@ Classes
        duration: Pulse length in terms of the sampling period dt.
        name: Optional display name for the pulse gate.
 
-   .. py:method:: pulse(params: dict[str, Any]) -> qiskit.pulse.library.ScalableSymbolicPulse
+   .. py:method:: pulse(params)
       :abstractmethod:
 
       PulseGate.pulse method.
@@ -48,7 +48,7 @@ Classes
           :py:class:`qiskit.pulse.library.Pulse`
 
 
-   .. py:method:: to_parameters_dict(parameters: numpy.typing.NDArray) -> dict[str, Any]
+   .. py:method:: to_parameters_dict(parameters)
       :abstractmethod:
 
       GaussianSquarePulseGate.to_parameters_dict method.
@@ -62,7 +62,7 @@ Classes
           Dictionary of parameters.
 
 
-   .. py:method:: schedule(parameters: dict[str, Any], qubit: int) -> qiskit.pulse.Schedule
+   .. py:method:: schedule(parameters, qubit)
 
       PulseGate.schedule method.
 

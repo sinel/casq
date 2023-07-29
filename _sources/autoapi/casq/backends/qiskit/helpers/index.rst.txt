@@ -24,7 +24,7 @@ Functions
 
 
 
-.. py:function:: get_experiment_result(experiment_name: str, solver_result: scipy.integrate._ivp.ivp.OdeResult, measurement_subsystems: list[int], memory_slot_indices: list[int], num_memory_slots: Union[None, int], backend: qiskit_dynamics.backend.DynamicsBackend, seed: Optional[int] = None, metadata: Optional[dict] = None) -> qiskit.result.models.ExperimentResult
+.. py:function:: get_experiment_result(experiment_name, solver_result, measurement_subsystems, memory_slot_indices, num_memory_slots, backend, seed = None, metadata = None)
 
    Generates ExperimentResult objects from solver result.
 
@@ -50,7 +50,7 @@ Functions
        QiskitError: If a specified option is unsupported.
 
 
-.. py:function:: convert_to_solution(result: qiskit.result.models.ExperimentResult) -> casq.backends.pulse_backend.PulseBackend.PulseSolution
+.. py:function:: convert_to_solution(result)
 
    Converts Qiskit result to pulse backend solution.
 
@@ -61,7 +61,7 @@ Functions
        Pulse solution.
 
 
-.. py:function:: to_schedule(circuit: qiskit.QuantumCircuit, backend: qiskit.providers.Backend) -> qiskit.pulse.Schedule
+.. py:function:: to_schedule(circuit, backend)
 
    to_schedule method.
 

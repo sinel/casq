@@ -22,7 +22,7 @@ Classes
 
 
 
-.. py:class:: PulseOptimizer(pulse_gate: casq.gates.PulseGate, pulse_backend: casq.backends.pulse_backend.PulseBackend, method: casq.backends.pulse_backend.PulseBackend.ODESolverMethod, target_measurement: Union[dict[str, float], qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector], method_options: Optional[dict[str, Any]] = None, fidelity_type: Optional[FidelityType] = None, target_qubit: Optional[int] = None, use_jit: bool = False)
+.. py:class:: PulseOptimizer(pulse_gate, pulse_backend, method, target_measurement, method_options = None, fidelity_type = None, target_qubit = None, use_jit = False)
 
 
    PulseOptimizer class.
@@ -251,7 +251,7 @@ Classes
          
 
 
-   .. py:method:: solve(initial_params: numpy.typing.NDArray, method: OptimizationMethod, jac: Optional[Union[bool, FiniteDifferenceScheme, Callable]] = None, hess: Optional[Union[FiniteDifferenceScheme, scipy.optimize.HessianUpdateStrategy, Callable]] = None, hessp: Optional[Callable] = None, bounds: Optional[Union[list, scipy.optimize.Bounds]] = None, constraints: Optional[Union[dict, list[dict], scipy.optimize.LinearConstraint, list[scipy.optimize.LinearConstraint], scipy.optimize.NonlinearConstraint, list[scipy.optimize.NonlinearConstraint]]] = None, tol: Optional[float] = None, maxiter: Optional[int] = None, verbose: bool = True) -> PulseOptimizer
+   .. py:method:: solve(initial_params, method, jac = None, hess = None, hessp = None, bounds = None, constraints = None, tol = None, maxiter = None, verbose = True)
 
       PulseOptimizer.optimize method.
 
@@ -285,7 +285,7 @@ Classes
           :py:class:`casq.PulseOptimizer.Solution`
 
 
-   .. py:method:: _build_objective_function() -> Callable[[numpy.typing.NDArray], Union[float, tuple[float, float]]]
+   .. py:method:: _build_objective_function()
 
       PulseOptimizer._build_objective_function method.
 
@@ -295,14 +295,14 @@ Classes
           Objective function.
 
 
-   .. py:method:: _objective_callback(parameters: dict[str, Any], result: Any, objective: float) -> None
+   .. py:method:: _objective_callback(parameters, result, objective)
 
       PulseOptimizer._objective_callback method.
 
       Callback used by objective function.
 
 
-   .. py:method:: _build_circuit(parameters: dict[str, Any]) -> casq.gates.PulseCircuit
+   .. py:method:: _build_circuit(parameters)
       :abstractmethod:
 
       PulseOptimizer._build_circuit method.

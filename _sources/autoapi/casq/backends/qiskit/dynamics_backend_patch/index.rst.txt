@@ -22,7 +22,7 @@ Classes
 
 
 
-.. py:class:: DynamicsBackendPatch(solver: qiskit_dynamics.Solver, target: Optional[qiskit.transpiler.Target] = None, **options: Any)
+.. py:class:: DynamicsBackendPatch(solver, target = None, **options)
 
 
    Bases: :py:obj:`qiskit_dynamics.backend.DynamicsBackend`
@@ -146,13 +146,13 @@ Classes
 
          
 
-      .. py:method:: to_dict() -> dict[str, Any]
+      .. py:method:: to_dict()
 
          Converts to dict.
 
 
 
-   .. py:method:: from_backend(backend: Union[qiskit.providers.BackendV1, qiskit.providers.BackendV2], qubits: Optional[list[int]] = None, rotating_frame: Union[qiskit_dynamics.array.Array, qiskit_dynamics.RotatingFrame, str] = 'auto', evaluation_mode: str = 'dense', rwa_cutoff_freq: Optional[float] = None, **options: Any) -> DynamicsBackendPatch
+   .. py:method:: from_backend(backend, qubits = None, rotating_frame = 'auto', evaluation_mode = 'dense', rwa_cutoff_freq = None, **options)
       :classmethod:
 
       Construct a DynamicsBackendPatch instance from an existing Backend instance.
@@ -173,7 +173,7 @@ Classes
           QiskitError: If any required parameters are missing from the passed backend.
 
 
-   .. py:method:: _run(job_id: str, t_span: Union[list[tuple[float, float]], list[list[float]]], schedules: list[qiskit.pulse.Schedule], measurement_subsystems_list: list[list[int]], memory_slot_indices_list: list[list[int]], num_memory_slots_list: list[int]) -> qiskit.result.Result
+   .. py:method:: _run(job_id, t_span, schedules, measurement_subsystems_list, memory_slot_indices_list, num_memory_slots_list)
 
       Run a list of simulations.
 

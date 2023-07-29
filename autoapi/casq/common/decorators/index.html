@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link href="../../../../_static/favicon.png" sizes="100x100" rel="icon" type="image/png">
+    <link href="../../../../_static/images/favicon.png" sizes="100x100" rel="icon" type="image/png">
     <title>casq.common.decorators &#8212; Casq v0.1.0 documentation</title>
   
   
@@ -32,6 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/jupyter-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/css/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -42,6 +43,8 @@
     <script src="../../../../_static/doctools.js"></script>
     <script src="../../../../_static/sphinx_highlight.js"></script>
     <script src="../../../../_static/thebelab-helper.js"></script>
+    <script src="../../../../_static/clipboard.min.js"></script>
+    <script src="../../../../_static/copybutton.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'autoapi/casq/common/decorators/index';</script>
@@ -477,17 +480,17 @@ document.write(`
 <h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">#</a></h3>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#casq.common.decorators.trace" title="casq.common.decorators.trace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">trace</span></code></a>(→ Any)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#casq.common.decorators.trace" title="casq.common.decorators.trace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">trace</span></code></a>(*[, log_entry, log_exit, level])</p></td>
 <td><p>Decorator for tracing entry to and exit from a function.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#casq.common.decorators.timer" title="casq.common.decorators.timer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">timer</span></code></a>(→ Any)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#casq.common.decorators.timer" title="casq.common.decorators.timer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">timer</span></code></a>(*[, level, unit])</p></td>
 <td><p>Decorator for timing the execution of a function.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py function">
 <dt class="sig sig-object py" id="casq.common.decorators.trace">
-<span class="sig-prename descclassname"><span class="pre">casq.common.decorators.</span></span><span class="sig-name descname"><span class="pre">trace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_entry</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_exit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'TRACE'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="headerlink" href="#casq.common.decorators.trace" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">casq.common.decorators.</span></span><span class="sig-name descname"><span class="pre">trace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_entry</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_exit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'TRACE'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.common.decorators.trace" title="Permalink to this definition">#</a></dt>
 <dd><p>Decorator for tracing entry to and exit from a function.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>log_entry: Log entry to function if True. Default is True.
@@ -497,17 +500,40 @@ level: Log level. Default is TRACE.</p>
 <dt>Returns:</dt><dd><p>Wrapper function for decorator.</p>
 </dd>
 </dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>log_entry</strong> (<em>bool</em>) – </p></li>
+<li><p><strong>log_exit</strong> (<em>bool</em>) – </p></li>
+<li><p><strong>level</strong> (<em>str</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Any</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="casq.common.decorators.timer">
-<span class="sig-prename descclassname"><span class="pre">casq.common.decorators.</span></span><span class="sig-name descname"><span class="pre">timer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'DEBUG'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'msec'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="headerlink" href="#casq.common.decorators.timer" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">casq.common.decorators.</span></span><span class="sig-name descname"><span class="pre">timer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'DEBUG'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'msec'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.common.decorators.timer" title="Permalink to this definition">#</a></dt>
 <dd><p>Decorator for timing the execution of a function.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>level: Log level. Default is TRACE.
 unit: Time unit. Allowed values are {‘msec’, ‘sec’}. Default is ‘msec’.</p>
 </dd>
 <dt>Returns:</dt><dd><p>Wrapper function for decorator.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>level</strong> (<em>str</em>) – </p></li>
+<li><p><strong>unit</strong> (<em>str</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Any</p>
 </dd>
 </dl>
 </dd></dl>

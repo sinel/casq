@@ -23,7 +23,7 @@ Functions
 
 
 
-.. py:function:: trace(*, log_entry: bool = True, log_exit: bool = True, level: str = 'TRACE') -> Any
+.. py:function:: trace(*, log_entry = True, log_exit = True, level = 'TRACE')
 
    Decorator for tracing entry to and exit from a function.
 
@@ -36,7 +36,7 @@ Functions
        Wrapper function for decorator.
 
 
-.. py:function:: timer(*, level: str = 'DEBUG', unit: str = 'msec') -> Any
+.. py:function:: timer(*, level = 'DEBUG', unit = 'msec')
 
    Decorator for timing the execution of a function.
 

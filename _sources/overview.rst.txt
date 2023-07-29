@@ -30,7 +30,7 @@ Architecture
 
 The architecture is based on an object model consisting of a layered lego approach where each higher-level object abstraction uses lower-level blocks starting from the most basic building block of a pulse.
 
-.. figure:: _static/casq-object-model.png
+.. figure:: _static/images/casq-object-model.png
    :alt: Casq object model
 
    Casq object model

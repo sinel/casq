@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link href="../../../../_static/favicon.png" sizes="100x100" rel="icon" type="image/png">
+    <link href="../../../../_static/images/favicon.png" sizes="100x100" rel="icon" type="image/png">
     <title>casq.common.plotting &#8212; Casq v0.1.0 documentation</title>
   
   
@@ -32,6 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/jupyter-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/css/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -42,6 +43,8 @@
     <script src="../../../../_static/doctools.js"></script>
     <script src="../../../../_static/sphinx_highlight.js"></script>
     <script src="../../../../_static/thebelab-helper.js"></script>
+    <script src="../../../../_static/clipboard.min.js"></script>
+    <script src="../../../../_static/copybutton.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'autoapi/casq/common/plotting/index';</script>
@@ -511,25 +514,25 @@ document.write(`
 <h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">#</a></h3>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#casq.common.plotting.add_line" title="casq.common.plotting.add_line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_line</span></code></a>(→ None)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#casq.common.plotting.add_line" title="casq.common.plotting.add_line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_line</span></code></a>(ax, data[, label, line_style, marker_style])</p></td>
 <td><p>Add line to Matplotlib axes.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#casq.common.plotting.add_line_collection" title="casq.common.plotting.add_line_collection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_line_collection</span></code></a>(→ None)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#casq.common.plotting.add_line_collection" title="casq.common.plotting.add_line_collection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_line_collection</span></code></a>(ax, data[, label, line_style])</p></td>
 <td><p>Add line collection to Matplotlib axes.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#casq.common.plotting.add_horizontal_line" title="casq.common.plotting.add_horizontal_line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_horizontal_line</span></code></a>(→ None)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#casq.common.plotting.add_horizontal_line" title="casq.common.plotting.add_horizontal_line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_horizontal_line</span></code></a>(ax, y[, label, line_style])</p></td>
 <td><p>Add horizontal line to Matplotlib axes.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#casq.common.plotting.add_vertical_line" title="casq.common.plotting.add_vertical_line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_vertical_line</span></code></a>(→ None)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#casq.common.plotting.add_vertical_line" title="casq.common.plotting.add_vertical_line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_vertical_line</span></code></a>(ax, x[, label, line_style])</p></td>
 <td><p>Add vertical line to Matplotlib axes.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#casq.common.plotting.plot" title="casq.common.plotting.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(→ None)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#casq.common.plotting.plot" title="casq.common.plotting.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(configs[, figure, hlines, vlines, title, ...])</p></td>
 <td><p>Create and plot Matplotlib figure.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#casq.common.plotting.plot_bloch" title="casq.common.plotting.plot_bloch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_bloch</span></code></a>(→ None)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#casq.common.plotting.plot_bloch" title="casq.common.plotting.plot_bloch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_bloch</span></code></a>(x, y, z[, filename, hidden])</p></td>
 <td><p>Create and plot Matplotlib figure.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#casq.common.plotting.plot_signal" title="casq.common.plotting.plot_signal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_signal</span></code></a>(→ None)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#casq.common.plotting.plot_signal" title="casq.common.plotting.plot_signal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_signal</span></code></a>(signal_data[, duration, start, ...])</p></td>
 <td><p>Create and plot Matplotlib figure.</p></td>
 </tr>
 </tbody>
@@ -917,7 +920,7 @@ document.write(`
 
 <dl class="py function">
 <dt class="sig sig-object py" id="casq.common.plotting.add_line">
-<span class="sig-prename descclassname"><span class="pre">casq.common.plotting.</span></span><span class="sig-name descname"><span class="pre">add_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">matplotlib.axes.Axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#casq.common.plotting.LineData" title="casq.common.plotting.LineData"><span class="pre">LineData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#casq.common.plotting.LineStyle" title="casq.common.plotting.LineStyle"><span class="pre">LineStyle</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">marker_style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#casq.common.plotting.MarkerStyle" title="casq.common.plotting.MarkerStyle"><span class="pre">MarkerStyle</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#casq.common.plotting.add_line" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">casq.common.plotting.</span></span><span class="sig-name descname"><span class="pre">add_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_style</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">marker_style</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.common.plotting.add_line" title="Permalink to this definition">#</a></dt>
 <dd><p>Add line to Matplotlib axes.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>ax: Matplotlib axes.
@@ -927,11 +930,25 @@ line_style: Line style.
 marker_style: Marker style.</p>
 </dd>
 </dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ax</strong> (<em>matplotlib.axes.Axes</em>) – </p></li>
+<li><p><strong>data</strong> (<a class="reference internal" href="#casq.common.plotting.LineData" title="casq.common.plotting.LineData"><em>LineData</em></a>) – </p></li>
+<li><p><strong>label</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – </p></li>
+<li><p><strong>line_style</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="#casq.common.plotting.LineStyle" title="casq.common.plotting.LineStyle"><em>LineStyle</em></a><em>]</em>) – </p></li>
+<li><p><strong>marker_style</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="#casq.common.plotting.MarkerStyle" title="casq.common.plotting.MarkerStyle"><em>MarkerStyle</em></a><em>]</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="casq.common.plotting.add_line_collection">
-<span class="sig-prename descclassname"><span class="pre">casq.common.plotting.</span></span><span class="sig-name descname"><span class="pre">add_line_collection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">matplotlib.axes.Axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#casq.common.plotting.LineData" title="casq.common.plotting.LineData"><span class="pre">LineData</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#casq.common.plotting.LineStyle" title="casq.common.plotting.LineStyle"><span class="pre">LineStyle</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#casq.common.plotting.add_line_collection" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">casq.common.plotting.</span></span><span class="sig-name descname"><span class="pre">add_line_collection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_style</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.common.plotting.add_line_collection" title="Permalink to this definition">#</a></dt>
 <dd><p>Add line collection to Matplotlib axes.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>ax: Matplotlib axes.
@@ -940,11 +957,24 @@ label: Label to be used for line collection in legend.
 line_style: Line style.</p>
 </dd>
 </dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ax</strong> (<em>matplotlib.axes.Axes</em>) – </p></li>
+<li><p><strong>data</strong> (<em>list</em><em>[</em><a class="reference internal" href="#casq.common.plotting.LineData" title="casq.common.plotting.LineData"><em>LineData</em></a><em>]</em>) – </p></li>
+<li><p><strong>label</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – </p></li>
+<li><p><strong>line_style</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="#casq.common.plotting.LineStyle" title="casq.common.plotting.LineStyle"><em>LineStyle</em></a><em>]</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="casq.common.plotting.add_horizontal_line">
-<span class="sig-prename descclassname"><span class="pre">casq.common.plotting.</span></span><span class="sig-name descname"><span class="pre">add_horizontal_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">matplotlib.axes.Axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#casq.common.plotting.LineStyle" title="casq.common.plotting.LineStyle"><span class="pre">LineStyle</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#casq.common.plotting.add_horizontal_line" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">casq.common.plotting.</span></span><span class="sig-name descname"><span class="pre">add_horizontal_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_style</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.common.plotting.add_horizontal_line" title="Permalink to this definition">#</a></dt>
 <dd><p>Add horizontal line to Matplotlib axes.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>ax: Matplotlib axes.
@@ -953,11 +983,24 @@ label: Label to be used for line in legend.
 line_style: Line style.</p>
 </dd>
 </dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ax</strong> (<em>matplotlib.axes.Axes</em>) – </p></li>
+<li><p><strong>y</strong> (<em>float</em>) – </p></li>
+<li><p><strong>label</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – </p></li>
+<li><p><strong>line_style</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="#casq.common.plotting.LineStyle" title="casq.common.plotting.LineStyle"><em>LineStyle</em></a><em>]</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="casq.common.plotting.add_vertical_line">
-<span class="sig-prename descclassname"><span class="pre">casq.common.plotting.</span></span><span class="sig-name descname"><span class="pre">add_vertical_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">matplotlib.axes.Axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#casq.common.plotting.LineStyle" title="casq.common.plotting.LineStyle"><span class="pre">LineStyle</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#casq.common.plotting.add_vertical_line" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">casq.common.plotting.</span></span><span class="sig-name descname"><span class="pre">add_vertical_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_style</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.common.plotting.add_vertical_line" title="Permalink to this definition">#</a></dt>
 <dd><p>Add vertical line to Matplotlib axes.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>ax: Matplotlib axes.
@@ -966,11 +1009,24 @@ label: Label to be used for line in legend.
 line_style: Line style.</p>
 </dd>
 </dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ax</strong> (<em>matplotlib.axes.Axes</em>) – </p></li>
+<li><p><strong>x</strong> (<em>float</em>) – </p></li>
+<li><p><strong>label</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – </p></li>
+<li><p><strong>line_style</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="#casq.common.plotting.LineStyle" title="casq.common.plotting.LineStyle"><em>LineStyle</em></a><em>]</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="casq.common.plotting.plot">
-<span class="sig-prename descclassname"><span class="pre">casq.common.plotting.</span></span><span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#casq.common.plotting.LineConfig" title="casq.common.plotting.LineConfig"><span class="pre">LineConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#casq.common.plotting.LineCollectionConfig" title="casq.common.plotting.LineCollectionConfig"><span class="pre">LineCollectionConfig</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figure</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">matplotlib.figure.Figure</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hlines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#casq.common.plotting.LineStyle" title="casq.common.plotting.LineStyle"><span class="pre">LineStyle</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">matplotlib.axes.Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vlines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#casq.common.plotting.LineStyle" title="casq.common.plotting.LineStyle"><span class="pre">LineStyle</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">matplotlib.axes.Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legend_style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#casq.common.plotting.LegendStyle" title="casq.common.plotting.LegendStyle"><span class="pre">LegendStyle</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#casq.common.plotting.plot" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">casq.common.plotting.</span></span><span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hlines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vlines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legend_style</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.common.plotting.plot" title="Permalink to this definition">#</a></dt>
 <dd><p>Create and plot Matplotlib figure.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>configs: Line configurations.
@@ -986,11 +1042,29 @@ hidden: If False, then plot is not displayed. Useful if method is used for savin
 <dt>Returns:</dt><dd><p>Matplotlib Figure.</p>
 </dd>
 </dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>configs</strong> (<em>Sequence</em><em>[</em><em>Union</em><em>[</em><a class="reference internal" href="#casq.common.plotting.LineConfig" title="casq.common.plotting.LineConfig"><em>LineConfig</em></a><em>, </em><a class="reference internal" href="#casq.common.plotting.LineCollectionConfig" title="casq.common.plotting.LineCollectionConfig"><em>LineCollectionConfig</em></a><em>]</em><em>]</em>) – </p></li>
+<li><p><strong>figure</strong> (<em>Optional</em><em>[</em><em>matplotlib.figure.Figure</em><em>]</em>) – </p></li>
+<li><p><strong>hlines</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>tuple</em><em>[</em><em>float</em><em>, </em><em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><a class="reference internal" href="#casq.common.plotting.LineStyle" title="casq.common.plotting.LineStyle"><em>LineStyle</em></a><em>, </em><em>Optional</em><em>[</em><em>matplotlib.axes.Axes</em><em>]</em><em>]</em><em>]</em><em>]</em>) – </p></li>
+<li><p><strong>vlines</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>tuple</em><em>[</em><em>float</em><em>, </em><em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><a class="reference internal" href="#casq.common.plotting.LineStyle" title="casq.common.plotting.LineStyle"><em>LineStyle</em></a><em>, </em><em>Optional</em><em>[</em><em>matplotlib.axes.Axes</em><em>]</em><em>]</em><em>]</em><em>]</em>) – </p></li>
+<li><p><strong>title</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – </p></li>
+<li><p><strong>legend_style</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="#casq.common.plotting.LegendStyle" title="casq.common.plotting.LegendStyle"><em>LegendStyle</em></a><em>]</em>) – </p></li>
+<li><p><strong>show_grid</strong> (<em>bool</em>) – </p></li>
+<li><p><strong>filename</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – </p></li>
+<li><p><strong>hidden</strong> (<em>bool</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="casq.common.plotting.plot_bloch">
-<span class="sig-prename descclassname"><span class="pre">casq.common.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_bloch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">numpy.typing.NDArray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">numpy.typing.NDArray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">numpy.typing.NDArray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#casq.common.plotting.plot_bloch" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">casq.common.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_bloch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.common.plotting.plot_bloch" title="Permalink to this definition">#</a></dt>
 <dd><p>Create and plot Matplotlib figure.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>x: X points of trajectory.
@@ -1002,11 +1076,25 @@ hidden: If False, then plot is not displayed. Useful if method is used for savin
 <dt>Returns:</dt><dd><p>Matplotlib Figure.</p>
 </dd>
 </dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>Union</em><em>[</em><em>list</em><em>[</em><em>float</em><em>]</em><em>, </em><em>numpy.typing.NDArray</em><em>]</em>) – </p></li>
+<li><p><strong>y</strong> (<em>Union</em><em>[</em><em>list</em><em>[</em><em>float</em><em>]</em><em>, </em><em>numpy.typing.NDArray</em><em>]</em>) – </p></li>
+<li><p><strong>z</strong> (<em>Union</em><em>[</em><em>list</em><em>[</em><em>float</em><em>]</em><em>, </em><em>numpy.typing.NDArray</em><em>]</em>) – </p></li>
+<li><p><strong>filename</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – </p></li>
+<li><p><strong>hidden</strong> (<em>bool</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="casq.common.plotting.plot_signal">
-<span class="sig-prename descclassname"><span class="pre">casq.common.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_signal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../helpers/index.html#casq.common.helpers.SignalData" title="casq.common.helpers.SignalData"><span class="pre">casq.common.helpers.SignalData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../helpers/index.html#casq.common.helpers.TimeUnit" title="casq.common.helpers.TimeUnit"><span class="pre">casq.common.helpers.TimeUnit</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">TimeUnit.NANO_SEC</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#casq.common.plotting.plot_signal" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">casq.common.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_signal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_unit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">TimeUnit.NANO_SEC</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.common.plotting.plot_signal" title="Permalink to this definition">#</a></dt>
 <dd><p>Create and plot Matplotlib figure.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>signal_data: Signal data.
@@ -1018,6 +1106,22 @@ filename: If filename is provided as path str, then figure is saved as png.
 hidden: If False, then plot is not displayed. Useful if method is used for saving only.</p>
 </dd>
 <dt>Returns:</dt><dd><p>Matplotlib Figure.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>signal_data</strong> (<a class="reference internal" href="../helpers/index.html#casq.common.helpers.SignalData" title="casq.common.helpers.SignalData"><em>casq.common.helpers.SignalData</em></a>) – </p></li>
+<li><p><strong>duration</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – </p></li>
+<li><p><strong>start</strong> (<em>int</em>) – </p></li>
+<li><p><strong>number_of_samples</strong> (<em>int</em>) – </p></li>
+<li><p><strong>time_unit</strong> (<a class="reference internal" href="../helpers/index.html#casq.common.helpers.TimeUnit" title="casq.common.helpers.TimeUnit"><em>casq.common.helpers.TimeUnit</em></a>) – </p></li>
+<li><p><strong>filename</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – </p></li>
+<li><p><strong>hidden</strong> (<em>bool</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>

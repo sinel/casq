@@ -22,14 +22,14 @@ Classes
 
 
 
-.. py:class:: SingleQubitGateOptimizer(pulse_gate: casq.gates.PulseGate, pulse_backend: casq.backends.pulse_backend.PulseBackend, method: casq.backends.pulse_backend.PulseBackend.ODESolverMethod, target_measurement: Union[dict[str, float], qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector], method_options: Optional[dict[str, Any]] = None, fidelity_type: Optional[SingleQubitGateOptimizer] = None, use_jit: bool = False)
+.. py:class:: SingleQubitGateOptimizer(pulse_gate, pulse_backend, method, target_measurement, method_options = None, fidelity_type = None, use_jit = False)
 
 
    Bases: :py:obj:`casq.optimizers.pulse_optimizer.PulseOptimizer`
 
    SingleQubitGateOptimizer class.
 
-   .. py:method:: _build_circuit(parameters: dict[str, Any]) -> casq.gates.PulseCircuit
+   .. py:method:: _build_circuit(parameters)
 
       SingleGateOptimizer._build_circuit method.
 

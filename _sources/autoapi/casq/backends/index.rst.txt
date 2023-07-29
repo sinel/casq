@@ -79,7 +79,7 @@ Functions
       
 
 
-.. py:function:: build(backend_library: BackendLibrary, hamiltonian: casq.models.hamiltonian_model.HamiltonianModel, control: casq.models.control_model.ControlModel, seed: Optional[int] = None) -> casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend
+.. py:function:: build(backend_library, hamiltonian, control, seed = None)
 
    Build PulseBackend.
 
@@ -95,7 +95,7 @@ Functions
        QiskitPulseBackend
 
 
-.. py:function:: build_from_backend(backend: qiskit.providers.Backend, extracted_qubits: Optional[list[int]] = None, rotating_frame: Optional[Union[qiskit_dynamics.array.Array, qiskit_dynamics.RotatingFrame]] = None, in_frame_basis: bool = False, evaluation_mode: Optional[casq.models.hamiltonian_model.HamiltonianModel.EvaluationMode] = None, rwa_cutoff_freq: Optional[float] = None, rwa_carrier_freqs: Optional[Union[numpy.typing.NDArray, tuple[numpy.typing.NDArray, numpy.typing.NDArray]]] = None, seed: Optional[int] = None) -> casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend
+.. py:function:: build_from_backend(backend, extracted_qubits = None, rotating_frame = None, in_frame_basis = False, evaluation_mode = None, rwa_cutoff_freq = None, rwa_carrier_freqs = None, seed = None)
 
    Build PulseBackend from library-specific backend.
 
@@ -118,7 +118,7 @@ Functions
        QiskitPulseBackend
 
 
-.. py:class:: PulseBackend(hamiltonian: casq.models.hamiltonian_model.HamiltonianModel, control: casq.models.control_model.ControlModel, seed: Optional[int] = None)
+.. py:class:: PulseBackend(hamiltonian, control, seed = None)
 
 
    PulseBackend class.
@@ -176,12 +176,12 @@ Functions
          
 
 
-   .. py:class:: PulseSolution(circuit_name: str, qubits: list[int], times: list[float], samples: list[list[int]], counts: list[dict[str, int]], populations: list[dict[str, float]], states: list[Union[qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector]], iq_data: list[list[tuple[float, float]]], avg_iq_data: list[tuple[float, float]], shots: int = 1024, seed: Optional[int] = None, is_success: bool = True, timestamp: float = datetime.timestamp(datetime.now()))
+   .. py:class:: PulseSolution(circuit_name, qubits, times, samples, counts, populations, states, iq_data, avg_iq_data, shots = 1024, seed = None, is_success = True, timestamp = datetime.timestamp(datetime.now()))
 
 
       PulseSolution class.
 
-      .. py:method:: plot_population(filename: Optional[str] = None, hidden: bool = False) -> None
+      .. py:method:: plot_population(filename = None, hidden = False)
 
          PulseSolution.plot_population method.
 
@@ -192,7 +192,7 @@ Functions
              hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
 
-      .. py:method:: plot_iq(time_index: Optional[int] = None, filename: Optional[str] = None, hidden: bool = False) -> None
+      .. py:method:: plot_iq(time_index = None, filename = None, hidden = False)
 
          PulseSolution.plot_iq method.
 
@@ -204,7 +204,7 @@ Functions
              hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
 
-      .. py:method:: plot_iq_trajectory(filename: Optional[str] = None, hidden: bool = False) -> None
+      .. py:method:: plot_iq_trajectory(filename = None, hidden = False)
 
          PulseSolution.plot_iq_trajectory method.
 
@@ -215,7 +215,7 @@ Functions
              hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
 
-      .. py:method:: plot_trajectory(qubit: int = 0, filename: Optional[str] = None, hidden: bool = False) -> None
+      .. py:method:: plot_trajectory(qubit = 0, filename = None, hidden = False)
 
          PulseSolution.plot_trajectory method.
 
@@ -227,7 +227,7 @@ Functions
              hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
 
-      .. py:method:: plot_bloch_trajectory(qubit: int = 0, filename: Optional[str] = None, hidden: bool = False) -> None
+      .. py:method:: plot_bloch_trajectory(qubit = 0, filename = None, hidden = False)
 
          PulseSolution.plot_bloch_trajectory method.
 
@@ -239,7 +239,7 @@ Functions
              hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
 
-      .. py:method:: _xyz(qubit: int = 0) -> tuple[list[float], list[float], list[float]]
+      .. py:method:: _xyz(qubit = 0)
 
          PulseSolution._xyz method.
 
@@ -249,7 +249,7 @@ Functions
              XYZ data lists or dict of lists.
 
 
-      .. py:method:: _trace(state: qiskit.quantum_info.Statevector, qubit: int) -> qiskit.quantum_info.Statevector
+      .. py:method:: _trace(state, qubit)
 
          PulseSolution._trace method.
 
@@ -264,7 +264,7 @@ Functions
 
 
 
-   .. py:method:: solve(circuit: casq.gates.pulse_circuit.PulseCircuit, method: ODESolverMethod, initial_state: Optional[Union[qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector]] = None, shots: int = 1024, steps: Optional[int] = None, run_options: Optional[dict[str, Any]] = None) -> PulseSolution
+   .. py:method:: solve(circuit, method, initial_state = None, shots = 1024, steps = None, run_options = None)
       :abstractmethod:
 
       PulseBackend.run.
@@ -282,14 +282,14 @@ Functions
           run_options: Options specific to native backend's run method.
 
 
-   .. py:method:: _get_native_backend() -> Any
+   .. py:method:: _get_native_backend()
       :abstractmethod:
 
       PulseBackend._get_native_backend.
 
 
 
-.. py:class:: BackendCharacteristics(backend: Union[str, qiskit.providers.Backend])
+.. py:class:: BackendCharacteristics(backend)
 
 
    BackendCharacteristics class.
@@ -375,7 +375,7 @@ Functions
          
 
 
-   .. py:method:: get_backend(name: str) -> qiskit.providers.Backend
+   .. py:method:: get_backend(name)
       :staticmethod:
 
       BackendCharacteristics._get_backend method.
@@ -384,7 +384,7 @@ Functions
           :py:class:`qiskit.providers.Backend`
 
 
-   .. py:method:: get_qubit_properties(qubit: int) -> QubitProperties
+   .. py:method:: get_qubit_properties(qubit)
 
       BackendCharacteristics.get_qubit_properties method.
 
@@ -395,7 +395,7 @@ Functions
           :py:class:`casq.backends.qiskit.BackendCharacteristics.QubitProperties`
 
 
-   .. py:method:: get_gate_properties(gate_name: str) -> GateProperties
+   .. py:method:: get_gate_properties(gate_name)
 
       BackendCharacteristics.get_gate_properties method.
 
@@ -406,7 +406,7 @@ Functions
           :py:class:`casq.backends.qiskit.BackendCharacteristics.GateProperties`
 
 
-   .. py:method:: _get_config() -> qiskit.providers.models.PulseBackendConfiguration
+   .. py:method:: _get_config()
 
       BackendCharacteristics._get_config method.
 
@@ -414,7 +414,7 @@ Functions
           :py:class:`qiskit.providers.models.PulseBackendConfiguration`
 
 
-   .. py:method:: _get_defaults() -> qiskit.providers.models.PulseDefaults
+   .. py:method:: _get_defaults()
 
       BackendCharacteristics._get_defaults method.
 
@@ -422,7 +422,7 @@ Functions
           :py:class:`qiskit.providers.models.PulseDefaults`
 
 
-   .. py:method:: _get_properties() -> qiskit.providers.models.BackendProperties
+   .. py:method:: _get_properties()
 
       BackendCharacteristics._get_properties method.
 
@@ -430,7 +430,7 @@ Functions
           :py:class:`qiskit.providers.models.BackendProperties`
 
 
-   .. py:method:: get_channel_frequencies(channels: Union[list[str], list[qiskit.pulse.channels.Channel]]) -> dict[str, float]
+   .. py:method:: get_channel_frequencies(channels)
 
       Discretizes pulse schedule into signals.
 
@@ -441,7 +441,7 @@ Functions
           List of :py:class:`qiskit_dynamics.signals.Signal`
 
 
-   .. py:method:: get_control_channel_map(channels_filter: list[str]) -> dict[tuple[int, Ellipsis], int]
+   .. py:method:: get_control_channel_map(channels_filter)
 
       Get control channel map from backend configuration.
 
@@ -453,7 +453,7 @@ Functions
 
 
 
-.. py:class:: DynamicsBackendPatch(solver: qiskit_dynamics.Solver, target: Optional[qiskit.transpiler.Target] = None, **options: Any)
+.. py:class:: DynamicsBackendPatch(solver, target = None, **options)
 
 
    Bases: :py:obj:`qiskit_dynamics.backend.DynamicsBackend`
@@ -577,13 +577,13 @@ Functions
 
          
 
-      .. py:method:: to_dict() -> dict[str, Any]
+      .. py:method:: to_dict()
 
          Converts to dict.
 
 
 
-   .. py:method:: from_backend(backend: Union[qiskit.providers.BackendV1, qiskit.providers.BackendV2], qubits: Optional[list[int]] = None, rotating_frame: Union[qiskit_dynamics.array.Array, qiskit_dynamics.RotatingFrame, str] = 'auto', evaluation_mode: str = 'dense', rwa_cutoff_freq: Optional[float] = None, **options: Any) -> DynamicsBackendPatch
+   .. py:method:: from_backend(backend, qubits = None, rotating_frame = 'auto', evaluation_mode = 'dense', rwa_cutoff_freq = None, **options)
       :classmethod:
 
       Construct a DynamicsBackendPatch instance from an existing Backend instance.
@@ -604,7 +604,7 @@ Functions
           QiskitError: If any required parameters are missing from the passed backend.
 
 
-   .. py:method:: _run(job_id: str, t_span: Union[list[tuple[float, float]], list[list[float]]], schedules: list[qiskit.pulse.Schedule], measurement_subsystems_list: list[list[int]], memory_slot_indices_list: list[list[int]], num_memory_slots_list: list[int]) -> qiskit.result.Result
+   .. py:method:: _run(job_id, t_span, schedules, measurement_subsystems_list, memory_slot_indices_list, num_memory_slots_list)
 
       Run a list of simulations.
 
@@ -621,7 +621,7 @@ Functions
 
 
 
-.. py:function:: convert_to_solution(result: qiskit.result.models.ExperimentResult) -> casq.backends.pulse_backend.PulseBackend.PulseSolution
+.. py:function:: convert_to_solution(result)
 
    Converts Qiskit result to pulse backend solution.
 
@@ -632,7 +632,7 @@ Functions
        Pulse solution.
 
 
-.. py:function:: get_experiment_result(experiment_name: str, solver_result: scipy.integrate._ivp.ivp.OdeResult, measurement_subsystems: list[int], memory_slot_indices: list[int], num_memory_slots: Union[None, int], backend: qiskit_dynamics.backend.DynamicsBackend, seed: Optional[int] = None, metadata: Optional[dict] = None) -> qiskit.result.models.ExperimentResult
+.. py:function:: get_experiment_result(experiment_name, solver_result, measurement_subsystems, memory_slot_indices, num_memory_slots, backend, seed = None, metadata = None)
 
    Generates ExperimentResult objects from solver result.
 
@@ -658,14 +658,14 @@ Functions
        QiskitError: If a specified option is unsupported.
 
 
-.. py:class:: QiskitPulseBackend(hamiltonian: casq.models.hamiltonian_model.HamiltonianModel, control: casq.models.control_model.ControlModel, seed: Optional[int] = None)
+.. py:class:: QiskitPulseBackend(hamiltonian, control, seed = None)
 
 
    Bases: :py:obj:`casq.backends.pulse_backend.PulseBackend`
 
    QiskitPulseBackend class.
 
-   .. py:method:: from_backend(backend: qiskit.providers.Backend, extracted_qubits: Optional[list[int]] = None, rotating_frame: Optional[Union[qiskit_dynamics.array.Array, qiskit_dynamics.RotatingFrame]] = None, in_frame_basis: bool = False, evaluation_mode: Optional[casq.models.hamiltonian_model.HamiltonianModel.EvaluationMode] = None, rwa_cutoff_freq: Optional[float] = None, rwa_carrier_freqs: Optional[Union[numpy.typing.NDArray, tuple[numpy.typing.NDArray, numpy.typing.NDArray]]] = None, seed: Optional[int] = None) -> Self
+   .. py:method:: from_backend(backend, extracted_qubits = None, rotating_frame = None, in_frame_basis = False, evaluation_mode = None, rwa_cutoff_freq = None, rwa_carrier_freqs = None, seed = None)
       :classmethod:
 
       Construct a QiskitPulseBackend instance from an existing backend instance.
@@ -687,12 +687,12 @@ Functions
           QiskitPulseBackend
 
 
-   .. py:method:: solve(circuit: casq.gates.pulse_circuit.PulseCircuit, method: casq.backends.pulse_backend.PulseBackend.ODESolverMethod, initial_state: Optional[Union[qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector]] = None, shots: int = 1024, steps: Optional[int] = None, run_options: Optional[dict[str, Any]] = None) -> casq.backends.pulse_backend.PulseBackend.PulseSolution
+   .. py:method:: solve(circuit, method, initial_state = None, shots = 1024, steps = None, run_options = None)
 
       QiskitPulseBackend.run.
 
 
-   .. py:method:: _get_native_backend() -> casq.backends.qiskit.dynamics_backend_patch.DynamicsBackendPatch
+   .. py:method:: _get_native_backend()
 
       QiskitPulseBackend._get_native_backend.
 

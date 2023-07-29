@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link href="../../../../../_static/favicon.png" sizes="100x100" rel="icon" type="image/png">
+    <link href="../../../../../_static/images/favicon.png" sizes="100x100" rel="icon" type="image/png">
     <title>casq.optimizers.single_qubit_gates.x_gate_optimizer &#8212; Casq v0.1.0 documentation</title>
   
   
@@ -32,6 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/jupyter-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/css/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -42,6 +43,8 @@
     <script src="../../../../../_static/doctools.js"></script>
     <script src="../../../../../_static/sphinx_highlight.js"></script>
     <script src="../../../../../_static/thebelab-helper.js"></script>
+    <script src="../../../../../_static/clipboard.min.js"></script>
+    <script src="../../../../../_static/copybutton.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'autoapi/casq/optimizers/single_qubit_gates/x_gate_optimizer/index';</script>
@@ -484,9 +487,21 @@ document.write(`
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="casq.optimizers.single_qubit_gates.x_gate_optimizer.XGateOptimizer">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.optimizers.single_qubit_gates.x_gate_optimizer.</span></span><span class="sig-name descname"><span class="pre">XGateOptimizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pulse_gate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../../gates/index.html#casq.gates.PulseGate" title="casq.gates.PulseGate"><span class="pre">casq.gates.PulseGate</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">pulse_backend</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../../backends/pulse_backend/index.html#casq.backends.pulse_backend.PulseBackend" title="casq.backends.pulse_backend.PulseBackend"><span class="pre">casq.backends.pulse_backend.PulseBackend</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../../backends/pulse_backend/index.html#casq.backends.pulse_backend.PulseBackend.ODESolverMethod" title="casq.backends.pulse_backend.PulseBackend.ODESolverMethod"><span class="pre">casq.backends.pulse_backend.PulseBackend.ODESolverMethod</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">method_options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fidelity_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#casq.optimizers.single_qubit_gates.x_gate_optimizer.XGateOptimizer" title="casq.optimizers.single_qubit_gates.x_gate_optimizer.XGateOptimizer"><span class="pre">XGateOptimizer</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_jit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.optimizers.single_qubit_gates.x_gate_optimizer.XGateOptimizer" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.optimizers.single_qubit_gates.x_gate_optimizer.</span></span><span class="sig-name descname"><span class="pre">XGateOptimizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pulse_gate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pulse_backend</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method_options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fidelity_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_jit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.optimizers.single_qubit_gates.x_gate_optimizer.XGateOptimizer" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../single_qubit_gate_optimizer/index.html#casq.optimizers.single_qubit_gates.single_qubit_gate_optimizer.SingleQubitGateOptimizer" title="casq.optimizers.single_qubit_gates.single_qubit_gate_optimizer.SingleQubitGateOptimizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">casq.optimizers.single_qubit_gates.single_qubit_gate_optimizer.SingleQubitGateOptimizer</span></code></a></p>
 <p>XGateOptimizer class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pulse_gate</strong> (<a class="reference internal" href="../../../gates/index.html#casq.gates.PulseGate" title="casq.gates.PulseGate"><em>casq.gates.PulseGate</em></a>) – </p></li>
+<li><p><strong>pulse_backend</strong> (<a class="reference internal" href="../../../backends/pulse_backend/index.html#casq.backends.pulse_backend.PulseBackend" title="casq.backends.pulse_backend.PulseBackend"><em>casq.backends.pulse_backend.PulseBackend</em></a>) – </p></li>
+<li><p><strong>method</strong> (<a class="reference internal" href="../../../backends/pulse_backend/index.html#casq.backends.pulse_backend.PulseBackend.ODESolverMethod" title="casq.backends.pulse_backend.PulseBackend.ODESolverMethod"><em>casq.backends.pulse_backend.PulseBackend.ODESolverMethod</em></a>) – </p></li>
+<li><p><strong>method_options</strong> (<em>Optional</em><em>[</em><em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em>) – </p></li>
+<li><p><strong>fidelity_type</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="#casq.optimizers.single_qubit_gates.x_gate_optimizer.XGateOptimizer" title="casq.optimizers.single_qubit_gates.x_gate_optimizer.XGateOptimizer"><em>XGateOptimizer</em></a><em>]</em>) – </p></li>
+<li><p><strong>use_jit</strong> (<em>bool</em>) – </p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </section>

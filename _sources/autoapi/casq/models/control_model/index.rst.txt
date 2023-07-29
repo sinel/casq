@@ -22,7 +22,7 @@ Classes
 
 
 
-.. py:class:: ControlModel(dt: float, channel_carrier_freqs: dict, control_channel_map: Optional[dict] = None)
+.. py:class:: ControlModel(dt, channel_carrier_freqs, control_channel_map = None)
 
 
    ControlModel class.
