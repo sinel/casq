@@ -378,9 +378,16 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../../models/transmon_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models.transmon_model</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../notebooks/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.notebooks</span></code></a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../optimizers/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.optimizers</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../optimizers/single_qubit_gates/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.optimizers.single_qubit_gates</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../optimizers/single_qubit_gates/single_qubit_gate_optimizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.optimizers.single_qubit_gates.single_qubit_gate_optimizer</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../optimizers/single_qubit_gates/x_gate_optimizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.optimizers.single_qubit_gates.x_gate_optimizer</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../optimizers/pulse_optimizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.optimizers.pulse_optimizer</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../about/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.about</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../pulse_optimizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.pulse_optimizer</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -515,19 +522,6 @@ qubit: Qubit to attach pulse gate to.</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="casq.gates.pulse_circuit.PulseCircuit.to_schedule">
-<span class="sig-name descname"><span class="pre">to_schedule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qiskit.providers.Backend</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">qiskit.pulse.Schedule</span></span></span><a class="headerlink" href="#casq.gates.pulse_circuit.PulseCircuit.to_schedule" title="Permalink to this definition">#</a></dt>
-<dd><p>PulseGate.to_schedule method.</p>
-<p>Convert pulse circuit to schedule.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>backend: Qiskit backend.</p>
-</dd>
-<dt>Returns:</dt><dd><p>Schedule</p>
-</dd>
-</dl>
-</dd></dl>
-
 </dd></dl>
 
 </section>
@@ -586,7 +580,6 @@ qubit: Qubit to attach pulse gate to.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.gates.pulse_circuit.PulseCircuit"><code class="docutils literal notranslate"><span class="pre">PulseCircuit</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.gates.pulse_circuit.PulseCircuit.from_pulse_gate"><code class="docutils literal notranslate"><span class="pre">PulseCircuit.from_pulse_gate()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.gates.pulse_circuit.PulseCircuit.pulse_gate"><code class="docutils literal notranslate"><span class="pre">PulseCircuit.pulse_gate()</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.gates.pulse_circuit.PulseCircuit.to_schedule"><code class="docutils literal notranslate"><span class="pre">PulseCircuit.to_schedule()</span></code></a></li>
 </ul>
 </li>
 </ul>

@@ -311,19 +311,6 @@ Classes
           :py:class:`qiskit.pulse.Instruction`
 
 
-   .. py:method:: to_schedule(backend: qiskit.providers.Backend) -> qiskit.pulse.Schedule
-
-      PulseGate.to_schedule method.
-
-      Convert pulse circuit to schedule.
-
-      Args:
-          backend: Qiskit backend.
-
-      Returns:
-          Schedule
-
-
 
 .. py:class:: PulseGate(num_qubits: int, duration: int, amplitude: float, angle: float = 0, limit_amplitude: bool = True, name: Optional[str] = None)
 

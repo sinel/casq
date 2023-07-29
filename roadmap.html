@@ -47,7 +47,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'roadmap';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="casq.pulse_optimizer" href="autoapi/casq/pulse_optimizer/index.html" />
+    <link rel="prev" title="casq.about" href="autoapi/casq/about/index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -407,7 +407,6 @@ document.write(`
 <dt><input checked="" type="checkbox"> Skeleton</dt><dd><ul>
 <li><p><input checked="" type="checkbox"> Local testing, linting &amp; formatting</p></li>
 <li><p><input checked="" type="checkbox"> Documentation</p></li>
-<li><p><input type="checkbox"> Notebook support</p></li>
 <li><p><input checked="" type="checkbox"> Continuous integration</p></li>
 </ul>
 </dd>
@@ -419,7 +418,6 @@ document.write(`
 <li><p><input checked="" type="checkbox"> Pulse backend &amp; models</p></li>
 <li><p><input checked="" type="checkbox"> Pulse optimizer</p></li>
 <li><p><input checked="" type="checkbox"> Single-qubit gate optimization</p></li>
-<li><p><input type="checkbox"> Two-qubit gate optimization</p></li>
 </ul>
 </section>
 <section id="v0-2-0-functionality-verification">
@@ -427,10 +425,11 @@ document.write(`
 <ul class="simple">
 <li><p><input type="checkbox"> Noise model</p></li>
 <li><p><input type="checkbox"> Additional Hamiltonian models</p></li>
+<li><p><input type="checkbox"> Model verification</p></li>
 <li><p><input type="checkbox"> Model builder DSL - now or later?</p></li>
+<li><p><input type="checkbox"> Two-qubit gate optimization</p></li>
 <li><p><input type="checkbox"> Additional fidelity functions</p></li>
 <li><p><input type="checkbox"> Improved plotting &amp; reporting</p></li>
-<li><p><input type="checkbox"> Verification</p></li>
 </ul>
 </section>
 <section id="v0-3-0-library-support-qutip">
@@ -438,6 +437,7 @@ document.write(`
 <ul class="simple">
 <li><p><input type="checkbox"> Support for QuTiP (qutip-qip, qutip-qtrl, qutip-jax, GRAPE, CRAB)</p></li>
 <li><p><input type="checkbox"> Improve pulse backend &amp; model abstraction</p></li>
+<li><p><input type="checkbox"> Pulse verification via QuTiP</p></li>
 </ul>
 </section>
 <section id="v0-4-0-library-support-c3">
@@ -445,6 +445,7 @@ document.write(`
 <ul class="simple">
 <li><p><input type="checkbox"> Support for C3 (CMA-ES)</p></li>
 <li><p><input type="checkbox"> Improve pulse backend &amp; model abstraction</p></li>
+<li><p><input type="checkbox"> Pulse verification via C3</p></li>
 </ul>
 </section>
 <section id="v0-5-0-ode-solvers">
@@ -452,13 +453,7 @@ document.write(`
 <ul class="simple">
 <li><p><input type="checkbox"> Support for diffrax (jax)</p></li>
 <li><p><input type="checkbox"> Support for SciPy ODE solvers (jax?)</p></li>
-<li><p><input type="checkbox"> TensorFlow as alternative for performance and automatic differentiation?</p></li>
-<li><p><input type="checkbox"> Bayesian algorithms (scikit-optimize, bayes_opt, hyperopt)</p></li>
-<li><p><input type="checkbox"> Evolutionary algorithms (leap, pygad, pymoo, pycma)</p></li>
-<li><p><input type="checkbox"> KROTOV (<a class="github reference external" href="https://github.com/qucontrol/krotov">qucontrol/krotov</a>)</p></li>
-<li><p><input type="checkbox"> GOAT (<a class="github reference external" href="https://github.com/pmarkus-github/goat-quantumcontrol">pmarkus-github/goat-quantumcontrol</a>)</p></li>
-<li><p><input type="checkbox"> COCOA (code?)</p></li>
-<li><p><input type="checkbox"> Grid sweep for landscape</p></li>
+<li><p><input type="checkbox"> Other alternatives?</p></li>
 </ul>
 </section>
 <section id="v0-6-0-optimization">
@@ -485,6 +480,13 @@ document.write(`
 <li><p><input type="checkbox"> PyPI</p></li>
 </ul>
 </section>
+<section id="down-the-road">
+<h2>Down the road…<a class="headerlink" href="#down-the-road" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><input type="checkbox"> Machine/reinforcement learning</p></li>
+<li><p><input type="checkbox"> Waveform-independent optimization?</p></li>
+</ul>
+</section>
 </section>
 
 
@@ -499,12 +501,12 @@ document.write(`
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="autoapi/casq/pulse_optimizer/index.html"
+       href="autoapi/casq/about/index.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.pulse_optimizer</span></code></p>
+        <p class="prev-next-title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.about</span></code></p>
       </div>
     </a>
 </div></div>
@@ -532,6 +534,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#v0-5-0-ode-solvers">v0.5.0 (ode solvers)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#v0-6-0-optimization">v0.6.0 (optimization)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#v1-0-0-ui-packaging">v1.0.0 (ui &amp; packaging)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#down-the-road">Down the road…</a></li>
 </ul>
   </nav></div>
 

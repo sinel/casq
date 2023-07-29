@@ -20,6 +20,7 @@ Functions
 
    casq.backends.qiskit.helpers.get_experiment_result
    casq.backends.qiskit.helpers.convert_to_solution
+   casq.backends.qiskit.helpers.to_schedule
 
 
 
@@ -58,5 +59,19 @@ Functions
 
    Returns:
        Pulse solution.
+
+
+.. py:function:: to_schedule(circuit: qiskit.QuantumCircuit, backend: qiskit.providers.Backend) -> qiskit.pulse.Schedule
+
+   to_schedule method.
+
+   Convert circuit to schedule.
+
+   Args:
+       circuit: Qiskit circuit.
+       backend: Qiskit backend.
+
+   Returns:
+       Schedule
 
 

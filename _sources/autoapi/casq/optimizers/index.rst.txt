@@ -1,23 +1,43 @@
-:py:mod:`casq.pulse_optimizer`
-==============================
+:py:mod:`casq.optimizers`
+=========================
 
-.. py:module:: casq.pulse_optimizer
+.. py:module:: casq.optimizers
 
 .. autoapi-nested-parse::
 
-   Pulse circuit.
+   Collecting casq.optimizers package imports in one place for convenient access.
 
 
 
-Module Contents
----------------
+Subpackages
+-----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 3
+
+   single_qubit_gates/index.rst
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   pulse_optimizer/index.rst
+
+
+Package Contents
+----------------
 
 Classes
 ~~~~~~~
 
 .. autoapisummary::
 
-   casq.pulse_optimizer.PulseOptimizer
+   casq.optimizers.PulseOptimizer
+   casq.optimizers.SingleQubitGateOptimizer
+   casq.optimizers.XGateOptimizer
 
 
 
@@ -167,8 +187,6 @@ Classes
    .. py:class:: Solution
 
 
-      Bases: :py:obj:`NamedTuple`
-
       Pulse optimizer solution.
 
       .. py:attribute:: initial_parameters
@@ -183,6 +201,11 @@ Classes
 
       .. py:attribute:: num_iterations
          :type: int
+
+         
+
+      .. py:attribute:: iterations
+         :type: list[PulseOptimizer]
 
          
 
@@ -222,7 +245,33 @@ Classes
          
 
 
-   .. py:method:: solve(initial_params: numpy.typing.NDArray, method: OptimizationMethod, jac: Optional[Union[bool, FiniteDifferenceScheme, Callable]] = None, hess: Optional[Union[FiniteDifferenceScheme, scipy.optimize.HessianUpdateStrategy, Callable]] = None, hessp: Optional[Callable] = None, bounds: Optional[Union[list, scipy.optimize.Bounds]] = None, constraints: Optional[Union[dict, list[dict], scipy.optimize.LinearConstraint, list[scipy.optimize.LinearConstraint], scipy.optimize.NonlinearConstraint, list[scipy.optimize.NonlinearConstraint]]] = None, tol: Optional[float] = None, maxiter: Optional[int] = None, verbose: bool = True, callback: Optional[Callable] = None) -> PulseOptimizer
+   .. py:class:: Iteration
+
+
+      Pulse optimizer iteration.
+
+      .. py:attribute:: index
+         :type: int
+
+         
+
+      .. py:attribute:: parameters
+         :type: dict[str, Any]
+
+         
+
+      .. py:attribute:: result
+         :type: Any
+
+         
+
+      .. py:attribute:: objective
+         :type: float
+
+         
+
+
+   .. py:method:: solve(initial_params: numpy.typing.NDArray, method: OptimizationMethod, jac: Optional[Union[bool, FiniteDifferenceScheme, Callable]] = None, hess: Optional[Union[FiniteDifferenceScheme, scipy.optimize.HessianUpdateStrategy, Callable]] = None, hessp: Optional[Callable] = None, bounds: Optional[Union[list, scipy.optimize.Bounds]] = None, constraints: Optional[Union[dict, list[dict], scipy.optimize.LinearConstraint, list[scipy.optimize.LinearConstraint], scipy.optimize.NonlinearConstraint, list[scipy.optimize.NonlinearConstraint]]] = None, tol: Optional[float] = None, maxiter: Optional[int] = None, verbose: bool = True) -> PulseOptimizer
 
       PulseOptimizer.optimize method.
 
@@ -251,7 +300,6 @@ Classes
           tol: Tolerance for termination.
           maxiter: Maximum number of iterations to perform.
           verbose: If True, print convergence messages.
-          callback: A callable called after each iteration.
 
       Returns:
           :py:class:`casq.PulseOptimizer.Solution`
@@ -266,5 +314,49 @@ Classes
       Returns:
           Objective function.
 
+
+   .. py:method:: _objective_callback(parameters: dict[str, Any], result: Any, objective: float) -> None
+
+      PulseOptimizer._objective_callback method.
+
+      Callback used by objective function.
+
+
+   .. py:method:: _build_circuit(parameters: dict[str, Any]) -> casq.gates.PulseCircuit
+      :abstractmethod:
+
+      PulseOptimizer._build_circuit method.
+
+      Build pulse circuit for objective function.
+
+      Returns:
+          PulseCircuit.
+
+
+
+.. py:class:: SingleQubitGateOptimizer(pulse_gate: casq.gates.PulseGate, pulse_backend: casq.backends.pulse_backend.PulseBackend, method: casq.backends.pulse_backend.PulseBackend.ODESolverMethod, target_measurement: Union[dict[str, float], qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector], method_options: Optional[dict[str, Any]] = None, fidelity_type: Optional[SingleQubitGateOptimizer] = None, use_jit: bool = False)
+
+
+   Bases: :py:obj:`casq.optimizers.pulse_optimizer.PulseOptimizer`
+
+   SingleQubitGateOptimizer class.
+
+   .. py:method:: _build_circuit(parameters: dict[str, Any]) -> casq.gates.PulseCircuit
+
+      SingleGateOptimizer._build_circuit method.
+
+      Build pulse circuit for objective function.
+
+      Returns:
+          PulseCircuit.
+
+
+
+.. py:class:: XGateOptimizer(pulse_gate: casq.gates.PulseGate, pulse_backend: casq.backends.pulse_backend.PulseBackend, method: casq.backends.pulse_backend.PulseBackend.ODESolverMethod, method_options: Optional[dict[str, Any]] = None, fidelity_type: Optional[XGateOptimizer] = None, use_jit: bool = False)
+
+
+   Bases: :py:obj:`casq.optimizers.single_qubit_gates.single_qubit_gate_optimizer.SingleQubitGateOptimizer`
+
+   XGateOptimizer class.
 
 

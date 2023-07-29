@@ -1,0 +1,21 @@
+:py:mod:`casq.optimizers.single_qubit_gates`
+============================================
+
+.. py:module:: casq.optimizers.single_qubit_gates
+
+.. autoapi-nested-parse::
+
+   Empty __init__.py file for Python to recognize folder as package.
+
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   single_qubit_gate_optimizer/index.rst
+   x_gate_optimizer/index.rst
+
+

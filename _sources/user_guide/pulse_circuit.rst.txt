@@ -34,15 +34,3 @@ For optimizing single-gate pulses, we only need a simple circuit consisting of t
 
     circuit = PulseCircuit.from_pulse_gate(gate, {"sigma": 128, "beta": 2})
     circuit.draw('mpl')
-
-Converting circuit into schedule
-================================================================================
-
-Converting a circuit into a schedule with measurement is a common operation done for visualization or computational reasons. The ``to_schedule`` helper method accomplishes this in a single line:
-
-.. jupyter-execute::
-
-    from qiskit.providers.fake_provider import FakeManila
-
-    schedule = circuit.to_schedule(backend=FakeManila())
-    schedule.draw()

@@ -378,9 +378,16 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../../../models/transmon_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.models.transmon_model</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../../notebooks/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.notebooks</span></code></a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../optimizers/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.optimizers</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../optimizers/single_qubit_gates/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.optimizers.single_qubit_gates</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../optimizers/single_qubit_gates/single_qubit_gate_optimizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.optimizers.single_qubit_gates.single_qubit_gate_optimizer</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../optimizers/single_qubit_gates/x_gate_optimizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.optimizers.single_qubit_gates.x_gate_optimizer</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../optimizers/pulse_optimizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.optimizers.pulse_optimizer</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../../about/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.about</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../pulse_optimizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">casq.pulse_optimizer</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -476,6 +483,9 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="#casq.backends.qiskit.helpers.convert_to_solution" title="casq.backends.qiskit.helpers.convert_to_solution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_to_solution</span></code></a>(...)</p></td>
 <td><p>Converts Qiskit result to pulse backend solution.</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#casq.backends.qiskit.helpers.to_schedule" title="casq.backends.qiskit.helpers.to_schedule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_schedule</span></code></a>(→ qiskit.pulse.Schedule)</p></td>
+<td><p>to_schedule method.</p></td>
+</tr>
 </tbody>
 </table>
 <dl class="py function">
@@ -516,6 +526,20 @@ memory_slot_indices: Indices of memory slots</p>
 <dt>Args:</dt><dd><p>result: Qiskit experiment result.</p>
 </dd>
 <dt>Returns:</dt><dd><p>Pulse solution.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="casq.backends.qiskit.helpers.to_schedule">
+<span class="sig-prename descclassname"><span class="pre">casq.backends.qiskit.helpers.</span></span><span class="sig-name descname"><span class="pre">to_schedule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">circuit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qiskit.QuantumCircuit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qiskit.providers.Backend</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">qiskit.pulse.Schedule</span></span></span><a class="headerlink" href="#casq.backends.qiskit.helpers.to_schedule" title="Permalink to this definition">#</a></dt>
+<dd><p>to_schedule method.</p>
+<p>Convert circuit to schedule.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>circuit: Qiskit circuit.
+backend: Qiskit backend.</p>
+</dd>
+<dt>Returns:</dt><dd><p>Schedule</p>
 </dd>
 </dl>
 </dd></dl>
@@ -575,6 +599,7 @@ memory_slot_indices: Indices of memory slots</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.qiskit.helpers.get_experiment_result"><code class="docutils literal notranslate"><span class="pre">get_experiment_result()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.qiskit.helpers.convert_to_solution"><code class="docutils literal notranslate"><span class="pre">convert_to_solution()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.qiskit.helpers.to_schedule"><code class="docutils literal notranslate"><span class="pre">to_schedule()</span></code></a></li>
 </ul>
 </li>
 </ul>

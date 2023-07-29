@@ -9,10 +9,11 @@ How to...
 ---------
 
 .. toctree::
-    :maxdepth: 1
-    :glob:
+   :maxdepth: 1
+   :glob:
 
-    awg.rst
+   awg.rst
+   helpers.rst
 
 
 .. Hiding - Indices and tables
