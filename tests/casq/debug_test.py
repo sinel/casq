@@ -26,12 +26,12 @@ from __future__ import annotations
 import numpy as np
 from qiskit.providers.fake_provider import FakeManila
 
-from casq import PulseOptimizer
 from casq.backends.helpers import build_from_backend
 from casq.backends.pulse_backend import PulseBackend
 from casq.common.decorators import timer
 from casq.common.helpers import initialize_jax
 from casq.gates import GaussianSquarePulseGate
+from casq.optimizers import PulseOptimizer
 
 initialize_jax()
 

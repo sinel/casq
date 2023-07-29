@@ -23,8 +23,6 @@
 """Pulse gate tests."""
 from __future__ import annotations
 
-from qiskit.providers import BackendV1
-
 from casq.gates.gaussian_pulse_gate import GaussianPulseGate
 from casq.gates.pulse_circuit import PulseCircuit
 

@@ -31,12 +31,12 @@ from qiskit_dynamics.array import Array
 
 from casq.backends.helpers import build_from_backend
 from casq.backends.pulse_backend import PulseBackend
-from casq.backends.qiskit.qiskit_pulse_backend import QiskitPulseBackend
 from casq.common.decorators import timer
 from casq.common.exceptions import CasqError
 from casq.common.helpers import initialize_jax
 from casq.gates.constant_pulse_gate import ConstantPulseGate
-from casq.pulse_optimizer import PulseOptimizer
+from casq.optimizers.pulse_optimizer import PulseOptimizer
+from casq.optimizers.single_qubit_gates.x_gate_optimizer import XGateOptimizer
 
 initialize_jax()
 
@@ -84,13 +84,11 @@ def test_init_jax_disabled(backend: Backend) -> None:
 @timer(unit="sec")
 def test_optimize(backend: Backend) -> None:
     """Unit test for PulseSimulator initialization from backend."""
-    optimizer = PulseOptimizer(
+    optimizer = XGateOptimizer(
         pulse_gate=ConstantPulseGate(duration=4, amplitude=1),
         pulse_backend=build_from_backend(backend),
         method=PulseBackend.ODESolverMethod.QISKIT_DYNAMICS_JAX_ODEINT,
-        target_measurement={"0": 0, "1": 1024},
         fidelity_type=PulseOptimizer.FidelityType.COUNTS,
-        target_qubit=0,
     )
     solution = optimizer.solve(
         initial_params=np.array([1.0, 1.0]),

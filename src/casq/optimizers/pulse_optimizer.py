@@ -23,8 +23,10 @@
 """Pulse circuit."""
 from __future__ import annotations
 
+from abc import abstractmethod
+from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Callable, NamedTuple, Optional, Union
+from typing import Any, Callable, Optional, Union
 
 from jax import jit, value_and_grad
 from loguru import logger
@@ -85,12 +87,14 @@ class PulseOptimizer:
         TWO_POINT = "2-point"
         THREE_POINT = "3-point"
 
-    class Solution(NamedTuple):
+    @dataclass
+    class Solution:
         """Pulse optimizer solution."""
 
         initial_parameters: dict[str, Any]
         initial_pulse: ScalableSymbolicPulse
         num_iterations: int
+        iterations: list[PulseOptimizer.Iteration]
         parameters: dict[str, Any]
         measurement: Union[dict[str, float], DensityMatrix, Statevector]
         fidelity: float
@@ -98,6 +102,15 @@ class PulseOptimizer:
         gate: PulseGate
         circuit: PulseCircuit
         message: str
+
+    @dataclass
+    class Iteration:
+        """Pulse optimizer iteration."""
+
+        index: int
+        parameters: dict[str, Any]
+        result: Any
+        objective: float
 
     @trace()
     def __init__(
@@ -152,6 +165,8 @@ class PulseOptimizer:
                 f"Jax must be enabled for ODE solver method: {self.method.name}."
             )
         self.objective_function = self._build_objective_function()
+        self._counter: int = 0
+        self._iterations: list[PulseOptimizer.Iteration] = []
 
     @timer(unit="sec")
     def solve(
@@ -177,7 +192,6 @@ class PulseOptimizer:
         tol: Optional[float] = None,
         maxiter: Optional[int] = None,
         verbose: bool = True,
-        callback: Optional[Callable] = None,
     ) -> PulseOptimizer.Solution:
         """PulseOptimizer.optimize method.
 
@@ -206,7 +220,6 @@ class PulseOptimizer:
             tol: Tolerance for termination.
             maxiter: Maximum number of iterations to perform.
             verbose: If True, print convergence messages.
-            callback: A callable called after each iteration.
 
         Returns:
             :py:class:`casq.PulseOptimizer.Solution`
@@ -232,6 +245,8 @@ class PulseOptimizer:
         ]:
             logger.warning(f"Method {method.name} does not support constraints.")
             constraints = None
+        self._counter = 0
+        self._iterations = []
         opt_results = minimize(
             fun=self.objective_function,
             x0=initial_params,
@@ -243,7 +258,6 @@ class PulseOptimizer:
             constraints=constraints,
             tol=tol,
             options=options,
-            callback=callback,
         )
         initial_parameters = self.pulse_gate.to_parameters_dict(initial_params)
         initial_pulse = self.pulse_gate.pulse(initial_parameters)
@@ -257,6 +271,7 @@ class PulseOptimizer:
             initial_parameters=initial_parameters,
             initial_pulse=initial_pulse,
             num_iterations=opt_results.nfev,
+            iterations=self._iterations,
             parameters=parameters,
             measurement=counts,
             fidelity=1 - opt_results.fun,
@@ -277,18 +292,16 @@ class PulseOptimizer:
             Objective function.
         """
 
-        def objective(params: npt.NDArray) -> float:
-            parameters = self.pulse_gate.to_parameters_dict(params)
-            circuit = PulseCircuit.from_pulse_gate(self.pulse_gate, parameters)
+        def objective(parameters: npt.NDArray) -> float:
+            parameters_dict = self.pulse_gate.to_parameters_dict(parameters)
+            circuit = self._build_circuit(parameters_dict)
             solution = self.pulse_backend.solve(
                 circuit=circuit, method=self.method, run_options=self.method_options
             )
             counts = solution.counts[-1]
             fidelity = hellinger_fidelity(self.target_measurement, counts)
             infidelity = 1.0 - float(fidelity)
-            logger.debug(
-                f"PARAMETERS: {params} RESULT: {counts} OBJECTIVE: {infidelity}"
-            )
+            self._objective_callback(parameters_dict, counts, infidelity)
             return infidelity
 
         if self.use_jit:
@@ -298,3 +311,33 @@ class PulseOptimizer:
             return jit_objective
         else:
             return objective
+
+    def _objective_callback(
+        self, parameters: dict[str, Any], result: Any, objective: float
+    ) -> None:
+        """PulseOptimizer._objective_callback method.
+
+        Callback used by objective function.
+        """
+        self._counter += self._counter + 1
+        iteration = PulseOptimizer.Iteration(
+            index=self._counter,
+            parameters=parameters,
+            result=result,
+            objective=objective,
+        )
+        self._iterations.append(iteration)
+        logger.debug(
+            f"ITERATION: {iteration.index} PARAMETERS: {iteration.parameters} "
+            f"RESULT: {iteration.result} OBJECTIVE: {iteration.objective}"
+        )
+
+    @abstractmethod
+    def _build_circuit(self, parameters: dict[str, Any]) -> PulseCircuit:
+        """PulseOptimizer._build_circuit method.
+
+        Build pulse circuit for objective function.
+
+        Returns:
+            PulseCircuit.
+        """

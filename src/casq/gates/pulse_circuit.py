@@ -26,14 +26,10 @@ from __future__ import annotations
 from typing import Any, Optional, Union
 
 from qiskit import QuantumCircuit
-from qiskit import schedule as build_schedule
 from qiskit.circuit import Bit, Register
 from qiskit.circuit.parameterexpression import ParameterValueType
 from qiskit.circuit.quantumcircuit import InstructionSet
-from qiskit.providers import Backend
-from qiskit.pulse import Schedule
 
-from casq.backends.qiskit.backend_characteristics import BackendCharacteristics
 from casq.common.decorators import trace
 from casq.common.helpers import dbid, ufid
 from casq.gates.pulse_gate import PulseGate
@@ -100,25 +96,3 @@ class PulseCircuit(QuantumCircuit):
         instructions = self.append(gate, [qubit])
         self.add_calibration(gate.name, [qubit], gate.schedule(parameters, qubit), [])
         return instructions
-
-    def to_schedule(self, backend: Backend) -> Schedule:
-        """PulseGate.to_schedule method.
-
-        Convert pulse circuit to schedule.
-
-        Args:
-            backend: Qiskit backend.
-
-        Returns:
-            Schedule
-        """
-        backend_characteristics = BackendCharacteristics(backend)
-        # See: https://github.com/Qiskit/qiskit-terra/issues/9488
-        # Need to specify extra info to avoid this error
-        return build_schedule(
-            self,
-            backend,
-            dt=backend_characteristics.dt,
-            inst_map=backend_characteristics.defaults.instruction_schedule_map,
-            meas_map=backend_characteristics.config.meas_map,
-        )
