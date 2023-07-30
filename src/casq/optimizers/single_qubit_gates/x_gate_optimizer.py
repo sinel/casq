@@ -56,7 +56,6 @@ class XGateOptimizer(SingleQubitGateOptimizer):
             fidelity_type: Fidelity type. Defaults to FidelityType.COUNTS.
             use_jit: If True, then jit and value_and_grad is applied to objective function.
         """
-        # TO-DO: Target measurement will vary depending on fidelity type.
         target_measurement = {"0": 0, "1": 1024}
         super().__init__(
             pulse_gate,

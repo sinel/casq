@@ -72,8 +72,6 @@ class HamiltonianModel:
                             If None, no approximation is made.
             rwa_carrier_freqs: Carrier frequencies to use for rotating wave approximation.
         """
-        # TO-DO: Using placeholder for noise model based on qiskit-dynamics example.
-        # Need to generalize this into full noise model specs based on LindbladModel.
         self.hamiltonian_dict = hamiltonian_dict
         self.in_frame_basis = in_frame_basis
         self.rwa_carrier_freqs = rwa_carrier_freqs

@@ -235,8 +235,6 @@ class BackendCharacteristics:
                 )
             freq = 0.0
             for channel_lo in self.control_channel_lo[channel.index]:
-                # TO-DO: channel_lo.scale is complex.
-                # So resulting frequency may be complex?
                 freq += drive_frequencies[channel_lo.q] * channel_lo.scale
             if np.imag(freq) == 0:
                 channel_freqs[channel.name] = np.real(freq)

@@ -137,11 +137,6 @@ class TransmonModel(HamiltonianModel):
                             If None, no approximation is made.
             rwa_carrier_freqs: Carrier frequencies to use for rotating wave approximation.
         """
-        # TO-DO: Need more understanding of how Hamiltonian interacts with choices for rotating frame and RWA.
-        # And what about resonator? What does following comment for ibmq_manila hamiltonian mean?
-        # "The provided Hamiltonian has been projected into "'"
-        # "'"the zero excitation subspace of the resonator buses "'"
-        # "'"leading to an effective qubit-qubit flip-flop interaction."
         q_max = len(qubit_map.keys()) - 1
         h_str = [
             f"_SUM[i,0,{q_max},wq{{i}}/2*(I{{i}}-Z{{i}})]",
