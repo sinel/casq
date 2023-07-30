@@ -35,6 +35,7 @@ from casq.common.decorators import timer
 from casq.common.exceptions import CasqError
 from casq.common.helpers import initialize_jax
 from casq.gates.constant_pulse_gate import ConstantPulseGate
+from casq.gates.gaussian_pulse_gate import GaussianPulseGate
 from casq.optimizers.pulse_optimizer import PulseOptimizer
 from casq.optimizers.single_qubit_gates.x_gate_optimizer import XGateOptimizer
 
@@ -64,7 +65,7 @@ def test_init_jax_enabled(backend: Backend) -> None:
 
 
 def test_init_jax_disabled(backend: Backend) -> None:
-    """Unit test for PulseSimulator initialization from backend."""
+    """Unit test for PulseOptimizer initialization from backend."""
     Array.set_default_backend("numpy")
     with pytest.raises(CasqError) as e:
         optimizer = PulseOptimizer(
@@ -83,24 +84,23 @@ def test_init_jax_disabled(backend: Backend) -> None:
 
 @timer(unit="sec")
 def test_optimize(backend: Backend) -> None:
-    """Unit test for PulseSimulator initialization from backend."""
+    """Unit test for PulseOptimizer initialization from backend."""
     optimizer = XGateOptimizer(
-        pulse_gate=ConstantPulseGate(duration=4, amplitude=1),
+        pulse_gate=GaussianPulseGate(duration=4, amplitude=1),
         pulse_backend=build_from_backend(backend),
         method=PulseBackend.ODESolverMethod.QISKIT_DYNAMICS_JAX_ODEINT,
         fidelity_type=PulseOptimizer.FidelityType.COUNTS,
     )
     solution = optimizer.solve(
-        initial_params=np.array([1.0, 1.0]),
+        initial_params=np.array([1.0]),
         method=PulseOptimizer.OptimizationMethod.SCIPY_NELDER_MEAD,
         constraints=[
             {"type": "ineq", "fun": lambda x: x[0]},
             {"type": "ineq", "fun": lambda x: 4 - x[0]},
-            {"type": "ineq", "fun": lambda x: x[1]},
-            {"type": "ineq", "fun": lambda x: 4 - x[1]},
         ],
         tol=1,
         maxiter=10,
     )
-    logger.debug(solution)
     assert isinstance(solution, PulseOptimizer.Solution)
+    solution.plot_objective_history(hidden=True)
+    solution.plot_parameter_history(hidden=True)

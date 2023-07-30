@@ -30,6 +30,7 @@ from matplotlib.axes import Axes
 from matplotlib.collections import LineCollection
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 import numpy.typing as npt
 import qutip
@@ -120,9 +121,9 @@ class LegendStyle(NamedTuple):
 class LineData(NamedTuple):
     """Line configuration."""
 
-    x: Union[list[float], npt.NDArray]
-    y: Union[list[float], npt.NDArray]
-    z: Optional[Union[list[float], npt.NDArray]] = None
+    x: Union[list[int], list[float], npt.NDArray]
+    y: Union[list[int], list[float], npt.NDArray]
+    z: Optional[Union[list[int], list[float], npt.NDArray]] = None
 
 
 class LineConfig(NamedTuple):
@@ -298,7 +299,7 @@ def plot(
     show_grid: bool = False,
     filename: Optional[str] = None,
     hidden: bool = False,
-) -> None:
+) -> Union[Axes, list[Axes]]:
     """Create and plot Matplotlib figure.
 
     Args:
@@ -313,7 +314,7 @@ def plot(
         hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
     Returns:
-        Matplotlib Figure.
+        Matplotlib Axes.
     """
     # TODO: Validate that all dimensions match.
     if figure is None:
@@ -394,7 +395,8 @@ def plot(
     if filename:
         plt.savefig(filename)  # pragma: no cover
     if not hidden:
-        plt.show()  # pragma: no cover
+        figure.show()  # pragma: no cover
+    return figure.axes
 
 
 def plot_bloch(
@@ -403,7 +405,7 @@ def plot_bloch(
     z: Union[list[float], npt.NDArray],
     filename: Optional[str] = None,
     hidden: bool = False,
-) -> None:
+) -> Axes3D:
     """Create and plot Matplotlib figure.
 
     Args:
@@ -414,7 +416,7 @@ def plot_bloch(
         hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
     Returns:
-        Matplotlib Figure.
+        Matplotlib Axes.
     """
     b = qutip.Bloch()
     b.point_color = ["g", "#000"]
@@ -428,6 +430,7 @@ def plot_bloch(
         b.save(filename)  # pragma: no cover
     if not hidden:
         b.show()  # pragma: no cover
+    return b.axes
 
 
 def plot_signal(
@@ -438,7 +441,7 @@ def plot_signal(
     time_unit: TimeUnit = TimeUnit.NANO_SEC,
     filename: Optional[str] = None,
     hidden: bool = False,
-) -> None:
+) -> list[Axes]:
     """Create and plot Matplotlib figure.
 
     Args:
@@ -451,7 +454,7 @@ def plot_signal(
         hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
     Returns:
-        Matplotlib Figure.
+        Matplotlib Axes.
     """
     duration = duration if duration else int(signal_data.duration)
     signal_times = np.linspace(
@@ -542,3 +545,5 @@ def plot_signal(
         filename=filename,
         hidden=hidden,
     )
+    axes_list: list[Axes] = figure.axes
+    return axes_list

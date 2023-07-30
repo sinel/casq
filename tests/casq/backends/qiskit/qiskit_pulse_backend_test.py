@@ -61,7 +61,7 @@ def test_run(backend: BackendV1) -> None:
     solution = pulse_backend.solve(
         circuit, method=PulseBackend.ODESolverMethod.SCIPY_DOP853
     )
-    assert isinstance(solution, PulseBackend.PulseSolution)
+    assert isinstance(solution, PulseBackend.Solution)
 
 
 @timer(unit="sec")
@@ -73,4 +73,4 @@ def test_jax_run(backend: BackendV1) -> None:
     solution = pulse_backend.solve(
         circuit, method=PulseBackend.ODESolverMethod.QISKIT_DYNAMICS_JAX_ODEINT
     )
-    assert isinstance(solution, PulseBackend.PulseSolution)
+    assert isinstance(solution, PulseBackend.Solution)

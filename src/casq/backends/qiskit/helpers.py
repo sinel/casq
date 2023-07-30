@@ -185,7 +185,7 @@ def get_experiment_result(
     )
 
 
-def convert_to_solution(result: ExperimentResult) -> PulseBackend.PulseSolution:
+def convert_to_solution(result: ExperimentResult) -> PulseBackend.Solution:
     """Converts Qiskit result to pulse backend solution.
 
     Args:
@@ -207,7 +207,7 @@ def convert_to_solution(result: ExperimentResult) -> PulseBackend.PulseSolution:
         avg_iq_data = []
         for item in result.data.avg_iq_data:
             avg_iq_data.append((item[0][0], item[0][1]))
-        solution: PulseBackend.PulseSolution = PulseBackend.PulseSolution(
+        solution: PulseBackend.Solution = PulseBackend.Solution(
             circuit_name=result.header.name,
             qubits=result.data.qubits,
             times=result.data.times,

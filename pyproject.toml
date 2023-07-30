@@ -20,7 +20,7 @@ pydata-sphinx-theme = "^0.13.3"
 pylatexenc = "^2.10"
 pyscf = "^2.2.1"
 python = "^3.11"
-qiskit = "^0.43.2"
+qiskit = "0.44.0"
 qiskit-aer = "^0.12.1"
 # Due to possible breaking API changes, need to update carefully.
 qiskit-dynamics = "==0.4.1"
@@ -84,6 +84,7 @@ enable_incomplete_feature="Unpack"
 [[tool.mypy.overrides]]
 module = [
     "matplotlib.*",
+    "mpl_toolkits.*",
     "qiskit.*",
     "qiskit_dynamics.*",
     "qiskit_ibm_provider.*",

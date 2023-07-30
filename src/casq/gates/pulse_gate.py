@@ -74,7 +74,7 @@ class PulseGate(Gate):
         Builds pulse for pulse gate.
 
         Returns:
-            :py:class:`qiskit.pulse.library.Pulse`
+            :py:class:`qiskit.pulse.library.ScalableSymbolicPulse`
         """
 
     @abstractmethod

@@ -94,4 +94,4 @@ class GaussianSquareDragPulseGate(PulseGate):
         Returns:
             Dictionary of parameters.
         """
-        return {"sigma": parameters[0], "width": parameters[1], "beta": parameters[1]}
+        return {"sigma": parameters[0], "width": parameters[1], "beta": parameters[2]}

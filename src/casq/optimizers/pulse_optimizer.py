@@ -30,6 +30,9 @@ from typing import Any, Callable, Optional, Union
 
 from jax import jit, value_and_grad
 from loguru import logger
+from matplotlib import colormaps
+from matplotlib.axes import Axes
+import matplotlib.pyplot as plt
 import numpy.typing as npt
 from qiskit.pulse import ScalableSymbolicPulse
 from qiskit.quantum_info import DensityMatrix, Statevector
@@ -44,6 +47,14 @@ from scipy.optimize import (
 
 from casq.backends.pulse_backend import PulseBackend
 from casq.common import CasqError, is_jax_enabled, timer, trace
+from casq.common.plotting import (
+    LegendStyle,
+    LineConfig,
+    LineData,
+    LineStyle,
+    MarkerStyle,
+    plot,
+)
 from casq.gates import PulseCircuit, PulseGate
 
 
@@ -102,6 +113,181 @@ class PulseOptimizer:
         gate: PulseGate
         circuit: PulseCircuit
         message: str
+
+        def plot_objective_history(
+            self,
+            filename: Optional[str] = None,
+            hidden: bool = False,
+        ) -> Axes:
+            """PulseOptimizer.Solution.plot_objective_history method.
+
+            Plots iteration history of objective.
+
+            Args:
+                filename: If filename is provided as path str, then figure is saved as png.
+                hidden: If False, then plot is not displayed. Useful if method is used for saving only.
+
+            Returns:
+                Matplotlib Axes.
+            """
+            x = []
+            y = []
+            for iteration in self.iterations:
+                x.append(iteration.index)
+                y.append(iteration.objective)
+            config = LineConfig(
+                data=LineData(x, y),
+                line_style=LineStyle(),
+                xtitle="Iteration",
+                ytitle="Objective",
+            )
+            axes = plot(
+                configs=[config],
+                filename=filename,
+                hidden=hidden,
+            )
+            return axes
+
+        def plot_parameter_history(
+            self,
+            parameters: Optional[list[str]] = None,
+            filename: Optional[str] = None,
+            hidden: bool = False,
+        ) -> Axes:
+            """PulseOptimizer.Solution.plot_parameter_history method.
+
+            Plots iteration history of parameters.
+
+            Args:
+                parameters: Parameters to plot.
+                filename: If filename is provided as path str, then figure is saved as png.
+                hidden: If False, then plot is not displayed. Useful if method is used for saving only.
+
+            Returns:
+                Matplotlib Axes.
+            """
+            x = []
+            parameter_data: dict[str, Any] = {}
+            if parameters:
+                for parameter in parameters:
+                    parameter_data[parameter] = []
+            else:
+                for parameter in self.iterations[0].parameters.keys():
+                    parameter_data[parameter] = []
+            for iteration in self.iterations:
+                x.append(iteration.index)
+                for key, value in iteration.parameters.items():
+                    if parameters:
+                        if key in parameters:
+                            parameter_data[key].append(value)
+                    else:
+                        parameter_data[key].append(value)
+            configs = []
+            for parameter, data in parameter_data.items():
+                configs.append(
+                    LineConfig(
+                        data=LineData(x, data),
+                        line_style=LineStyle(),
+                        label=parameter,
+                        xtitle="Iteration",
+                        ytitle="Parameter",
+                    )
+                )
+            axes = plot(
+                configs=configs,
+                legend_style=LegendStyle(),
+                filename=filename,
+                hidden=hidden,
+            )
+            return axes
+
+        def plot_objective_by_parameter(
+            self,
+            parameters: list[str],
+            filename: Optional[str] = None,
+            hidden: bool = False,
+        ) -> Axes:
+            """PulseOptimizer.Solution.plot_trajectory method.
+
+            Plots iteration history of parameters.
+
+            Args:
+                parameters: Parameters to plot.
+                filename: If filename is provided as path str, then figure is saved as png.
+                hidden: If False, then plot is not displayed. Useful if method is used for saving only.
+
+            Returns:
+                Matplotlib Axes.
+            """
+            if len(parameters) == 1:
+                x = []
+                y = []
+                for iteration in self.iterations:
+                    x.append(iteration.parameters[parameters[0]])
+                    y.append(iteration.objective)
+                config = LineConfig(
+                    data=LineData(x, y),
+                    line_style=LineStyle(color="steelblue", size=0.75),
+                    marker_style=MarkerStyle(color="steelblue", size=7.5),
+                    xtitle=parameters[0].capitalize(),
+                    ytitle="Objective",
+                )
+                axes = plot(
+                    configs=[config],
+                    filename=filename,
+                    hidden=hidden,
+                )
+            elif len(parameters) == 2:
+                x = []
+                y = []
+                z = []
+                for iteration in self.iterations:
+                    x.append(iteration.parameters[parameters[0]])
+                    y.append(iteration.parameters[parameters[1]])
+                    z.append(iteration.objective)
+                figure = plt.figure()
+                axes = figure.add_subplot(projection="3d")
+                axes.set_xlabel(parameters[0].capitalize(), labelpad=20)
+                axes.set_ylabel(parameters[1].capitalize(), labelpad=20)
+                axes.set_zlabel("Objective", labelpad=20)
+                axes.xaxis.pane.fill = False
+                axes.yaxis.pane.fill = False
+                axes.zaxis.pane.fill = False
+                axes.set_box_aspect([1, 1, 1], zoom=0.8)
+                axes.plot3D(x, y, z, "steelblue", linewidth=0.75)
+                axes.scatter3D(x, y, z, "steelblue", s=15)
+            elif len(parameters) == 3:
+                x = []
+                y = []
+                z = []
+                objective = []
+                for iteration in self.iterations:
+                    x.append(iteration.parameters[parameters[0]])
+                    y.append(iteration.parameters[parameters[1]])
+                    z.append(iteration.parameters[parameters[2]])
+                    objective.append(iteration.objective)
+                figure = plt.figure()
+                axes = figure.add_subplot(projection="3d")
+                axes.set_xlabel(parameters[0].capitalize(), labelpad=20)
+                axes.set_ylabel(parameters[1].capitalize(), labelpad=20)
+                axes.set_zlabel(parameters[2].capitalize(), labelpad=20)
+                axes.xaxis.pane.fill = False
+                axes.yaxis.pane.fill = False
+                axes.zaxis.pane.fill = False
+                axes.set_box_aspect([1, 1, 1], zoom=0.8)
+                axes.plot3D(x, y, z, "steelblue", linewidth=0.75)
+                s3d = axes.scatter3D(
+                    x, y, z, s=15, c=objective, cmap=colormaps["inferno"].reversed()
+                )
+                clb = figure.colorbar(s3d)
+                clb.ax.set_title("Objective")
+            else:
+                raise (
+                    ValueError(
+                        f"Cannot visualize objective by more than three parameters!"
+                    )
+                )
+            return axes
 
     @dataclass
     class Iteration:
@@ -319,7 +505,7 @@ class PulseOptimizer:
 
         Callback used by objective function.
         """
-        self._counter += self._counter + 1
+        self._counter += 1
         iteration = PulseOptimizer.Iteration(
             index=self._counter,
             parameters=parameters,

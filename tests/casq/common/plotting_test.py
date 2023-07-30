@@ -23,10 +23,11 @@
 """Base object tests."""
 from __future__ import annotations
 
+from matplotlib.axes import Axes
 from matplotlib.legend import Legend
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d.axes3d import Axes3D
 import numpy as np
-from qiskit.pulse import Schedule, ScheduleBlock
 
 from casq.common.helpers import SignalData
 from casq.common.plotting import (
@@ -141,7 +142,7 @@ def test_plot() -> None:
     )
     line_style = LineStyle(type=LineType.DASHED, color="blue", size=5)
     legend_style = LegendStyle(location=LegendLocation.CENTER, anchor=(0, 0))
-    plot(
+    axes = plot(
         [config],
         hlines=[(1, "hline_label", line_style, None)],
         vlines=[(1, "vline_label", line_style, None)],
@@ -150,12 +151,12 @@ def test_plot() -> None:
         title="figure_title",
         hidden=True,
     )
+    ax = axes[0]
     figure = plt.gcf()
-    ax = figure.axes[0]
+    assert figure._suptitle.get_text() == "figure_title"
     legends = [child for child in ax.get_children() if isinstance(child, Legend)]
     hline_label = legends[0].get_texts()[0].get_text()
     vline_label = legends[0].get_texts()[1].get_text()
-    assert figure._suptitle.get_text() == "figure_title"
     assert hline_label == "hline_label"
     assert vline_label == "vline_label"
     assert legends[0].get_alignment() == "center"
@@ -171,9 +172,11 @@ def test_plot() -> None:
 
 def test_plot_bloch() -> None:
     """Unit test for plot_bloch."""
-    plot_bloch([1, 0, 0], [0, 1, 0], [0, 0, 1], hidden=True)
+    axes = plot_bloch([1, 0, 0], [0, 1, 0], [0, 0, 1], hidden=True)
+    assert isinstance(axes, Axes3D)
 
 
 def test_plot_schedule_signal(signal_data: SignalData) -> None:
     """Unit test for plot_signal."""
-    plot_signal(signal_data, hidden=True)
+    axes = plot_signal(signal_data, hidden=True)
+    assert isinstance(axes[0], Axes)

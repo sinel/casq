@@ -28,6 +28,8 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Optional, Union
 
+from matplotlib.axes import Axes
+from mpl_toolkits.mplot3d import Axes3D
 from qiskit.quantum_info import DensityMatrix, Statevector, partial_trace
 
 from casq.common.decorators import trace
@@ -61,8 +63,8 @@ class PulseBackend:
         SCIPY_RK23 = "RK23"
         SCIPY_RK45 = "RK45"
 
-    class PulseSolution:
-        """PulseSolution class."""
+    class Solution:
+        """PulseBackend.Solution class."""
 
         @trace()
         def __init__(
@@ -115,14 +117,17 @@ class PulseBackend:
 
         def plot_population(
             self, filename: Optional[str] = None, hidden: bool = False
-        ) -> None:
-            """PulseSolution.plot_population method.
+        ) -> Axes:
+            """PulseBackend.Solution.plot_population method.
 
             Plots populations from result.
 
             Args:
                 filename: If filename is provided as path str, then figure is saved as png.
                 hidden: If False, then plot is not displayed. Useful if method is used for saving only.
+
+            Returns:
+                Matplotlib Axes.
             """
             pops: dict[str, list[float]] = {}
             for key in self.populations[-1].keys():
@@ -141,20 +146,21 @@ class PulseBackend:
                     ytitle="Population",
                 )
                 configs.append(config)
-            plot(
+            axes = plot(
                 configs=configs,
                 legend_style=LegendStyle(),
                 filename=filename,
                 hidden=hidden,
             )
+            return axes
 
         def plot_iq(
             self,
             time_index: Optional[int] = None,
             filename: Optional[str] = None,
             hidden: bool = False,
-        ) -> None:
-            """PulseSolution.plot_iq method.
+        ) -> Axes:
+            """PulseBackend.Solution.plot_iq method.
 
             Plots IQ points from result.
 
@@ -162,6 +168,9 @@ class PulseBackend:
                 time_index: Time at which to plot IQ points.
                 filename: If filename is provided as path str, then figure is saved as png.
                 hidden: If False, then plot is not displayed. Useful if method is used for saving only.
+
+            Returns:
+                Matplotlib Axes.
             """
             i = time_index if time_index else -1
             x = []
@@ -172,18 +181,22 @@ class PulseBackend:
             config = LineConfig(
                 data=LineData(x, y), marker_style=MarkerStyle(), xtitle="I", ytitle="Q"
             )
-            plot(configs=[config], filename=filename, hidden=hidden)
+            axes = plot(configs=[config], filename=filename, hidden=hidden)
+            return axes
 
         def plot_iq_trajectory(
             self, filename: Optional[str] = None, hidden: bool = False
-        ) -> None:
-            """PulseSolution.plot_iq_trajectory method.
+        ) -> Axes:
+            """PulseBackend.Solution.plot_iq_trajectory method.
 
             Plots trajectory of average IQ points from result.
 
             Args:
                 filename: If filename is provided as path str, then figure is saved as png.
                 hidden: If False, then plot is not displayed. Useful if method is used for saving only.
+
+            Returns:
+                Matplotlib Axes.
             """
             x = []
             y = []
@@ -193,15 +206,16 @@ class PulseBackend:
             config = LineConfig(
                 data=LineData(x, y), marker_style=MarkerStyle(), xtitle="I", ytitle="Q"
             )
-            plot(configs=[config], filename=filename, hidden=hidden)
+            axes = plot(configs=[config], filename=filename, hidden=hidden)
+            return axes
 
         def plot_trajectory(
             self,
             qubit: int = 0,
             filename: Optional[str] = None,
             hidden: bool = False,
-        ) -> None:
-            """PulseSolution.plot_trajectory method.
+        ) -> Axes:
+            """PulseBackend.Solution.plot_trajectory method.
 
             Plots statevector trajectory from result.
 
@@ -209,6 +223,9 @@ class PulseBackend:
                 qubit: Qubit to plot trajectory of.
                 filename: If filename is provided as path str, then figure is saved as png.
                 hidden: If False, then plot is not displayed. Useful if method is used for saving only.
+
+            Returns:
+                Matplotlib Axes.
             """
             x, y, z = self._xyz(qubit)
             x_config = LineConfig(
@@ -229,20 +246,21 @@ class PulseBackend:
                 label="$\\langle Z \\rangle$",
                 xtitle="$t$",
             )
-            plot(
+            axes = plot(
                 configs=[x_config, y_config, z_config],
                 legend_style=LegendStyle(),
                 filename=filename,
                 hidden=hidden,
             )
+            return axes
 
         def plot_bloch_trajectory(
             self,
             qubit: int = 0,
             filename: Optional[str] = None,
             hidden: bool = False,
-        ) -> None:
-            """PulseSolution.plot_bloch_trajectory method.
+        ) -> Axes3D:
+            """PulseBackend.Solution.plot_bloch_trajectory method.
 
             Plots statevector trajectory on Bloch sphere from result.
 
@@ -250,12 +268,16 @@ class PulseBackend:
                 qubit: Qubit to plot trajectory of.
                 filename: If filename is provided as path str, then figure is saved as png.
                 hidden: If False, then plot is not displayed. Useful if method is used for saving only.
+
+            Returns:
+                Matplotlib Axes.
             """
             x, y, z = self._xyz(qubit)
-            plot_bloch(x, y, z, filename=filename, hidden=hidden)
+            axes = plot_bloch(x, y, z, filename=filename, hidden=hidden)
+            return axes
 
         def _xyz(self, qubit: int = 0) -> tuple[list[float], list[float], list[float]]:
-            """PulseSolution._xyz method.
+            """PulseBackend.Solution._xyz method.
 
             Transforms statevectors into 3D trajectory from result.
 
@@ -289,7 +311,7 @@ class PulseBackend:
                 return xsv, ysv, zsv
 
         def _trace(self, state: Statevector, qubit: int) -> Statevector:
-            """PulseSolution._trace method.
+            """PulseBackend.Solution._trace method.
 
             Generate partial trace of statevector for specified qubit.
 
@@ -332,7 +354,7 @@ class PulseBackend:
         shots: int = 1024,
         steps: Optional[int] = None,
         run_options: Optional[dict[str, Any]] = None,
-    ) -> PulseSolution:
+    ) -> PulseBackend.Solution:
         """PulseBackend.run.
 
         Args:

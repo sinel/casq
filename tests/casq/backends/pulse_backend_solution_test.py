@@ -30,9 +30,9 @@ from qiskit.quantum_info import Statevector
 from casq.backends.pulse_backend import PulseBackend
 
 
-def mock_solution() -> PulseBackend.PulseSolution:
+def mock_solution() -> PulseBackend.Solution:
     """Mock pulse backend solution."""
-    instance: PulseBackend.PulseSolution = PulseBackend.PulseSolution(
+    instance: PulseBackend.Solution = PulseBackend.Solution(
         "test",
         [0],
         times=[0, 1],
@@ -55,8 +55,8 @@ def mock_solution() -> PulseBackend.PulseSolution:
     return instance
 
 
-def test_pulse_solution_init() -> None:
-    """Unit test for PulseSolution initialization."""
+def test_solution_init() -> None:
+    """Unit test for PulseBackend.Solution initialization."""
     solution = mock_solution()
     assert solution.circuit_name == "test"
     assert solution.times == [0, 1]
@@ -78,30 +78,30 @@ def test_pulse_solution_init() -> None:
 
 
 def test_plot_population() -> None:
-    """Unit test for PulseSolution.plot_population."""
+    """Unit test for PulseBackend.Solution.plot_population."""
     solution = mock_solution()
     solution.plot_population(hidden=True)
 
 
 def test_plot_iq() -> None:
-    """Unit test for PulseSolution.plot_iq."""
+    """Unit test for PulseBackend.Solution.plot_iq."""
     solution = mock_solution()
     solution.plot_iq(hidden=True)
 
 
 def test_plot_iq_trajectory() -> None:
-    """Unit test for PulseSolution.plot_iq_trajectory."""
+    """Unit test for PulseBackend.Solution.plot_iq_trajectory."""
     solution = mock_solution()
     solution.plot_iq_trajectory(hidden=True)
 
 
 def test_plot_trajectory() -> None:
-    """Unit test for PulseSolution.plot_trajectory."""
+    """Unit test for PulseBackend.Solution.plot_trajectory."""
     solution = mock_solution()
     solution.plot_trajectory(hidden=True)
 
 
 def test_plot_bloch_trajectory() -> None:
-    """Unit test for PulseSolution.plot_bloch_trajectory."""
+    """Unit test for PulseBackend.Solution.plot_bloch_trajectory."""
     solution = mock_solution()
     solution.plot_bloch_trajectory(hidden=True)

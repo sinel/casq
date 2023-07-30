@@ -126,7 +126,7 @@ class QiskitPulseBackend(PulseBackend):
         shots: int = 1024,
         steps: Optional[int] = None,
         run_options: Optional[dict[str, Any]] = None,
-    ) -> PulseBackend.PulseSolution:
+    ) -> PulseBackend.Solution:
         """QiskitPulseBackend.run."""
         if run_options:
             run_options.update(method=method.value)
@@ -144,7 +144,7 @@ class QiskitPulseBackend(PulseBackend):
             .result()
             .results[0]
         )
-        solution: PulseBackend.PulseSolution = convert_to_solution(result)
+        solution: PulseBackend.Solution = convert_to_solution(result)
         return solution
 
     @trace()
