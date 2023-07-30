@@ -45,7 +45,7 @@ Classes
       Builds pulse for pulse gate.
 
       Returns:
-          :py:class:`qiskit.pulse.library.Pulse`
+          :py:class:`qiskit.pulse.library.ScalableSymbolicPulse`
 
 
    .. py:method:: to_parameters_dict(parameters)

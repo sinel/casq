@@ -28,23 +28,23 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=eafc0fe6" />
     <link rel="stylesheet" type="text/css" href="../../../_static/jupyter-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/thebelab.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=4b7539de" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=40769cce"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/thebelab-helper.js"></script>
-    <script src="../../../_static/clipboard.min.js"></script>
-    <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'autoapi/casq/backends/index';</script>
@@ -699,9 +699,9 @@ seed: Seed to use in random sampling. Defaults to None.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="casq.backends.PulseBackend.PulseSolution">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">PulseSolution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">circuit_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">times</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">counts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">populations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">states</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iq_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avg_iq_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1024</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_success</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">datetime.timestamp(datetime.now())</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.PulseBackend.PulseSolution" title="Permalink to this definition">#</a></dt>
-<dd><p>PulseSolution class.</p>
+<dt class="sig sig-object py" id="casq.backends.PulseBackend.Solution">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Solution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">circuit_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">times</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">counts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">populations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">states</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iq_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avg_iq_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1024</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_success</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">datetime.timestamp(datetime.now())</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.PulseBackend.Solution" title="Permalink to this definition">#</a></dt>
+<dd><p>PulseBackend.Solution class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -722,13 +722,15 @@ seed: Seed to use in random sampling. Defaults to None.</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="casq.backends.PulseBackend.PulseSolution.plot_population">
-<span class="sig-name descname"><span class="pre">plot_population</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.PulseBackend.PulseSolution.plot_population" title="Permalink to this definition">#</a></dt>
-<dd><p>PulseSolution.plot_population method.</p>
+<dt class="sig sig-object py" id="casq.backends.PulseBackend.Solution.plot_population">
+<span class="sig-name descname"><span class="pre">plot_population</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.PulseBackend.Solution.plot_population" title="Permalink to this definition">#</a></dt>
+<dd><p>PulseBackend.Solution.plot_population method.</p>
 <p>Plots populations from result.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>filename: If filename is provided as path str, then figure is saved as png.
 hidden: If False, then plot is not displayed. Useful if method is used for saving only.</p>
+</dd>
+<dt>Returns:</dt><dd><p>Matplotlib Axes.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -739,20 +741,22 @@ hidden: If False, then plot is not displayed. Useful if method is used for savin
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dd class="field-even"><p>matplotlib.axes.Axes</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="casq.backends.PulseBackend.PulseSolution.plot_iq">
-<span class="sig-name descname"><span class="pre">plot_iq</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.PulseBackend.PulseSolution.plot_iq" title="Permalink to this definition">#</a></dt>
-<dd><p>PulseSolution.plot_iq method.</p>
+<dt class="sig sig-object py" id="casq.backends.PulseBackend.Solution.plot_iq">
+<span class="sig-name descname"><span class="pre">plot_iq</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.PulseBackend.Solution.plot_iq" title="Permalink to this definition">#</a></dt>
+<dd><p>PulseBackend.Solution.plot_iq method.</p>
 <p>Plots IQ points from result.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>time_index: Time at which to plot IQ points.
 filename: If filename is provided as path str, then figure is saved as png.
 hidden: If False, then plot is not displayed. Useful if method is used for saving only.</p>
+</dd>
+<dt>Returns:</dt><dd><p>Matplotlib Axes.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -764,19 +768,21 @@ hidden: If False, then plot is not displayed. Useful if method is used for savin
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dd class="field-even"><p>matplotlib.axes.Axes</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="casq.backends.PulseBackend.PulseSolution.plot_iq_trajectory">
-<span class="sig-name descname"><span class="pre">plot_iq_trajectory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.PulseBackend.PulseSolution.plot_iq_trajectory" title="Permalink to this definition">#</a></dt>
-<dd><p>PulseSolution.plot_iq_trajectory method.</p>
+<dt class="sig sig-object py" id="casq.backends.PulseBackend.Solution.plot_iq_trajectory">
+<span class="sig-name descname"><span class="pre">plot_iq_trajectory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.PulseBackend.Solution.plot_iq_trajectory" title="Permalink to this definition">#</a></dt>
+<dd><p>PulseBackend.Solution.plot_iq_trajectory method.</p>
 <p>Plots trajectory of average IQ points from result.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>filename: If filename is provided as path str, then figure is saved as png.
 hidden: If False, then plot is not displayed. Useful if method is used for saving only.</p>
+</dd>
+<dt>Returns:</dt><dd><p>Matplotlib Axes.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -787,21 +793,23 @@ hidden: If False, then plot is not displayed. Useful if method is used for savin
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dd class="field-even"><p>matplotlib.axes.Axes</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="casq.backends.PulseBackend.PulseSolution.plot_trajectory">
-<span class="sig-name descname"><span class="pre">plot_trajectory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.PulseBackend.PulseSolution.plot_trajectory" title="Permalink to this definition">#</a></dt>
-<dd><p>PulseSolution.plot_trajectory method.</p>
+<dt class="sig sig-object py" id="casq.backends.PulseBackend.Solution.plot_trajectory">
+<span class="sig-name descname"><span class="pre">plot_trajectory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.PulseBackend.Solution.plot_trajectory" title="Permalink to this definition">#</a></dt>
+<dd><p>PulseBackend.Solution.plot_trajectory method.</p>
 <p>Plots statevector trajectory from result.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>qubit: Qubit to plot trajectory of.
 filename: If filename is provided as path str, then figure is saved as png.
 hidden: If False, then plot is not displayed. Useful if method is used for saving only.</p>
 </dd>
+<dt>Returns:</dt><dd><p>Matplotlib Axes.</p>
+</dd>
 </dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -812,21 +820,23 @@ hidden: If False, then plot is not displayed. Useful if method is used for savin
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dd class="field-even"><p>matplotlib.axes.Axes</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="casq.backends.PulseBackend.PulseSolution.plot_bloch_trajectory">
-<span class="sig-name descname"><span class="pre">plot_bloch_trajectory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.PulseBackend.PulseSolution.plot_bloch_trajectory" title="Permalink to this definition">#</a></dt>
-<dd><p>PulseSolution.plot_bloch_trajectory method.</p>
+<dt class="sig sig-object py" id="casq.backends.PulseBackend.Solution.plot_bloch_trajectory">
+<span class="sig-name descname"><span class="pre">plot_bloch_trajectory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.PulseBackend.Solution.plot_bloch_trajectory" title="Permalink to this definition">#</a></dt>
+<dd><p>PulseBackend.Solution.plot_bloch_trajectory method.</p>
 <p>Plots statevector trajectory on Bloch sphere from result.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>qubit: Qubit to plot trajectory of.
 filename: If filename is provided as path str, then figure is saved as png.
 hidden: If False, then plot is not displayed. Useful if method is used for saving only.</p>
 </dd>
+<dt>Returns:</dt><dd><p>Matplotlib Axes.</p>
+</dd>
 </dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -837,15 +847,15 @@ hidden: If False, then plot is not displayed. Useful if method is used for savin
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dd class="field-even"><p>mpl_toolkits.mplot3d.Axes3D</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="casq.backends.PulseBackend.PulseSolution._xyz">
-<span class="sig-name descname"><span class="pre">_xyz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.PulseBackend.PulseSolution._xyz" title="Permalink to this definition">#</a></dt>
-<dd><p>PulseSolution._xyz method.</p>
+<dt class="sig sig-object py" id="casq.backends.PulseBackend.Solution._xyz">
+<span class="sig-name descname"><span class="pre">_xyz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.PulseBackend.Solution._xyz" title="Permalink to this definition">#</a></dt>
+<dd><p>PulseBackend.Solution._xyz method.</p>
 <p>Transforms statevectors into 3D trajectory from result.</p>
 <dl class="simple">
 <dt>Returns:</dt><dd><p>XYZ data lists or dict of lists.</p>
@@ -862,9 +872,9 @@ hidden: If False, then plot is not displayed. Useful if method is used for savin
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="casq.backends.PulseBackend.PulseSolution._trace">
-<span class="sig-name descname"><span class="pre">_trace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.PulseBackend.PulseSolution._trace" title="Permalink to this definition">#</a></dt>
-<dd><p>PulseSolution._trace method.</p>
+<dt class="sig sig-object py" id="casq.backends.PulseBackend.Solution._trace">
+<span class="sig-name descname"><span class="pre">_trace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.PulseBackend.Solution._trace" title="Permalink to this definition">#</a></dt>
+<dd><p>PulseBackend.Solution._trace method.</p>
 <p>Generate partial trace of statevector for specified qubit.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>state: System state given as statevector.
@@ -921,7 +931,7 @@ steps: Number of steps at which to solve the system.</p>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="#casq.backends.PulseBackend.PulseSolution" title="casq.backends.PulseBackend.PulseSolution">PulseSolution</a></p>
+<dd class="field-even"><p><a class="reference internal" href="#casq.backends.PulseBackend" title="casq.backends.PulseBackend">PulseBackend</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1400,7 +1410,7 @@ num_memory_slots_list: List of numbers of memory slots.</p>
 <dd class="field-odd"><p><strong>result</strong> (<em>qiskit.result.models.ExperimentResult</em>) – </p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="pulse_backend/index.html#casq.backends.pulse_backend.PulseBackend.PulseSolution" title="casq.backends.pulse_backend.PulseBackend.PulseSolution">casq.backends.pulse_backend.PulseBackend.PulseSolution</a></p>
+<dd class="field-even"><p><a class="reference internal" href="pulse_backend/index.html#casq.backends.pulse_backend.PulseBackend.Solution" title="casq.backends.pulse_backend.PulseBackend.Solution">casq.backends.pulse_backend.PulseBackend.Solution</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1527,7 +1537,7 @@ seed: Seed to use in random sampling. Defaults to None.</p>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="pulse_backend/index.html#casq.backends.pulse_backend.PulseBackend.PulseSolution" title="casq.backends.pulse_backend.PulseBackend.PulseSolution">casq.backends.pulse_backend.PulseBackend.PulseSolution</a></p>
+<dd class="field-even"><p><a class="reference internal" href="pulse_backend/index.html#casq.backends.pulse_backend.PulseBackend.Solution" title="casq.backends.pulse_backend.PulseBackend.Solution">casq.backends.pulse_backend.PulseBackend.Solution</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1622,14 +1632,14 @@ seed: Seed to use in random sampling. Defaults to None.</p>
 <li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.PulseBackend.ODESolverMethod.SCIPY_RK45"><code class="docutils literal notranslate"><span class="pre">PulseBackend.ODESolverMethod.SCIPY_RK45</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.PulseBackend.PulseSolution"><code class="docutils literal notranslate"><span class="pre">PulseBackend.PulseSolution</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.PulseBackend.PulseSolution.plot_population"><code class="docutils literal notranslate"><span class="pre">PulseBackend.PulseSolution.plot_population()</span></code></a></li>
-<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.PulseBackend.PulseSolution.plot_iq"><code class="docutils literal notranslate"><span class="pre">PulseBackend.PulseSolution.plot_iq()</span></code></a></li>
-<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.PulseBackend.PulseSolution.plot_iq_trajectory"><code class="docutils literal notranslate"><span class="pre">PulseBackend.PulseSolution.plot_iq_trajectory()</span></code></a></li>
-<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.PulseBackend.PulseSolution.plot_trajectory"><code class="docutils literal notranslate"><span class="pre">PulseBackend.PulseSolution.plot_trajectory()</span></code></a></li>
-<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.PulseBackend.PulseSolution.plot_bloch_trajectory"><code class="docutils literal notranslate"><span class="pre">PulseBackend.PulseSolution.plot_bloch_trajectory()</span></code></a></li>
-<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.PulseBackend.PulseSolution._xyz"><code class="docutils literal notranslate"><span class="pre">PulseBackend.PulseSolution._xyz()</span></code></a></li>
-<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.PulseBackend.PulseSolution._trace"><code class="docutils literal notranslate"><span class="pre">PulseBackend.PulseSolution._trace()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.PulseBackend.Solution"><code class="docutils literal notranslate"><span class="pre">PulseBackend.Solution</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.PulseBackend.Solution.plot_population"><code class="docutils literal notranslate"><span class="pre">PulseBackend.Solution.plot_population()</span></code></a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.PulseBackend.Solution.plot_iq"><code class="docutils literal notranslate"><span class="pre">PulseBackend.Solution.plot_iq()</span></code></a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.PulseBackend.Solution.plot_iq_trajectory"><code class="docutils literal notranslate"><span class="pre">PulseBackend.Solution.plot_iq_trajectory()</span></code></a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.PulseBackend.Solution.plot_trajectory"><code class="docutils literal notranslate"><span class="pre">PulseBackend.Solution.plot_trajectory()</span></code></a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.PulseBackend.Solution.plot_bloch_trajectory"><code class="docutils literal notranslate"><span class="pre">PulseBackend.Solution.plot_bloch_trajectory()</span></code></a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.PulseBackend.Solution._xyz"><code class="docutils literal notranslate"><span class="pre">PulseBackend.Solution._xyz()</span></code></a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.PulseBackend.Solution._trace"><code class="docutils literal notranslate"><span class="pre">PulseBackend.Solution._trace()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.PulseBackend.solve"><code class="docutils literal notranslate"><span class="pre">PulseBackend.solve()</span></code></a></li>

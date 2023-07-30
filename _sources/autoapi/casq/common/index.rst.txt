@@ -433,17 +433,17 @@ Functions
    Line configuration.
 
    .. py:attribute:: x
-      :type: Union[list[float], numpy.typing.NDArray]
+      :type: Union[list[int], list[float], numpy.typing.NDArray]
 
       
 
    .. py:attribute:: y
-      :type: Union[list[float], numpy.typing.NDArray]
+      :type: Union[list[int], list[float], numpy.typing.NDArray]
 
       
 
    .. py:attribute:: z
-      :type: Optional[Union[list[float], numpy.typing.NDArray]]
+      :type: Optional[Union[list[int], list[float], numpy.typing.NDArray]]
 
       
 
@@ -680,7 +680,7 @@ Functions
        hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
    Returns:
-       Matplotlib Figure.
+       Matplotlib Axes.
 
 
 .. py:function:: plot_bloch(x, y, z, filename = None, hidden = False)
@@ -695,7 +695,7 @@ Functions
        hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
    Returns:
-       Matplotlib Figure.
+       Matplotlib Axes.
 
 
 .. py:function:: plot_signal(signal_data, duration = None, start = 0, number_of_samples = 1000, time_unit = TimeUnit.NANO_SEC, filename = None, hidden = False)
@@ -712,6 +712,6 @@ Functions
        hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
    Returns:
-       Matplotlib Figure.
+       Matplotlib Axes.
 
 

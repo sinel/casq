@@ -31,9 +31,9 @@ For example, an X-gate within a 5-qubit transmon quantum processor is as simple 
 
     from casq.optimizers import XGateOptimizer
     from casq.backends import build_from_backend, PulseBackend
-    from casq.gates import GaussianSquarePulseGate
+    from casq.gates import GaussianSquareDragPulseGate
 
-    pulse_gate=GaussianSquarePulseGate(duration=256, amplitude=1, name="x")
+    pulse_gate=GaussianSquareDragPulseGate(duration=256, amplitude=1, name="x")
     backend = FakeManila()
     dt = backend.configuration().dt
     pulse_backend = build_from_backend(backend, extracted_qubits=[0])
@@ -45,13 +45,15 @@ For example, an X-gate within a 5-qubit transmon quantum processor is as simple 
         fidelity_type=XGateOptimizer.FidelityType.COUNTS
     )
     solution = optimizer.solve(
-        initial_params=np.array([10.0, 10.0]),
+        initial_params=np.array([10.0, 10.0, 1.0]),
         method=XGateOptimizer.OptimizationMethod.SCIPY_NELDER_MEAD,
         constraints=[
             {"type": "ineq", "fun": lambda x: x[0]},
             {"type": "ineq", "fun": lambda x: 256 - x[0]},
             {"type": "ineq", "fun": lambda x: x[1]},
             {"type": "ineq", "fun": lambda x: 256 - x[1]},
+            {"type": "ineq", "fun": lambda x: x[2]},
+            {"type": "ineq", "fun": lambda x: 5 - x[2]},
         ],
         tol=1e-2
     )
@@ -82,3 +84,39 @@ has been optimized into:
 .. jupyter-execute::
 
     solution.pulse.draw()
+
+The variation with iteration of the objective function value can be plotted as below.
+
+.. jupyter-execute::
+
+    solution.plot_objective_history();
+
+The variation with iteration of selected or all parameters can be plotted as well. For example, for ``sigma`` and ``width``,
+
+.. jupyter-execute::
+
+    solution.plot_parameter_history(["sigma", "width"]);
+
+or for ``beta``,
+
+.. jupyter-execute::
+
+    solution.plot_parameter_history(["beta"]);
+
+Last but not least, the variation of the objective function value with a parameter can be plotted. For example, for ``sigma``,
+
+.. jupyter-execute::
+
+    solution.plot_objective_by_parameter(["sigma"]);
+
+or for ``sigma`` and ``beta``,
+
+.. jupyter-execute::
+
+    solution.plot_objective_by_parameter(["sigma", "beta"]);
+
+or for all three parameters, ``sigma``, ``width``, and ``beta``,
+
+.. jupyter-execute::
+
+    solution.plot_objective_by_parameter(["sigma", "width", "beta"]);

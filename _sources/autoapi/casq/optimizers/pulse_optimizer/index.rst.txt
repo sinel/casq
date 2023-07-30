@@ -224,6 +224,50 @@ Classes
 
          
 
+      .. py:method:: plot_objective_history(filename = None, hidden = False)
+
+         PulseOptimizer.Solution.plot_objective_history method.
+
+         Plots iteration history of objective.
+
+         Args:
+             filename: If filename is provided as path str, then figure is saved as png.
+             hidden: If False, then plot is not displayed. Useful if method is used for saving only.
+
+         Returns:
+             Matplotlib Axes.
+
+
+      .. py:method:: plot_parameter_history(parameters = None, filename = None, hidden = False)
+
+         PulseOptimizer.Solution.plot_parameter_history method.
+
+         Plots iteration history of parameters.
+
+         Args:
+             parameters: Parameters to plot.
+             filename: If filename is provided as path str, then figure is saved as png.
+             hidden: If False, then plot is not displayed. Useful if method is used for saving only.
+
+         Returns:
+             Matplotlib Axes.
+
+
+      .. py:method:: plot_objective_by_parameter(parameters, filename = None, hidden = False)
+
+         PulseOptimizer.Solution.plot_trajectory method.
+
+         Plots iteration history of parameters.
+
+         Args:
+             parameters: Parameters to plot.
+             filename: If filename is provided as path str, then figure is saved as png.
+             hidden: If False, then plot is not displayed. Useful if method is used for saving only.
+
+         Returns:
+             Matplotlib Axes.
+
+
 
    .. py:class:: Iteration
 

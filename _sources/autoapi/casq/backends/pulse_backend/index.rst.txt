@@ -80,14 +80,14 @@ Classes
          
 
 
-   .. py:class:: PulseSolution(circuit_name, qubits, times, samples, counts, populations, states, iq_data, avg_iq_data, shots = 1024, seed = None, is_success = True, timestamp = datetime.timestamp(datetime.now()))
+   .. py:class:: Solution(circuit_name, qubits, times, samples, counts, populations, states, iq_data, avg_iq_data, shots = 1024, seed = None, is_success = True, timestamp = datetime.timestamp(datetime.now()))
 
 
-      PulseSolution class.
+      PulseBackend.Solution class.
 
       .. py:method:: plot_population(filename = None, hidden = False)
 
-         PulseSolution.plot_population method.
+         PulseBackend.Solution.plot_population method.
 
          Plots populations from result.
 
@@ -95,10 +95,13 @@ Classes
              filename: If filename is provided as path str, then figure is saved as png.
              hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
+         Returns:
+             Matplotlib Axes.
+
 
       .. py:method:: plot_iq(time_index = None, filename = None, hidden = False)
 
-         PulseSolution.plot_iq method.
+         PulseBackend.Solution.plot_iq method.
 
          Plots IQ points from result.
 
@@ -107,10 +110,13 @@ Classes
              filename: If filename is provided as path str, then figure is saved as png.
              hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
+         Returns:
+             Matplotlib Axes.
+
 
       .. py:method:: plot_iq_trajectory(filename = None, hidden = False)
 
-         PulseSolution.plot_iq_trajectory method.
+         PulseBackend.Solution.plot_iq_trajectory method.
 
          Plots trajectory of average IQ points from result.
 
@@ -118,10 +124,13 @@ Classes
              filename: If filename is provided as path str, then figure is saved as png.
              hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
+         Returns:
+             Matplotlib Axes.
+
 
       .. py:method:: plot_trajectory(qubit = 0, filename = None, hidden = False)
 
-         PulseSolution.plot_trajectory method.
+         PulseBackend.Solution.plot_trajectory method.
 
          Plots statevector trajectory from result.
 
@@ -130,10 +139,13 @@ Classes
              filename: If filename is provided as path str, then figure is saved as png.
              hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
+         Returns:
+             Matplotlib Axes.
+
 
       .. py:method:: plot_bloch_trajectory(qubit = 0, filename = None, hidden = False)
 
-         PulseSolution.plot_bloch_trajectory method.
+         PulseBackend.Solution.plot_bloch_trajectory method.
 
          Plots statevector trajectory on Bloch sphere from result.
 
@@ -142,10 +154,13 @@ Classes
              filename: If filename is provided as path str, then figure is saved as png.
              hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
+         Returns:
+             Matplotlib Axes.
+
 
       .. py:method:: _xyz(qubit = 0)
 
-         PulseSolution._xyz method.
+         PulseBackend.Solution._xyz method.
 
          Transforms statevectors into 3D trajectory from result.
 
@@ -155,7 +170,7 @@ Classes
 
       .. py:method:: _trace(state, qubit)
 
-         PulseSolution._trace method.
+         PulseBackend.Solution._trace method.
 
          Generate partial trace of statevector for specified qubit.
 

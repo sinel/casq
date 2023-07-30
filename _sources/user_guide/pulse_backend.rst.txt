@@ -147,7 +147,7 @@ It is easy to visualize the results. For example, one can view the resulting IQ 
 
 .. jupyter-execute::
 
-    solution.plot_iq()
+    solution.plot_iq();
 
 Using Qiskit backends
 ================================================================================
@@ -193,16 +193,16 @@ Using the resulting solution, the time trajectory of the Pauli vectors can easil
 
 .. jupyter-execute::
 
-    solution.plot_trajectory()
+    solution.plot_trajectory();
 
 Similarly, the time trajectory of the Bloch vector can also be viewed.
 
 .. jupyter-execute::
 
-    solution.plot_bloch_trajectory()
+    solution.plot_bloch_trajectory();
 
 Or how the qubit populations vary in time.
 
 .. jupyter-execute::
 
-    solution.plot_population()
+    solution.plot_population();

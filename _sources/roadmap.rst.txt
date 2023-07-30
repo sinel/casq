@@ -36,13 +36,15 @@ v0.2.0 (functionality & verification)
 * |uncheck| Two-qubit gate optimization
 * |uncheck| Additional fidelity functions
 * |uncheck| Improved plotting & reporting
+    * |uncheck| Switch to using base Qiskit visualization functions?
+    * |uncheck| Generate latex and/or jupyter notebook reports?
 
 v0.3.0 (library support: qutip)
 ================================================================================
 
 * |uncheck| Support for QuTiP (qutip-qip, qutip-qtrl, qutip-jax, GRAPE, CRAB)
 * |uncheck| Improve pulse backend & model abstraction
-* |uncheck| Pulse verification via QuTiP
+* |uncheck| Pulse verification via QuTiP (e.g. `Matekole et al., Methods and Results for Quantum Optimal Pulse Control on Superconducting Qubit Systems, 2022 <https://arxiv.org/abs/2202.03260>`_)
 
 v0.4.0 (library support: c3)
 ================================================================================

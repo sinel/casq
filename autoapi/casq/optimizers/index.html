@@ -28,23 +28,23 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=eafc0fe6" />
     <link rel="stylesheet" type="text/css" href="../../../_static/jupyter-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/thebelab.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=4b7539de" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=40769cce"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/thebelab-helper.js"></script>
-    <script src="../../../_static/clipboard.min.js"></script>
-    <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'autoapi/casq/optimizers/index';</script>
@@ -716,6 +716,85 @@ document.write(`
 <span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#casq.optimizers.PulseOptimizer.Solution.message" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="casq.optimizers.PulseOptimizer.Solution.plot_objective_history">
+<span class="sig-name descname"><span class="pre">plot_objective_history</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.optimizers.PulseOptimizer.Solution.plot_objective_history" title="Permalink to this definition">#</a></dt>
+<dd><p>PulseOptimizer.Solution.plot_objective_history method.</p>
+<p>Plots iteration history of objective.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>filename: If filename is provided as path str, then figure is saved as png.
+hidden: If False, then plot is not displayed. Useful if method is used for saving only.</p>
+</dd>
+<dt>Returns:</dt><dd><p>Matplotlib Axes.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – </p></li>
+<li><p><strong>hidden</strong> (<em>bool</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>matplotlib.axes.Axes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="casq.optimizers.PulseOptimizer.Solution.plot_parameter_history">
+<span class="sig-name descname"><span class="pre">plot_parameter_history</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.optimizers.PulseOptimizer.Solution.plot_parameter_history" title="Permalink to this definition">#</a></dt>
+<dd><p>PulseOptimizer.Solution.plot_parameter_history method.</p>
+<p>Plots iteration history of parameters.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>parameters: Parameters to plot.
+filename: If filename is provided as path str, then figure is saved as png.
+hidden: If False, then plot is not displayed. Useful if method is used for saving only.</p>
+</dd>
+<dt>Returns:</dt><dd><p>Matplotlib Axes.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parameters</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>str</em><em>]</em><em>]</em>) – </p></li>
+<li><p><strong>filename</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – </p></li>
+<li><p><strong>hidden</strong> (<em>bool</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>matplotlib.axes.Axes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="casq.optimizers.PulseOptimizer.Solution.plot_objective_by_parameter">
+<span class="sig-name descname"><span class="pre">plot_objective_by_parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.optimizers.PulseOptimizer.Solution.plot_objective_by_parameter" title="Permalink to this definition">#</a></dt>
+<dd><p>PulseOptimizer.Solution.plot_trajectory method.</p>
+<p>Plots iteration history of parameters.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>parameters: Parameters to plot.
+filename: If filename is provided as path str, then figure is saved as png.
+hidden: If False, then plot is not displayed. Useful if method is used for saving only.</p>
+</dd>
+<dt>Returns:</dt><dd><p>Matplotlib Axes.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parameters</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – </p></li>
+<li><p><strong>filename</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – </p></li>
+<li><p><strong>hidden</strong> (<em>bool</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>matplotlib.axes.Axes</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -1016,6 +1095,9 @@ verbose: If True, print convergence messages.</p>
 <li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.optimizers.PulseOptimizer.Solution.gate"><code class="docutils literal notranslate"><span class="pre">PulseOptimizer.Solution.gate</span></code></a></li>
 <li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.optimizers.PulseOptimizer.Solution.circuit"><code class="docutils literal notranslate"><span class="pre">PulseOptimizer.Solution.circuit</span></code></a></li>
 <li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.optimizers.PulseOptimizer.Solution.message"><code class="docutils literal notranslate"><span class="pre">PulseOptimizer.Solution.message</span></code></a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.optimizers.PulseOptimizer.Solution.plot_objective_history"><code class="docutils literal notranslate"><span class="pre">PulseOptimizer.Solution.plot_objective_history()</span></code></a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.optimizers.PulseOptimizer.Solution.plot_parameter_history"><code class="docutils literal notranslate"><span class="pre">PulseOptimizer.Solution.plot_parameter_history()</span></code></a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.optimizers.PulseOptimizer.Solution.plot_objective_by_parameter"><code class="docutils literal notranslate"><span class="pre">PulseOptimizer.Solution.plot_objective_by_parameter()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.optimizers.PulseOptimizer.Iteration"><code class="docutils literal notranslate"><span class="pre">PulseOptimizer.Iteration</span></code></a><ul class="nav section-nav flex-column">
