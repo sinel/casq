@@ -86,7 +86,8 @@ def get_experiment_result(
         :class:`~qiskit.result.models.ExperimentResult`
 
     Raises:
-        QiskitError: If a specified option is unsupported.
+        If a specified option is unsupported,
+        then raises :py:class:`~qiskit.exceptions.QiskitError`.
     """
     counts = []
     samples = []
@@ -192,7 +193,7 @@ def convert_to_solution(result: ExperimentResult) -> PulseBackend.Solution:
         result: Qiskit experiment result.
 
     Returns:
-        Pulse solution.
+        :py:class:`casq.backends.PulseBackend.Solution`
     """
     if result.header.metadata.get("casq", False):
         samples = []
@@ -239,7 +240,7 @@ def to_schedule(circuit: QuantumCircuit, backend: Backend) -> Schedule:
         backend: Qiskit backend.
 
     Returns:
-        Schedule
+        :py:class:`qiskit.pulse.Schedule`
     """
     backend_characteristics = BackendCharacteristics(backend)
     # See: https://github.com/Qiskit/qiskit-terra/issues/9488

@@ -20,7 +20,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  ********************************************************************************
-"""Pulse simulator."""
+"""Patched Qiskit dynamics backend."""
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
@@ -52,6 +52,17 @@ class DynamicsBackendPatch(DynamicsBackend):
         providing a t_eval range is awkward at best and error-prone.
         As an alternative, automatic calculation of t_eval range
         based on a steps argument is now provided.
+
+    Args:
+        solver: Solver instance configured for pulse simulation.
+        target: Target object.
+        steps: Number of steps at which to solve the system.
+            Used to automatically calculate an evenly-spaced t_eval range.
+        options: Additional configuration options for the backend.
+
+    Raises:
+        If any instantiation arguments fail validation checks,
+        then raises :py:class:`~qiskit.exceptions.QiskitError`.
     """
 
     @dataclass
@@ -79,7 +90,11 @@ class DynamicsBackendPatch(DynamicsBackend):
         defaults: Optional[PulseDefaults] = None
 
         def to_dict(self) -> dict[str, Any]:
-            """Converts to dict."""
+            """Converts to dict.
+
+            Returns:
+                Dictionary.
+            """
             return asdict(
                 self, dict_factory=lambda opt: {k: v for (k, v) in opt if v is not None}
             )
@@ -109,7 +124,8 @@ class DynamicsBackendPatch(DynamicsBackend):
             DynamicsBackendPatch
 
         Raises:
-            QiskitError: If any required parameters are missing from the passed backend.
+            If any required parameters are missing from the passed backend,
+            then raises :py:class:`~qiskit.exceptions.QiskitError`.
         """
         dynamics_backend = DynamicsBackend.from_backend(
             backend=backend,
@@ -131,20 +147,10 @@ class DynamicsBackendPatch(DynamicsBackend):
         target: Optional[Target] = None,
         **options: Any,
     ):
-        """Instantiate :class:`~casq.DynamicsBackendPatch`.
+        """Initialize :class:`~casq.DynamicsBackendPatch`.
 
         Extends instantiation of :class:`~qiskit.qiskit_dynamics.DynamicsBackend`
         with additional 'steps' argument.
-
-        Args:
-            solver: Solver instance configured for pulse simulation.
-            target: Target object.
-            steps: Number of steps at which to solve the system.
-                Used to automatically calculate an evenly-spaced t_eval range.
-            options: Additional configuration options for the backend.
-
-        Raises:
-            QiskitError: If any instantiation arguments fail validation checks.
         """
         super().__init__(solver, target, **options)
         self.steps: Optional[int] = None

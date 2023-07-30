@@ -45,6 +45,10 @@ class PulseGate(Gate):
     Args:
         num_qubits: The number of qubits the gate acts on.
         duration: Pulse length in terms of the sampling period dt.
+        amplitude: The magnitude of the amplitude of the pulse.
+        angle: The angle of the complex amplitude of the pulse. Default value 0.
+        limit_amplitude: If ``True``, then limit the amplitude of the waveform to 1.
+            The default is ``True`` and the amplitude is constrained to 1.
         name: Optional display name for the pulse gate.
     """
 
@@ -101,7 +105,6 @@ class PulseGate(Gate):
 
         Returns:
             :py:class:`qiskit.pulse.Schedule`
-            or list of :py:class:`qiskit_dynamics.signals.Signal`
         """
         schedule_name = f"{self.name}Schedule"
         with build(name=schedule_name) as sb:

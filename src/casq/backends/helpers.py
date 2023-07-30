@@ -52,7 +52,7 @@ def build(
 ) -> QiskitPulseBackend:
     """Build PulseBackend.
 
-        Currently, only supports Qiskit.
+    Currently, only supports Qiskit.
 
     Args:
         backend_library: Backend library.
@@ -61,7 +61,7 @@ def build(
         seed: Seed to use in random sampling. Defaults to None.
 
     Returns:
-        QiskitPulseBackend
+        :py:class:`casq.backends.qiskit.QiskitPulseBackend`
     """
     if backend_library is BackendLibrary.QISKIT:
         pulse_backend: QiskitPulseBackend = QiskitPulseBackend(
@@ -102,7 +102,7 @@ def build_from_backend(
         seed: Seed to use in random sampling. Defaults to None.
 
     Returns:
-        QiskitPulseBackend
+        :py:class:`casq.backends.qiskit.QiskitPulseBackend`
     """
     if isinstance(backend, Backend):
         pulse_backend: QiskitPulseBackend = QiskitPulseBackend.from_backend(

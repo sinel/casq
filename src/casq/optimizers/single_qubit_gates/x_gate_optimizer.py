@@ -34,7 +34,16 @@ from casq.optimizers.single_qubit_gates.single_qubit_gate_optimizer import (
 
 
 class XGateOptimizer(SingleQubitGateOptimizer):
-    """XGateOptimizer class."""
+    """XGateOptimizer class.
+
+    Args:
+        pulse_gate: Pulse gate.
+        pulse_backend: Pulse backend.
+        method: ODE solver method.
+        method_options: Options specific to method.
+        fidelity_type: Fidelity type. Defaults to FidelityType.COUNTS.
+        use_jit: If True, then jit and value_and_grad is applied to objective function.
+    """
 
     @trace()
     def __init__(
@@ -46,16 +55,7 @@ class XGateOptimizer(SingleQubitGateOptimizer):
         fidelity_type: Optional[XGateOptimizer.FidelityType] = None,
         use_jit: bool = False,
     ):
-        """Instantiate :class:`~casq.PulseOptimizer`.
-
-        Args:
-            pulse_gate: Pulse gate.
-            pulse_backend: Pulse backend.
-            method: ODE solver method.
-            method_options: Options specific to method.
-            fidelity_type: Fidelity type. Defaults to FidelityType.COUNTS.
-            use_jit: If True, then jit and value_and_grad is applied to objective function.
-        """
+        """Initialize XGateOptimizer."""
         target_measurement = {"0": 0, "1": 1024}
         super().__init__(
             pulse_gate,

@@ -20,10 +20,11 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  ********************************************************************************
-"""Pulse simulator."""
+"""Pulse backend."""
 from __future__ import annotations
 
 from abc import abstractmethod
+from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
 from typing import Any, Optional, Union
@@ -48,10 +49,16 @@ from casq.models.hamiltonian_model import HamiltonianModel
 
 
 class PulseBackend:
-    """PulseBackend class."""
+    """PulseBackend class.
+
+    Args:
+        hamiltonian: Hamiltonian model.
+        control: Control model.
+        seed: Seed to use in random sampling. Defaults to None.
+    """
 
     class ODESolverMethod(str, Enum):
-        """Solver methods."""
+        """ODE solver methods."""
 
         QISKIT_DYNAMICS_RK4 = "RK4"
         QISKIT_DYNAMICS_JAX_RK4 = "jax_RK4"
@@ -63,57 +70,40 @@ class PulseBackend:
         SCIPY_RK23 = "RK23"
         SCIPY_RK45 = "RK45"
 
+    @dataclass
     class Solution:
-        """PulseBackend.Solution class."""
+        """PulseBackend.Solution class.
 
-        @trace()
-        def __init__(
-            self,
-            circuit_name: str,
-            qubits: list[int],
-            times: list[float],
-            samples: list[list[int]],
-            counts: list[dict[str, int]],
-            populations: list[dict[str, float]],
-            states: list[Union[DensityMatrix, Statevector]],
-            iq_data: list[list[tuple[float, float]]],
-            avg_iq_data: list[tuple[float, float]],
-            shots: int = 1024,
-            seed: Optional[int] = None,
-            is_success: bool = True,
-            timestamp: float = datetime.timestamp(datetime.now()),
-        ) -> None:
-            """Instantiate :class:`~casq.PulseSolution`.
+        Args:
+            circuit_name: Pulse circuit name.
+            times: Time at which pulse backend was solved.
+            qubits: Integer labels for selected qubits from system. Defaults to [0].
+            times: Times at which solved.
+            samples: Solution samples.
+            counts: Solution counts.
+            populations: Solution populations.
+            states: Solution states.
+            iq_data: Solution IQ points.
+            avg_iq_data: Solution average IQ points.
+            shots: Number of shots per experiment. Defaults to 1024.
+            seed: Seed to use in random sampling. Defaults to None.
+            is_success: Trie if solution was successful.
+            timestamp: Posix timestamp.
+        """
 
-            Args:
-                circuit_name: Pulse circuit name.
-                times: Time at which pulse backend was solved.
-                qubits: Integer labels for selected qubits from system. Defaults to [0].
-                times: ...
-                samples: ...
-                counts: ...
-                populations: ...
-                states: ...
-                iq_data: ...
-                avg_iq_data: ...
-                shots: Number of shots per experiment. Defaults to 1024.
-                seed: Seed to use in random sampling. Defaults to None.
-                is_success: ...
-                timestamp: Posix timestamp.
-            """
-            self.circuit_name = circuit_name
-            self.times = times
-            self.qubits = qubits
-            self.samples = samples
-            self.counts = counts
-            self.populations = populations
-            self.states = states
-            self.iq_data = iq_data
-            self.avg_iq_data = avg_iq_data
-            self.shots = shots
-            self.seed = seed
-            self.is_success = is_success
-            self.timestamp = timestamp
+        circuit_name: str
+        qubits: list[int]
+        times: list[float]
+        samples: list[list[int]]
+        counts: list[dict[str, int]]
+        populations: list[dict[str, float]]
+        states: list[Union[DensityMatrix, Statevector]]
+        iq_data: list[list[tuple[float, float]]]
+        avg_iq_data: list[tuple[float, float]]
+        shots: int = 1024
+        seed: Optional[int] = None
+        is_success: bool = True
+        timestamp: float = datetime.timestamp(datetime.now())
 
         def plot_population(
             self, filename: Optional[str] = None, hidden: bool = False
@@ -127,7 +117,7 @@ class PulseBackend:
                 hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
             Returns:
-                Matplotlib Axes.
+                :py:class:`matplotlib.axes.Axes`
             """
             pops: dict[str, list[float]] = {}
             for key in self.populations[-1].keys():
@@ -170,7 +160,7 @@ class PulseBackend:
                 hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
             Returns:
-                Matplotlib Axes.
+                :py:class:`matplotlib.axes.Axes`
             """
             i = time_index if time_index else -1
             x = []
@@ -196,7 +186,7 @@ class PulseBackend:
                 hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
             Returns:
-                Matplotlib Axes.
+                :py:class:`matplotlib.axes.Axes`
             """
             x = []
             y = []
@@ -225,7 +215,7 @@ class PulseBackend:
                 hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
             Returns:
-                Matplotlib Axes.
+                :py:class:`matplotlib.axes.Axes`
             """
             x, y, z = self._xyz(qubit)
             x_config = LineConfig(
@@ -270,7 +260,7 @@ class PulseBackend:
                 hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
             Returns:
-                Matplotlib Axes.
+                :py:class:`mpl_toolkits.mplot3d.Axes3D`
             """
             x, y, z = self._xyz(qubit)
             axes = plot_bloch(x, y, z, filename=filename, hidden=hidden)
@@ -320,7 +310,7 @@ class PulseBackend:
                 qubit: Qubit to trace out.
 
             Returns:
-                Reduced statevector.
+                Reduced :py:class:`qiskit.quantum_info.Statevector`
             """
             traced_over_qubits = self.qubits
             traced_over_qubits.remove(qubit)
@@ -333,13 +323,7 @@ class PulseBackend:
         control: ControlModel,
         seed: Optional[int] = None,
     ):
-        """Instantiate :class:`~casq.backends.PulseBackend`.
-
-        Args:
-            hamiltonian: Hamiltonian model.
-            control: Control model.
-            seed: Seed to use in random sampling. Defaults to None.
-        """
+        """Initialize PulseBackend."""
         self.hamiltonian = hamiltonian
         self.control = control
         self._seed = seed
@@ -355,7 +339,7 @@ class PulseBackend:
         steps: Optional[int] = None,
         run_options: Optional[dict[str, Any]] = None,
     ) -> PulseBackend.Solution:
-        """PulseBackend.run.
+        """PulseBackend.solve.
 
         Args:
             circuit: Pulse circuit.
@@ -368,8 +352,15 @@ class PulseBackend:
             steps: Number of steps at which to solve the system.
                 Used to automatically calculate an evenly-spaced t_eval range.
             run_options: Options specific to native backend's run method.
+
+        Returns:
+            :py:class:`casq.backends.PulseBackend.Solution`
         """
 
     @abstractmethod
     def _get_native_backend(self) -> Any:
-        """PulseBackend._get_native_backend."""
+        """PulseBackend._get_native_backend.
+
+        Returns:
+            Any
+        """

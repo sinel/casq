@@ -20,7 +20,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  ********************************************************************************
-"""Gaussian pulse gate."""
+"""Constant pulse gate."""
 from __future__ import annotations
 
 from typing import Any, Optional
@@ -39,10 +39,10 @@ class ConstantPulseGate(PulseGate):
 
     Args:
         duration: Pulse length in terms of the sampling period dt.
-        amplitude: The magnitude of the amplitude of the Gaussian and square pulse.
+        amplitude: The magnitude of the amplitude of the pulse.
         angle: The angle of the complex amplitude of the pulse. Default value 0.
-        limit_amplitude: If True, then limit the amplitude of the waveform to 1.
-            The default is True and the amplitude is constrained to 1.
+        limit_amplitude: If ``True``, then limit the amplitude of the waveform to 1.
+            The default is ``True`` and the amplitude is constrained to 1.
         name: Optional display name for the pulse gate.
     """
 
@@ -55,7 +55,7 @@ class ConstantPulseGate(PulseGate):
         limit_amplitude: bool = True,
         name: Optional[str] = None,
     ) -> None:
-        """Initialize GaussianPulseGate."""
+        """Initialize ConstantPulseGate."""
         super().__init__(1, duration, amplitude, angle, limit_amplitude, name)
 
     @trace()
@@ -65,7 +65,7 @@ class ConstantPulseGate(PulseGate):
         Builds pulse for pulse gate.
 
         Returns:
-            :py:class:`qiskit.pulse.library.Pulse`
+            :py:class:`qiskit.pulse.library.ScalableSymbolicPulse`
         """
         return Constant(
             duration=self.duration,

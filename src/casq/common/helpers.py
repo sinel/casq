@@ -51,7 +51,7 @@ def dbid() -> str:
     """Generates database identifier for object.
 
     Returns:
-        Database identifier.
+        Database identifier as string.
     """
     return str(uuid4())
 
@@ -63,7 +63,7 @@ def ufid(obj: Any) -> str:
         obj: Object.
 
     Returns:
-        User-friendly identifier.
+        User-friendly identifier as string.
     """
     random_word = RandomWord()
     name = obj.__class__.__name__
@@ -80,7 +80,11 @@ def initialize_jax() -> None:
 
 
 def is_jax_enabled() -> bool:
-    """Checks if jax is enabled or not."""
+    """Checks if jax is enabled or not.
+
+    Returns:
+        Returns True if jax is enabled, otherwise False.
+    """
     is_enabled: bool = Array.default_backend() == "jax"
     return is_enabled
 

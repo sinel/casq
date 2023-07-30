@@ -29,7 +29,13 @@ from casq.common.decorators import trace
 
 
 class ControlModel:
-    """ControlModel class."""
+    """ControlModel class.
+
+    Args:
+            dt: Sampling interval.
+            channel_carrier_freqs: Dictionary mapping channel names to frequencies.
+            control_channel_map: A dictionary mapping control channel labels to indices.
+    """
 
     @trace()
     def __init__(
@@ -38,13 +44,7 @@ class ControlModel:
         channel_carrier_freqs: dict,
         control_channel_map: Optional[dict] = None,
     ) -> None:
-        """Initialize ControlModel.
-
-        Args:
-            dt: Sampling interval.
-            channel_carrier_freqs: Dictionary mapping channel names to frequencies.
-            control_channel_map: A dictionary mapping control channel labels to indices.
-        """
+        """Initialize ControlModel."""
         self.dt = dt
         self.channel_carrier_freqs = channel_carrier_freqs
         self.control_channel_map = control_channel_map

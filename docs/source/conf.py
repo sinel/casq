@@ -39,7 +39,8 @@ extensions = [
     "sphinx_favicon",
 ]
 autoapi_dirs = ["../../src"]
-autodoc_typehints = "description"
+autoapi_type = "python"
+autodoc_typehints = "both"
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]

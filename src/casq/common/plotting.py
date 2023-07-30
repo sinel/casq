@@ -314,7 +314,7 @@ def plot(
         hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
     Returns:
-        Matplotlib Axes.
+        :py:class:`matplotlib.axes.Axes` or list of :py:class:`matplotlib.axes.Axes`
     """
     # TODO: Validate that all dimensions match.
     if figure is None:
@@ -416,7 +416,7 @@ def plot_bloch(
         hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
     Returns:
-        Matplotlib Axes.
+        :py:class:`mpl_toolkits.mplot3d.Axes3D`
     """
     b = qutip.Bloch()
     b.point_color = ["g", "#000"]
@@ -454,7 +454,7 @@ def plot_signal(
         hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
     Returns:
-        Matplotlib Axes.
+        List of :py:class:`matplotlib.axes.Axes`
     """
     duration = duration if duration else int(signal_data.duration)
     signal_times = np.linspace(

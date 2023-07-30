@@ -39,10 +39,10 @@ class GaussianPulseGate(PulseGate):
 
     Args:
         duration: Pulse length in terms of the sampling period dt.
-        amplitude: The magnitude of the amplitude of the Gaussian and square pulse.
+        amplitude: The magnitude of the amplitude of the pulse.
         angle: The angle of the complex amplitude of the pulse. Default value 0.
-        limit_amplitude: If True, then limit the amplitude of the waveform to 1.
-            The default is True and the amplitude is constrained to 1.
+        limit_amplitude: If ``True``, then limit the amplitude of the waveform to 1.
+            The default is ``True`` and the amplitude is constrained to 1.
         name: Optional display name for the pulse gate.
     """
 
@@ -69,7 +69,7 @@ class GaussianPulseGate(PulseGate):
             - sigma: A measure of how wide or narrow the Gaussian risefall is,i.e. its standard deviation.
 
         Returns:
-            :py:class:`qiskit.pulse.library.Pulse`
+            :py:class:`qiskit.pulse.library.ScalableSymbolicPulse`
         """
         return Gaussian(
             duration=self.duration,

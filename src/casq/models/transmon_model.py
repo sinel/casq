@@ -33,7 +33,23 @@ from casq.models.hamiltonian_model import HamiltonianModel
 
 
 class TransmonModel(HamiltonianModel):
-    """TransmonModel class."""
+    """TransmonModel class.
+
+    Args:
+        qubit_map: Dictionary mapping qubit indices to properties.
+        coupling_map: Dictionary mapping qubit couplings to coupling strength.
+        extracted_qubits: List of qubits to extract from the Hamiltonian.
+        rotating_frame: Rotating frame operator.
+                        If specified with a 1d array, it is interpreted as the
+                        diagonal of a diagonal matrix. Assumed to store
+                        the anti-hermitian matrix F = -iH.
+        in_frame_basis: Whether to represent the model in the basis in which
+                        the rotating frame operator is diagonalized.
+        evaluation_mode: Evaluation mode to use.
+        rwa_cutoff_freq: Rotating wave approximation cutoff frequency.
+                        If None, no approximation is made.
+        rwa_carrier_freqs: Carrier frequencies to use for rotating wave approximation.
+    """
 
     MANILA = {
         "description": "Qubits are modeled as Duffing oscillators. "
@@ -120,23 +136,7 @@ class TransmonModel(HamiltonianModel):
             Union[npt.NDArray, tuple[npt.NDArray, npt.NDArray]]
         ] = None,
     ) -> None:
-        """Initialize HamiltonianModel.
-
-        Args:
-            qubit_map: Dictionary mapping qubit indices to properties.
-            coupling_map: Dictionary mapping qubit couplings to coupling strength.
-            extracted_qubits: List of qubits to extract from the Hamiltonian.
-            rotating_frame: Rotating frame operator.
-                            If specified with a 1d array, it is interpreted as the
-                            diagonal of a diagonal matrix. Assumed to store
-                            the anti-hermitian matrix F = -iH.
-            in_frame_basis: Whether to represent the model in the basis in which
-                            the rotating frame operator is diagonalized.
-            evaluation_mode: Evaluation mode to use.
-            rwa_cutoff_freq: Rotating wave approximation cutoff frequency.
-                            If None, no approximation is made.
-            rwa_carrier_freqs: Carrier frequencies to use for rotating wave approximation.
-        """
+        """Initialize TransmonModel."""
         q_max = len(qubit_map.keys()) - 1
         h_str = [
             f"_SUM[i,0,{q_max},wq{{i}}/2*(I{{i}}-Z{{i}})]",

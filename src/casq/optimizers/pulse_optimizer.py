@@ -20,7 +20,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  ********************************************************************************
-"""Pulse circuit."""
+"""Pulse optimizer."""
 from __future__ import annotations
 
 from abc import abstractmethod
@@ -59,7 +59,18 @@ from casq.gates import PulseCircuit, PulseGate
 
 
 class PulseOptimizer:
-    """PulseOptimizer class."""
+    """PulseOptimizer class.
+
+    Args:
+        pulse_gate: Pulse gate.
+        pulse_backend: Pulse backend.
+        method: ODE solver method.
+        target_measurement: Target measurement against which fidelity will be calculated.
+        method_options: Options specific to method.
+        fidelity_type: Fidelity type. Defaults to FidelityType.COUNTS.
+        target_qubit: Qubit to drive with pulse. Defaults to first qubit in simulator.
+        use_jit: If True, then jit and value_and_grad is applied to objective function.
+    """
 
     class PulseType(Enum):
         """Pulse type."""
@@ -100,7 +111,21 @@ class PulseOptimizer:
 
     @dataclass
     class Solution:
-        """Pulse optimizer solution."""
+        """Pulse optimizer solution.
+
+        Args:
+            initial_parameters: Initial parameters.
+            initial_pulse: Initial pulse.
+            num_iterations: Number of iterations.
+            iterations: Iteration data.
+            parameters: Optimum parameters.
+            measurement: Optimum measurement.
+            fidelity: Optimum fidelity.
+            pulse: Optimum pulse.
+            gate: Optimum gate.
+            circuit: Optimum circuit.
+            message: Solution message.
+        """
 
         initial_parameters: dict[str, Any]
         initial_pulse: ScalableSymbolicPulse
@@ -128,7 +153,7 @@ class PulseOptimizer:
                 hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
             Returns:
-                Matplotlib Axes.
+                :py:class:`matplotlib.axes.Axes`
             """
             x = []
             y = []
@@ -164,7 +189,7 @@ class PulseOptimizer:
                 hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
             Returns:
-                Matplotlib Axes.
+                :py:class:`matplotlib.axes.Axes`
             """
             x = []
             parameter_data: dict[str, Any] = {}
@@ -217,7 +242,7 @@ class PulseOptimizer:
                 hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
             Returns:
-                Matplotlib Axes.
+                :py:class:`matplotlib.axes.Axes`
             """
             if len(parameters) == 1:
                 x = []
@@ -310,18 +335,7 @@ class PulseOptimizer:
         target_qubit: Optional[int] = None,
         use_jit: bool = False,
     ):
-        """Instantiate :class:`~casq.PulseOptimizer`.
-
-        Args:
-            pulse_gate: Pulse gate.
-            pulse_backend: Pulse backend.
-            method: ODE solver method.
-            target_measurement: Target measurement against which fidelity will be calculated.
-            method_options: Options specific to method.
-            fidelity_type: Fidelity type. Defaults to FidelityType.COUNTS.
-            target_qubit: Qubit to drive with pulse. Defaults to first qubit in simulator.
-            use_jit: If True, then jit and value_and_grad is applied to objective function.
-        """
+        """Initialize PulseOptimizer."""
         self.pulse_gate = pulse_gate
         self.pulse_backend = pulse_backend
         self.method = method
@@ -525,5 +539,5 @@ class PulseOptimizer:
         Build pulse circuit for objective function.
 
         Returns:
-            PulseCircuit.
+            :py:class:`casq.gates.PulseCircuit`
         """

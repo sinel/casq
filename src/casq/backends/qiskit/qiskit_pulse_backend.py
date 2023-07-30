@@ -20,7 +20,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  ********************************************************************************
-"""Pulse simulator."""
+"""Qiskit pulse backend."""
 from __future__ import annotations
 
 from typing import Any, Optional, Self, Union
@@ -43,7 +43,13 @@ from casq.models.hamiltonian_model import HamiltonianModel
 
 
 class QiskitPulseBackend(PulseBackend):
-    """QiskitPulseBackend class."""
+    """QiskitPulseBackend class.
+
+    Args:
+        hamiltonian: Hamiltonian model.
+        control: Control model.
+        seed: Seed to use in random sampling. Defaults to None.
+    """
 
     @classmethod
     @trace()
@@ -76,7 +82,7 @@ class QiskitPulseBackend(PulseBackend):
             seed: Seed to use in random sampling. Defaults to None.
 
         Returns:
-            QiskitPulseBackend
+            :py:class:`casq.backends.qiskit.QiskitPulseBackend`
         """
         backend_characteristics = BackendCharacteristics(backend)
         hamiltonian = HamiltonianModel(
@@ -107,13 +113,7 @@ class QiskitPulseBackend(PulseBackend):
         control: ControlModel,
         seed: Optional[int] = None,
     ):
-        """Instantiate :class:`~casq.QiskitPulseBackend`.
-
-        Args:
-            hamiltonian: Hamiltonian model.
-            control: Control model.
-            seed: Seed to use in random sampling. Defaults to None.
-        """
+        """Initialize QiskitPulseBackend."""
         super().__init__(hamiltonian=hamiltonian, control=control, seed=seed)
 
     @trace()
@@ -127,7 +127,23 @@ class QiskitPulseBackend(PulseBackend):
         steps: Optional[int] = None,
         run_options: Optional[dict[str, Any]] = None,
     ) -> PulseBackend.Solution:
-        """QiskitPulseBackend.run."""
+        """QiskitPulseBackend.solve.
+
+        Args:
+            circuit: Pulse circuit.
+            method: ODE solving method to use.
+            initial_state: Initial state for simulation,
+                either None,
+                indicating that the ground state for the system Hamiltonian should be used,
+                or an arbitrary Statevector or DensityMatrix.
+            shots: Number of shots per experiment. Defaults to 1024.
+            steps: Number of steps at which to solve the system.
+                Used to automatically calculate an evenly-spaced t_eval range.
+            run_options: Options specific to native backend's run method.
+
+        Returns:
+            :py:class:`casq.backends.PulseBackend.Solution`
+        """
         if run_options:
             run_options.update(method=method.value)
         else:
@@ -150,7 +166,11 @@ class QiskitPulseBackend(PulseBackend):
     @trace()
     @timer(unit="sec")
     def _get_native_backend(self) -> DynamicsBackendPatch:
-        """QiskitPulseBackend._get_native_backend."""
+        """QiskitPulseBackend._get_native_backend.
+
+        Returns:
+            :py:class:`casq.backends.qiskit.DynamicsBackendPatch`
+        """
         solver = Solver(
             static_hamiltonian=self.hamiltonian.static_operator,
             hamiltonian_operators=self.hamiltonian.operators,

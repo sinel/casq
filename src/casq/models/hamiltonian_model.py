@@ -35,7 +35,22 @@ from casq.common.decorators import trace
 
 
 class HamiltonianModel:
-    """HamiltonianModel class."""
+    """HamiltonianModel class.
+
+    Args:
+        hamiltonian_dict: Dictionary representing Hamiltonian in string specification.
+        extracted_qubits: List of qubits to extract from the Hamiltonian.
+        rotating_frame: Rotating frame operator.
+                        If specified with a 1d array, it is interpreted as the
+                        diagonal of a diagonal matrix. Assumed to store
+                        the anti-hermitian matrix F = -iH.
+        in_frame_basis: Whether to represent the model in the basis in which
+                        the rotating frame operator is diagonalized.
+        evaluation_mode: Evaluation mode to use.
+        rwa_cutoff_freq: Rotating wave approximation cutoff frequency.
+                        If None, no approximation is made.
+        rwa_carrier_freqs: Carrier frequencies to use for rotating wave approximation.
+    """
 
     class EvaluationMode(Enum):
         """Evaluation mode."""
@@ -56,22 +71,7 @@ class HamiltonianModel:
             Union[npt.NDArray, tuple[npt.NDArray, npt.NDArray]]
         ] = None,
     ) -> None:
-        """Initialize HamiltonianModel.
-
-        Args:
-            hamiltonian_dict: Dictionary representing Hamiltonian in string specification.
-            extracted_qubits: List of qubits to extract from the Hamiltonian.
-            rotating_frame: Rotating frame operator.
-                            If specified with a 1d array, it is interpreted as the
-                            diagonal of a diagonal matrix. Assumed to store
-                            the anti-hermitian matrix F = -iH.
-            in_frame_basis: Whether to represent the model in the basis in which
-                            the rotating frame operator is diagonalized.
-            evaluation_mode: Evaluation mode to use.
-            rwa_cutoff_freq: Rotating wave approximation cutoff frequency.
-                            If None, no approximation is made.
-            rwa_carrier_freqs: Carrier frequencies to use for rotating wave approximation.
-        """
+        """Initialize HamiltonianModel."""
         self.hamiltonian_dict = hamiltonian_dict
         self.in_frame_basis = in_frame_basis
         self.rwa_carrier_freqs = rwa_carrier_freqs

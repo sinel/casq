@@ -47,7 +47,7 @@ class PulseCircuit(QuantumCircuit):
 
     @staticmethod
     def from_pulse_gate(gate: PulseGate, parameters: dict[str, Any]) -> PulseCircuit:
-        """PulseCircuit.from_pulse method.
+        """PulseCircuit.from_pulse_gate method.
 
         Builds simple circuit for solitary usage or testing of pulse gate.
 
@@ -56,7 +56,7 @@ class PulseCircuit(QuantumCircuit):
             parameters: Dictionary of pulse parameters that defines the pulse envelope.
 
         Returns:
-            PulseCircuit
+            :py:class:`casq.gates.PulseCircuit`
         """
         circuit: PulseCircuit = PulseCircuit(1, 1)
         circuit.pulse_gate(gate, parameters, 0)
@@ -81,7 +81,7 @@ class PulseCircuit(QuantumCircuit):
     def pulse_gate(
         self, gate: PulseGate, parameters: dict[str, Any], qubit: int = 0
     ) -> InstructionSet:  # pragma: no cover
-        """PulseGate.gate method.
+        """PulseGate.pulse_gate method.
 
         Append pulse gate to circuit.
 
@@ -91,7 +91,7 @@ class PulseCircuit(QuantumCircuit):
             qubit: Qubit to attach pulse gate to.
 
         Returns:
-            :py:class:`qiskit.pulse.Instruction`
+            :py:class:`qiskit.circuit.InstructionSet`
         """
         instructions = self.append(gate, [qubit])
         self.add_calibration(gate.name, [qubit], gate.schedule(parameters, qubit), [])

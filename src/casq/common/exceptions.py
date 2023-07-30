@@ -25,13 +25,21 @@ from __future__ import annotations
 
 
 class CasqError(Exception):
-    """Base class for errors raised by casq."""
+    """Base class for errors raised by casq.
+
+    Args:
+        message: Message text.
+    """
 
     def __init__(self, *message: str):
-        """Set the error message."""
+        """Initialize CasqError."""
         super().__init__(" ".join(message))
         self.message = " ".join(message)
 
     def __str__(self) -> str:  # pragma: no cover
-        """Return the message."""
+        """Get error message.
+
+        Returns:
+            Message text.
+        """
         return repr(self.message)
