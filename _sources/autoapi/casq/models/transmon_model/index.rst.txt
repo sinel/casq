@@ -22,12 +22,27 @@ Classes
 
 
 
-.. py:class:: TransmonModel(qubit_map, coupling_map, extracted_qubits = None, rotating_frame = None, in_frame_basis = False, evaluation_mode = HamiltonianModel.EvaluationMode.DENSE, rwa_cutoff_freq = None, rwa_carrier_freqs = None)
+.. py:class:: TransmonModel(qubit_map: dict[int, TransmonProperties], coupling_map: dict[tuple[int, int], float], extracted_qubits: Optional[list[int]] = None, rotating_frame: Optional[numpy.typing.NDArray] = None, in_frame_basis: bool = False, evaluation_mode: casq.models.hamiltonian_model.HamiltonianModel.EvaluationMode = HamiltonianModel.EvaluationMode.DENSE, rwa_cutoff_freq: Optional[float] = None, rwa_carrier_freqs: Optional[Union[numpy.typing.NDArray, tuple[numpy.typing.NDArray, numpy.typing.NDArray]]] = None)
 
 
    Bases: :py:obj:`casq.models.hamiltonian_model.HamiltonianModel`
 
    TransmonModel class.
+
+   Args:
+       qubit_map: Dictionary mapping qubit indices to properties.
+       coupling_map: Dictionary mapping qubit couplings to coupling strength.
+       extracted_qubits: List of qubits to extract from the Hamiltonian.
+       rotating_frame: Rotating frame operator.
+                       If specified with a 1d array, it is interpreted as the
+                       diagonal of a diagonal matrix. Assumed to store
+                       the anti-hermitian matrix F = -iH.
+       in_frame_basis: Whether to represent the model in the basis in which
+                       the rotating frame operator is diagonalized.
+       evaluation_mode: Evaluation mode to use.
+       rwa_cutoff_freq: Rotating wave approximation cutoff frequency.
+                       If None, no approximation is made.
+       rwa_carrier_freqs: Carrier frequencies to use for rotating wave approximation.
 
    .. py:class:: TransmonProperties
 

@@ -437,7 +437,7 @@ Functions
       
 
 
-.. py:function:: add_line(ax, data, label = None, line_style = None, marker_style = None)
+.. py:function:: add_line(ax: matplotlib.axes.Axes, data: LineData, label: Optional[str] = None, line_style: Optional[LineStyle] = None, marker_style: Optional[MarkerStyle] = None) -> None
 
    Add line to Matplotlib axes.
 
@@ -449,7 +449,7 @@ Functions
        marker_style: Marker style.
 
 
-.. py:function:: add_line_collection(ax, data, label = None, line_style = None)
+.. py:function:: add_line_collection(ax: matplotlib.axes.Axes, data: list[LineData], label: Optional[str] = None, line_style: Optional[LineStyle] = None) -> None
 
    Add line collection to Matplotlib axes.
 
@@ -460,7 +460,7 @@ Functions
        line_style: Line style.
 
 
-.. py:function:: add_horizontal_line(ax, y, label = None, line_style = None)
+.. py:function:: add_horizontal_line(ax: matplotlib.axes.Axes, y: float, label: Optional[str] = None, line_style: Optional[LineStyle] = None) -> None
 
    Add horizontal line to Matplotlib axes.
 
@@ -471,7 +471,7 @@ Functions
        line_style: Line style.
 
 
-.. py:function:: add_vertical_line(ax, x, label = None, line_style = None)
+.. py:function:: add_vertical_line(ax: matplotlib.axes.Axes, x: float, label: Optional[str] = None, line_style: Optional[LineStyle] = None) -> None
 
    Add vertical line to Matplotlib axes.
 
@@ -482,7 +482,7 @@ Functions
        line_style: Line style.
 
 
-.. py:function:: plot(configs, figure = None, hlines = None, vlines = None, title = None, legend_style = None, show_grid = False, filename = None, hidden = False)
+.. py:function:: plot(configs: Sequence[Union[LineConfig, LineCollectionConfig]], figure: Optional[matplotlib.figure.Figure] = None, hlines: Optional[list[tuple[float, Optional[str], LineStyle, Optional[matplotlib.axes.Axes]]]] = None, vlines: Optional[list[tuple[float, Optional[str], LineStyle, Optional[matplotlib.axes.Axes]]]] = None, title: Optional[str] = None, legend_style: Optional[LegendStyle] = None, show_grid: bool = False, filename: Optional[str] = None, hidden: bool = False) -> Union[matplotlib.axes.Axes, list[matplotlib.axes.Axes]]
 
    Create and plot Matplotlib figure.
 
@@ -498,10 +498,10 @@ Functions
        hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
    Returns:
-       Matplotlib Axes.
+       :py:class:`matplotlib.axes.Axes` or list of :py:class:`matplotlib.axes.Axes`
 
 
-.. py:function:: plot_bloch(x, y, z, filename = None, hidden = False)
+.. py:function:: plot_bloch(x: Union[list[float], numpy.typing.NDArray], y: Union[list[float], numpy.typing.NDArray], z: Union[list[float], numpy.typing.NDArray], filename: Optional[str] = None, hidden: bool = False) -> mpl_toolkits.mplot3d.Axes3D
 
    Create and plot Matplotlib figure.
 
@@ -513,10 +513,10 @@ Functions
        hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
    Returns:
-       Matplotlib Axes.
+       :py:class:`mpl_toolkits.mplot3d.Axes3D`
 
 
-.. py:function:: plot_signal(signal_data, duration = None, start = 0, number_of_samples = 1000, time_unit = TimeUnit.NANO_SEC, filename = None, hidden = False)
+.. py:function:: plot_signal(signal_data: casq.common.helpers.SignalData, duration: Optional[int] = None, start: int = 0, number_of_samples: int = 1000, time_unit: casq.common.helpers.TimeUnit = TimeUnit.NANO_SEC, filename: Optional[str] = None, hidden: bool = False) -> list[matplotlib.axes.Axes]
 
    Create and plot Matplotlib figure.
 
@@ -530,6 +530,6 @@ Functions
        hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
    Returns:
-       Matplotlib Axes.
+       List of :py:class:`matplotlib.axes.Axes`
 
 

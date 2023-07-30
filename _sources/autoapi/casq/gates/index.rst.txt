@@ -43,7 +43,7 @@ Classes
 
 
 
-.. py:class:: ConstantPulseGate(duration, amplitude, angle = 0, limit_amplitude = True, name = None)
+.. py:class:: ConstantPulseGate(duration: int, amplitude: float, angle: float = 0, limit_amplitude: bool = True, name: Optional[str] = None)
 
 
    Bases: :py:obj:`casq.gates.pulse_gate.PulseGate`
@@ -54,23 +54,23 @@ Classes
 
    Args:
        duration: Pulse length in terms of the sampling period dt.
-       amplitude: The magnitude of the amplitude of the Gaussian and square pulse.
+       amplitude: The magnitude of the amplitude of the pulse.
        angle: The angle of the complex amplitude of the pulse. Default value 0.
-       limit_amplitude: If True, then limit the amplitude of the waveform to 1.
-           The default is True and the amplitude is constrained to 1.
+       limit_amplitude: If ``True``, then limit the amplitude of the waveform to 1.
+           The default is ``True`` and the amplitude is constrained to 1.
        name: Optional display name for the pulse gate.
 
-   .. py:method:: pulse(params = None)
+   .. py:method:: pulse(params: Optional[dict[str, Any]] = None) -> qiskit.pulse.library.ScalableSymbolicPulse
 
       ConstantPulseGate.pulse method.
 
       Builds pulse for pulse gate.
 
       Returns:
-          :py:class:`qiskit.pulse.library.Pulse`
+          :py:class:`qiskit.pulse.library.ScalableSymbolicPulse`
 
 
-   .. py:method:: to_parameters_dict(parameters = None)
+   .. py:method:: to_parameters_dict(parameters: Optional[numpy.typing.NDArray] = None) -> Optional[dict[str, Any]]
 
       GaussianSquarePulseGate.to_parameters_dict method.
 
@@ -84,7 +84,7 @@ Classes
 
 
 
-.. py:class:: DragPulseGate(duration, amplitude, angle = None, limit_amplitude = True, name = None)
+.. py:class:: DragPulseGate(duration: int, amplitude: float, angle: Optional[float] = None, limit_amplitude: bool = True, name: Optional[str] = None)
 
 
    Bases: :py:obj:`casq.gates.pulse_gate.PulseGate`
@@ -95,13 +95,13 @@ Classes
 
    Args:
        duration: Pulse length in terms of the sampling period dt.
-       amplitude: The magnitude of the amplitude of the Gaussian and square pulse.
+       amplitude: The magnitude of the amplitude of the pulse.
        angle: The angle of the complex amplitude of the pulse. Default value 0.
-       limit_amplitude: If True, then limit the amplitude of the waveform to 1.
-           The default is True and the amplitude is constrained to 1.
+       limit_amplitude: If ``True``, then limit the amplitude of the waveform to 1.
+           The default is ``True`` and the amplitude is constrained to 1.
        name: Optional display name for the pulse gate.
 
-   .. py:method:: pulse(parameters)
+   .. py:method:: pulse(parameters: dict[str, float]) -> qiskit.pulse.library.ScalableSymbolicPulse
 
       DragPulseGate.pulse method.
 
@@ -116,7 +116,7 @@ Classes
           :py:class:`qiskit.pulse.library.ScalableSymbolicPulse`
 
 
-   .. py:method:: to_parameters_dict(parameters)
+   .. py:method:: to_parameters_dict(parameters: numpy.typing.NDArray) -> dict[str, Any]
 
       GaussianSquarePulseGate.to_parameters_dict method.
 
@@ -130,7 +130,7 @@ Classes
 
 
 
-.. py:class:: GaussianPulseGate(duration, amplitude, angle = 0, limit_amplitude = True, name = None)
+.. py:class:: GaussianPulseGate(duration: int, amplitude: float, angle: float = 0, limit_amplitude: bool = True, name: Optional[str] = None)
 
 
    Bases: :py:obj:`casq.gates.pulse_gate.PulseGate`
@@ -141,13 +141,13 @@ Classes
 
    Args:
        duration: Pulse length in terms of the sampling period dt.
-       amplitude: The magnitude of the amplitude of the Gaussian and square pulse.
+       amplitude: The magnitude of the amplitude of the pulse.
        angle: The angle of the complex amplitude of the pulse. Default value 0.
-       limit_amplitude: If True, then limit the amplitude of the waveform to 1.
-           The default is True and the amplitude is constrained to 1.
+       limit_amplitude: If ``True``, then limit the amplitude of the waveform to 1.
+           The default is ``True`` and the amplitude is constrained to 1.
        name: Optional display name for the pulse gate.
 
-   .. py:method:: pulse(parameters)
+   .. py:method:: pulse(parameters: dict[str, float]) -> qiskit.pulse.library.ScalableSymbolicPulse
 
       GaussianPulseGate.pulse method.
 
@@ -158,10 +158,10 @@ Classes
           - sigma: A measure of how wide or narrow the Gaussian risefall is,i.e. its standard deviation.
 
       Returns:
-          :py:class:`qiskit.pulse.library.Pulse`
+          :py:class:`qiskit.pulse.library.ScalableSymbolicPulse`
 
 
-   .. py:method:: to_parameters_dict(parameters)
+   .. py:method:: to_parameters_dict(parameters: numpy.typing.NDArray) -> dict[str, Any]
 
       GaussianSquarePulseGate.to_parameters_dict method.
 
@@ -175,7 +175,7 @@ Classes
 
 
 
-.. py:class:: GaussianSquareDragPulseGate(duration, amplitude, angle = 0, limit_amplitude = True, name = None)
+.. py:class:: GaussianSquareDragPulseGate(duration: int, amplitude: float, angle: float = 0, limit_amplitude: bool = True, name: Optional[str] = None)
 
 
    Bases: :py:obj:`casq.gates.pulse_gate.PulseGate`
@@ -186,13 +186,13 @@ Classes
 
    Args:
        duration: Pulse length in terms of the sampling period dt.
-       amplitude: The magnitude of the amplitude of the Gaussian and square pulse.
+       amplitude: The magnitude of the amplitude of the pulse.
        angle: The angle of the complex amplitude of the pulse. Default value 0.
-       limit_amplitude: If True, then limit the amplitude of the waveform to 1.
-           The default is True and the amplitude is constrained to 1.
+       limit_amplitude: If ``True``, then limit the amplitude of the waveform to 1.
+           The default is ``True`` and the amplitude is constrained to 1.
        name: Optional display name for the pulse gate.
 
-   .. py:method:: pulse(parameters)
+   .. py:method:: pulse(parameters: dict[str, float]) -> qiskit.pulse.library.ScalableSymbolicPulse
 
       GaussianSquareDragPulseGate.pulse method.
 
@@ -208,7 +208,7 @@ Classes
           :py:class:`qiskit.pulse.library.ScalableSymbolicPulse`
 
 
-   .. py:method:: to_parameters_dict(parameters)
+   .. py:method:: to_parameters_dict(parameters: numpy.typing.NDArray) -> dict[str, Any]
 
       GaussianSquarePulseGate.to_parameters_dict method.
 
@@ -222,7 +222,7 @@ Classes
 
 
 
-.. py:class:: GaussianSquarePulseGate(duration, amplitude, angle = 0, limit_amplitude = True, name = None)
+.. py:class:: GaussianSquarePulseGate(duration: int, amplitude: float, angle: float = 0, limit_amplitude: bool = True, name: Optional[str] = None)
 
 
    Bases: :py:obj:`casq.gates.pulse_gate.PulseGate`
@@ -233,13 +233,13 @@ Classes
 
    Args:
        duration: Pulse length in terms of the sampling period dt.
-       amplitude: The magnitude of the amplitude of the Gaussian and square pulse.
+       amplitude: The magnitude of the amplitude of the pulse.
        angle: The angle of the complex amplitude of the pulse. Default value 0.
-       limit_amplitude: If True, then limit the amplitude of the waveform to 1.
-           The default is True and the amplitude is constrained to 1.
+       limit_amplitude: If ``True``, then limit the amplitude of the waveform to 1.
+           The default is ``True`` and the amplitude is constrained to 1.
        name: Optional display name for the pulse gate.
 
-   .. py:method:: pulse(parameters)
+   .. py:method:: pulse(parameters: dict[str, float]) -> qiskit.pulse.library.ScalableSymbolicPulse
 
       GaussianSquarePulseGate.pulse method.
 
@@ -254,7 +254,7 @@ Classes
           :py:class:`qiskit.pulse.library.ScalableSymbolicPulse`
 
 
-   .. py:method:: to_parameters_dict(parameters)
+   .. py:method:: to_parameters_dict(parameters: numpy.typing.NDArray) -> dict[str, Any]
 
       GaussianSquarePulseGate.to_parameters_dict method.
 
@@ -268,7 +268,7 @@ Classes
 
 
 
-.. py:class:: PulseCircuit(*regs, name = None, global_phase = 0, metadata = None)
+.. py:class:: PulseCircuit(*regs: Union[qiskit.circuit.Register, int, list[qiskit.circuit.Bit]], name: Optional[str] = None, global_phase: qiskit.circuit.parameterexpression.ParameterValueType = 0, metadata: Optional[dict] = None)
 
 
    Bases: :py:obj:`qiskit.QuantumCircuit`
@@ -281,10 +281,10 @@ Classes
    Args:
        name: Optional user-friendly name for pulse gate.
 
-   .. py:method:: from_pulse_gate(gate, parameters)
+   .. py:method:: from_pulse_gate(gate: casq.gates.pulse_gate.PulseGate, parameters: dict[str, Any]) -> PulseCircuit
       :staticmethod:
 
-      PulseCircuit.from_pulse method.
+      PulseCircuit.from_pulse_gate method.
 
       Builds simple circuit for solitary usage or testing of pulse gate.
 
@@ -293,12 +293,12 @@ Classes
           parameters: Dictionary of pulse parameters that defines the pulse envelope.
 
       Returns:
-          PulseCircuit
+          :py:class:`casq.gates.PulseCircuit`
 
 
-   .. py:method:: pulse_gate(gate, parameters, qubit = 0)
+   .. py:method:: pulse_gate(gate: casq.gates.pulse_gate.PulseGate, parameters: dict[str, Any], qubit: int = 0) -> qiskit.circuit.quantumcircuit.InstructionSet
 
-      PulseGate.gate method.
+      PulseGate.pulse_gate method.
 
       Append pulse gate to circuit.
 
@@ -308,11 +308,11 @@ Classes
           qubit: Qubit to attach pulse gate to.
 
       Returns:
-          :py:class:`qiskit.pulse.Instruction`
+          :py:class:`qiskit.circuit.InstructionSet`
 
 
 
-.. py:class:: PulseGate(num_qubits, duration, amplitude, angle = 0, limit_amplitude = True, name = None)
+.. py:class:: PulseGate(num_qubits: int, duration: int, amplitude: float, angle: float = 0, limit_amplitude: bool = True, name: Optional[str] = None)
 
 
    Bases: :py:obj:`qiskit.circuit.Gate`
@@ -325,9 +325,13 @@ Classes
    Args:
        num_qubits: The number of qubits the gate acts on.
        duration: Pulse length in terms of the sampling period dt.
+       amplitude: The magnitude of the amplitude of the pulse.
+       angle: The angle of the complex amplitude of the pulse. Default value 0.
+       limit_amplitude: If ``True``, then limit the amplitude of the waveform to 1.
+           The default is ``True`` and the amplitude is constrained to 1.
        name: Optional display name for the pulse gate.
 
-   .. py:method:: pulse(params)
+   .. py:method:: pulse(params: dict[str, Any]) -> qiskit.pulse.library.ScalableSymbolicPulse
       :abstractmethod:
 
       PulseGate.pulse method.
@@ -338,7 +342,7 @@ Classes
           :py:class:`qiskit.pulse.library.ScalableSymbolicPulse`
 
 
-   .. py:method:: to_parameters_dict(parameters)
+   .. py:method:: to_parameters_dict(parameters: numpy.typing.NDArray) -> dict[str, Any]
       :abstractmethod:
 
       GaussianSquarePulseGate.to_parameters_dict method.
@@ -352,7 +356,7 @@ Classes
           Dictionary of parameters.
 
 
-   .. py:method:: schedule(parameters, qubit)
+   .. py:method:: schedule(parameters: dict[str, Any], qubit: int) -> qiskit.pulse.Schedule
 
       PulseGate.schedule method.
 
@@ -364,7 +368,6 @@ Classes
 
       Returns:
           :py:class:`qiskit.pulse.Schedule`
-          or list of :py:class:`qiskit_dynamics.signals.Signal`
 
 
 

@@ -22,11 +22,19 @@ Classes
 
 
 
-.. py:class:: XGateOptimizer(pulse_gate, pulse_backend, method, method_options = None, fidelity_type = None, use_jit = False)
+.. py:class:: XGateOptimizer(pulse_gate: casq.gates.PulseGate, pulse_backend: casq.backends.pulse_backend.PulseBackend, method: casq.backends.pulse_backend.PulseBackend.ODESolverMethod, method_options: Optional[dict[str, Any]] = None, fidelity_type: Optional[XGateOptimizer] = None, use_jit: bool = False)
 
 
    Bases: :py:obj:`casq.optimizers.single_qubit_gates.single_qubit_gate_optimizer.SingleQubitGateOptimizer`
 
    XGateOptimizer class.
+
+   Args:
+       pulse_gate: Pulse gate.
+       pulse_backend: Pulse backend.
+       method: ODE solver method.
+       method_options: Options specific to method.
+       fidelity_type: Fidelity type. Defaults to FidelityType.COUNTS.
+       use_jit: If True, then jit and value_and_grad is applied to objective function.
 
 

@@ -5,7 +5,7 @@
 
 .. autoapi-nested-parse::
 
-   Pulse simulator.
+   Patched Qiskit dynamics backend.
 
 
 
@@ -22,7 +22,7 @@ Classes
 
 
 
-.. py:class:: DynamicsBackendPatch(solver, target = None, **options)
+.. py:class:: DynamicsBackendPatch(solver: qiskit_dynamics.Solver, target: Optional[qiskit.transpiler.Target] = None, **options: Any)
 
 
    Bases: :py:obj:`qiskit_dynamics.backend.DynamicsBackend`
@@ -39,6 +39,17 @@ Classes
        providing a t_eval range is awkward at best and error-prone.
        As an alternative, automatic calculation of t_eval range
        based on a steps argument is now provided.
+
+   Args:
+       solver: Solver instance configured for pulse simulation.
+       target: Target object.
+       steps: Number of steps at which to solve the system.
+           Used to automatically calculate an evenly-spaced t_eval range.
+       options: Additional configuration options for the backend.
+
+   Raises:
+       If any instantiation arguments fail validation checks,
+       then raises :py:class:`~qiskit.exceptions.QiskitError`.
 
    .. py:class:: Options
 
@@ -146,13 +157,16 @@ Classes
 
          
 
-      .. py:method:: to_dict()
+      .. py:method:: to_dict() -> dict[str, Any]
 
          Converts to dict.
 
+         Returns:
+             Dictionary.
 
 
-   .. py:method:: from_backend(backend, qubits = None, rotating_frame = 'auto', evaluation_mode = 'dense', rwa_cutoff_freq = None, **options)
+
+   .. py:method:: from_backend(backend: Union[qiskit.providers.BackendV1, qiskit.providers.BackendV2], qubits: Optional[list[int]] = None, rotating_frame: Union[qiskit_dynamics.array.Array, qiskit_dynamics.RotatingFrame, str] = 'auto', evaluation_mode: str = 'dense', rwa_cutoff_freq: Optional[float] = None, **options: Any) -> DynamicsBackendPatch
       :classmethod:
 
       Construct a DynamicsBackendPatch instance from an existing Backend instance.
@@ -170,10 +184,11 @@ Classes
           DynamicsBackendPatch
 
       Raises:
-          QiskitError: If any required parameters are missing from the passed backend.
+          If any required parameters are missing from the passed backend,
+          then raises :py:class:`~qiskit.exceptions.QiskitError`.
 
 
-   .. py:method:: _run(job_id, t_span, schedules, measurement_subsystems_list, memory_slot_indices_list, num_memory_slots_list)
+   .. py:method:: _run(job_id: str, t_span: Union[list[tuple[float, float]], list[list[float]]], schedules: list[qiskit.pulse.Schedule], measurement_subsystems_list: list[list[int]], memory_slot_indices_list: list[list[int]], num_memory_slots_list: list[int]) -> qiskit.result.Result
 
       Run a list of simulations.
 

@@ -5,7 +5,7 @@
 
 .. autoapi-nested-parse::
 
-   Pulse circuit.
+   Pulse optimizer.
 
 
 
@@ -22,10 +22,20 @@ Classes
 
 
 
-.. py:class:: PulseOptimizer(pulse_gate, pulse_backend, method, target_measurement, method_options = None, fidelity_type = None, target_qubit = None, use_jit = False)
+.. py:class:: PulseOptimizer(pulse_gate: casq.gates.PulseGate, pulse_backend: casq.backends.pulse_backend.PulseBackend, method: casq.backends.pulse_backend.PulseBackend.ODESolverMethod, target_measurement: Union[dict[str, float], qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector], method_options: Optional[dict[str, Any]] = None, fidelity_type: Optional[FidelityType] = None, target_qubit: Optional[int] = None, use_jit: bool = False)
 
 
    PulseOptimizer class.
+
+   Args:
+       pulse_gate: Pulse gate.
+       pulse_backend: Pulse backend.
+       method: ODE solver method.
+       target_measurement: Target measurement against which fidelity will be calculated.
+       method_options: Options specific to method.
+       fidelity_type: Fidelity type. Defaults to FidelityType.COUNTS.
+       target_qubit: Qubit to drive with pulse. Defaults to first qubit in simulator.
+       use_jit: If True, then jit and value_and_grad is applied to objective function.
 
    .. py:class:: PulseType(*args, **kwds)
 
@@ -169,6 +179,19 @@ Classes
 
       Pulse optimizer solution.
 
+      Args:
+          initial_parameters: Initial parameters.
+          initial_pulse: Initial pulse.
+          num_iterations: Number of iterations.
+          iterations: Iteration data.
+          parameters: Optimum parameters.
+          measurement: Optimum measurement.
+          fidelity: Optimum fidelity.
+          pulse: Optimum pulse.
+          gate: Optimum gate.
+          circuit: Optimum circuit.
+          message: Solution message.
+
       .. py:attribute:: initial_parameters
          :type: dict[str, Any]
 
@@ -224,7 +247,7 @@ Classes
 
          
 
-      .. py:method:: plot_objective_history(filename = None, hidden = False)
+      .. py:method:: plot_objective_history(filename: Optional[str] = None, hidden: bool = False) -> matplotlib.axes.Axes
 
          PulseOptimizer.Solution.plot_objective_history method.
 
@@ -235,10 +258,10 @@ Classes
              hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
          Returns:
-             Matplotlib Axes.
+             :py:class:`matplotlib.axes.Axes`
 
 
-      .. py:method:: plot_parameter_history(parameters = None, filename = None, hidden = False)
+      .. py:method:: plot_parameter_history(parameters: Optional[list[str]] = None, filename: Optional[str] = None, hidden: bool = False) -> matplotlib.axes.Axes
 
          PulseOptimizer.Solution.plot_parameter_history method.
 
@@ -250,10 +273,10 @@ Classes
              hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
          Returns:
-             Matplotlib Axes.
+             :py:class:`matplotlib.axes.Axes`
 
 
-      .. py:method:: plot_objective_by_parameter(parameters, filename = None, hidden = False)
+      .. py:method:: plot_objective_by_parameter(parameters: list[str], filename: Optional[str] = None, hidden: bool = False) -> matplotlib.axes.Axes
 
          PulseOptimizer.Solution.plot_trajectory method.
 
@@ -265,7 +288,7 @@ Classes
              hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
          Returns:
-             Matplotlib Axes.
+             :py:class:`matplotlib.axes.Axes`
 
 
 
@@ -295,7 +318,7 @@ Classes
          
 
 
-   .. py:method:: solve(initial_params, method, jac = None, hess = None, hessp = None, bounds = None, constraints = None, tol = None, maxiter = None, verbose = True)
+   .. py:method:: solve(initial_params: numpy.typing.NDArray, method: OptimizationMethod, jac: Optional[Union[bool, FiniteDifferenceScheme, Callable]] = None, hess: Optional[Union[FiniteDifferenceScheme, scipy.optimize.HessianUpdateStrategy, Callable]] = None, hessp: Optional[Callable] = None, bounds: Optional[Union[list, scipy.optimize.Bounds]] = None, constraints: Optional[Union[dict, list[dict], scipy.optimize.LinearConstraint, list[scipy.optimize.LinearConstraint], scipy.optimize.NonlinearConstraint, list[scipy.optimize.NonlinearConstraint]]] = None, tol: Optional[float] = None, maxiter: Optional[int] = None, verbose: bool = True) -> PulseOptimizer
 
       PulseOptimizer.optimize method.
 
@@ -329,7 +352,7 @@ Classes
           :py:class:`casq.PulseOptimizer.Solution`
 
 
-   .. py:method:: _build_objective_function()
+   .. py:method:: _build_objective_function() -> Callable[[numpy.typing.NDArray], Union[float, tuple[float, float]]]
 
       PulseOptimizer._build_objective_function method.
 
@@ -339,14 +362,14 @@ Classes
           Objective function.
 
 
-   .. py:method:: _objective_callback(parameters, result, objective)
+   .. py:method:: _objective_callback(parameters: dict[str, Any], result: Any, objective: float) -> None
 
       PulseOptimizer._objective_callback method.
 
       Callback used by objective function.
 
 
-   .. py:method:: _build_circuit(parameters)
+   .. py:method:: _build_circuit(parameters: dict[str, Any]) -> casq.gates.PulseCircuit
       :abstractmethod:
 
       PulseOptimizer._build_circuit method.
@@ -354,7 +377,7 @@ Classes
       Build pulse circuit for objective function.
 
       Returns:
-          PulseCircuit.
+          :py:class:`casq.gates.PulseCircuit`
 
 
 

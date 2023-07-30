@@ -520,16 +520,16 @@ document.write(`
 <h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">#</a></h3>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#casq.backends.build" title="casq.backends.build"><code class="xref py py-obj docutils literal notranslate"><span class="pre">build</span></code></a>(backend_library, hamiltonian, control[, seed])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#casq.backends.build" title="casq.backends.build"><code class="xref py py-obj docutils literal notranslate"><span class="pre">build</span></code></a>(...)</p></td>
 <td><p>Build PulseBackend.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#casq.backends.build_from_backend" title="casq.backends.build_from_backend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_from_backend</span></code></a>(backend[, extracted_qubits, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#casq.backends.build_from_backend" title="casq.backends.build_from_backend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_from_backend</span></code></a>(...)</p></td>
 <td><p>Build PulseBackend from library-specific backend.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#casq.backends.convert_to_solution" title="casq.backends.convert_to_solution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_to_solution</span></code></a>(result)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#casq.backends.convert_to_solution" title="casq.backends.convert_to_solution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_to_solution</span></code></a>(...)</p></td>
 <td><p>Converts Qiskit result to pulse backend solution.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#casq.backends.get_experiment_result" title="casq.backends.get_experiment_result"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_experiment_result</span></code></a>(experiment_name, solver_result, ...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#casq.backends.get_experiment_result" title="casq.backends.get_experiment_result"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_experiment_result</span></code></a>(...)</p></td>
 <td><p>Generates ExperimentResult objects from solver result.</p></td>
 </tr>
 </tbody>
@@ -558,18 +558,16 @@ document.write(`
 
 <dl class="py function">
 <dt class="sig sig-object py" id="casq.backends.build">
-<span class="sig-prename descclassname"><span class="pre">casq.backends.</span></span><span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">backend_library</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hamiltonian</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">control</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.build" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">casq.backends.</span></span><span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">backend_library</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#casq.backends.BackendLibrary" title="casq.backends.BackendLibrary"><span class="pre">BackendLibrary</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">hamiltonian</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../models/hamiltonian_model/index.html#casq.models.hamiltonian_model.HamiltonianModel" title="casq.models.hamiltonian_model.HamiltonianModel"><span class="pre">casq.models.hamiltonian_model.HamiltonianModel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">control</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../models/control_model/index.html#casq.models.control_model.ControlModel" title="casq.models.control_model.ControlModel"><span class="pre">casq.models.control_model.ControlModel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="qiskit/qiskit_pulse_backend/index.html#casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend" title="casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend"><span class="pre">casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend</span></a></span></span><a class="headerlink" href="#casq.backends.build" title="Permalink to this definition">#</a></dt>
 <dd><p>Build PulseBackend.</p>
-<blockquote>
-<div><p>Currently, only supports Qiskit.</p>
-</div></blockquote>
+<p>Currently, only supports Qiskit.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>backend_library: Backend library.
 hamiltonian: Hamiltonian model.
 control: Control model.
 seed: Seed to use in random sampling. Defaults to None.</p>
 </dd>
-<dt>Returns:</dt><dd><p>QiskitPulseBackend</p>
+<dt>Returns:</dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">casq.backends.qiskit.QiskitPulseBackend</span></code></p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -589,7 +587,7 @@ seed: Seed to use in random sampling. Defaults to None.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="casq.backends.build_from_backend">
-<span class="sig-prename descclassname"><span class="pre">casq.backends.</span></span><span class="sig-name descname"><span class="pre">build_from_backend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">backend</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extracted_qubits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotating_frame</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_frame_basis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rwa_cutoff_freq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rwa_carrier_freqs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.build_from_backend" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">casq.backends.</span></span><span class="sig-name descname"><span class="pre">build_from_backend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qiskit.providers.Backend</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extracted_qubits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotating_frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qiskit_dynamics.array.Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">qiskit_dynamics.RotatingFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_frame_basis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../models/hamiltonian_model/index.html#casq.models.hamiltonian_model.HamiltonianModel.EvaluationMode" title="casq.models.hamiltonian_model.HamiltonianModel.EvaluationMode"><span class="pre">casq.models.hamiltonian_model.HamiltonianModel.EvaluationMode</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rwa_cutoff_freq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rwa_carrier_freqs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.typing.NDArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.typing.NDArray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.typing.NDArray</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="qiskit/qiskit_pulse_backend/index.html#casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend" title="casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend"><span class="pre">casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend</span></a></span></span><a class="headerlink" href="#casq.backends.build_from_backend" title="Permalink to this definition">#</a></dt>
 <dd><p>Build PulseBackend from library-specific backend.</p>
 <p>Currently, only supports Qiskit.</p>
 <dl>
@@ -611,7 +609,7 @@ rwa_cutoff_freq: Rotating wave approximation cutoff frequency.</p>
 <p>rwa_carrier_freqs: Carrier frequencies to use for rotating wave approximation.
 seed: Seed to use in random sampling. Defaults to None.</p>
 </dd>
-<dt>Returns:</dt><dd><p>QiskitPulseBackend</p>
+<dt>Returns:</dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">casq.backends.qiskit.QiskitPulseBackend</span></code></p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -635,8 +633,14 @@ seed: Seed to use in random sampling. Defaults to None.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="casq.backends.PulseBackend">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.backends.</span></span><span class="sig-name descname"><span class="pre">PulseBackend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hamiltonian</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">control</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.PulseBackend" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.backends.</span></span><span class="sig-name descname"><span class="pre">PulseBackend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hamiltonian</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../models/hamiltonian_model/index.html#casq.models.hamiltonian_model.HamiltonianModel" title="casq.models.hamiltonian_model.HamiltonianModel"><span class="pre">casq.models.hamiltonian_model.HamiltonianModel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">control</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../models/control_model/index.html#casq.models.control_model.ControlModel" title="casq.models.control_model.ControlModel"><span class="pre">casq.models.control_model.ControlModel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.PulseBackend" title="Permalink to this definition">#</a></dt>
 <dd><p>PulseBackend class.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>hamiltonian: Hamiltonian model.
+control: Control model.
+seed: Seed to use in random sampling. Defaults to None.</p>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -650,7 +654,7 @@ seed: Seed to use in random sampling. Defaults to None.</p>
 <dt class="sig sig-object py" id="casq.backends.PulseBackend.ODESolverMethod">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ODESolverMethod</span></span><a class="headerlink" href="#casq.backends.PulseBackend.ODESolverMethod" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
-<p>Solver methods.</p>
+<p>ODE solver methods.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="casq.backends.PulseBackend.ODESolverMethod.QISKIT_DYNAMICS_RK4">
 <span class="sig-name descname"><span class="pre">QISKIT_DYNAMICS_RK4</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'RK4'</span></em><a class="headerlink" href="#casq.backends.PulseBackend.ODESolverMethod.QISKIT_DYNAMICS_RK4" title="Permalink to this definition">#</a></dt>
@@ -700,37 +704,100 @@ seed: Seed to use in random sampling. Defaults to None.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="casq.backends.PulseBackend.Solution">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Solution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">circuit_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">times</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">counts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">populations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">states</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iq_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avg_iq_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1024</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_success</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">datetime.timestamp(datetime.now())</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.PulseBackend.Solution" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Solution</span></span><a class="headerlink" href="#casq.backends.PulseBackend.Solution" title="Permalink to this definition">#</a></dt>
 <dd><p>PulseBackend.Solution class.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>circuit_name</strong> (<em>str</em>) – </p></li>
-<li><p><strong>qubits</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>) – </p></li>
-<li><p><strong>times</strong> (<em>list</em><em>[</em><em>float</em><em>]</em>) – </p></li>
-<li><p><strong>samples</strong> (<em>list</em><em>[</em><em>list</em><em>[</em><em>int</em><em>]</em><em>]</em>) – </p></li>
-<li><p><strong>counts</strong> (<em>list</em><em>[</em><em>dict</em><em>[</em><em>str</em><em>, </em><em>int</em><em>]</em><em>]</em>) – </p></li>
-<li><p><strong>populations</strong> (<em>list</em><em>[</em><em>dict</em><em>[</em><em>str</em><em>, </em><em>float</em><em>]</em><em>]</em>) – </p></li>
-<li><p><strong>states</strong> (<em>list</em><em>[</em><em>Union</em><em>[</em><em>qiskit.quantum_info.DensityMatrix</em><em>, </em><em>qiskit.quantum_info.Statevector</em><em>]</em><em>]</em>) – </p></li>
-<li><p><strong>iq_data</strong> (<em>list</em><em>[</em><em>list</em><em>[</em><em>tuple</em><em>[</em><em>float</em><em>, </em><em>float</em><em>]</em><em>]</em><em>]</em>) – </p></li>
-<li><p><strong>avg_iq_data</strong> (<em>list</em><em>[</em><em>tuple</em><em>[</em><em>float</em><em>, </em><em>float</em><em>]</em><em>]</em>) – </p></li>
-<li><p><strong>shots</strong> (<em>int</em>) – </p></li>
-<li><p><strong>seed</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – </p></li>
-<li><p><strong>is_success</strong> (<em>bool</em>) – </p></li>
-<li><p><strong>timestamp</strong> (<em>float</em>) – </p></li>
-</ul>
+<dl class="simple">
+<dt>Args:</dt><dd><p>circuit_name: Pulse circuit name.
+times: Time at which pulse backend was solved.
+qubits: Integer labels for selected qubits from system. Defaults to [0].
+times: Times at which solved.
+samples: Solution samples.
+counts: Solution counts.
+populations: Solution populations.
+states: Solution states.
+iq_data: Solution IQ points.
+avg_iq_data: Solution average IQ points.
+shots: Number of shots per experiment. Defaults to 1024.
+seed: Seed to use in random sampling. Defaults to None.
+is_success: Trie if solution was successful.
+timestamp: Posix timestamp.</p>
 </dd>
 </dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="casq.backends.PulseBackend.Solution.circuit_name">
+<span class="sig-name descname"><span class="pre">circuit_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#casq.backends.PulseBackend.Solution.circuit_name" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="casq.backends.PulseBackend.Solution.qubits">
+<span class="sig-name descname"><span class="pre">qubits</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#casq.backends.PulseBackend.Solution.qubits" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="casq.backends.PulseBackend.Solution.times">
+<span class="sig-name descname"><span class="pre">times</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#casq.backends.PulseBackend.Solution.times" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="casq.backends.PulseBackend.Solution.samples">
+<span class="sig-name descname"><span class="pre">samples</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#casq.backends.PulseBackend.Solution.samples" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="casq.backends.PulseBackend.Solution.counts">
+<span class="sig-name descname"><span class="pre">counts</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#casq.backends.PulseBackend.Solution.counts" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="casq.backends.PulseBackend.Solution.populations">
+<span class="sig-name descname"><span class="pre">populations</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#casq.backends.PulseBackend.Solution.populations" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="casq.backends.PulseBackend.Solution.states">
+<span class="sig-name descname"><span class="pre">states</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">qiskit.quantum_info.DensityMatrix</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">qiskit.quantum_info.Statevector</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#casq.backends.PulseBackend.Solution.states" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="casq.backends.PulseBackend.Solution.iq_data">
+<span class="sig-name descname"><span class="pre">iq_data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#casq.backends.PulseBackend.Solution.iq_data" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="casq.backends.PulseBackend.Solution.avg_iq_data">
+<span class="sig-name descname"><span class="pre">avg_iq_data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#casq.backends.PulseBackend.Solution.avg_iq_data" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="casq.backends.PulseBackend.Solution.shots">
+<span class="sig-name descname"><span class="pre">shots</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1024</span></em><a class="headerlink" href="#casq.backends.PulseBackend.Solution.shots" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="casq.backends.PulseBackend.Solution.seed">
+<span class="sig-name descname"><span class="pre">seed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#casq.backends.PulseBackend.Solution.seed" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="casq.backends.PulseBackend.Solution.is_success">
+<span class="sig-name descname"><span class="pre">is_success</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#casq.backends.PulseBackend.Solution.is_success" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="casq.backends.PulseBackend.Solution.timestamp">
+<span class="sig-name descname"><span class="pre">timestamp</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#casq.backends.PulseBackend.Solution.timestamp" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.backends.PulseBackend.Solution.plot_population">
-<span class="sig-name descname"><span class="pre">plot_population</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.PulseBackend.Solution.plot_population" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">plot_population</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">matplotlib.axes.Axes</span></span></span><a class="headerlink" href="#casq.backends.PulseBackend.Solution.plot_population" title="Permalink to this definition">#</a></dt>
 <dd><p>PulseBackend.Solution.plot_population method.</p>
 <p>Plots populations from result.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>filename: If filename is provided as path str, then figure is saved as png.
 hidden: If False, then plot is not displayed. Useful if method is used for saving only.</p>
 </dd>
-<dt>Returns:</dt><dd><p>Matplotlib Axes.</p>
+<dt>Returns:</dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code></p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -748,7 +815,7 @@ hidden: If False, then plot is not displayed. Useful if method is used for savin
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.backends.PulseBackend.Solution.plot_iq">
-<span class="sig-name descname"><span class="pre">plot_iq</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.PulseBackend.Solution.plot_iq" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">plot_iq</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">matplotlib.axes.Axes</span></span></span><a class="headerlink" href="#casq.backends.PulseBackend.Solution.plot_iq" title="Permalink to this definition">#</a></dt>
 <dd><p>PulseBackend.Solution.plot_iq method.</p>
 <p>Plots IQ points from result.</p>
 <dl class="simple">
@@ -756,7 +823,7 @@ hidden: If False, then plot is not displayed. Useful if method is used for savin
 filename: If filename is provided as path str, then figure is saved as png.
 hidden: If False, then plot is not displayed. Useful if method is used for saving only.</p>
 </dd>
-<dt>Returns:</dt><dd><p>Matplotlib Axes.</p>
+<dt>Returns:</dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code></p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -775,14 +842,14 @@ hidden: If False, then plot is not displayed. Useful if method is used for savin
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.backends.PulseBackend.Solution.plot_iq_trajectory">
-<span class="sig-name descname"><span class="pre">plot_iq_trajectory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.PulseBackend.Solution.plot_iq_trajectory" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">plot_iq_trajectory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">matplotlib.axes.Axes</span></span></span><a class="headerlink" href="#casq.backends.PulseBackend.Solution.plot_iq_trajectory" title="Permalink to this definition">#</a></dt>
 <dd><p>PulseBackend.Solution.plot_iq_trajectory method.</p>
 <p>Plots trajectory of average IQ points from result.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>filename: If filename is provided as path str, then figure is saved as png.
 hidden: If False, then plot is not displayed. Useful if method is used for saving only.</p>
 </dd>
-<dt>Returns:</dt><dd><p>Matplotlib Axes.</p>
+<dt>Returns:</dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code></p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -800,7 +867,7 @@ hidden: If False, then plot is not displayed. Useful if method is used for savin
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.backends.PulseBackend.Solution.plot_trajectory">
-<span class="sig-name descname"><span class="pre">plot_trajectory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.PulseBackend.Solution.plot_trajectory" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">plot_trajectory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">matplotlib.axes.Axes</span></span></span><a class="headerlink" href="#casq.backends.PulseBackend.Solution.plot_trajectory" title="Permalink to this definition">#</a></dt>
 <dd><p>PulseBackend.Solution.plot_trajectory method.</p>
 <p>Plots statevector trajectory from result.</p>
 <dl class="simple">
@@ -808,7 +875,7 @@ hidden: If False, then plot is not displayed. Useful if method is used for savin
 filename: If filename is provided as path str, then figure is saved as png.
 hidden: If False, then plot is not displayed. Useful if method is used for saving only.</p>
 </dd>
-<dt>Returns:</dt><dd><p>Matplotlib Axes.</p>
+<dt>Returns:</dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code></p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -827,7 +894,7 @@ hidden: If False, then plot is not displayed. Useful if method is used for savin
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.backends.PulseBackend.Solution.plot_bloch_trajectory">
-<span class="sig-name descname"><span class="pre">plot_bloch_trajectory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.PulseBackend.Solution.plot_bloch_trajectory" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">plot_bloch_trajectory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">mpl_toolkits.mplot3d.Axes3D</span></span></span><a class="headerlink" href="#casq.backends.PulseBackend.Solution.plot_bloch_trajectory" title="Permalink to this definition">#</a></dt>
 <dd><p>PulseBackend.Solution.plot_bloch_trajectory method.</p>
 <p>Plots statevector trajectory on Bloch sphere from result.</p>
 <dl class="simple">
@@ -835,7 +902,7 @@ hidden: If False, then plot is not displayed. Useful if method is used for savin
 filename: If filename is provided as path str, then figure is saved as png.
 hidden: If False, then plot is not displayed. Useful if method is used for saving only.</p>
 </dd>
-<dt>Returns:</dt><dd><p>Matplotlib Axes.</p>
+<dt>Returns:</dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">mpl_toolkits.mplot3d.Axes3D</span></code></p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -854,7 +921,7 @@ hidden: If False, then plot is not displayed. Useful if method is used for savin
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.backends.PulseBackend.Solution._xyz">
-<span class="sig-name descname"><span class="pre">_xyz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.PulseBackend.Solution._xyz" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">_xyz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#casq.backends.PulseBackend.Solution._xyz" title="Permalink to this definition">#</a></dt>
 <dd><p>PulseBackend.Solution._xyz method.</p>
 <p>Transforms statevectors into 3D trajectory from result.</p>
 <dl class="simple">
@@ -873,14 +940,14 @@ hidden: If False, then plot is not displayed. Useful if method is used for savin
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.backends.PulseBackend.Solution._trace">
-<span class="sig-name descname"><span class="pre">_trace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.PulseBackend.Solution._trace" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">_trace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qiskit.quantum_info.Statevector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">qiskit.quantum_info.Statevector</span></span></span><a class="headerlink" href="#casq.backends.PulseBackend.Solution._trace" title="Permalink to this definition">#</a></dt>
 <dd><p>PulseBackend.Solution._trace method.</p>
 <p>Generate partial trace of statevector for specified qubit.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>state: System state given as statevector.
 qubit: Qubit to trace out.</p>
 </dd>
-<dt>Returns:</dt><dd><p>Reduced statevector.</p>
+<dt>Returns:</dt><dd><p>Reduced <code class="xref py py-class docutils literal notranslate"><span class="pre">qiskit.quantum_info.Statevector</span></code></p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -900,8 +967,8 @@ qubit: Qubit to trace out.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.backends.PulseBackend.solve">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">circuit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1024</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.PulseBackend.solve" title="Permalink to this definition">#</a></dt>
-<dd><p>PulseBackend.run.</p>
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">circuit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../gates/pulse_circuit/index.html#casq.gates.pulse_circuit.PulseCircuit" title="casq.gates.pulse_circuit.PulseCircuit"><span class="pre">casq.gates.pulse_circuit.PulseCircuit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#casq.backends.PulseBackend.ODESolverMethod" title="casq.backends.PulseBackend.ODESolverMethod"><span class="pre">ODESolverMethod</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qiskit.quantum_info.DensityMatrix</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">qiskit.quantum_info.Statevector</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1024</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#casq.backends.PulseBackend" title="casq.backends.PulseBackend"><span class="pre">PulseBackend</span></a></span></span><a class="headerlink" href="#casq.backends.PulseBackend.solve" title="Permalink to this definition">#</a></dt>
+<dd><p>PulseBackend.solve.</p>
 <dl>
 <dt>Args:</dt><dd><p>circuit: Pulse circuit.
 method: ODE solving method to use.
@@ -917,6 +984,8 @@ steps: Number of steps at which to solve the system.</p>
 <div><p>Used to automatically calculate an evenly-spaced t_eval range.</p>
 </div></blockquote>
 <p>run_options: Options specific to native backend’s run method.</p>
+</dd>
+<dt>Returns:</dt><dd><p><a class="reference internal" href="#casq.backends.PulseBackend.Solution" title="casq.backends.PulseBackend.Solution"><code class="xref py py-class docutils literal notranslate"><span class="pre">casq.backends.PulseBackend.Solution</span></code></a></p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -938,8 +1007,12 @@ steps: Number of steps at which to solve the system.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.backends.PulseBackend._get_native_backend">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_get_native_backend</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.PulseBackend._get_native_backend" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_get_native_backend</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="headerlink" href="#casq.backends.PulseBackend._get_native_backend" title="Permalink to this definition">#</a></dt>
 <dd><p>PulseBackend._get_native_backend.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>Any</p>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Any</p>
@@ -951,7 +1024,7 @@ steps: Number of steps at which to solve the system.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="casq.backends.BackendCharacteristics">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.backends.</span></span><span class="sig-name descname"><span class="pre">BackendCharacteristics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">backend</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.BackendCharacteristics" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.backends.</span></span><span class="sig-name descname"><span class="pre">BackendCharacteristics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">qiskit.providers.Backend</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.BackendCharacteristics" title="Permalink to this definition">#</a></dt>
 <dd><p>BackendCharacteristics class.</p>
 <p>Extracts IBMQ backend characteristics needed by various casq classes and methods.
 Requires PulseBackendConfiguration with valid configuration, properties, and defaults.</p>
@@ -1038,7 +1111,7 @@ However, this may change in future Qiskit versions.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.backends.BackendCharacteristics.get_backend">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_backend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.BackendCharacteristics.get_backend" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_backend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">qiskit.providers.Backend</span></span></span><a class="headerlink" href="#casq.backends.BackendCharacteristics.get_backend" title="Permalink to this definition">#</a></dt>
 <dd><p>BackendCharacteristics._get_backend method.</p>
 <dl class="simple">
 <dt>Returns:</dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">qiskit.providers.Backend</span></code></p>
@@ -1056,7 +1129,7 @@ However, this may change in future Qiskit versions.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.backends.BackendCharacteristics.get_qubit_properties">
-<span class="sig-name descname"><span class="pre">get_qubit_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.BackendCharacteristics.get_qubit_properties" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_qubit_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#casq.backends.BackendCharacteristics.QubitProperties" title="casq.backends.BackendCharacteristics.QubitProperties"><span class="pre">QubitProperties</span></a></span></span><a class="headerlink" href="#casq.backends.BackendCharacteristics.get_qubit_properties" title="Permalink to this definition">#</a></dt>
 <dd><p>BackendCharacteristics.get_qubit_properties method.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>qubit: Qubit to attach gate to.</p>
@@ -1076,7 +1149,7 @@ However, this may change in future Qiskit versions.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.backends.BackendCharacteristics.get_gate_properties">
-<span class="sig-name descname"><span class="pre">get_gate_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.BackendCharacteristics.get_gate_properties" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_gate_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#casq.backends.BackendCharacteristics.GateProperties" title="casq.backends.BackendCharacteristics.GateProperties"><span class="pre">GateProperties</span></a></span></span><a class="headerlink" href="#casq.backends.BackendCharacteristics.get_gate_properties" title="Permalink to this definition">#</a></dt>
 <dd><p>BackendCharacteristics.get_gate_properties method.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>gate_name: Gate name.</p>
@@ -1096,7 +1169,7 @@ However, this may change in future Qiskit versions.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.backends.BackendCharacteristics._get_config">
-<span class="sig-name descname"><span class="pre">_get_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.BackendCharacteristics._get_config" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">_get_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">qiskit.providers.models.PulseBackendConfiguration</span></span></span><a class="headerlink" href="#casq.backends.BackendCharacteristics._get_config" title="Permalink to this definition">#</a></dt>
 <dd><p>BackendCharacteristics._get_config method.</p>
 <dl class="simple">
 <dt>Returns:</dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">qiskit.providers.models.PulseBackendConfiguration</span></code></p>
@@ -1111,7 +1184,7 @@ However, this may change in future Qiskit versions.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.backends.BackendCharacteristics._get_defaults">
-<span class="sig-name descname"><span class="pre">_get_defaults</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.BackendCharacteristics._get_defaults" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">_get_defaults</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">qiskit.providers.models.PulseDefaults</span></span></span><a class="headerlink" href="#casq.backends.BackendCharacteristics._get_defaults" title="Permalink to this definition">#</a></dt>
 <dd><p>BackendCharacteristics._get_defaults method.</p>
 <dl class="simple">
 <dt>Returns:</dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">qiskit.providers.models.PulseDefaults</span></code></p>
@@ -1126,7 +1199,7 @@ However, this may change in future Qiskit versions.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.backends.BackendCharacteristics._get_properties">
-<span class="sig-name descname"><span class="pre">_get_properties</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.BackendCharacteristics._get_properties" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">_get_properties</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">qiskit.providers.models.BackendProperties</span></span></span><a class="headerlink" href="#casq.backends.BackendCharacteristics._get_properties" title="Permalink to this definition">#</a></dt>
 <dd><p>BackendCharacteristics._get_properties method.</p>
 <dl class="simple">
 <dt>Returns:</dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">qiskit.providers.models.BackendProperties</span></code></p>
@@ -1141,7 +1214,7 @@ However, this may change in future Qiskit versions.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.backends.BackendCharacteristics.get_channel_frequencies">
-<span class="sig-name descname"><span class="pre">get_channel_frequencies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channels</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.BackendCharacteristics.get_channel_frequencies" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_channel_frequencies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">qiskit.pulse.channels.Channel</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#casq.backends.BackendCharacteristics.get_channel_frequencies" title="Permalink to this definition">#</a></dt>
 <dd><p>Discretizes pulse schedule into signals.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>channels: List of channel names or channel instances.</p>
@@ -1161,7 +1234,7 @@ However, this may change in future Qiskit versions.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.backends.BackendCharacteristics.get_control_channel_map">
-<span class="sig-name descname"><span class="pre">get_control_channel_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channels_filter</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.BackendCharacteristics.get_control_channel_map" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_control_channel_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channels_filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Ellipsis</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#casq.backends.BackendCharacteristics.get_control_channel_map" title="Permalink to this definition">#</a></dt>
 <dd><p>Get control channel map from backend configuration.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>channels_filter: List of channel names to filter by.</p>
@@ -1183,7 +1256,7 @@ However, this may change in future Qiskit versions.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="casq.backends.DynamicsBackendPatch">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.backends.</span></span><span class="sig-name descname"><span class="pre">DynamicsBackendPatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solver</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.DynamicsBackendPatch" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.backends.</span></span><span class="sig-name descname"><span class="pre">DynamicsBackendPatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solver</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qiskit_dynamics.Solver</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qiskit.transpiler.Target</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.DynamicsBackendPatch" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">qiskit_dynamics.backend.DynamicsBackend</span></code></p>
 <p>DynamicsBackend patch class.</p>
 <p>This class extends <code class="xref py py-class docutils literal notranslate"><span class="pre">DynamicsBackend</span></code>
@@ -1203,6 +1276,19 @@ based on a steps argument is now provided.</p>
 </dl>
 </li>
 </ul>
+<dl>
+<dt>Args:</dt><dd><p>solver: Solver instance configured for pulse simulation.
+target: Target object.
+steps: Number of steps at which to solve the system.</p>
+<blockquote>
+<div><p>Used to automatically calculate an evenly-spaced t_eval range.</p>
+</div></blockquote>
+<p>options: Additional configuration options for the backend.</p>
+</dd>
+<dt>Raises:</dt><dd><p>If any instantiation arguments fail validation checks,
+then raises <code class="xref py py-class docutils literal notranslate"><span class="pre">QiskitError</span></code>.</p>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1313,8 +1399,12 @@ based on a steps argument is now provided.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.backends.DynamicsBackendPatch.Options.to_dict">
-<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.DynamicsBackendPatch.Options.to_dict" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#casq.backends.DynamicsBackendPatch.Options.to_dict" title="Permalink to this definition">#</a></dt>
 <dd><p>Converts to dict.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>Dictionary.</p>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dict[str, Any]</p>
@@ -1326,7 +1416,7 @@ based on a steps argument is now provided.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.backends.DynamicsBackendPatch.from_backend">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_backend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">backend</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotating_frame</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dense'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rwa_cutoff_freq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.DynamicsBackendPatch.from_backend" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_backend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qiskit.providers.BackendV1</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">qiskit.providers.BackendV2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotating_frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qiskit_dynamics.array.Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">qiskit_dynamics.RotatingFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'dense'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rwa_cutoff_freq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#casq.backends.DynamicsBackendPatch" title="casq.backends.DynamicsBackendPatch"><span class="pre">DynamicsBackendPatch</span></a></span></span><a class="headerlink" href="#casq.backends.DynamicsBackendPatch.from_backend" title="Permalink to this definition">#</a></dt>
 <dd><p>Construct a DynamicsBackendPatch instance from an existing Backend instance.</p>
 <dl>
 <dt>Args:</dt><dd><p>backend: The <code class="docutils literal notranslate"><span class="pre">Backend</span></code> instance to build the <code class="xref py py-class docutils literal notranslate"><span class="pre">DynamicsBackend</span></code> from.
@@ -1341,7 +1431,8 @@ options: Additional configuration options for the backend.</p>
 </dd>
 <dt>Returns:</dt><dd><p>DynamicsBackendPatch</p>
 </dd>
-<dt>Raises:</dt><dd><p>QiskitError: If any required parameters are missing from the passed backend.</p>
+<dt>Raises:</dt><dd><p>If any required parameters are missing from the passed backend,
+then raises <code class="xref py py-class docutils literal notranslate"><span class="pre">QiskitError</span></code>.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -1363,7 +1454,7 @@ options: Additional configuration options for the backend.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.backends.DynamicsBackendPatch._run">
-<span class="sig-name descname"><span class="pre">_run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_span</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schedules</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measurement_subsystems_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory_slot_indices_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_memory_slots_list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.DynamicsBackendPatch._run" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">_run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_span</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schedules</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">qiskit.pulse.Schedule</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measurement_subsystems_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory_slot_indices_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_memory_slots_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">qiskit.result.Result</span></span></span><a class="headerlink" href="#casq.backends.DynamicsBackendPatch._run" title="Permalink to this definition">#</a></dt>
 <dd><p>Run a list of simulations.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>job_id: Job identifier.
@@ -1397,12 +1488,12 @@ num_memory_slots_list: List of numbers of memory slots.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="casq.backends.convert_to_solution">
-<span class="sig-prename descclassname"><span class="pre">casq.backends.</span></span><span class="sig-name descname"><span class="pre">convert_to_solution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.convert_to_solution" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">casq.backends.</span></span><span class="sig-name descname"><span class="pre">convert_to_solution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qiskit.result.models.ExperimentResult</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="pulse_backend/index.html#casq.backends.pulse_backend.PulseBackend.Solution" title="casq.backends.pulse_backend.PulseBackend.Solution"><span class="pre">casq.backends.pulse_backend.PulseBackend.Solution</span></a></span></span><a class="headerlink" href="#casq.backends.convert_to_solution" title="Permalink to this definition">#</a></dt>
 <dd><p>Converts Qiskit result to pulse backend solution.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>result: Qiskit experiment result.</p>
 </dd>
-<dt>Returns:</dt><dd><p>Pulse solution.</p>
+<dt>Returns:</dt><dd><p><a class="reference internal" href="#casq.backends.PulseBackend.Solution" title="casq.backends.PulseBackend.Solution"><code class="xref py py-class docutils literal notranslate"><span class="pre">casq.backends.PulseBackend.Solution</span></code></a></p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -1417,7 +1508,7 @@ num_memory_slots_list: List of numbers of memory slots.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="casq.backends.get_experiment_result">
-<span class="sig-prename descclassname"><span class="pre">casq.backends.</span></span><span class="sig-name descname"><span class="pre">get_experiment_result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">experiment_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_result</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measurement_subsystems</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory_slot_indices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_memory_slots</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.get_experiment_result" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">casq.backends.</span></span><span class="sig-name descname"><span class="pre">get_experiment_result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">experiment_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_result</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">scipy.integrate._ivp.ivp.OdeResult</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measurement_subsystems</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory_slot_indices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_memory_slots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">None</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qiskit_dynamics.backend.DynamicsBackend</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">qiskit.result.models.ExperimentResult</span></span></span><a class="headerlink" href="#casq.backends.get_experiment_result" title="Permalink to this definition">#</a></dt>
 <dd><p>Generates ExperimentResult objects from solver result.</p>
 <dl>
 <dt>Args:</dt><dd><p>experiment_name: Name of experiment.
@@ -1440,7 +1531,8 @@ memory_slot_indices: Indices of memory slots</p>
 </dd>
 <dt>Returns:</dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ExperimentResult</span></code></p>
 </dd>
-<dt>Raises:</dt><dd><p>QiskitError: If a specified option is unsupported.</p>
+<dt>Raises:</dt><dd><p>If a specified option is unsupported,
+then raises <code class="xref py py-class docutils literal notranslate"><span class="pre">QiskitError</span></code>.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -1464,9 +1556,15 @@ memory_slot_indices: Indices of memory slots</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="casq.backends.QiskitPulseBackend">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.backends.</span></span><span class="sig-name descname"><span class="pre">QiskitPulseBackend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hamiltonian</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">control</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.QiskitPulseBackend" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.backends.</span></span><span class="sig-name descname"><span class="pre">QiskitPulseBackend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hamiltonian</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../models/hamiltonian_model/index.html#casq.models.hamiltonian_model.HamiltonianModel" title="casq.models.hamiltonian_model.HamiltonianModel"><span class="pre">casq.models.hamiltonian_model.HamiltonianModel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">control</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../models/control_model/index.html#casq.models.control_model.ControlModel" title="casq.models.control_model.ControlModel"><span class="pre">casq.models.control_model.ControlModel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.QiskitPulseBackend" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="pulse_backend/index.html#casq.backends.pulse_backend.PulseBackend" title="casq.backends.pulse_backend.PulseBackend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">casq.backends.pulse_backend.PulseBackend</span></code></a></p>
 <p>QiskitPulseBackend class.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>hamiltonian: Hamiltonian model.
+control: Control model.
+seed: Seed to use in random sampling. Defaults to None.</p>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1478,7 +1576,7 @@ memory_slot_indices: Indices of memory slots</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.backends.QiskitPulseBackend.from_backend">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_backend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">backend</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extracted_qubits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotating_frame</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_frame_basis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rwa_cutoff_freq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rwa_carrier_freqs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.QiskitPulseBackend.from_backend" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_backend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qiskit.providers.Backend</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extracted_qubits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotating_frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qiskit_dynamics.array.Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">qiskit_dynamics.RotatingFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_frame_basis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../models/hamiltonian_model/index.html#casq.models.hamiltonian_model.HamiltonianModel.EvaluationMode" title="casq.models.hamiltonian_model.HamiltonianModel.EvaluationMode"><span class="pre">casq.models.hamiltonian_model.HamiltonianModel.EvaluationMode</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rwa_cutoff_freq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rwa_carrier_freqs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.typing.NDArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.typing.NDArray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.typing.NDArray</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#casq.backends.QiskitPulseBackend.from_backend" title="Permalink to this definition">#</a></dt>
 <dd><p>Construct a QiskitPulseBackend instance from an existing backend instance.</p>
 <dl>
 <dt>Args:</dt><dd><p>backend: The <code class="docutils literal notranslate"><span class="pre">Backend</span></code> instance to build the <code class="xref py py-class docutils literal notranslate"><span class="pre">DynamicsBackend</span></code> from.
@@ -1499,7 +1597,7 @@ rwa_cutoff_freq: Rotating wave approximation cutoff frequency.</p>
 <p>rwa_carrier_freqs: Carrier frequencies to use for rotating wave approximation.
 seed: Seed to use in random sampling. Defaults to None.</p>
 </dd>
-<dt>Returns:</dt><dd><p>QiskitPulseBackend</p>
+<dt>Returns:</dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">casq.backends.qiskit.QiskitPulseBackend</span></code></p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -1523,8 +1621,27 @@ seed: Seed to use in random sampling. Defaults to None.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.backends.QiskitPulseBackend.solve">
-<span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">circuit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1024</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.QiskitPulseBackend.solve" title="Permalink to this definition">#</a></dt>
-<dd><p>QiskitPulseBackend.run.</p>
+<span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">circuit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../gates/pulse_circuit/index.html#casq.gates.pulse_circuit.PulseCircuit" title="casq.gates.pulse_circuit.PulseCircuit"><span class="pre">casq.gates.pulse_circuit.PulseCircuit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pulse_backend/index.html#casq.backends.pulse_backend.PulseBackend.ODESolverMethod" title="casq.backends.pulse_backend.PulseBackend.ODESolverMethod"><span class="pre">casq.backends.pulse_backend.PulseBackend.ODESolverMethod</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qiskit.quantum_info.DensityMatrix</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">qiskit.quantum_info.Statevector</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1024</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="pulse_backend/index.html#casq.backends.pulse_backend.PulseBackend.Solution" title="casq.backends.pulse_backend.PulseBackend.Solution"><span class="pre">casq.backends.pulse_backend.PulseBackend.Solution</span></a></span></span><a class="headerlink" href="#casq.backends.QiskitPulseBackend.solve" title="Permalink to this definition">#</a></dt>
+<dd><p>QiskitPulseBackend.solve.</p>
+<dl>
+<dt>Args:</dt><dd><p>circuit: Pulse circuit.
+method: ODE solving method to use.
+initial_state: Initial state for simulation,</p>
+<blockquote>
+<div><p>either None,
+indicating that the ground state for the system Hamiltonian should be used,
+or an arbitrary Statevector or DensityMatrix.</p>
+</div></blockquote>
+<p>shots: Number of shots per experiment. Defaults to 1024.
+steps: Number of steps at which to solve the system.</p>
+<blockquote>
+<div><p>Used to automatically calculate an evenly-spaced t_eval range.</p>
+</div></blockquote>
+<p>run_options: Options specific to native backend’s run method.</p>
+</dd>
+<dt>Returns:</dt><dd><p><a class="reference internal" href="#casq.backends.PulseBackend.Solution" title="casq.backends.PulseBackend.Solution"><code class="xref py py-class docutils literal notranslate"><span class="pre">casq.backends.PulseBackend.Solution</span></code></a></p>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1544,8 +1661,12 @@ seed: Seed to use in random sampling. Defaults to None.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.backends.QiskitPulseBackend._get_native_backend">
-<span class="sig-name descname"><span class="pre">_get_native_backend</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.QiskitPulseBackend._get_native_backend" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">_get_native_backend</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="qiskit/dynamics_backend_patch/index.html#casq.backends.qiskit.dynamics_backend_patch.DynamicsBackendPatch" title="casq.backends.qiskit.dynamics_backend_patch.DynamicsBackendPatch"><span class="pre">casq.backends.qiskit.dynamics_backend_patch.DynamicsBackendPatch</span></a></span></span><a class="headerlink" href="#casq.backends.QiskitPulseBackend._get_native_backend" title="Permalink to this definition">#</a></dt>
 <dd><p>QiskitPulseBackend._get_native_backend.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">casq.backends.qiskit.DynamicsBackendPatch</span></code></p>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="qiskit/dynamics_backend_patch/index.html#casq.backends.qiskit.dynamics_backend_patch.DynamicsBackendPatch" title="casq.backends.qiskit.dynamics_backend_patch.DynamicsBackendPatch">casq.backends.qiskit.dynamics_backend_patch.DynamicsBackendPatch</a></p>
@@ -1633,6 +1754,19 @@ seed: Seed to use in random sampling. Defaults to None.</p>
 </ul>
 </li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.PulseBackend.Solution"><code class="docutils literal notranslate"><span class="pre">PulseBackend.Solution</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.PulseBackend.Solution.circuit_name"><code class="docutils literal notranslate"><span class="pre">PulseBackend.Solution.circuit_name</span></code></a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.PulseBackend.Solution.qubits"><code class="docutils literal notranslate"><span class="pre">PulseBackend.Solution.qubits</span></code></a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.PulseBackend.Solution.times"><code class="docutils literal notranslate"><span class="pre">PulseBackend.Solution.times</span></code></a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.PulseBackend.Solution.samples"><code class="docutils literal notranslate"><span class="pre">PulseBackend.Solution.samples</span></code></a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.PulseBackend.Solution.counts"><code class="docutils literal notranslate"><span class="pre">PulseBackend.Solution.counts</span></code></a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.PulseBackend.Solution.populations"><code class="docutils literal notranslate"><span class="pre">PulseBackend.Solution.populations</span></code></a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.PulseBackend.Solution.states"><code class="docutils literal notranslate"><span class="pre">PulseBackend.Solution.states</span></code></a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.PulseBackend.Solution.iq_data"><code class="docutils literal notranslate"><span class="pre">PulseBackend.Solution.iq_data</span></code></a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.PulseBackend.Solution.avg_iq_data"><code class="docutils literal notranslate"><span class="pre">PulseBackend.Solution.avg_iq_data</span></code></a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.PulseBackend.Solution.shots"><code class="docutils literal notranslate"><span class="pre">PulseBackend.Solution.shots</span></code></a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.PulseBackend.Solution.seed"><code class="docutils literal notranslate"><span class="pre">PulseBackend.Solution.seed</span></code></a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.PulseBackend.Solution.is_success"><code class="docutils literal notranslate"><span class="pre">PulseBackend.Solution.is_success</span></code></a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.PulseBackend.Solution.timestamp"><code class="docutils literal notranslate"><span class="pre">PulseBackend.Solution.timestamp</span></code></a></li>
 <li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.PulseBackend.Solution.plot_population"><code class="docutils literal notranslate"><span class="pre">PulseBackend.Solution.plot_population()</span></code></a></li>
 <li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.PulseBackend.Solution.plot_iq"><code class="docutils literal notranslate"><span class="pre">PulseBackend.Solution.plot_iq()</span></code></a></li>
 <li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#casq.backends.PulseBackend.Solution.plot_iq_trajectory"><code class="docutils literal notranslate"><span class="pre">PulseBackend.Solution.plot_iq_trajectory()</span></code></a></li>

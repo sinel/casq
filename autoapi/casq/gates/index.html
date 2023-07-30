@@ -514,17 +514,17 @@ document.write(`
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="casq.gates.ConstantPulseGate">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.gates.</span></span><span class="sig-name descname"><span class="pre">ConstantPulseGate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">duration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amplitude</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit_amplitude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.gates.ConstantPulseGate" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.gates.</span></span><span class="sig-name descname"><span class="pre">ConstantPulseGate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amplitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit_amplitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.gates.ConstantPulseGate" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="pulse_gate/index.html#casq.gates.pulse_gate.PulseGate" title="casq.gates.pulse_gate.PulseGate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">casq.gates.pulse_gate.PulseGate</span></code></a></p>
 <p>ConstantPulseGate class.</p>
 <p>Note: Currently only single qubit gates are supported.</p>
 <dl>
 <dt>Args:</dt><dd><p>duration: Pulse length in terms of the sampling period dt.
-amplitude: The magnitude of the amplitude of the Gaussian and square pulse.
+amplitude: The magnitude of the amplitude of the pulse.
 angle: The angle of the complex amplitude of the pulse. Default value 0.
-limit_amplitude: If True, then limit the amplitude of the waveform to 1.</p>
+limit_amplitude: If <code class="docutils literal notranslate"><span class="pre">True</span></code>, then limit the amplitude of the waveform to 1.</p>
 <blockquote>
-<div><p>The default is True and the amplitude is constrained to 1.</p>
+<div><p>The default is <code class="docutils literal notranslate"><span class="pre">True</span></code> and the amplitude is constrained to 1.</p>
 </div></blockquote>
 <p>name: Optional display name for the pulse gate.</p>
 </dd>
@@ -542,11 +542,11 @@ limit_amplitude: If True, then limit the amplitude of the waveform to 1.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.gates.ConstantPulseGate.pulse">
-<span class="sig-name descname"><span class="pre">pulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.gates.ConstantPulseGate.pulse" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">pulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">qiskit.pulse.library.ScalableSymbolicPulse</span></span></span><a class="headerlink" href="#casq.gates.ConstantPulseGate.pulse" title="Permalink to this definition">#</a></dt>
 <dd><p>ConstantPulseGate.pulse method.</p>
 <p>Builds pulse for pulse gate.</p>
 <dl class="simple">
-<dt>Returns:</dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">qiskit.pulse.library.Pulse</span></code></p>
+<dt>Returns:</dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">qiskit.pulse.library.ScalableSymbolicPulse</span></code></p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -561,7 +561,7 @@ limit_amplitude: If True, then limit the amplitude of the waveform to 1.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.gates.ConstantPulseGate.to_parameters_dict">
-<span class="sig-name descname"><span class="pre">to_parameters_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.gates.ConstantPulseGate.to_parameters_dict" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">to_parameters_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.typing.NDArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#casq.gates.ConstantPulseGate.to_parameters_dict" title="Permalink to this definition">#</a></dt>
 <dd><p>GaussianSquarePulseGate.to_parameters_dict method.</p>
 <p>Builds parameter dictionary from array of parameter values.</p>
 <dl class="simple">
@@ -584,17 +584,17 @@ limit_amplitude: If True, then limit the amplitude of the waveform to 1.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="casq.gates.DragPulseGate">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.gates.</span></span><span class="sig-name descname"><span class="pre">DragPulseGate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">duration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amplitude</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit_amplitude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.gates.DragPulseGate" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.gates.</span></span><span class="sig-name descname"><span class="pre">DragPulseGate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amplitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit_amplitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.gates.DragPulseGate" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="pulse_gate/index.html#casq.gates.pulse_gate.PulseGate" title="casq.gates.pulse_gate.PulseGate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">casq.gates.pulse_gate.PulseGate</span></code></a></p>
 <p>DragPulseGate class.</p>
 <p>Note: Currently only single qubit gates are supported.</p>
 <dl>
 <dt>Args:</dt><dd><p>duration: Pulse length in terms of the sampling period dt.
-amplitude: The magnitude of the amplitude of the Gaussian and square pulse.
+amplitude: The magnitude of the amplitude of the pulse.
 angle: The angle of the complex amplitude of the pulse. Default value 0.
-limit_amplitude: If True, then limit the amplitude of the waveform to 1.</p>
+limit_amplitude: If <code class="docutils literal notranslate"><span class="pre">True</span></code>, then limit the amplitude of the waveform to 1.</p>
 <blockquote>
-<div><p>The default is True and the amplitude is constrained to 1.</p>
+<div><p>The default is <code class="docutils literal notranslate"><span class="pre">True</span></code> and the amplitude is constrained to 1.</p>
 </div></blockquote>
 <p>name: Optional display name for the pulse gate.</p>
 </dd>
@@ -612,7 +612,7 @@ limit_amplitude: If True, then limit the amplitude of the waveform to 1.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.gates.DragPulseGate.pulse">
-<span class="sig-name descname"><span class="pre">pulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.gates.DragPulseGate.pulse" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">pulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">qiskit.pulse.library.ScalableSymbolicPulse</span></span></span><a class="headerlink" href="#casq.gates.DragPulseGate.pulse" title="Permalink to this definition">#</a></dt>
 <dd><p>DragPulseGate.pulse method.</p>
 <p>Builds pulse for pulse gate.</p>
 <p>Args:
@@ -639,7 +639,7 @@ parameters: Dictionary of pulse parameters that defines the pulse envelope.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.gates.DragPulseGate.to_parameters_dict">
-<span class="sig-name descname"><span class="pre">to_parameters_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.gates.DragPulseGate.to_parameters_dict" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">to_parameters_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.typing.NDArray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#casq.gates.DragPulseGate.to_parameters_dict" title="Permalink to this definition">#</a></dt>
 <dd><p>GaussianSquarePulseGate.to_parameters_dict method.</p>
 <p>Builds parameter dictionary from array of parameter values.</p>
 <dl class="simple">
@@ -662,17 +662,17 @@ parameters: Dictionary of pulse parameters that defines the pulse envelope.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="casq.gates.GaussianPulseGate">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.gates.</span></span><span class="sig-name descname"><span class="pre">GaussianPulseGate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">duration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amplitude</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit_amplitude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.gates.GaussianPulseGate" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.gates.</span></span><span class="sig-name descname"><span class="pre">GaussianPulseGate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amplitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit_amplitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.gates.GaussianPulseGate" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="pulse_gate/index.html#casq.gates.pulse_gate.PulseGate" title="casq.gates.pulse_gate.PulseGate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">casq.gates.pulse_gate.PulseGate</span></code></a></p>
 <p>GaussianPulseGate class.</p>
 <p>Note: Currently only single qubit gates are supported.</p>
 <dl>
 <dt>Args:</dt><dd><p>duration: Pulse length in terms of the sampling period dt.
-amplitude: The magnitude of the amplitude of the Gaussian and square pulse.
+amplitude: The magnitude of the amplitude of the pulse.
 angle: The angle of the complex amplitude of the pulse. Default value 0.
-limit_amplitude: If True, then limit the amplitude of the waveform to 1.</p>
+limit_amplitude: If <code class="docutils literal notranslate"><span class="pre">True</span></code>, then limit the amplitude of the waveform to 1.</p>
 <blockquote>
-<div><p>The default is True and the amplitude is constrained to 1.</p>
+<div><p>The default is <code class="docutils literal notranslate"><span class="pre">True</span></code> and the amplitude is constrained to 1.</p>
 </div></blockquote>
 <p>name: Optional display name for the pulse gate.</p>
 </dd>
@@ -690,7 +690,7 @@ limit_amplitude: If True, then limit the amplitude of the waveform to 1.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.gates.GaussianPulseGate.pulse">
-<span class="sig-name descname"><span class="pre">pulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.gates.GaussianPulseGate.pulse" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">pulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">qiskit.pulse.library.ScalableSymbolicPulse</span></span></span><a class="headerlink" href="#casq.gates.GaussianPulseGate.pulse" title="Permalink to this definition">#</a></dt>
 <dd><p>GaussianPulseGate.pulse method.</p>
 <p>Builds pulse for pulse gate.</p>
 <p>Args:
@@ -701,7 +701,7 @@ parameters: Dictionary of pulse parameters that defines the pulse envelope.</p>
 </ul>
 </div></blockquote>
 <dl class="simple">
-<dt>Returns:</dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">qiskit.pulse.library.Pulse</span></code></p>
+<dt>Returns:</dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">qiskit.pulse.library.ScalableSymbolicPulse</span></code></p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -716,7 +716,7 @@ parameters: Dictionary of pulse parameters that defines the pulse envelope.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.gates.GaussianPulseGate.to_parameters_dict">
-<span class="sig-name descname"><span class="pre">to_parameters_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.gates.GaussianPulseGate.to_parameters_dict" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">to_parameters_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.typing.NDArray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#casq.gates.GaussianPulseGate.to_parameters_dict" title="Permalink to this definition">#</a></dt>
 <dd><p>GaussianSquarePulseGate.to_parameters_dict method.</p>
 <p>Builds parameter dictionary from array of parameter values.</p>
 <dl class="simple">
@@ -739,17 +739,17 @@ parameters: Dictionary of pulse parameters that defines the pulse envelope.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="casq.gates.GaussianSquareDragPulseGate">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.gates.</span></span><span class="sig-name descname"><span class="pre">GaussianSquareDragPulseGate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">duration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amplitude</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit_amplitude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.gates.GaussianSquareDragPulseGate" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.gates.</span></span><span class="sig-name descname"><span class="pre">GaussianSquareDragPulseGate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amplitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit_amplitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.gates.GaussianSquareDragPulseGate" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="pulse_gate/index.html#casq.gates.pulse_gate.PulseGate" title="casq.gates.pulse_gate.PulseGate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">casq.gates.pulse_gate.PulseGate</span></code></a></p>
 <p>GaussianSquareDragPulseGate class.</p>
 <p>Note: Currently only single qubit gates are supported.</p>
 <dl>
 <dt>Args:</dt><dd><p>duration: Pulse length in terms of the sampling period dt.
-amplitude: The magnitude of the amplitude of the Gaussian and square pulse.
+amplitude: The magnitude of the amplitude of the pulse.
 angle: The angle of the complex amplitude of the pulse. Default value 0.
-limit_amplitude: If True, then limit the amplitude of the waveform to 1.</p>
+limit_amplitude: If <code class="docutils literal notranslate"><span class="pre">True</span></code>, then limit the amplitude of the waveform to 1.</p>
 <blockquote>
-<div><p>The default is True and the amplitude is constrained to 1.</p>
+<div><p>The default is <code class="docutils literal notranslate"><span class="pre">True</span></code> and the amplitude is constrained to 1.</p>
 </div></blockquote>
 <p>name: Optional display name for the pulse gate.</p>
 </dd>
@@ -767,7 +767,7 @@ limit_amplitude: If True, then limit the amplitude of the waveform to 1.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.gates.GaussianSquareDragPulseGate.pulse">
-<span class="sig-name descname"><span class="pre">pulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.gates.GaussianSquareDragPulseGate.pulse" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">pulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">qiskit.pulse.library.ScalableSymbolicPulse</span></span></span><a class="headerlink" href="#casq.gates.GaussianSquareDragPulseGate.pulse" title="Permalink to this definition">#</a></dt>
 <dd><p>GaussianSquareDragPulseGate.pulse method.</p>
 <p>Builds pulse for pulse gate.</p>
 <p>Args:
@@ -795,7 +795,7 @@ parameters: Dictionary of pulse parameters that defines the pulse envelope.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.gates.GaussianSquareDragPulseGate.to_parameters_dict">
-<span class="sig-name descname"><span class="pre">to_parameters_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.gates.GaussianSquareDragPulseGate.to_parameters_dict" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">to_parameters_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.typing.NDArray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#casq.gates.GaussianSquareDragPulseGate.to_parameters_dict" title="Permalink to this definition">#</a></dt>
 <dd><p>GaussianSquarePulseGate.to_parameters_dict method.</p>
 <p>Builds parameter dictionary from array of parameter values.</p>
 <dl class="simple">
@@ -818,17 +818,17 @@ parameters: Dictionary of pulse parameters that defines the pulse envelope.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="casq.gates.GaussianSquarePulseGate">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.gates.</span></span><span class="sig-name descname"><span class="pre">GaussianSquarePulseGate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">duration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amplitude</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit_amplitude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.gates.GaussianSquarePulseGate" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.gates.</span></span><span class="sig-name descname"><span class="pre">GaussianSquarePulseGate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amplitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit_amplitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.gates.GaussianSquarePulseGate" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="pulse_gate/index.html#casq.gates.pulse_gate.PulseGate" title="casq.gates.pulse_gate.PulseGate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">casq.gates.pulse_gate.PulseGate</span></code></a></p>
 <p>GaussianSquarePulseGate class.</p>
 <p>Note: Currently only single qubit gates are supported.</p>
 <dl>
 <dt>Args:</dt><dd><p>duration: Pulse length in terms of the sampling period dt.
-amplitude: The magnitude of the amplitude of the Gaussian and square pulse.
+amplitude: The magnitude of the amplitude of the pulse.
 angle: The angle of the complex amplitude of the pulse. Default value 0.
-limit_amplitude: If True, then limit the amplitude of the waveform to 1.</p>
+limit_amplitude: If <code class="docutils literal notranslate"><span class="pre">True</span></code>, then limit the amplitude of the waveform to 1.</p>
 <blockquote>
-<div><p>The default is True and the amplitude is constrained to 1.</p>
+<div><p>The default is <code class="docutils literal notranslate"><span class="pre">True</span></code> and the amplitude is constrained to 1.</p>
 </div></blockquote>
 <p>name: Optional display name for the pulse gate.</p>
 </dd>
@@ -846,7 +846,7 @@ limit_amplitude: If True, then limit the amplitude of the waveform to 1.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.gates.GaussianSquarePulseGate.pulse">
-<span class="sig-name descname"><span class="pre">pulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.gates.GaussianSquarePulseGate.pulse" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">pulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">qiskit.pulse.library.ScalableSymbolicPulse</span></span></span><a class="headerlink" href="#casq.gates.GaussianSquarePulseGate.pulse" title="Permalink to this definition">#</a></dt>
 <dd><p>GaussianSquarePulseGate.pulse method.</p>
 <p>Builds pulse for pulse gate.</p>
 <p>Args:
@@ -873,7 +873,7 @@ parameters: Dictionary of pulse parameters that defines the pulse envelope.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.gates.GaussianSquarePulseGate.to_parameters_dict">
-<span class="sig-name descname"><span class="pre">to_parameters_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.gates.GaussianSquarePulseGate.to_parameters_dict" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">to_parameters_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.typing.NDArray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#casq.gates.GaussianSquarePulseGate.to_parameters_dict" title="Permalink to this definition">#</a></dt>
 <dd><p>GaussianSquarePulseGate.to_parameters_dict method.</p>
 <p>Builds parameter dictionary from array of parameter values.</p>
 <dl class="simple">
@@ -896,7 +896,7 @@ parameters: Dictionary of pulse parameters that defines the pulse envelope.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="casq.gates.PulseCircuit">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.gates.</span></span><span class="sig-name descname"><span class="pre">PulseCircuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">regs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">global_phase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.gates.PulseCircuit" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.gates.</span></span><span class="sig-name descname"><span class="pre">PulseCircuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">regs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qiskit.circuit.Register</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">qiskit.circuit.Bit</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">global_phase</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qiskit.circuit.parameterexpression.ParameterValueType</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.gates.PulseCircuit" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">qiskit.QuantumCircuit</span></code></p>
 <p>PulseCircuit class.</p>
 <p>Extends Qiskit QuantumCircuit class
@@ -917,14 +917,14 @@ with helper methods for adding pulse gates and plotting.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.gates.PulseCircuit.from_pulse_gate">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_pulse_gate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.gates.PulseCircuit.from_pulse_gate" title="Permalink to this definition">#</a></dt>
-<dd><p>PulseCircuit.from_pulse method.</p>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_pulse_gate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pulse_gate/index.html#casq.gates.pulse_gate.PulseGate" title="casq.gates.pulse_gate.PulseGate"><span class="pre">casq.gates.pulse_gate.PulseGate</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#casq.gates.PulseCircuit" title="casq.gates.PulseCircuit"><span class="pre">PulseCircuit</span></a></span></span><a class="headerlink" href="#casq.gates.PulseCircuit.from_pulse_gate" title="Permalink to this definition">#</a></dt>
+<dd><p>PulseCircuit.from_pulse_gate method.</p>
 <p>Builds simple circuit for solitary usage or testing of pulse gate.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>gate: Pulse gate.
 parameters: Dictionary of pulse parameters that defines the pulse envelope.</p>
 </dd>
-<dt>Returns:</dt><dd><p>PulseCircuit</p>
+<dt>Returns:</dt><dd><p><a class="reference internal" href="#casq.gates.PulseCircuit" title="casq.gates.PulseCircuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">casq.gates.PulseCircuit</span></code></a></p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -942,15 +942,15 @@ parameters: Dictionary of pulse parameters that defines the pulse envelope.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.gates.PulseCircuit.pulse_gate">
-<span class="sig-name descname"><span class="pre">pulse_gate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.gates.PulseCircuit.pulse_gate" title="Permalink to this definition">#</a></dt>
-<dd><p>PulseGate.gate method.</p>
+<span class="sig-name descname"><span class="pre">pulse_gate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pulse_gate/index.html#casq.gates.pulse_gate.PulseGate" title="casq.gates.pulse_gate.PulseGate"><span class="pre">casq.gates.pulse_gate.PulseGate</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">qiskit.circuit.quantumcircuit.InstructionSet</span></span></span><a class="headerlink" href="#casq.gates.PulseCircuit.pulse_gate" title="Permalink to this definition">#</a></dt>
+<dd><p>PulseGate.pulse_gate method.</p>
 <p>Append pulse gate to circuit.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>gate: Pulse gate.
 parameters: Dictionary of pulse parameters that defines the pulse envelope.
 qubit: Qubit to attach pulse gate to.</p>
 </dd>
-<dt>Returns:</dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">qiskit.pulse.Instruction</span></code></p>
+<dt>Returns:</dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">qiskit.circuit.InstructionSet</span></code></p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -971,15 +971,21 @@ qubit: Qubit to attach pulse gate to.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="casq.gates.PulseGate">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.gates.</span></span><span class="sig-name descname"><span class="pre">PulseGate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amplitude</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit_amplitude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.gates.PulseGate" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.gates.</span></span><span class="sig-name descname"><span class="pre">PulseGate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_qubits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amplitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit_amplitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.gates.PulseGate" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">qiskit.circuit.Gate</span></code></p>
 <p>PulseGate class.</p>
 <p>Abstract base class for all pulse gates.
 Note: Currently only single qubit gates are supported.</p>
-<dl class="simple">
+<dl>
 <dt>Args:</dt><dd><p>num_qubits: The number of qubits the gate acts on.
 duration: Pulse length in terms of the sampling period dt.
-name: Optional display name for the pulse gate.</p>
+amplitude: The magnitude of the amplitude of the pulse.
+angle: The angle of the complex amplitude of the pulse. Default value 0.
+limit_amplitude: If <code class="docutils literal notranslate"><span class="pre">True</span></code>, then limit the amplitude of the waveform to 1.</p>
+<blockquote>
+<div><p>The default is <code class="docutils literal notranslate"><span class="pre">True</span></code> and the amplitude is constrained to 1.</p>
+</div></blockquote>
+<p>name: Optional display name for the pulse gate.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -996,7 +1002,7 @@ name: Optional display name for the pulse gate.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.gates.PulseGate.pulse">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.gates.PulseGate.pulse" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">qiskit.pulse.library.ScalableSymbolicPulse</span></span></span><a class="headerlink" href="#casq.gates.PulseGate.pulse" title="Permalink to this definition">#</a></dt>
 <dd><p>PulseGate.pulse method.</p>
 <p>Builds pulse for pulse gate.</p>
 <dl class="simple">
@@ -1015,7 +1021,7 @@ name: Optional display name for the pulse gate.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.gates.PulseGate.to_parameters_dict">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">to_parameters_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.gates.PulseGate.to_parameters_dict" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">to_parameters_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.typing.NDArray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#casq.gates.PulseGate.to_parameters_dict" title="Permalink to this definition">#</a></dt>
 <dd><p>GaussianSquarePulseGate.to_parameters_dict method.</p>
 <p>Builds parameter dictionary from array of parameter values.</p>
 <dl class="simple">
@@ -1036,15 +1042,14 @@ name: Optional display name for the pulse gate.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.gates.PulseGate.schedule">
-<span class="sig-name descname"><span class="pre">schedule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.gates.PulseGate.schedule" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">schedule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">qiskit.pulse.Schedule</span></span></span><a class="headerlink" href="#casq.gates.PulseGate.schedule" title="Permalink to this definition">#</a></dt>
 <dd><p>PulseGate.schedule method.</p>
 <p>Builds schedule to run pulse gate for testing or solitary optimization.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>parameters: Dictionary of pulse parameters that defines the pulse envelope.
 qubit: Qubit to attach gate instruction to.</p>
 </dd>
-<dt>Returns:</dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">qiskit.pulse.Schedule</span></code>
-or list of <code class="xref py py-class docutils literal notranslate"><span class="pre">qiskit_dynamics.signals.Signal</span></code></p>
+<dt>Returns:</dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">qiskit.pulse.Schedule</span></code></p>
 </dd>
 </dl>
 <dl class="field-list simple">

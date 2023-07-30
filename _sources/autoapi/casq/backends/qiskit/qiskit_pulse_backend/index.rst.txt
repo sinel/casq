@@ -5,7 +5,7 @@
 
 .. autoapi-nested-parse::
 
-   Pulse simulator.
+   Qiskit pulse backend.
 
 
 
@@ -22,14 +22,19 @@ Classes
 
 
 
-.. py:class:: QiskitPulseBackend(hamiltonian, control, seed = None)
+.. py:class:: QiskitPulseBackend(hamiltonian: casq.models.hamiltonian_model.HamiltonianModel, control: casq.models.control_model.ControlModel, seed: Optional[int] = None)
 
 
    Bases: :py:obj:`casq.backends.pulse_backend.PulseBackend`
 
    QiskitPulseBackend class.
 
-   .. py:method:: from_backend(backend, extracted_qubits = None, rotating_frame = None, in_frame_basis = False, evaluation_mode = None, rwa_cutoff_freq = None, rwa_carrier_freqs = None, seed = None)
+   Args:
+       hamiltonian: Hamiltonian model.
+       control: Control model.
+       seed: Seed to use in random sampling. Defaults to None.
+
+   .. py:method:: from_backend(backend: qiskit.providers.Backend, extracted_qubits: Optional[list[int]] = None, rotating_frame: Optional[Union[qiskit_dynamics.array.Array, qiskit_dynamics.RotatingFrame]] = None, in_frame_basis: bool = False, evaluation_mode: Optional[casq.models.hamiltonian_model.HamiltonianModel.EvaluationMode] = None, rwa_cutoff_freq: Optional[float] = None, rwa_carrier_freqs: Optional[Union[numpy.typing.NDArray, tuple[numpy.typing.NDArray, numpy.typing.NDArray]]] = None, seed: Optional[int] = None) -> Self
       :classmethod:
 
       Construct a QiskitPulseBackend instance from an existing backend instance.
@@ -48,17 +53,35 @@ Classes
           seed: Seed to use in random sampling. Defaults to None.
 
       Returns:
-          QiskitPulseBackend
+          :py:class:`casq.backends.qiskit.QiskitPulseBackend`
 
 
-   .. py:method:: solve(circuit, method, initial_state = None, shots = 1024, steps = None, run_options = None)
+   .. py:method:: solve(circuit: casq.gates.pulse_circuit.PulseCircuit, method: casq.backends.pulse_backend.PulseBackend.ODESolverMethod, initial_state: Optional[Union[qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector]] = None, shots: int = 1024, steps: Optional[int] = None, run_options: Optional[dict[str, Any]] = None) -> casq.backends.pulse_backend.PulseBackend.Solution
 
-      QiskitPulseBackend.run.
+      QiskitPulseBackend.solve.
+
+      Args:
+          circuit: Pulse circuit.
+          method: ODE solving method to use.
+          initial_state: Initial state for simulation,
+              either None,
+              indicating that the ground state for the system Hamiltonian should be used,
+              or an arbitrary Statevector or DensityMatrix.
+          shots: Number of shots per experiment. Defaults to 1024.
+          steps: Number of steps at which to solve the system.
+              Used to automatically calculate an evenly-spaced t_eval range.
+          run_options: Options specific to native backend's run method.
+
+      Returns:
+          :py:class:`casq.backends.PulseBackend.Solution`
 
 
-   .. py:method:: _get_native_backend()
+   .. py:method:: _get_native_backend() -> casq.backends.qiskit.dynamics_backend_patch.DynamicsBackendPatch
 
       QiskitPulseBackend._get_native_backend.
+
+      Returns:
+          :py:class:`casq.backends.qiskit.DynamicsBackendPatch`
 
 
 

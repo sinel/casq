@@ -5,7 +5,7 @@
 
 .. autoapi-nested-parse::
 
-   Pulse simulator.
+   Pulse backend.
 
 
 
@@ -22,17 +22,22 @@ Classes
 
 
 
-.. py:class:: PulseBackend(hamiltonian, control, seed = None)
+.. py:class:: PulseBackend(hamiltonian: casq.models.hamiltonian_model.HamiltonianModel, control: casq.models.control_model.ControlModel, seed: Optional[int] = None)
 
 
    PulseBackend class.
+
+   Args:
+       hamiltonian: Hamiltonian model.
+       control: Control model.
+       seed: Seed to use in random sampling. Defaults to None.
 
    .. py:class:: ODESolverMethod
 
 
       Bases: :py:obj:`str`, :py:obj:`enum.Enum`
 
-      Solver methods.
+      ODE solver methods.
 
       .. py:attribute:: QISKIT_DYNAMICS_RK4
          :value: 'RK4'
@@ -80,12 +85,95 @@ Classes
          
 
 
-   .. py:class:: Solution(circuit_name, qubits, times, samples, counts, populations, states, iq_data, avg_iq_data, shots = 1024, seed = None, is_success = True, timestamp = datetime.timestamp(datetime.now()))
+   .. py:class:: Solution
 
 
       PulseBackend.Solution class.
 
-      .. py:method:: plot_population(filename = None, hidden = False)
+      Args:
+          circuit_name: Pulse circuit name.
+          times: Time at which pulse backend was solved.
+          qubits: Integer labels for selected qubits from system. Defaults to [0].
+          times: Times at which solved.
+          samples: Solution samples.
+          counts: Solution counts.
+          populations: Solution populations.
+          states: Solution states.
+          iq_data: Solution IQ points.
+          avg_iq_data: Solution average IQ points.
+          shots: Number of shots per experiment. Defaults to 1024.
+          seed: Seed to use in random sampling. Defaults to None.
+          is_success: Trie if solution was successful.
+          timestamp: Posix timestamp.
+
+      .. py:attribute:: circuit_name
+         :type: str
+
+         
+
+      .. py:attribute:: qubits
+         :type: list[int]
+
+         
+
+      .. py:attribute:: times
+         :type: list[float]
+
+         
+
+      .. py:attribute:: samples
+         :type: list[list[int]]
+
+         
+
+      .. py:attribute:: counts
+         :type: list[dict[str, int]]
+
+         
+
+      .. py:attribute:: populations
+         :type: list[dict[str, float]]
+
+         
+
+      .. py:attribute:: states
+         :type: list[Union[qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector]]
+
+         
+
+      .. py:attribute:: iq_data
+         :type: list[list[tuple[float, float]]]
+
+         
+
+      .. py:attribute:: avg_iq_data
+         :type: list[tuple[float, float]]
+
+         
+
+      .. py:attribute:: shots
+         :type: int
+         :value: 1024
+
+         
+
+      .. py:attribute:: seed
+         :type: Optional[int]
+
+         
+
+      .. py:attribute:: is_success
+         :type: bool
+         :value: True
+
+         
+
+      .. py:attribute:: timestamp
+         :type: float
+
+         
+
+      .. py:method:: plot_population(filename: Optional[str] = None, hidden: bool = False) -> matplotlib.axes.Axes
 
          PulseBackend.Solution.plot_population method.
 
@@ -96,10 +184,10 @@ Classes
              hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
          Returns:
-             Matplotlib Axes.
+             :py:class:`matplotlib.axes.Axes`
 
 
-      .. py:method:: plot_iq(time_index = None, filename = None, hidden = False)
+      .. py:method:: plot_iq(time_index: Optional[int] = None, filename: Optional[str] = None, hidden: bool = False) -> matplotlib.axes.Axes
 
          PulseBackend.Solution.plot_iq method.
 
@@ -111,10 +199,10 @@ Classes
              hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
          Returns:
-             Matplotlib Axes.
+             :py:class:`matplotlib.axes.Axes`
 
 
-      .. py:method:: plot_iq_trajectory(filename = None, hidden = False)
+      .. py:method:: plot_iq_trajectory(filename: Optional[str] = None, hidden: bool = False) -> matplotlib.axes.Axes
 
          PulseBackend.Solution.plot_iq_trajectory method.
 
@@ -125,10 +213,10 @@ Classes
              hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
          Returns:
-             Matplotlib Axes.
+             :py:class:`matplotlib.axes.Axes`
 
 
-      .. py:method:: plot_trajectory(qubit = 0, filename = None, hidden = False)
+      .. py:method:: plot_trajectory(qubit: int = 0, filename: Optional[str] = None, hidden: bool = False) -> matplotlib.axes.Axes
 
          PulseBackend.Solution.plot_trajectory method.
 
@@ -140,10 +228,10 @@ Classes
              hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
          Returns:
-             Matplotlib Axes.
+             :py:class:`matplotlib.axes.Axes`
 
 
-      .. py:method:: plot_bloch_trajectory(qubit = 0, filename = None, hidden = False)
+      .. py:method:: plot_bloch_trajectory(qubit: int = 0, filename: Optional[str] = None, hidden: bool = False) -> mpl_toolkits.mplot3d.Axes3D
 
          PulseBackend.Solution.plot_bloch_trajectory method.
 
@@ -155,10 +243,10 @@ Classes
              hidden: If False, then plot is not displayed. Useful if method is used for saving only.
 
          Returns:
-             Matplotlib Axes.
+             :py:class:`mpl_toolkits.mplot3d.Axes3D`
 
 
-      .. py:method:: _xyz(qubit = 0)
+      .. py:method:: _xyz(qubit: int = 0) -> tuple[list[float], list[float], list[float]]
 
          PulseBackend.Solution._xyz method.
 
@@ -168,7 +256,7 @@ Classes
              XYZ data lists or dict of lists.
 
 
-      .. py:method:: _trace(state, qubit)
+      .. py:method:: _trace(state: qiskit.quantum_info.Statevector, qubit: int) -> qiskit.quantum_info.Statevector
 
          PulseBackend.Solution._trace method.
 
@@ -179,14 +267,14 @@ Classes
              qubit: Qubit to trace out.
 
          Returns:
-             Reduced statevector.
+             Reduced :py:class:`qiskit.quantum_info.Statevector`
 
 
 
-   .. py:method:: solve(circuit, method, initial_state = None, shots = 1024, steps = None, run_options = None)
+   .. py:method:: solve(circuit: casq.gates.pulse_circuit.PulseCircuit, method: ODESolverMethod, initial_state: Optional[Union[qiskit.quantum_info.DensityMatrix, qiskit.quantum_info.Statevector]] = None, shots: int = 1024, steps: Optional[int] = None, run_options: Optional[dict[str, Any]] = None) -> PulseBackend
       :abstractmethod:
 
-      PulseBackend.run.
+      PulseBackend.solve.
 
       Args:
           circuit: Pulse circuit.
@@ -200,11 +288,17 @@ Classes
               Used to automatically calculate an evenly-spaced t_eval range.
           run_options: Options specific to native backend's run method.
 
+      Returns:
+          :py:class:`casq.backends.PulseBackend.Solution`
 
-   .. py:method:: _get_native_backend()
+
+   .. py:method:: _get_native_backend() -> Any
       :abstractmethod:
 
       PulseBackend._get_native_backend.
+
+      Returns:
+          Any
 
 
 

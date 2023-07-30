@@ -54,11 +54,11 @@ Functions
       
 
 
-.. py:function:: build(backend_library, hamiltonian, control, seed = None)
+.. py:function:: build(backend_library: BackendLibrary, hamiltonian: casq.models.hamiltonian_model.HamiltonianModel, control: casq.models.control_model.ControlModel, seed: Optional[int] = None) -> casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend
 
    Build PulseBackend.
 
-       Currently, only supports Qiskit.
+   Currently, only supports Qiskit.
 
    Args:
        backend_library: Backend library.
@@ -67,10 +67,10 @@ Functions
        seed: Seed to use in random sampling. Defaults to None.
 
    Returns:
-       QiskitPulseBackend
+       :py:class:`casq.backends.qiskit.QiskitPulseBackend`
 
 
-.. py:function:: build_from_backend(backend, extracted_qubits = None, rotating_frame = None, in_frame_basis = False, evaluation_mode = None, rwa_cutoff_freq = None, rwa_carrier_freqs = None, seed = None)
+.. py:function:: build_from_backend(backend: qiskit.providers.Backend, extracted_qubits: Optional[list[int]] = None, rotating_frame: Optional[Union[qiskit_dynamics.array.Array, qiskit_dynamics.RotatingFrame]] = None, in_frame_basis: bool = False, evaluation_mode: Optional[casq.models.hamiltonian_model.HamiltonianModel.EvaluationMode] = None, rwa_cutoff_freq: Optional[float] = None, rwa_carrier_freqs: Optional[Union[numpy.typing.NDArray, tuple[numpy.typing.NDArray, numpy.typing.NDArray]]] = None, seed: Optional[int] = None) -> casq.backends.qiskit.qiskit_pulse_backend.QiskitPulseBackend
 
    Build PulseBackend from library-specific backend.
 
@@ -90,6 +90,6 @@ Functions
        seed: Seed to use in random sampling. Defaults to None.
 
    Returns:
-       QiskitPulseBackend
+       :py:class:`casq.backends.qiskit.QiskitPulseBackend`
 
 

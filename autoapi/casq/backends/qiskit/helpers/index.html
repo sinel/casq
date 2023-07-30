@@ -480,20 +480,20 @@ document.write(`
 <h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">#</a></h3>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#casq.backends.qiskit.helpers.get_experiment_result" title="casq.backends.qiskit.helpers.get_experiment_result"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_experiment_result</span></code></a>(experiment_name, solver_result, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#casq.backends.qiskit.helpers.get_experiment_result" title="casq.backends.qiskit.helpers.get_experiment_result"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_experiment_result</span></code></a>(...)</p></td>
 <td><p>Generates ExperimentResult objects from solver result.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#casq.backends.qiskit.helpers.convert_to_solution" title="casq.backends.qiskit.helpers.convert_to_solution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_to_solution</span></code></a>(result)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#casq.backends.qiskit.helpers.convert_to_solution" title="casq.backends.qiskit.helpers.convert_to_solution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_to_solution</span></code></a>(...)</p></td>
 <td><p>Converts Qiskit result to pulse backend solution.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#casq.backends.qiskit.helpers.to_schedule" title="casq.backends.qiskit.helpers.to_schedule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_schedule</span></code></a>(circuit, backend)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#casq.backends.qiskit.helpers.to_schedule" title="casq.backends.qiskit.helpers.to_schedule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_schedule</span></code></a>(→ qiskit.pulse.Schedule)</p></td>
 <td><p>to_schedule method.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py function">
 <dt class="sig sig-object py" id="casq.backends.qiskit.helpers.get_experiment_result">
-<span class="sig-prename descclassname"><span class="pre">casq.backends.qiskit.helpers.</span></span><span class="sig-name descname"><span class="pre">get_experiment_result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">experiment_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_result</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measurement_subsystems</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory_slot_indices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_memory_slots</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.qiskit.helpers.get_experiment_result" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">casq.backends.qiskit.helpers.</span></span><span class="sig-name descname"><span class="pre">get_experiment_result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">experiment_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_result</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">scipy.integrate._ivp.ivp.OdeResult</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measurement_subsystems</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory_slot_indices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_memory_slots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">None</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qiskit_dynamics.backend.DynamicsBackend</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">qiskit.result.models.ExperimentResult</span></span></span><a class="headerlink" href="#casq.backends.qiskit.helpers.get_experiment_result" title="Permalink to this definition">#</a></dt>
 <dd><p>Generates ExperimentResult objects from solver result.</p>
 <dl>
 <dt>Args:</dt><dd><p>experiment_name: Name of experiment.
@@ -516,7 +516,8 @@ memory_slot_indices: Indices of memory slots</p>
 </dd>
 <dt>Returns:</dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ExperimentResult</span></code></p>
 </dd>
-<dt>Raises:</dt><dd><p>QiskitError: If a specified option is unsupported.</p>
+<dt>Raises:</dt><dd><p>If a specified option is unsupported,
+then raises <code class="xref py py-class docutils literal notranslate"><span class="pre">QiskitError</span></code>.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -540,12 +541,12 @@ memory_slot_indices: Indices of memory slots</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="casq.backends.qiskit.helpers.convert_to_solution">
-<span class="sig-prename descclassname"><span class="pre">casq.backends.qiskit.helpers.</span></span><span class="sig-name descname"><span class="pre">convert_to_solution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.qiskit.helpers.convert_to_solution" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">casq.backends.qiskit.helpers.</span></span><span class="sig-name descname"><span class="pre">convert_to_solution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qiskit.result.models.ExperimentResult</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../../pulse_backend/index.html#casq.backends.pulse_backend.PulseBackend.Solution" title="casq.backends.pulse_backend.PulseBackend.Solution"><span class="pre">casq.backends.pulse_backend.PulseBackend.Solution</span></a></span></span><a class="headerlink" href="#casq.backends.qiskit.helpers.convert_to_solution" title="Permalink to this definition">#</a></dt>
 <dd><p>Converts Qiskit result to pulse backend solution.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>result: Qiskit experiment result.</p>
 </dd>
-<dt>Returns:</dt><dd><p>Pulse solution.</p>
+<dt>Returns:</dt><dd><p><a class="reference internal" href="../../index.html#casq.backends.PulseBackend.Solution" title="casq.backends.PulseBackend.Solution"><code class="xref py py-class docutils literal notranslate"><span class="pre">casq.backends.PulseBackend.Solution</span></code></a></p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -560,14 +561,14 @@ memory_slot_indices: Indices of memory slots</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="casq.backends.qiskit.helpers.to_schedule">
-<span class="sig-prename descclassname"><span class="pre">casq.backends.qiskit.helpers.</span></span><span class="sig-name descname"><span class="pre">to_schedule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">circuit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.backends.qiskit.helpers.to_schedule" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">casq.backends.qiskit.helpers.</span></span><span class="sig-name descname"><span class="pre">to_schedule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">circuit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qiskit.QuantumCircuit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qiskit.providers.Backend</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">qiskit.pulse.Schedule</span></span></span><a class="headerlink" href="#casq.backends.qiskit.helpers.to_schedule" title="Permalink to this definition">#</a></dt>
 <dd><p>to_schedule method.</p>
 <p>Convert circuit to schedule.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>circuit: Qiskit circuit.
 backend: Qiskit backend.</p>
 </dd>
-<dt>Returns:</dt><dd><p>Schedule</p>
+<dt>Returns:</dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">qiskit.pulse.Schedule</span></code></p>
 </dd>
 </dl>
 <dl class="field-list simple">

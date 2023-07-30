@@ -478,9 +478,13 @@ document.write(`
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">#</a></h2>
 <dl class="py exception">
 <dt class="sig sig-object py" id="casq.common.exceptions.CasqError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.common.exceptions.</span></span><span class="sig-name descname"><span class="pre">CasqError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.common.exceptions.CasqError" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">casq.common.exceptions.</span></span><span class="sig-name descname"><span class="pre">CasqError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#casq.common.exceptions.CasqError" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">Exception</span></code></p>
 <p>Base class for errors raised by casq.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>message: Message text.</p>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>message</strong> (<em>str</em>) – </p>
@@ -488,8 +492,12 @@ document.write(`
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="casq.common.exceptions.CasqError.__str__">
-<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casq.common.exceptions.CasqError.__str__" title="Permalink to this definition">#</a></dt>
-<dd><p>Return the message.</p>
+<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#casq.common.exceptions.CasqError.__str__" title="Permalink to this definition">#</a></dt>
+<dd><p>Get error message.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>Message text.</p>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>

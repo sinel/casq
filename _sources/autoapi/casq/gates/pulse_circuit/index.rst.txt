@@ -22,7 +22,7 @@ Classes
 
 
 
-.. py:class:: PulseCircuit(*regs, name = None, global_phase = 0, metadata = None)
+.. py:class:: PulseCircuit(*regs: Union[qiskit.circuit.Register, int, list[qiskit.circuit.Bit]], name: Optional[str] = None, global_phase: qiskit.circuit.parameterexpression.ParameterValueType = 0, metadata: Optional[dict] = None)
 
 
    Bases: :py:obj:`qiskit.QuantumCircuit`
@@ -35,10 +35,10 @@ Classes
    Args:
        name: Optional user-friendly name for pulse gate.
 
-   .. py:method:: from_pulse_gate(gate, parameters)
+   .. py:method:: from_pulse_gate(gate: casq.gates.pulse_gate.PulseGate, parameters: dict[str, Any]) -> PulseCircuit
       :staticmethod:
 
-      PulseCircuit.from_pulse method.
+      PulseCircuit.from_pulse_gate method.
 
       Builds simple circuit for solitary usage or testing of pulse gate.
 
@@ -47,12 +47,12 @@ Classes
           parameters: Dictionary of pulse parameters that defines the pulse envelope.
 
       Returns:
-          PulseCircuit
+          :py:class:`casq.gates.PulseCircuit`
 
 
-   .. py:method:: pulse_gate(gate, parameters, qubit = 0)
+   .. py:method:: pulse_gate(gate: casq.gates.pulse_gate.PulseGate, parameters: dict[str, Any], qubit: int = 0) -> qiskit.circuit.quantumcircuit.InstructionSet
 
-      PulseGate.gate method.
+      PulseGate.pulse_gate method.
 
       Append pulse gate to circuit.
 
@@ -62,7 +62,7 @@ Classes
           qubit: Qubit to attach pulse gate to.
 
       Returns:
-          :py:class:`qiskit.pulse.Instruction`
+          :py:class:`qiskit.circuit.InstructionSet`
 
 
 
