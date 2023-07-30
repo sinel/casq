@@ -171,9 +171,6 @@ It is very simple to construct pulse backends based on model information provide
     )
     print(solution.counts[-1])
 
-.. warning::
-    The parameters values for the pulse backend built via models are based on FakeManila. However, the resulting counts are significantly different than those obtained via building the pulse backend directly from FakeManila. Need to figure out why - is this a bug or is there some explanation for it?
-
 Time evolution
 ================================================================================
 
